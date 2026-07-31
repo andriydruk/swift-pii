@@ -1,0 +1,215 @@
+# SwiftPresidio
+
+A Presidio-compatible PII detection and anonymization library in pure Swift.
+
+**Status: M1 nearly complete.** Offset model, span algebra, conformance corpus,
+regex backend, matching engine, pattern recognizers and 41 checksum validators
+are done — 87% of the harvested corpus passes. The anonymizer (M2) is next.
+
+Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
+describes the behavioural target, not the product name.
+
+## Why this exists
+
+[Presidio](https://github.com/data-privacy-stack/presidio) is Python, and its
+detection quality depends on spaCy. This package reproduces its behaviour in
+Swift without any Apple closed-source framework, so the same code runs on
+macOS, Android, and Windows.
+
+## Design commitments
+
+**Unicode scalar offsets are the wire contract.** Python indexes strings by
+scalar; `NSRegularExpression` reports UTF-16; Swift `String` is grapheme-indexed.
+Conflating them produces silently wrong spans — a PII-leak class of bug.
+[`TextDocument`](Sources/PresidioCore/TextDocument.swift) owns every conversion
+and nothing else does index arithmetic on a `String`.
+
+**No Apple closed-source frameworks.** `NaturalLanguage`, `CoreML`, `Vision`,
+`CryptoKit`, `Accelerate` and friends are banned and enforced by
+[`Tools/check_portability.sh`](Tools/check_portability.sh) in CI. `PresidioCore`
+goes further and imports no Foundation at all.
+
+**Tests are harvested, not written.** Presidio ships 215 test files and ~3,763
+concrete cases. The recognizer tables are pure data, so
+[`Tools/extract_fixtures.py`](Tools/extract_fixtures.py) lifts them into
+language-neutral JSON that Swift tests consume directly. Correctness is measured
+against upstream's own expectations rather than fixtures we invented.
+
+**Ordering is deterministic here, unlike upstream.** Presidio's result order
+derives from Python `set` iteration and a sort key that omits `entity_type`, so
+ties vary with `PYTHONHASHSEED`. This package defines an explicit total order —
+score desc, start asc, length desc, entity type asc — and documents it as the
+contract. Bit-exact ordering parity with Python is not achievable; reproducible
+ordering is.
+
+## Conformance corpus
+
+Regenerate from a Presidio checkout:
+
+```bash
+python3 Tools/extract_fixtures.py --presidio /path/to/presidio --out Tests/PresidioConformance/Fixtures/recognizer_cases.json
+```
+
+Current corpus:
+
+| Corpus | Tables | Cases | Recognizers |
+|---|---:|---:|---:|
+| `recognizer_cases.json` | 101 | 1,654 (987 pos / 667 neg) | 83 |
+| `validator_cases.json` | 21 | 203 | 21 |
+
+50 upstream tables are not extractable (non-literal argvalues, mock-dependent,
+or shapes the parser doesn't handle). They are **recorded in the artifact** under
+`skipped` with reasons — coverage you can't see is coverage you don't have.
+Those need the differential Python side-car planned for M1.
+
+Two upstream subtleties the extractor handles, both of which would otherwise
+corrupt the corpus:
+
+- **`expected_len` is authoritative, positions are not.** The Python assertion
+  is `zip(results, expected_positions)`, which stops at `results`. A row like
+  `("123456789012", 0, (0, 12), 0)` asserts that *nothing* is found — the
+  `(0, 12)` is vestigial. Carrying it through would invert a negative test into
+  a positive one.
+- **Tables with no score column may still pin an exact score.** Their assertion
+  calls `assert_result(..., max_score)`. Defaulting those to a 0.0–1.0 range
+  would silently accept a wrong score — including all 330 IBAN cases.
+
+## Regex backend
+
+Settled in [ADR 0001](docs/decisions/0001-regex-backend.md) with a
+1,112,064-codepoint differential against Python's `regex` module:
+
+| Backend | `\w` extra / missing | `\d` extra |
+|---|---|---:|
+| NSRegularExpression (ICU) | 4,773 / **0** | 10 |
+| Swift Regex (default) | 5,622 / **1,147** | **1,263** |
+| Swift Regex (`.unicodeScalar`) | 4,697 / **1,897** | **1,263** |
+
+Swift Regex is disqualified: it drops 1,093 combining marks and both
+ZWJ/ZWNJ from `\w` (so `\b` breaks around accented text), and treats
+superscripts, fractions and Roman numerals as digits — which is why
+`\b\d{6,14}\b` would match `①②③④⑤⑥⑦⑧⑨⑩`.
+
+ICU's `\w` *definition* matches Python's; its entire divergence is Unicode
+**data-version** skew — every sampled extra is unassigned in Unicode 13.0.0 and
+assigned in macOS 26's newer ICU. That disqualifies it rather than vindicating
+it: the host ICU version differs across Android, macOS and Windows, so `\b`
+would behave differently per platform.
+
+So the tables are generated from `regex` and compiled in as source
+([`UnicodeTables.swift`](Sources/PresidioRegex/UnicodeTables.swift), 796 + 71 + 10
+ranges), pinning the Unicode version as reviewable data. A test asserts
+membership matches Python for all 1.1M codepoints.
+
+### Differential result
+
+All 155 patterns × 1,550 corpus texts = **240,250 comparisons, 5,996 matches,
+zero divergences** from Python — same count, same offsets, same order. Absence
+of a match is asserted as strongly as presence.
+
+Cost of the trade, measured on that same workload (release, M4 Max):
+
+| | full 155-pattern sweep |
+|---|---:|
+| Python `regex` (C) | 0.093 s |
+| this engine | 0.514 s (**5.5× slower**) |
+
+We are slower than the implementation we are replacing. That is acceptable while
+correctness is the gate — compilation is only 0.18 ms/pattern, and the absolute
+numbers are small — but it is the M5 optimization target. See the ADR for the
+plan.
+
+## Conformance status
+
+Against the 1,654-case corpus harvested from Presidio's own tests:
+
+| | cases | |
+|---|---:|---|
+| **Verified green** | **1,439** | 87% — every case passes, spans and scores |
+| Blocked | 48 | 3% — needs more than a checksum (see below) |
+| No pattern data | 167 | 10% — recognizer builds patterns programmatically |
+
+**41 validators implemented**, covering Luhn and its variants, Verhoeff,
+ISO 7064 Mod 11,10, mod-97/23/11/10 weighted sums, date plausibility, and
+structural rules — across DE, ZA, KR, AU, IT, ES, SE, TR, TH, FI, IN, PH, UK,
+US and CA, plus the generic IBAN, IP, MAC, UUID, credit-card, NHS, ABA, NPI and
+medical-licence recognizers.
+
+The blocked count is a **test-enforced ratchet** — it may only go down. What
+remains needs something other than arithmetic:
+
+| Recognizer | cases | Blocker |
+|---|---:|---|
+| `SgUenRecognizer` | 11 | Format A/B/C alphabets + a current-year comparison |
+| `CryptoRecognizer` | 10 | SHA-256, base58 and bech32/bech32m |
+| `InVehicleRegistrationRecognizer` | 10 | State/RTO district tables |
+| `ZaCompanyRegistrationRecognizer` | 9 | Legacy prefix table + current-year comparison |
+| `EmailRecognizer` | 8 | Public Suffix List (upstream uses `tldextract`) |
+
+### Behaviours that are easy to get wrong
+
+Each was found by a conformance failure, and each silently changes detection:
+
+- **Regex flags are per recognizer, not global.** The default is
+  `DOTALL|MULTILINE|IGNORECASE`, but `IbanRecognizer` drops IGNORECASE
+  (`iban_recognizer.py:77`). Applying the default produced 8 false positives.
+- **IBAN country formats are prefix matches.**
+  `self.BOSEOS = bos_eos if exact_match else ()` with `exact_match=False`, so
+  the regex is never wrapped in `^...$`. Several country regexes are *shorter*
+  than the IBAN they describe — MU covers 28 of 30 characters — so anchoring the
+  end rejects the very IBANs upstream accepts.
+- **The tri-state is load-bearing.** `.unknown` (Python `None`) keeps a match at
+  its pattern score instead of dropping it. DE_VAT_ID relies on it because the
+  BZSt never published its checksum; Korean RRN/FRN because the algorithm only
+  applies to numbers issued before October 2020.
+- **One class can have several constructions.** `DeVatIdRecognizer` appears as
+  both `recognizer` (heuristic) and `strict_recognizer`, with opposite
+  expectations for the same input. The corpus records which fixture built each
+  table, and an unregistered variant is reported as uncovered rather than run
+  against the wrong logic.
+- **`ipaddress` is stricter than the regex.** The IPv4 pattern matches `010`,
+  but CPython rejects leading zeros; IPv6 accepts a `%zone` suffix and IPv4 does
+  not.
+
+## Recognizer definitions
+
+[`Tools/extract_patterns.py`](Tools/extract_patterns.py) lifts recognizers into
+data — 82 recognizers, **155 patterns**, 82 entity types, 55 needing a Swift
+checksum validator, 2 needing a hand port (`UsMbiRecognizer`, `UrlRecognizer`
+build their patterns programmatically).
+
+Pattern feature census, which is why the port is tractable: `\b` 131, `\d` 112,
+negative lookahead 28, negative lookbehind 19 (all fixed-width single-character),
+inline `(?i)` 8 — and **zero** named groups, atomic groups, possessive
+quantifiers, conditionals, `\p{...}` or `\B`.
+
+## Layout
+
+```
+Sources/PresidioCore/          offset model, span algebra    (stdlib only)
+Sources/PresidioRegex/         generated Unicode tables      (stdlib only)
+Sources/PresidioRecognizers/   extracted recognizer data
+Tests/PresidioConformance/     corpus loader + JSON fixtures
+Tools/extract_fixtures.py      harvests upstream pytest tables
+Tools/extract_patterns.py      harvests recognizer definitions
+Tools/unicode_classes_*.{py,swift}  the backend differential
+Tools/check_portability.sh     CI guardrails
+```
+
+## Build
+
+```bash
+swift build && swift test && ./Tools/check_portability.sh
+```
+
+## Planning documents
+
+- [PLAN.md](PLAN.md) — milestones, test strategy, effort
+- [PURE-SWIFT-VERDICT.md](PURE-SWIFT-VERDICT.md) — feasibility findings and measurements
+- [presidio-pure-swift-architecture.md](presidio-pure-swift-architecture.md) — full design
+- [prototypes/](prototypes/) — validated spaCy NER port and regex engine, not yet integrated
+
+## Licence
+
+Recognizer patterns, context word lists, score constants, entity names, and test
+expectations derive from Presidio, MIT © Presidio Contributors.

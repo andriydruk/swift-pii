@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The supported platform. This job is the gate.
+  macos:
+    name: macOS (build + test)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Portability lint
+        run: ./Tools/check_portability.sh
+
+      - name: Build
+        run: swift build -v
+
+      - name: Test
+        run: swift test
+
+  # Regenerating the corpus must be reproducible. If upstream Presidio changes
+  # shape, this fails here rather than silently shrinking coverage later.
+  corpus:
+    name: Conformance corpus is reproducible
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out upstream Presidio
+        uses: actions/checkout@v4
+        with:
+          repository: data-privacy-stack/presidio
+          path: .upstream-presidio
+          fetch-depth: 1
+
+      - name: Re-extract fixtures
+        run: |
+          python3 Tools/extract_fixtures.py \
+            --presidio .upstream-presidio \
+            --out /tmp/regenerated.json
+
+      - name: Compare case counts against the committed corpus
+        run: |
+          python3 - <<'PY'
+          import json, sys
+
+          def load(path):
+              with open(path) as fh:
+                  return json.load(fh)
+
+          committed = load("Tests/PresidioConformance/Fixtures/recognizer_cases.json")
+          fresh = load("/tmp/regenerated.json")
+
+          def count(d):
+              return sum(len(t["cases"]) for t in d["tables"])
+
+          c, f = count(committed), count(fresh)
+          print(f"committed={c} regenerated={f}")
+
+          # Upstream adding tests is fine and expected. Losing them is not:
+          # a drop means either the extractor regressed or upstream removed
+          # coverage, and both need a human to look.
+          if f < c:
+              print(f"::error::regenerated corpus lost {c - f} cases", file=sys.stderr)
+              sys.exit(1)
+          if f > c:
+              print(f"::notice::upstream gained {f - c} cases; refresh the corpus")
+          PY
+
+  # Not a supported target yet -- a canary. PresidioCore is stdlib-only, so it
+  # should build and pass on Linux from day one. Catching portability drift the
+  # week it lands is far cheaper than discovering it during the Android port.
+  linux-canary:
+    name: Linux canary (non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    container: swift:6.2
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Build
+        run: swift build -v
+
+      - name: Test
+        run: swift test
