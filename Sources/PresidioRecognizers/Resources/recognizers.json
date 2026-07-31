@@ -1,0 +1,3928 @@
+{
+ "schema_version": 1,
+ "source": {
+  "repo": "data-privacy-stack/presidio",
+  "commit": "2bb88d2adca2346959d52a4d48540a5ad8fa481f"
+ },
+ "stats": {
+  "recognizers": 82,
+  "patterns": 155,
+  "entities": 82,
+  "with_context": 82,
+  "needing_swift_code": 56,
+  "needs_hand_port": 2,
+  "override_flags": 1
+ },
+ "pattern_features": {
+  "word_boundary": 131,
+  "digit_class": 112,
+  "lookahead_neg": 28,
+  "lookbehind_neg": 19,
+  "space_class": 17,
+  "word_class": 13,
+  "inline_flags": 8,
+  "anchor_end": 2,
+  "anchor_start": 2,
+  "lookahead_pos": 1
+ },
+ "recognizers": [
+  {
+   "class": "AbaRoutingRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/aba_routing_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ABA_ROUTING_NUMBER",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "ABA routing number (weak)",
+     "regex": "\\b[0123678]\\d{8}\\b",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "ABA routing number",
+     "regex": "\\b[0123678]\\d{3}-\\d{4}-\\d\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "aba",
+    "routing",
+    "abarouting",
+    "association",
+    "bankrouting"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "AuAbnRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/australia/au_abn_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "AU_ABN",
+   "language": "en",
+   "country": "au",
+   "patterns": [
+    {
+     "name": "ABN (Medium)",
+     "regex": "\\b\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "ABN (Low)",
+     "regex": "\\b\\d{11}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "australian business number",
+    "abn"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "AuAcnRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/australia/au_acn_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "AU_ACN",
+   "language": "en",
+   "country": "au",
+   "patterns": [
+    {
+     "name": "ACN (Medium)",
+     "regex": "\\b\\d{3}\\s\\d{3}\\s\\d{3}\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "ACN (Low)",
+     "regex": "\\b\\d{9}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "australian company number",
+    "acn"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "AuMedicareRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/australia/au_medicare_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "AU_MEDICARE",
+   "language": "en",
+   "country": "au",
+   "patterns": [
+    {
+     "name": "Australian Medicare Number (Medium)",
+     "regex": "\\b[2-6]\\d{3}\\s\\d{5}\\s\\d\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Australian Medicare Number (Low)",
+     "regex": "\\b[2-6]\\d{9}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "medicare"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "AuTfnRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/australia/au_tfn_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "AU_TFN",
+   "language": "en",
+   "country": "au",
+   "patterns": [
+    {
+     "name": "TFN (Medium)",
+     "regex": "\\b\\d{3}\\s\\d{3}\\s\\d{3}\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "TFN (Low)",
+     "regex": "\\b\\d{9}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "tax file number",
+    "tfn"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "CaPostalCodeRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/canada/ca_postal_code_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "CA_POSTAL_CODE",
+   "language": "en",
+   "country": "ca",
+   "patterns": [
+    {
+     "name": "CA Postal Code (strict, with space)",
+     "regex": "\\b[ABCEGHJ-NPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z] \\d[ABCEGHJ-NPRSTV-Z]\\d\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "CA Postal Code (weak, no space)",
+     "regex": "\\b[ABCEGHJ-NPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z]\\d[ABCEGHJ-NPRSTV-Z]\\d\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "postal code",
+    "postcode",
+    "zip",
+    "canada",
+    "ontario",
+    "quebec",
+    "alberta",
+    "british columbia",
+    "code postal"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "CaSinRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/canada/ca_sin_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "CA_SIN",
+   "language": "en",
+   "country": "ca",
+   "patterns": [
+    {
+     "name": "SIN (weak)",
+     "regex": "\\b[1-79]\\d{8}\\b",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "SIN (medium)",
+     "regex": "\\b[1-79]\\d{2}([- ])\\d{3}\\1\\d{3}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "sin",
+    "sin number",
+    "social insurance",
+    "social insurance number",
+    "canada",
+    "nas",
+    "numéro nas",
+    "numéro d'assurance sociale",
+    "assurance sociale"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": true,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "CreditCardRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/credit_card_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "CREDIT_CARD",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "All Credit Cards (weak)",
+     "regex": "\\b(?!1\\d{12}(?!\\d))((4\\d{3})|(5[0-5]\\d{2})|(6\\d{3})|(1\\d{3})|(3\\d{3}))[- ]?(\\d{3,4})[- ]?(\\d{3,4})[- ]?(\\d{3,5})\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "credit",
+    "card",
+    "visa",
+    "mastercard",
+    "cc ",
+    "amex",
+    "discover",
+    "jcb",
+    "diners",
+    "maestro",
+    "instapayment"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "CryptoRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/crypto_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "CRYPTO",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "Crypto (Medium)",
+     "regex": "(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,59}",
+     "score": 0.5,
+     "features": []
+    }
+   ],
+   "context": [
+    "wallet",
+    "btc",
+    "bitcoin",
+    "crypto"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DateRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/date_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DATE_TIME",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "Datetime (yyyy-mm-ddThh:mm[:ss[.f]] with timezone)",
+     "regex": "\\b(?:(\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])T[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z))|(\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])T[0-2]\\d:[0-5]\\d:[0-5]\\d([+-][0-2]\\d:[0-5]\\d|Z))|(\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])T[0-2]\\d:[0-5]\\d([+-][0-2]\\d:[0-5]\\d|Z)))\\b",
+     "score": 0.8,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "mm/dd/yyyy or mm/dd/yy",
+     "regex": "\\b(([1-9]|0[1-9]|1[0-2])/([1-9]|0[1-9]|[1-2][0-9]|3[0-1])/(\\d{4}|\\d{2}))\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "dd/mm/yyyy or dd/mm/yy",
+     "regex": "\\b(([1-9]|0[1-9]|[1-2][0-9]|3[0-1])/([1-9]|0[1-9]|1[0-2])/(\\d{4}|\\d{2}))\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "yyyy/mm/dd",
+     "regex": "\\b(\\d{4}/([1-9]|0[1-9]|1[0-2])/([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "mm-dd-yyyy",
+     "regex": "\\b(([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1])-\\d{4})\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "dd-mm-yyyy",
+     "regex": "\\b(([1-9]|0[1-9]|[1-2][0-9]|3[0-1])-([1-9]|0[1-9]|1[0-2])-\\d{4})\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "yyyy-mm-dd",
+     "regex": "\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "dd.mm.yyyy or dd.mm.yy",
+     "regex": "\\b(([1-9]|0[1-9]|[1-2][0-9]|3[0-1])\\.([1-9]|0[1-9]|1[0-2])\\.(\\d{4}|\\d{2}))\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "dd-MMM-yyyy or dd-MMM-yy",
+     "regex": "\\b(([1-9]|0[1-9]|[1-2][0-9]|3[0-1])-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)-(\\d{4}|\\d{2}))\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "MMM-yyyy or MMM-yy",
+     "regex": "\\b((JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)-(\\d{4}|\\d{2}))\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "dd-MMM or dd-MMM",
+     "regex": "\\b(([1-9]|0[1-9]|[1-2][0-9]|3[0-1])-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))\\b",
+     "score": 0.6,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "mm/yyyy or m/yyyy",
+     "regex": "\\b(([1-9]|0[1-9]|1[0-2])/\\d{4})\\b",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "mm/yy or m/yy",
+     "regex": "\\b(([1-9]|0[1-9]|1[0-2])/\\d{2})\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "date",
+    "birthday"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeBsnrRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_bsnr_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_BSNR",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Betriebsstättennummer BSNR (9 digits)",
+     "regex": "\\b\\d{9}\\b",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "betriebsstättennummer",
+    "betriebsstätten-nummer",
+    "bsnr",
+    "betriebsstätte",
+    "praxisnummer",
+    "arztpraxis",
+    "praxis",
+    "kassenärztliche vereinigung",
+    "kv-nummer",
+    "kv nummer",
+    "praxisadresse",
+    "praxisstandort",
+    "nebenbetriebsstätte",
+    "hauptbetriebsstätte",
+    "behandlungsort",
+    "vertragsarztpraxis"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeFuehrerscheinRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_fuehrerschein_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_FUEHRERSCHEIN",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Führerscheinnummer (Post-2013 EU-Format, 11 Zeichen)",
+     "regex": "\\b[A-Z]{2}\\d{8}[A-Z0-9]\\b",
+     "score": 0.35,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "führerscheinnummer",
+    "führerschein",
+    "fahrerlaubnis",
+    "fahrerlaubnisnummer",
+    "fahrerlaubnisklasse",
+    "führerscheininhaber",
+    "fev",
+    "kba",
+    "kraftfahrt-bundesamt",
+    "driving licence",
+    "driving license",
+    "driver's license",
+    "licence number",
+    "license number",
+    "dokument nr",
+    "dokument-nr",
+    "feld 5"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeHandelsregisterRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_handelsregister_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_HANDELSREGISTER",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Handelsregisternummer HRA/HRB",
+     "regex": "\\bHR[AB]\\s*\\d{1,6}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "handelsregister",
+    "handelsregisternummer",
+    "amtsgericht",
+    "registergericht",
+    "hra",
+    "hrb",
+    "hr-nummer",
+    "registerauszug",
+    "handelsregistereintrag",
+    "firma",
+    "gesellschaft",
+    "gmbh",
+    "ag",
+    "ug",
+    "kg",
+    "ohg",
+    "einzelkaufmann",
+    "einzelkauffrau",
+    "handelsregisterblattnummer"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeHealthInsuranceRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_health_insurance_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_HEALTH_INSURANCE",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Krankenversicherungsnummer KVNR (letter + 9 digits)",
+     "regex": "\\b[A-Z]\\d{9}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "krankenversicherungsnummer",
+    "krankenversichertennummer",
+    "versichertennummer",
+    "kvnr",
+    "krankenkasse",
+    "krankenversicherung",
+    "gesundheitskarte",
+    "egk",
+    "elektronische gesundheitskarte",
+    "gkv",
+    "gesetzliche krankenversicherung",
+    "krankenversicherungsausweis",
+    "versichertenausweis",
+    "versichertenkarte",
+    "aok",
+    "tkk",
+    "barmer",
+    "dak"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeIdCardRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_id_card_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_ID_CARD",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Personalausweisnummer nPA (ICAO charset + check digit)",
+     "regex": "\\b[CFGHJKLMNPRTVWXYZ][CFGHJKLMNPRTVWXYZ0-9]{7}[0-9]\\b",
+     "score": 0.4,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Personalausweisnummer alt (T + 8 Ziffern)",
+     "regex": "\\bT\\d{8}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "personalausweis",
+    "ausweis",
+    "personalausweisnummer",
+    "ausweisnummer",
+    "ausweisdokument",
+    "dokumentennummer",
+    "seriennummer",
+    "npa",
+    "neuer personalausweis",
+    "personalausweisgesetz",
+    "pauwsg",
+    "bundespersonalausweis",
+    "identity card",
+    "national id"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeKfzRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_kfz_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_KFZ",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "KFZ-Kennzeichen (mit Leerzeichen)",
+     "regex": "(?<![\\w-])[A-ZÄÖÜ]{1,3}\\s[A-Z]{1,2}\\s\\d{1,4}[EH]?(?!\\w)",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "space_class",
+      "word_class"
+     ]
+    },
+    {
+     "name": "KFZ-Kennzeichen (mit Bindestrich)",
+     "regex": "(?<![\\w-])[A-ZÄÖÜ]{1,3}-[A-Z]{1,2}-\\d{1,4}[EH]?(?!\\w)",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "word_class"
+     ]
+    },
+    {
+     "name": "KFZ-Kennzeichen (Bindestrich + Leerzeichen)",
+     "regex": "(?<![\\w-])[A-ZÄÖÜ]{1,3}-[A-Z]{1,2}\\s\\d{1,4}[EH]?(?!\\w)",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "space_class",
+      "word_class"
+     ]
+    },
+    {
+     "name": "KFZ-Kennzeichen (ASCII only, mit Leerzeichen)",
+     "regex": "(?<![\\w-])[A-Z]{1,3}\\s[A-Z]{1,2}\\s\\d{1,4}[EH]?(?!\\w)",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "space_class",
+      "word_class"
+     ]
+    },
+    {
+     "name": "KFZ-Kennzeichen (ASCII only, Bindestrich + Leerzeichen)",
+     "regex": "(?<![\\w-])[A-Z]{1,3}-[A-Z]{1,2}\\s\\d{1,4}[EH]?(?!\\w)",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "space_class",
+      "word_class"
+     ]
+    }
+   ],
+   "context": [
+    "kennzeichen",
+    "kfz-kennzeichen",
+    "kraftfahrzeugkennzeichen",
+    "nummernschild",
+    "fahrzeugkennzeichen",
+    "zulassung",
+    "kfz",
+    "fahrzeug",
+    "auto",
+    "pkw",
+    "lkw",
+    "fahrzeugschein",
+    "fahrzeugbrief",
+    "zulassungsbescheinigung",
+    "amtliches kennzeichen"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeLanrRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_lanr_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_LANR",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Lebenslange Arztnummer LANR (9 digits)",
+     "regex": "\\b\\d{9}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "arztnummer",
+    "lanr",
+    "lebenslange arztnummer",
+    "arzt-nr",
+    "arzt nr",
+    "arzt-nummer",
+    "vertragsarzt",
+    "kassenarzt",
+    "niedergelassener arzt",
+    "kbv",
+    "kassenärztliche vereinigung",
+    "kv-nummer",
+    "rezept",
+    "verschreibung",
+    "behandelnder arzt",
+    "hausarzt",
+    "facharzt"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DePassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_PASSPORT",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Reisepassnummer (Strict ICAO charset)",
+     "regex": "\\b[CFGHJKLMNPRTVWXYZ][CFGHJKLMNPRTVWXYZ0-9]{7}[0-9]\\b",
+     "score": 0.4,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "reisepass",
+    "pass",
+    "passnummer",
+    "reisepassnummer",
+    "passport",
+    "passport number",
+    "pass-nr",
+    "dokumentennummer",
+    "bundesrepublik deutschland",
+    "ausweisdokument",
+    "mrz"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DePlzRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_plz_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_PLZ",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Postleitzahl (5 digits, very low base confidence – context required)",
+     "regex": "\\b(?!01000\\b|99999\\b)(0[1-9]\\d{3}|[1-9]\\d{4})\\b",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "plz",
+    "postleitzahl",
+    "postanschrift",
+    "adresse",
+    "wohnort",
+    "ort",
+    "wohnanschrift",
+    "lieferadresse",
+    "rechnungsadresse",
+    "straße",
+    "strasse",
+    "hausnummer",
+    "postfach",
+    "bundesland",
+    "gemeinde",
+    "stadt",
+    "dorf"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeSocialSecurityRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_social_security_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_SOCIAL_SECURITY",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Rentenversicherungsnummer (Strict, with birth date structure)",
+     "regex": "\\b\\d{2}(0[1-9]|[12]\\d|3[01]|5[1-9]|[67]\\d|8[01])(0[1-9]|1[0-2])\\d{2}[A-Z]\\d{2}[0-9]\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Rentenversicherungsnummer (Relaxed)",
+     "regex": "\\b\\d{8}[A-Z]\\d{3}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "rentenversicherungsnummer",
+    "sozialversicherungsnummer",
+    "versicherungsnummer",
+    "rvnr",
+    "svnr",
+    "sv-nummer",
+    "rente",
+    "rentenversicherung",
+    "deutsche rentenversicherung",
+    "drv",
+    "sozialversicherung",
+    "sozialversicherungsausweis",
+    "rentenausweis"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeTaxIdRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_tax_id_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_TAX_ID",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Steueridentifikationsnummer (High)",
+     "regex": "\\b[1-9]\\d{10}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "steueridentifikationsnummer",
+    "steuer-id",
+    "steuerid",
+    "steuerliche identifikationsnummer",
+    "steuerliche identifikation",
+    "persönliche identifikationsnummer",
+    "steuer identifikation",
+    "idnr",
+    "steuer-idnr",
+    "steuernummer",
+    "bzst"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeTaxNumberRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_tax_number_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_TAX_NUMBER",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Steuernummer ELSTER (bundeseinheitlich, 13-stellig)",
+     "regex": "\\b(0[1-9]|1[0-6])\\d{11}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Steuernummer mit Schrägstrich (Bayern/BW: 3/3/5)",
+     "regex": "(?<!\\w)\\d{3}/\\d{3}/\\d{5}(?!\\w)",
+     "score": 0.4,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "word_class"
+     ]
+    },
+    {
+     "name": "Steuernummer mit Schrägstrich (NW: 3/4/4 oder allgemein 2-3/3-4/4-5)",
+     "regex": "(?<!\\w)\\d{2,3}/\\d{3,4}/\\d{4,5}(?!\\w)",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "word_class"
+     ]
+    }
+   ],
+   "context": [
+    "steuernummer",
+    "steuer-nr",
+    "steuer nr",
+    "st.-nr",
+    "st-nr",
+    "finanzamt",
+    "umsatzsteuer",
+    "einkommensteuer",
+    "körperschaftsteuer",
+    "gewerbesteuer",
+    "steuerveranlagung",
+    "steuerbescheid"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "DeVatIdRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/germany/de_vat_id_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "DE_VAT_ID",
+   "language": "de",
+   "country": "de",
+   "patterns": [
+    {
+     "name": "Umsatzsteuer-Identifikationsnummer USt-IdNr. (DE + 9 digits)",
+     "regex": "\\bDE\\d{9}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Umsatzsteuer-Identifikationsnummer USt-IdNr. (with separators)",
+     "regex": "\\bDE[\\s.\\-]?\\d{3}[\\s.\\-]?\\d{3}[\\s.\\-]?\\d{3}\\b",
+     "score": 0.4,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "umsatzsteuer-identifikationsnummer",
+    "umsatzsteueridentifikationsnummer",
+    "ust-idnr",
+    "ust-id",
+    "ustidnr",
+    "umsatzsteuer-id",
+    "mehrwertsteuer",
+    "vat",
+    "vat-id",
+    "vat id",
+    "steueridentifikation",
+    "bzst",
+    "bundeszentralamt für steuern",
+    "finanzamt",
+    "invoice",
+    "rechnung"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "EmailRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/email_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "EMAIL_ADDRESS",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "Email (Medium)",
+     "regex": "\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+(?:-+\\w+)*(?:\\.\\w+(?:-+\\w+)*)+)\\b",
+     "score": 0.5,
+     "features": [
+      "anchor_end",
+      "anchor_start",
+      "word_boundary",
+      "word_class"
+     ]
+    }
+   ],
+   "context": [
+    "email"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "EsNieRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/spain/es_nie_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ES_NIE",
+   "language": "es",
+   "country": "es",
+   "patterns": [
+    {
+     "name": "NIE",
+     "regex": "\\b[X-Z]?[0-9]?[0-9]{7}[-]?[A-Z]\\b",
+     "score": 0.5,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "número de identificación de extranjero",
+    "NIE"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "EsNifRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/spain/es_nif_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ES_NIF",
+   "language": "es",
+   "country": "es",
+   "patterns": [
+    {
+     "name": "NIF",
+     "regex": "\\b[0-9]?[0-9]{7}[-]?[A-Z]\\b",
+     "score": 0.5,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "documento nacional de identidad",
+    "DNI",
+    "NIF",
+    "identificación"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "EsPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/spain/es_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ES_PASSPORT",
+   "language": "es",
+   "country": "es",
+   "patterns": [
+    {
+     "name": "ES_PASSPORT",
+     "regex": "\\b[A-Z]{3}[0-9]{6}\\b",
+     "score": 0.05,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "pasaporte",
+    "passport",
+    "número de pasaporte",
+    "passport number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "FiPersonalIdentityCodeRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/finland/fi_personal_identity_code_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "FI_PERSONAL_IDENTITY_CODE",
+   "language": "fi",
+   "country": "fi",
+   "patterns": [
+    {
+     "name": "Finnish Personal Identity Code (Medium)",
+     "regex": "\\b(\\d{6})([-+ABCDEFYXWVU])(\\d{3})([0123456789ABCDEFHJKLMNPRSTUVWXY])\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Finnish Personal Identity Code (Very Weak)",
+     "regex": "(\\d{6})([-+ABCDEFYXWVU])(\\d{3})([0123456789ABCDEFHJKLMNPRSTUVWXY])",
+     "score": 0.1,
+     "features": [
+      "digit_class"
+     ]
+    }
+   ],
+   "context": [
+    "hetu",
+    "henkilötunnus",
+    "personbeteckningen",
+    "personal identity code"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "IbanRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/iban_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IBAN_CODE",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "IBAN Generic",
+     "regex": "(?<![A-Z0-9])([A-Z]{2}[0-9]{2}(?:[ -]?[A-Z0-9]{4}){2,6})((?:[ -]?[A-Z0-9]{4})?)((?:[ -]?[A-Z0-9]{1,3})?)(?![A-Z0-9])",
+     "score": 0.5,
+     "features": [
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    }
+   ],
+   "context": [
+    "iban",
+    "bank",
+    "transaction"
+   ],
+   "flags": [
+    "DOTALL",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": true,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": true
+  },
+  {
+   "class": "InAadhaarRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/india/in_aadhaar_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IN_AADHAAR",
+   "language": "en",
+   "country": "in",
+   "patterns": [
+    {
+     "name": "AADHAAR (Very Weak)",
+     "regex": "\\b[0-9]{12}\\b",
+     "score": 0.01,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "AADHAR (Very Weak)",
+     "regex": "\\b[0-9]{4}[- :][0-9]{4}[- :][0-9]{4}\\b",
+     "score": 0.01,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "aadhaar",
+    "uidai"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "InGstinRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/india/in_gstin_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IN_GSTIN",
+   "language": "en",
+   "country": "in",
+   "patterns": [
+    {
+     "name": "GSTIN (High)",
+     "regex": "\\b((?:0[1-9]|[1-3][0-7])[A-Za-z0-9]{10}[A-Za-z0-9]{1}Z[A-Za-z0-9]{1})\\b",
+     "score": 0.8,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "GSTIN (Medium)",
+     "regex": "\\b((?:0[1-9]|[1-3][0-7])[A-Za-z0-9]{11}Z[A-Za-z0-9]{1})\\b",
+     "score": 0.4,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "GSTIN (Low)",
+     "regex": "\\b([0-9]{2}[A-Za-z0-9]{11}Z[A-Za-z0-9]{1})\\b",
+     "score": 0.1,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "gstin",
+    "gst",
+    "goods and services tax",
+    "tax identification",
+    "gst number",
+    "gst registration"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "InPanRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/india/in_pan_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IN_PAN",
+   "language": "en",
+   "country": "in",
+   "patterns": [
+    {
+     "name": "PAN (High)",
+     "regex": "\\b([A-Za-z]{3}[AaBbCcFfGgHhJjLlPpTt]{1}[A-Za-z]{1}[0-9]{4}[A-Za-z]{1})\\b",
+     "score": 0.5,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "PAN (Medium)",
+     "regex": "\\b([A-Za-z]{5}[0-9]{4}[A-Za-z]{1})\\b",
+     "score": 0.1,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "PAN (Low)",
+     "regex": "\\b((?=.*?[a-zA-Z])(?=.*?[0-9]{4})[\\w@#$%^?~-]{10})\\b",
+     "score": 0.01,
+     "features": [
+      "anchor_end",
+      "anchor_start",
+      "lookahead_pos",
+      "word_boundary",
+      "word_class"
+     ]
+    }
+   ],
+   "context": [
+    "permanent account number",
+    "pan"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "InPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/india/in_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IN_PASSPORT",
+   "language": "en",
+   "country": "in",
+   "patterns": [
+    {
+     "name": "PASSPORT",
+     "regex": "\\b[A-Z][1-9]\\d\\s?\\d{4}[1-9]\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "passport",
+    "indian passport",
+    "passport number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "InVehicleRegistrationRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/india/in_vehicle_registration_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IN_VEHICLE_REGISTRATION",
+   "language": "en",
+   "country": "in",
+   "patterns": [
+    {
+     "name": "India Vehicle Registration (Very Weak)",
+     "regex": "\\b[A-Z]{1}(?!0000)[0-9]{4}\\b",
+     "score": 0.01,
+     "features": [
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration (Very Weak)",
+     "regex": "\\b[A-Z]{2}(?!0000)\\d{4}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration (Very Weak)",
+     "regex": "\\b(I)(?!00000)\\d{5}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration (Weak)",
+     "regex": "\\b[A-Z]{3}(?!0000)\\d{4}\\b",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration (Medium)",
+     "regex": "\\b\\d{1,3}(CD|CC|UN)[1-9]{1}[0-9]{1,3}\\b",
+     "score": 0.4,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration",
+     "regex": "\\b[A-Z]{2}\\d{1}[A-Z]{1,3}(?!0000)\\d{4}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration",
+     "regex": "\\b[A-Z]{2}\\d{2}[A-Z]{1,2}(?!0000)\\d{4}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration",
+     "regex": "\\b[2-9]{1}[1-9]{1}(BH)(?!0000)\\d{4}[A-HJ-NP-Z]{2}\\b",
+     "score": 0.85,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "India Vehicle Registration",
+     "regex": "\\b(?!00)\\d{2}(A|B|C|D|E|F|H|K|P|R|X)\\d{6}[A-Z]{1}\\b",
+     "score": 0.85,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "RTO",
+    "vehicle",
+    "plate",
+    "registration"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "InVoterRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/india/in_voter_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IN_VOTER",
+   "language": "en",
+   "country": "in",
+   "patterns": [
+    {
+     "name": "VOTER",
+     "regex": "\\b([A-Za-z]{1}[ABCDGHJKMNPRSYabcdghjkmnprsy]{1}[A-Za-z]{1}([0-9]){7})\\b",
+     "score": 0.4,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "VOTER",
+     "regex": "\\b([A-Za-z]){3}([0-9]){7}\\b",
+     "score": 0.3,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "voter",
+    "epic",
+    "elector photo identity card"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "IpRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/ip_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IP_ADDRESS",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "IPv4_mapped",
+     "regex": "(?<![\\w:])::(?:ffff(?::0{1,4})?:)?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:/(?:12[0-8]|1[01]\\d|[1-9]?\\d))?\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "lookbehind_neg",
+      "word_boundary",
+      "word_class"
+     ]
+    },
+    {
+     "name": "IPv4_embedded",
+     "regex": "(?<![\\w:])(?:(?:[0-9A-Fa-f]{1,4}:){1,5}:(?:[0-9A-Fa-f]{1,4}:){0,4}|(?:[0-9A-Fa-f]{1,4}:){6})(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:/(?:12[0-8]|1[01]\\d|[1-9]?\\d))?\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "lookbehind_neg",
+      "word_boundary",
+      "word_class"
+     ]
+    },
+    {
+     "name": "IPv4",
+     "regex": "\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:/(?:[0-2]?\\d|3[0-2]))?\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "IPv6",
+     "regex": "(?<![\\w:])(?:(?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7}|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?::[0-9A-Fa-f]{1,4}){1,6}|:(?::[0-9A-Fa-f]{1,4}){1,6})(?:%[0-9a-zA-Z]+)?(?:/(?:12[0-8]|1[01]\\d|[1-9]?\\d))?(?![\\w:]|\\.\\d)",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "word_class"
+     ]
+    },
+    {
+     "name": "IPv6_unspecified",
+     "regex": "(?<![\\w:])::(?:/(?:12[0-8]|1[01]\\d|[1-9]?\\d))?(?![\\w:])",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg",
+      "word_class"
+     ]
+    }
+   ],
+   "context": [
+    "ip",
+    "ipv4",
+    "ipv6"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": true,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ItDriverLicenseRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/italy/it_driver_license_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IT_DRIVER_LICENSE",
+   "language": "it",
+   "country": "it",
+   "patterns": [
+    {
+     "name": "Driver License",
+     "regex": "\\b(?i)(([A-Z]{2}\\d{7}[A-Z])|(U1[BCDEFGHLJKMNPRSTUWYXZ0-9]{7}[A-Z]))\\b",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "inline_flags",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "patente",
+    "patente di guida",
+    "licenza",
+    "licenza di guida"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ItFiscalCodeRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/italy/it_fiscal_code_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IT_FISCAL_CODE",
+   "language": "it",
+   "country": "it",
+   "patterns": [
+    {
+     "name": "Fiscal Code",
+     "regex": "(?i)((?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z])",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "inline_flags"
+     ]
+    }
+   ],
+   "context": [
+    "codice fiscale",
+    "cf"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ItIdentityCardRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/italy/it_identity_card_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IT_IDENTITY_CARD",
+   "language": "it",
+   "country": "it",
+   "patterns": [
+    {
+     "name": "Paper-based Identity Card (very weak)",
+     "regex": "(?i)\\b[A-Z]{2}\\s?\\d{7}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "inline_flags",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Electronic Identity Card (CIE) 2.0 (very weak)",
+     "regex": "(?i)\\b\\d{7}[A-Z]{2}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "inline_flags",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Electronic Identity Card (CIE) 3.0 (very weak)",
+     "regex": "(?i)\\b[A-Z]{2}\\d{5}[A-Z]{2}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "inline_flags",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "carta",
+    "identità",
+    "elettronica",
+    "cie",
+    "documento",
+    "riconoscimento",
+    "espatrio"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ItPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/italy/it_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IT_PASSPORT",
+   "language": "it",
+   "country": "it",
+   "patterns": [
+    {
+     "name": "Passport (very weak)",
+     "regex": "(?i)\\b[A-Z]{2}\\d{7}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "inline_flags",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "passaporto",
+    "elettronico",
+    "italiano",
+    "viaggio",
+    "viaggiare",
+    "estero",
+    "documento",
+    "dogana"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ItVatCodeRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/italy/it_vat_code.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "IT_VAT_CODE",
+   "language": "it",
+   "country": "it",
+   "patterns": [
+    {
+     "name": "IT Vat code (piva)",
+     "regex": "\\b([0-9][ _]?){11}\\b",
+     "score": 0.1,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "piva",
+    "partita iva",
+    "pi"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "KrBrnRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/korea/kr_brn_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "KR_BRN",
+   "language": "ko",
+   "country": "kr",
+   "patterns": [
+    {
+     "name": "BRN (Weak)",
+     "regex": "(?<!\\d)\\d{3}-\\d{2}-\\d{5}(?!\\d)",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    },
+    {
+     "name": "BRN (Very weak)",
+     "regex": "(?<!\\d)\\d{10}(?!\\d)",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    }
+   ],
+   "context": [
+    "사업자등록번호",
+    "사업자번호",
+    "사업자",
+    "BRN",
+    "Business Registration Number",
+    "Korean BRN",
+    "business number",
+    "tax registration number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "KrDriverLicenseRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/korea/kr_driver_license_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "KR_DRIVER_LICENSE",
+   "language": "ko",
+   "country": "kr",
+   "patterns": [
+    {
+     "name": "Driver License (very weak)",
+     "regex": "(?<!\\d)(\\d{2})[- ]?(\\d{2})[- ]?(\\d{6})[- ]?(\\d{2})(?!\\d)",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    }
+   ],
+   "context": [
+    "운전면허",
+    "운전면허번호",
+    "면허번호",
+    "Korean driver license",
+    "Korean driver's license"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "KrFrnRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/korea/kr_frn_recognizer.py",
+   "bases": [
+    "KrRrnRecognizer"
+   ],
+   "entity": "KR_FRN",
+   "language": "ko",
+   "country": "kr",
+   "patterns": [
+    {
+     "name": "FRN (Medium)",
+     "regex": "(?<!\\d)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])(-?)[5-8]\\d{6}(?!\\d)",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    }
+   ],
+   "context": [
+    "외국인등록번호",
+    "Korean FRN",
+    "FRN",
+    "Foreigner Registration Number",
+    "Korean Foreigner Registration Number",
+    "외국인번호"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "KrPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/korea/kr_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "KR_PASSPORT",
+   "language": "kr",
+   "country": "kr",
+   "patterns": [
+    {
+     "name": "Passport Number (Current)",
+     "regex": "(?<![A-Z0-9a-z])[MmSsRrOoDd]\\d{3}[A-Za-z]\\d{4}(?![0-9])",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    },
+    {
+     "name": "Passport Number (Previous)",
+     "regex": "(?<![A-Z0-9a-z])[MmSsRrOoDd]\\d{8}(?![0-9])",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    }
+   ],
+   "context": [
+    "Korean passport",
+    "Korean passport number",
+    "대한민국 여권",
+    "여권",
+    "passport",
+    "passport number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "KrRrnRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/korea/kr_rrn_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "KR_RRN",
+   "language": "ko",
+   "country": "kr",
+   "patterns": [
+    {
+     "name": "RRN (Medium)",
+     "regex": "(?<!\\d)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])(-?)[1-4]\\d{6}(?!\\d)",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "lookahead_neg",
+      "lookbehind_neg"
+     ]
+    }
+   ],
+   "context": [
+    "Korean RRN",
+    "Korean Resident Registration Number",
+    "Resident Registration Number",
+    "RRN",
+    "rrn",
+    "rrn#"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "MacAddressRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/mac_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "MAC_ADDRESS",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "MAC_COLON_OR_HYPHEN",
+     "regex": "\\b[0-9A-Fa-f]{2}([:-])(?:[0-9A-Fa-f]{2}\\1){4}[0-9A-Fa-f]{2}\\b",
+     "score": 0.6,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "MAC_CISCO_DOT",
+     "regex": "\\b[0-9A-Fa-f]{4}\\.[0-9A-Fa-f]{4}\\.[0-9A-Fa-f]{4}\\b",
+     "score": 0.6,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "mac",
+    "mac address",
+    "hardware address",
+    "physical address",
+    "ethernet"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": true,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "MedicalLicenseRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/medical_license_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "MEDICAL_LICENSE",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "USA DEA Certificate Number (weak)",
+     "regex": "[abcdefghjklmprstuxABCDEFGHJKLMPRSTUX]{1}[a-zA-Z]{1}\\d{7}|[abcdefghjklmprstuxABCDEFGHJKLMPRSTUX]{1}9\\d{7}",
+     "score": 0.4,
+     "features": [
+      "digit_class"
+     ]
+    }
+   ],
+   "context": [
+    "medical",
+    "certificate",
+    "DEA"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "NgNinRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/nigeria/ng_nin_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "NG_NIN",
+   "language": "en",
+   "country": "ng",
+   "patterns": [
+    {
+     "name": "NIN (Very Weak)",
+     "regex": "\\b\\d{11}\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "nin",
+    "national identification number",
+    "national identity number",
+    "nimc",
+    "national identity",
+    "nigeria id",
+    "nigerian identification"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "NgVehicleRegistrationRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/nigeria/ng_vehicle_registration_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "NG_VEHICLE_REGISTRATION",
+   "language": "en",
+   "country": "ng",
+   "patterns": [
+    {
+     "name": "Nigeria Vehicle Registration",
+     "regex": "\\b[A-Z]{3}[- ]?\\d{3}[A-Z]{2}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "plate number",
+    "vehicle registration",
+    "license plate",
+    "number plate",
+    "plate",
+    "vehicle",
+    "registration"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "NhsRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/uk/uk_nhs_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "UK_NHS",
+   "language": "en",
+   "country": "uk",
+   "patterns": [
+    {
+     "name": "NHS (medium)",
+     "regex": "\\b([0-9]{3})[- ]?([0-9]{3})[- ]?([0-9]{4})\\b",
+     "score": 0.5,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "national health service",
+    "nhs",
+    "health services authority",
+    "health authority"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "PhPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/philippines/ph_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "PH_PASSPORT",
+   "language": "en",
+   "country": "ph",
+   "patterns": [
+    {
+     "name": "PH Passport (weak: 1L7D1L or 2L7D)",
+     "regex": "\\b(?:[A-Z]\\d{7}[A-Z]|[A-Z]{2}\\d{7})\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "passport",
+    "passport number",
+    "passport no",
+    "passport no.",
+    "passport#",
+    "passport id",
+    "travel document",
+    "philippine passport",
+    "philippines passport",
+    "pasaporte",
+    "pasaporte number",
+    "dfa"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "PhTinRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/philippines/ph_tin_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "PH_TIN",
+   "language": "en",
+   "country": "ph",
+   "patterns": [
+    {
+     "name": "TIN (Low)",
+     "regex": "\\b(\\d{3}-\\d{3}-\\d{3}(-\\d{3})?)\\b",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "TIN (Very Low)",
+     "regex": "\\b(\\d{9}|\\d{12})\\b",
+     "score": 0.01,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "tin",
+    "taxpayer identification number",
+    "bir",
+    "taxpayer id",
+    "tax id",
+    "rdo",
+    "revenue district office"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": true,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "PhUmidRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/philippines/ph_umid_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "PH_UMID",
+   "language": "en",
+   "country": "ph",
+   "patterns": [
+    {
+     "name": "UMID (with dashes)",
+     "regex": "\\b\\d{4}-\\d{7}-\\d\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "UMID (without dashes)",
+     "regex": "\\b\\d{12}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "umid",
+    "unified multi-purpose id",
+    "crn",
+    "common reference number",
+    "sss",
+    "gsis",
+    "philhealth",
+    "pag-ibig",
+    "umid number",
+    "umid card",
+    "unified multipurpose id"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "PlPeselRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/poland/pl_pesel_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "PL_PESEL",
+   "language": "pl",
+   "country": "pl",
+   "patterns": [
+    {
+     "name": "PESEL",
+     "regex": "[0-9]{2}([02468][1-9]|[13579][012])(0[1-9]|1[0-9]|2[0-9]|3[01])[0-9]{5}",
+     "score": 0.4,
+     "features": []
+    }
+   ],
+   "context": [
+    "PESEL"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "SeOrganisationsnummerRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/sweden/se_organisationsnummer_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "SE_ORGANISATIONSNUMMER",
+   "language": "sv",
+   "country": "se",
+   "patterns": [
+    {
+     "name": "Swedish Organisationsnummer (Medium)",
+     "regex": "\\b\\d{6}[-]?\\d{4}\\b",
+     "score": 0.6,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Swedish Organisationsnummer (Weak)",
+     "regex": "\\d{6}[-]?\\d{4}",
+     "score": 0.2,
+     "features": [
+      "digit_class"
+     ]
+    }
+   ],
+   "context": [
+    "organisationsnummer",
+    "orgnr",
+    "org nr",
+    "företagsnummer"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "SePersonnummerRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/sweden/se_personnummer_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "SE_PERSONNUMMER",
+   "language": "sv",
+   "country": "se",
+   "patterns": [
+    {
+     "name": "Swedish Personnummer (Medium)",
+     "regex": "\\b(\\d{6,8})([-+]?)\\d{4}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Swedish Personnummer (Very Weak)",
+     "regex": "(\\d{6,8})([-+]?)\\d{4}",
+     "score": 0.1,
+     "features": [
+      "digit_class"
+     ]
+    }
+   ],
+   "context": [
+    "personnummer",
+    "svenskt personnummer",
+    "svensk id",
+    "ssn",
+    "personal identity number",
+    "samordningsnummer"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "SgFinRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/singapore/sg_fin_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "SG_NRIC_FIN",
+   "language": "en",
+   "country": "sg",
+   "patterns": [
+    {
+     "name": "Nric (weak)",
+     "regex": "(?i)(\\b[A-Z][0-9]{7}[A-Z]\\b)",
+     "score": 0.3,
+     "features": [
+      "inline_flags",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Nric (medium)",
+     "regex": "(?i)(\\b[STFGM][0-9]{7}[A-Z]\\b)",
+     "score": 0.5,
+     "features": [
+      "inline_flags",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "fin",
+    "fin#",
+    "nric",
+    "nric#"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "SgUenRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/singapore/sg_uen_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "SG_UEN",
+   "language": "en",
+   "country": "sg",
+   "patterns": [
+    {
+     "name": "UEN (low)",
+     "regex": "\\b\\d{8}[A-Z]\\b|\\b\\d{9}[A-Z]\\b|\\b[TSR]\\d{2}[A-Z]{2}\\d{4}[A-Z]\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "uen",
+    "unique entity number",
+    "business registration",
+    "ACRA"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ThTninRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/thai/th_tnin_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "TH_TNIN",
+   "language": "th",
+   "country": "th",
+   "patterns": [
+    {
+     "name": "TNIN (Medium)",
+     "regex": "\\b[1-9](?:[134][0-9]|2[0-7]|5[0-8]|[67][01234567]|[89][0123456])\\d{10}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "Thai National ID",
+    "Thai ID Number",
+    "TNIN",
+    "เลขประจำตัวประชาชน",
+    "เลขบัตรประชาชน",
+    "รหัสปชช"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "TrLicensePlateRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/turkey/tr_license_plate_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "TR_LICENSE_PLATE",
+   "language": "tr",
+   "country": "tr",
+   "patterns": [
+    {
+     "name": "TR License Plate (space)",
+     "regex": "\\b(0[1-9]|[1-7][0-9]|8[0-1])\\s?[A-PR-VY-Z]{1,3}\\s?\\d{2,4}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "TR License Plate (hyphen)",
+     "regex": "\\b(0[1-9]|[1-7][0-9]|8[0-1])-[A-PR-VY-Z]{1,3}-\\d{2,4}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "plaka",
+    "araç plakası",
+    "plaka numarası",
+    "kayıt plakası",
+    "tr plaka",
+    "license plate",
+    "number plate",
+    "plate",
+    "taşıt plakası",
+    "kayıt"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "TrNationalIdRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/turkey/tr_national_id_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "TR_NATIONAL_ID",
+   "language": "tr",
+   "country": "tr",
+   "patterns": [
+    {
+     "name": "TR_NATIONAL_ID",
+     "regex": "\\b[1-9][0-9]{10}\\b",
+     "score": 0.3,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "tc kimlik",
+    "kimlik no",
+    "kimlik numarası",
+    "tckn",
+    "tc no",
+    "nüfus cüzdanı",
+    "national id",
+    "turkish id",
+    "türk kimlik"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UkDrivingLicenceRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/uk/uk_driving_licence_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "UK_DRIVING_LICENCE",
+   "language": "en",
+   "country": "uk",
+   "patterns": [
+    {
+     "name": "UK Driving Licence",
+     "regex": "\\b[A-Z9]{5}[0-9](?:0[1-9]|1[0-2]|5[1-9]|6[0-2])(?:0[1-9]|[12][0-9]|3[01])[0-9][A-Z9]{2}[A-Z0-9][A-Z]{2}\\b",
+     "score": 0.5,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "driving licence",
+    "driving license",
+    "driver's licence",
+    "driver's license",
+    "dvla",
+    "dl number",
+    "licence number",
+    "license number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UkNinoRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/uk/uk_nino_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "UK_NINO",
+   "language": "en",
+   "country": "uk",
+   "patterns": [
+    {
+     "name": "NINO (medium)",
+     "regex": "\\b(?!bg|gb|nk|kn|nt|tn|zz|BG|GB|NK|KN|NT|TN|ZZ) ?([a-ceghj-pr-tw-zA-CEGHJ-PR-TW-Z]{1}[a-ceghj-npr-tw-zA-CEGHJ-NPR-TW-Z]{1}) ?([0-9]{2}) ?([0-9]{2}) ?([0-9]{2}) ?([a-dA-D]{1})\\b",
+     "score": 0.5,
+     "features": [
+      "lookahead_neg",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "national insurance",
+    "ni number",
+    "nino"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UkPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/uk/uk_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "UK_PASSPORT",
+   "language": "en",
+   "country": "uk",
+   "patterns": [
+    {
+     "name": "UK Passport (weak)",
+     "regex": "\\b[A-Z]{2}\\d{7}\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "passport",
+    "passport number",
+    "travel document",
+    "uk passport",
+    "british passport",
+    "her majesty",
+    "his majesty",
+    "hm passport",
+    "hmpo"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UkPostcodeRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/uk/uk_postcode_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "UK_POSTCODE",
+   "language": "en",
+   "country": "uk",
+   "patterns": [
+    {
+     "name": "UK Postcode",
+     "regex": "\\b(GIR\\s?0AA|[A-PR-UWYZ][0-9][ABCDEFGHJKPSTUW]?\\s?[0-9][ABD-HJLNP-UW-Z]{2}|[A-PR-UWYZ][0-9]{2}\\s?[0-9][ABD-HJLNP-UW-Z]{2}|[A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRVWXY]?\\s?[0-9][ABD-HJLNP-UW-Z]{2}|[A-PR-UWYZ][A-HK-Y][0-9]{2}\\s?[0-9][ABD-HJLNP-UW-Z]{2})\\b",
+     "score": 0.1,
+     "features": [
+      "space_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "postcode",
+    "post code",
+    "postal code",
+    "zip",
+    "address",
+    "delivery",
+    "mailing",
+    "shipping",
+    "correspondence"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UkVehicleRegistrationRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/uk/uk_vehicle_registration_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "UK_VEHICLE_REGISTRATION",
+   "language": "en",
+   "country": "uk",
+   "patterns": [
+    {
+     "name": "UK Vehicle Registration (current)",
+     "regex": "\\b[A-HJ-PR-Y][A-HJ-PR-Y](?:0[1-9]|[1-7][0-9])[- ]?[A-HJ-PR-Z]{3}\\b",
+     "score": 0.3,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "UK Vehicle Registration (prefix)",
+     "regex": "\\b[A-HJ-NPR-TV-Y]\\d{1,3}[- ]?[A-HJ-PR-Y][A-HJ-PR-Z]{2}\\b",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "UK Vehicle Registration (suffix)",
+     "regex": "\\b[A-HJ-PR-Z]{3}[- ]?\\d{1,3}[- ]?[A-HJ-NPR-TV-Y]\\b",
+     "score": 0.15,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "vehicle",
+    "registration",
+    "number plate",
+    "licence plate",
+    "license plate",
+    "reg",
+    "vrn",
+    "dvla",
+    "v5c",
+    "logbook",
+    "mot",
+    "car",
+    "insured vehicle"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UsBankRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/us_bank_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "US_BANK_NUMBER",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "Bank Account (weak)",
+     "regex": "\\b[0-9]{8,17}\\b",
+     "score": 0.05,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "check",
+    "account",
+    "account#",
+    "acct",
+    "bank",
+    "save",
+    "debit"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UsItinRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/us_itin_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "US_ITIN",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "Itin (very weak)",
+     "regex": "\\b9\\d{2}[- ](5\\d|6[0-5]|7\\d|8[0-8]|9([0-2]|[4-9]))\\d{4}\\b|\\b9\\d{2}(5\\d|6[0-5]|7\\d|8[0-8]|9([0-2]|[4-9]))[- ]\\d{4}\\b",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Itin (weak)",
+     "regex": "\\b9\\d{2}(5\\d|6[0-5]|7\\d|8[0-8]|9([0-2]|[4-9]))\\d{4}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Itin (medium)",
+     "regex": "\\b9\\d{2}[- ](5\\d|6[0-5]|7\\d|8[0-8]|9([0-2]|[4-9]))[- ]\\d{4}\\b",
+     "score": 0.5,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "individual",
+    "taxpayer",
+    "itin",
+    "tax",
+    "payer",
+    "taxid",
+    "tin"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UsLicenseRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/us_driver_license_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "US_DRIVER_LICENSE",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "Driver License - Alphanumeric (weak)",
+     "regex": "\\b([A-Z][0-9]{3,6}|[A-Z][0-9]{5,9}|[A-Z][0-9]{6,8}|[A-Z][0-9]{4,8}|[A-Z][0-9]{9,11}|[A-Z]{1,2}[0-9]{5,6}|H[0-9]{8}|V[0-9]{6}|X[0-9]{8}|A-Z]{2}[0-9]{2,5}|[A-Z]{2}[0-9]{3,7}|[0-9]{2}[A-Z]{3}[0-9]{5,6}|[A-Z][0-9]{13,14}|[A-Z][0-9]{18}|[A-Z][0-9]{6}R|[A-Z][0-9]{9}|[A-Z][0-9]{1,12}|[0-9]{9}[A-Z]|[A-Z]{2}[0-9]{6}[A-Z]|[0-9]{8}[A-Z]{2}|[0-9]{3}[A-Z]{2}[0-9]{4}|[A-Z][0-9][A-Z][0-9][A-Z]|[0-9]{7,8}[A-Z])\\b",
+     "score": 0.3,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Driver License - Digits (very weak)",
+     "regex": "\\b([0-9]{6,14}|[0-9]{16})\\b",
+     "score": 0.01,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "driver",
+    "license",
+    "permit",
+    "lic",
+    "identification",
+    "dls",
+    "cdls",
+    "lic#",
+    "driving"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UsNpiRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/us_npi_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "US_NPI",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "NPI (weak)",
+     "regex": "\\b[12]\\d{9}\\b",
+     "score": 0.1,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "NPI (medium)",
+     "regex": "\\b[12]\\d{3}[ -]\\d{3}[ -]\\d{3}\\b",
+     "score": 0.4,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "npi",
+    "national provider",
+    "provider",
+    "npi number",
+    "provider id",
+    "provider identifier",
+    "taxonomy"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": true,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UsPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/us_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "US_PASSPORT",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "Passport (very weak)",
+     "regex": "(\\b[0-9]{9}\\b)",
+     "score": 0.05,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "Passport Next Generation (very weak)",
+     "regex": "(\\b[A-Z][0-9]{8}\\b)",
+     "score": 0.1,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "us",
+    "united",
+    "states",
+    "passport",
+    "passport#",
+    "travel",
+    "document"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UsSsnRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/us_ssn_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "US_SSN",
+   "language": "en",
+   "country": "us",
+   "patterns": [
+    {
+     "name": "SSN1 (very weak)",
+     "regex": "\\b([0-9]{5})-([0-9]{4})\\b",
+     "score": 0.05,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "SSN2 (very weak)",
+     "regex": "\\b([0-9]{3})-([0-9]{6})\\b",
+     "score": 0.05,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "SSN3 (very weak)",
+     "regex": "\\b(([0-9]{3})-([0-9]{2})-([0-9]{4}))\\b",
+     "score": 0.05,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "SSN4 (very weak)",
+     "regex": "\\b[0-9]{9}\\b",
+     "score": 0.05,
+     "features": [
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "SSN5 (medium)",
+     "regex": "\\b([0-9]{3})[- .]([0-9]{2})[- .]([0-9]{4})\\b",
+     "score": 0.5,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "social",
+    "security",
+    "ssn",
+    "ssns",
+    "ssid"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": true,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "UuidRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/uuid_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "UUID",
+   "language": "en",
+   "country": null,
+   "patterns": [
+    {
+     "name": "UUID (hyphenated)",
+     "regex": "\\b[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\\b",
+     "score": 0.5,
+     "features": [
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "uuid",
+    "guid",
+    "unique identifier"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": false,
+   "has_invalidate_result": true,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaCompanyRegistrationRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_company_registration_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_COMPANY_REGISTRATION",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "South African Company Registration (modern)",
+     "regex": "\\b(?:19|20)\\d{2}/\\d{6}/\\d{2}\\b",
+     "score": 0.4,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "South African Company Registration (legacy)",
+     "regex": "\\b(?:CK|K|T|W|B|M|N|NR)\\d{4}/\\d{6}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "cipc",
+    "company registration",
+    "registration number",
+    "close corporation",
+    "company reg",
+    "enterprise number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaDriverLicenseRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_driver_license_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_DRIVER_LICENSE",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "South African Driver's Licence",
+     "regex": "\\b\\d{6,10}[A-Z0-9]{2,5}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "licence",
+    "license",
+    "driving licence",
+    "driving license",
+    "driver's licence",
+    "driver's license",
+    "drivers licence",
+    "drivers license",
+    "enatis",
+    "natis",
+    "licence number",
+    "license number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaIdNumberRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_id_number_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_ID_NUMBER",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "South African ID Number",
+     "regex": "\\b\\d{10}[0-2][89]\\d\\b",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "id",
+    "identity",
+    "identity number",
+    "id number",
+    "south african id",
+    "rsa id",
+    "smart id",
+    "national id"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaIncomeTaxNumberRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_income_tax_number_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_INCOME_TAX_NUMBER",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "South African Income Tax Number",
+     "regex": "\\b[01239]\\d{9}\\b",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "sars",
+    "tax reference",
+    "income tax",
+    "tax number",
+    "itr",
+    "taxpayer",
+    "tax registration"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaLicensePlateRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_license_plate_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_LICENSE_PLATE",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "ZA Licence Plate (compact)",
+     "regex": "\\b[A-Z]{2,4}\\d{2,4}[A-Z]{0,4}(?:GP|ZN|WP|EC|NC|FS|LP|MP|NW)\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "ZA Licence Plate (spaced)",
+     "regex": "\\b[A-Z]{2}\\s?\\d{2}\\s?[A-Z]{2}\\s?(?:GP|ZN|WP|EC|NC|FS|LP|MP|NW)\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "ZA Licence Plate (prefix digits)",
+     "regex": "\\b[A-Z]{2,3}\\s?\\d{2,3}\\s?(?:GP|ZN|WP|EC|NC|FS|LP|MP|NW)\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    },
+    {
+     "name": "ZA Licence Plate (EC numeric prefix)",
+     "regex": "\\b\\d{2,3}\\s?[A-Z]{2,3}\\s?EC\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "space_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "licence plate",
+    "license plate",
+    "number plate",
+    "registration",
+    "vehicle registration",
+    "natis",
+    "enatis",
+    "plate number"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaPassportRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_passport_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_PASSPORT",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "South African Passport",
+     "regex": "\\b[ADMT]\\d{8}\\b",
+     "score": 0.2,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "passport",
+    "passport number",
+    "travel document",
+    "dha",
+    "south african passport",
+    "rsa passport"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaTrafficRegisterNumberRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_traffic_register_number_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_TRAFFIC_REGISTER_NUMBER",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "South African Traffic Register Number",
+     "regex": "\\b\\d{13}\\b",
+     "score": 0.05,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "traffic register",
+    "traffic register number",
+    "trn",
+    "enatis",
+    "natis",
+    "vehicle register"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  },
+  {
+   "class": "ZaVatNumberRecognizer",
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/south_africa/za_vat_number_recognizer.py",
+   "bases": [
+    "PatternRecognizer"
+   ],
+   "entity": "ZA_VAT_NUMBER",
+   "language": "en",
+   "country": "za",
+   "patterns": [
+    {
+     "name": "South African VAT Number",
+     "regex": "\\b4\\d{9}\\b",
+     "score": 0.3,
+     "features": [
+      "digit_class",
+      "word_boundary"
+     ]
+    }
+   ],
+   "context": [
+    "vat",
+    "vat number",
+    "vat registration",
+    "tax invoice",
+    "sars",
+    "value added tax"
+   ],
+   "flags": [
+    "DOTALL",
+    "IGNORECASE",
+    "MULTILINE"
+   ],
+   "overrides_default_flags": false,
+   "has_validate_result": true,
+   "has_invalidate_result": false,
+   "has_custom_analyze": false
+  }
+ ],
+ "needs_hand_port": [
+  {
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/country_specific/us/us_mbi_recognizer.py",
+   "class": "UsMbiRecognizer",
+   "reason": "PATTERNS not a literal list of Pattern(...)"
+  },
+  {
+   "file": "presidio-analyzer/presidio_analyzer/predefined_recognizers/generic/url_recognizer.py",
+   "class": "UrlRecognizer",
+   "reason": "PATTERNS not a literal list of Pattern(...)"
+  }
+ ]
+}

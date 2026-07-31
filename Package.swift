@@ -17,6 +17,8 @@ let package = Package(
     products: [
         .library(name: "PresidioCore", targets: ["PresidioCore"]),
         .library(name: "PresidioRegex", targets: ["PresidioRegex"]),
+        .library(name: "PresidioAnalyzer", targets: ["PresidioAnalyzer"]),
+        .library(name: "PresidioRecognizers", targets: ["PresidioRecognizers"]),
     ],
     targets: [
         .target(
@@ -31,6 +33,22 @@ let package = Package(
         .target(
             name: "PresidioRegex",
             dependencies: ["PresidioCore"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        // Recognizer engine: patterns + scoring + dedup.
+        .target(
+            name: "PresidioAnalyzer",
+            dependencies: ["PresidioCore", "PresidioRegex"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        // The recognizer catalogue (data) plus the checksum logic that cannot
+        // be expressed as data.
+        .target(
+            name: "PresidioRecognizers",
+            dependencies: ["PresidioAnalyzer"],
+            resources: [.process("Resources")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
@@ -55,6 +73,11 @@ let package = Package(
         .testTarget(
             name: "PresidioCoreTests",
             dependencies: ["PresidioCore", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .testTarget(
+            name: "PresidioRecognizersTests",
+            dependencies: ["PresidioRecognizers", "PresidioConformance"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(
