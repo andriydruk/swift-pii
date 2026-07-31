@@ -1,0 +1,439 @@
+// A pure-Swift backtracking regex engine covering exactly the Presidio feature census:
+// alternation, concat, greedy/lazy quantifiers, capturing & non-capturing groups,
+// lookahead (+/-), fixed-width lookbehind (+/-), char classes, \d \w \s \D \W \S,
+// \b \B, ^ $, numeric backrefs, inline (?i), global DOTALL/MULTILINE/IGNORECASE.
+// Semantics target: Python `regex` module (scalar-based, \w includes Mn, \n-only line terminators).
+
+import Foundation
+
+// MARK: - AST
+
+indirect enum Node {
+    case empty
+    case lit(UInt32)                       // single scalar
+    case cls(CharClass)
+    case any                               // .
+    case concat([Node])
+    case alt([Node])
+    case rep(Node, min: Int, max: Int, greedy: Bool)
+    case group(Node, capture: Int?)        // capture index or nil
+    case look(Node, ahead: Bool, positive: Bool, width: Int)  // width used for lookbehind
+    case backref(Int)
+    case wordB(Bool)                       // \b / \B
+    case bol, eol, inputStart, inputEnd
+    case caseToggle(Node, ignore: Bool)
+}
+
+struct CharClass {
+    var negated = false
+    var ranges: [(UInt32, UInt32)] = []
+    var classes: [UInt8] = []              // 'd','D','w','W','s','S'
+    // ASCII fast path: two 128-bit maps (case-sensitive / case-insensitive), built lazily once.
+    private var ascii: (UInt64, UInt64, UInt64, UInt64)? = nil
+    mutating func seal() {
+        var a0: UInt64 = 0, a1: UInt64 = 0, b0: UInt64 = 0, b1: UInt64 = 0
+        for c in UInt32(0)..<128 {
+            if rawMatch(c) { if c < 64 { a0 |= 1 << c } else { a1 |= 1 << (c - 64) } }
+            var m = rawMatch(c)
+            if !m { for v in Fold.variants(c) where v != c { if rawMatch(v) { m = true; break } } }
+            if m { if c < 64 { b0 |= 1 << c } else { b1 |= 1 << (c - 64) } }
+        }
+        ascii = (a0, a1, b0, b1)
+    }
+    @inline(__always)
+    func matches(_ c: UInt32, ignoreCase: Bool) -> Bool {
+        if c < 128, let t = ascii {
+            let bit: Bool
+            if ignoreCase { bit = c < 64 ? (t.2 >> c) & 1 == 1 : (t.3 >> (c - 64)) & 1 == 1 }
+            else { bit = c < 64 ? (t.0 >> c) & 1 == 1 : (t.1 >> (c - 64)) & 1 == 1 }
+            return negated ? !bit : bit
+        }
+        var m = rawMatch(c)
+        if !m && ignoreCase {
+            for alt in Fold.variants(c) where alt != c { if rawMatch(alt) { m = true; break } }
+        }
+        return negated ? !m : m
+    }
+    private func rawMatch(_ c: UInt32) -> Bool {
+        for (a, b) in ranges where c >= a && c <= b { return true }
+        for k in classes {
+            switch k {
+            case UInt8(ascii: "d"): if UniTables.isD(c) { return true }
+            case UInt8(ascii: "D"): if !UniTables.isD(c) { return true }
+            case UInt8(ascii: "w"): if UniTables.isW(c) { return true }
+            case UInt8(ascii: "W"): if !UniTables.isW(c) { return true }
+            case UInt8(ascii: "s"): if UniTables.isS(c) { return true }
+            case UInt8(ascii: "S"): if !UniTables.isS(c) { return true }
+            default: break
+            }
+        }
+        return false
+    }
+}
+
+enum Fold {
+    // Simple case folding sufficient for the ASCII/Latin/Greek/Cyrillic ranges Presidio touches.
+    static func variants(_ c: UInt32) -> [UInt32] {
+        guard let u = Unicode.Scalar(c) else { return [c] }
+        let s = String(Character(u))
+        var out: Set<UInt32> = [c]
+        for v in s.lowercased().unicodeScalars { out.insert(v.value) }
+        for v in s.uppercased().unicodeScalars { out.insert(v.value) }
+        return Array(out)
+    }
+}
+
+// MARK: - Parser
+
+struct ParseError: Error { let msg: String }
+
+struct Parser {
+    let p: [UInt32]
+    var i = 0
+    var ncap = 0
+    init(_ s: String) { p = s.unicodeScalars.map { $0.value } }
+
+    mutating func parse() throws -> (Node, Int) {
+        let n = try parseAlt()
+        if i < p.count { throw ParseError(msg: "trailing ) at \(i)") }
+        return (n, ncap)
+    }
+    mutating func parseAlt() throws -> Node {
+        var branches = [try parseConcat()]
+        while i < p.count, p[i] == UInt32(UInt8(ascii: "|")) { i += 1; branches.append(try parseConcat()) }
+        return branches.count == 1 ? branches[0] : .alt(branches)
+    }
+    mutating func parseConcat() throws -> Node {
+        var items: [Node] = []
+        while i < p.count, p[i] != UInt32(UInt8(ascii: "|")), p[i] != UInt32(UInt8(ascii: ")")) {
+            items.append(try parseQuant())
+        }
+        if items.isEmpty { return .empty }
+        return items.count == 1 ? items[0] : .concat(items)
+    }
+    mutating func parseQuant() throws -> Node {
+        var atom = try parseAtom()
+        loop: while i < p.count {
+            var lo = -1, hi = -1
+            switch p[i] {
+            case UInt32(UInt8(ascii: "*")): lo = 0; hi = Int.max; i += 1
+            case UInt32(UInt8(ascii: "+")): lo = 1; hi = Int.max; i += 1
+            case UInt32(UInt8(ascii: "?")): lo = 0; hi = 1; i += 1
+            case UInt32(UInt8(ascii: "{")):
+                let save = i; i += 1
+                var a = 0, sawA = false
+                while i < p.count, isDigit(p[i]) { a = a * 10 + Int(p[i] - 48); i += 1; sawA = true }
+                if !sawA { i = save; break loop }
+                var b = a
+                if i < p.count, p[i] == UInt32(UInt8(ascii: ",")) {
+                    i += 1; b = Int.max
+                    if i < p.count, isDigit(p[i]) { b = 0; while i < p.count, isDigit(p[i]) { b = b * 10 + Int(p[i] - 48); i += 1 } }
+                }
+                guard i < p.count, p[i] == UInt32(UInt8(ascii: "}")) else { i = save; break loop }
+                i += 1; lo = a; hi = b
+            default: break loop
+            }
+            var greedy = true
+            if i < p.count, p[i] == UInt32(UInt8(ascii: "?")) { greedy = false; i += 1 }
+            else if i < p.count, p[i] == UInt32(UInt8(ascii: "+")) { i += 1 } // possessive -> treat greedy
+            atom = .rep(atom, min: lo, max: hi, greedy: greedy)
+        }
+        return atom
+    }
+    func isDigit(_ c: UInt32) -> Bool { c >= 48 && c <= 57 }
+
+    mutating func parseAtom() throws -> Node {
+        guard i < p.count else { return .empty }
+        let c = p[i]
+        switch c {
+        case UInt32(UInt8(ascii: "(")):
+            i += 1
+            if i < p.count, p[i] == UInt32(UInt8(ascii: "?")) {
+                i += 1
+                guard i < p.count else { throw ParseError(msg: "bad (?") }
+                let k = p[i]
+                if k == UInt32(UInt8(ascii: ":")) { i += 1; let n = try parseAlt(); try expect(")"); return .group(n, capture: nil) }
+                if k == UInt32(UInt8(ascii: "=")) { i += 1; let n = try parseAlt(); try expect(")"); return .look(n, ahead: true, positive: true, width: 0) }
+                if k == UInt32(UInt8(ascii: "!")) { i += 1; let n = try parseAlt(); try expect(")"); return .look(n, ahead: true, positive: false, width: 0) }
+                if k == UInt32(UInt8(ascii: "<")), i + 1 < p.count,
+                   p[i+1] == UInt32(UInt8(ascii: "=")) || p[i+1] == UInt32(UInt8(ascii: "!")) {
+                    let pos = p[i+1] == UInt32(UInt8(ascii: "="))
+                    i += 2
+                    let n = try parseAlt(); try expect(")")
+                    guard let w = fixedWidth(n) else { throw ParseError(msg: "variable-width lookbehind") }
+                    return .look(n, ahead: false, positive: pos, width: w)
+                }
+                // inline flags (?i) (?i:...)
+                var ign = false
+                while i < p.count, p[i] != UInt32(UInt8(ascii: ")")), p[i] != UInt32(UInt8(ascii: ":")) {
+                    if p[i] == UInt32(UInt8(ascii: "i")) { ign = true }
+                    i += 1
+                }
+                if i < p.count, p[i] == UInt32(UInt8(ascii: ":")) {
+                    i += 1; let n = try parseAlt(); try expect(")")
+                    return .caseToggle(n, ignore: ign)
+                }
+                try expect(")")
+                return .caseToggle(.empty, ignore: ign) // global-ish flag; treated as scoped-to-rest by caller
+            }
+            ncap += 1; let idx = ncap
+            let n = try parseAlt(); try expect(")")
+            return .group(n, capture: idx)
+        case UInt32(UInt8(ascii: "[")): return .cls(try parseClass())
+        case UInt32(UInt8(ascii: ".")): i += 1; return .any
+        case UInt32(UInt8(ascii: "^")): i += 1; return .bol
+        case UInt32(UInt8(ascii: "$")): i += 1; return .eol
+        case UInt32(UInt8(ascii: "\\")): return try parseEscape()
+        default: i += 1; return .lit(c)
+        }
+    }
+    mutating func expect(_ ch: Character) throws {
+        guard i < p.count, p[i] == ch.unicodeScalars.first!.value else { throw ParseError(msg: "expected \(ch)") }
+        i += 1
+    }
+    mutating func parseEscape() throws -> Node {
+        i += 1
+        guard i < p.count else { throw ParseError(msg: "trailing backslash") }
+        let c = p[i]; i += 1
+        switch c {
+        case UInt32(UInt8(ascii: "d")), UInt32(UInt8(ascii: "D")), UInt32(UInt8(ascii: "w")),
+             UInt32(UInt8(ascii: "W")), UInt32(UInt8(ascii: "s")), UInt32(UInt8(ascii: "S")):
+            var cc = CharClass(); cc.classes = [UInt8(c)]; return .cls(cc)
+        case UInt32(UInt8(ascii: "b")): return .wordB(true)
+        case UInt32(UInt8(ascii: "B")): return .wordB(false)
+        case UInt32(UInt8(ascii: "A")): return .inputStart
+        case UInt32(UInt8(ascii: "Z")), UInt32(UInt8(ascii: "z")): return .inputEnd
+        case UInt32(UInt8(ascii: "n")): return .lit(10)
+        case UInt32(UInt8(ascii: "r")): return .lit(13)
+        case UInt32(UInt8(ascii: "t")): return .lit(9)
+        case UInt32(UInt8(ascii: "f")): return .lit(12)
+        case UInt32(UInt8(ascii: "v")): return .lit(11)
+        case UInt32(UInt8(ascii: "0")): return .lit(0)
+        case UInt32(UInt8(ascii: "x")): return .lit(try hex(2))
+        case UInt32(UInt8(ascii: "u")): return .lit(try hex(4))
+        case 49...57: return .backref(Int(c - 48))
+        default: return .lit(c)
+        }
+    }
+    mutating func hex(_ n: Int) throws -> UInt32 {
+        var v: UInt32 = 0
+        for _ in 0..<n {
+            guard i < p.count, let d = hexVal(p[i]) else { throw ParseError(msg: "bad hex") }
+            v = v * 16 + d; i += 1
+        }
+        return v
+    }
+    func hexVal(_ c: UInt32) -> UInt32? {
+        if c >= 48 && c <= 57 { return c - 48 }
+        if c >= 97 && c <= 102 { return c - 87 }
+        if c >= 65 && c <= 70 { return c - 55 }
+        return nil
+    }
+    mutating func parseClass() throws -> CharClass {
+        i += 1
+        var cc = CharClass()
+        if i < p.count, p[i] == UInt32(UInt8(ascii: "^")) { cc.negated = true; i += 1 }
+        var first = true
+        while i < p.count {
+            if p[i] == UInt32(UInt8(ascii: "]")) && !first { i += 1; return cc }
+            first = false
+            var lo: UInt32
+            if p[i] == UInt32(UInt8(ascii: "\\")) {
+                i += 1
+                guard i < p.count else { throw ParseError(msg: "bad class escape") }
+                let e = p[i]; i += 1
+                switch e {
+                case UInt32(UInt8(ascii: "d")), UInt32(UInt8(ascii: "D")), UInt32(UInt8(ascii: "w")),
+                     UInt32(UInt8(ascii: "W")), UInt32(UInt8(ascii: "s")), UInt32(UInt8(ascii: "S")):
+                    cc.classes.append(UInt8(e)); continue
+                case UInt32(UInt8(ascii: "n")): lo = 10
+                case UInt32(UInt8(ascii: "r")): lo = 13
+                case UInt32(UInt8(ascii: "t")): lo = 9
+                case UInt32(UInt8(ascii: "f")): lo = 12
+                case UInt32(UInt8(ascii: "v")): lo = 11
+                case UInt32(UInt8(ascii: "x")): lo = try hex(2)
+                case UInt32(UInt8(ascii: "u")): lo = try hex(4)
+                default: lo = e
+                }
+            } else { lo = p[i]; i += 1 }
+            if i + 1 < p.count, p[i] == UInt32(UInt8(ascii: "-")), p[i+1] != UInt32(UInt8(ascii: "]")) {
+                i += 1
+                var hi: UInt32
+                if p[i] == UInt32(UInt8(ascii: "\\")) {
+                    i += 1; let e = p[i]; i += 1
+                    switch e {
+                    case UInt32(UInt8(ascii: "x")): hi = try hex(2)
+                    case UInt32(UInt8(ascii: "u")): hi = try hex(4)
+                    case UInt32(UInt8(ascii: "n")): hi = 10
+                    default: hi = e
+                    }
+                } else { hi = p[i]; i += 1 }
+                cc.ranges.append((lo, hi))
+            } else {
+                cc.ranges.append((lo, lo))
+            }
+        }
+        throw ParseError(msg: "unterminated class")
+    }
+}
+
+func fixedWidth(_ n: Node) -> Int? {
+    switch n {
+    case .empty, .wordB, .bol, .eol, .inputStart, .inputEnd: return 0
+    case .lit, .cls, .any: return 1
+    case .concat(let xs):
+        var t = 0
+        for x in xs { guard let w = fixedWidth(x) else { return nil }; t += w }
+        return t
+    case .alt(let xs):
+        var w: Int? = nil
+        for x in xs { guard let a = fixedWidth(x) else { return nil }; if w == nil { w = a } else if w != a { return nil } }
+        return w
+    case .rep(let x, let lo, let hi, _):
+        guard lo == hi, let w = fixedWidth(x) else { return nil }
+        return w * lo
+    case .group(let x, _): return fixedWidth(x)
+    case .look: return 0
+    case .backref: return nil
+    case .caseToggle(let x, _): return fixedWidth(x)
+    }
+}
+
+// MARK: - Matcher (recursive backtracking with continuations)
+
+final class PureRegex {
+    let root: Node
+    let ncap: Int
+    let ignoreCase: Bool
+    let dotAll: Bool
+    let multiline: Bool
+
+    init(_ pattern: String, ignoreCase: Bool = true, dotAll: Bool = true, multiline: Bool = true) throws {
+        var p = Parser(pattern)
+        var (r, n) = try p.parse()
+        r = PureRegex.seal(r)
+        (root, ncap) = (r, n)
+        self.ignoreCase = ignoreCase; self.dotAll = dotAll; self.multiline = multiline
+    }
+
+    static func seal(_ n: Node) -> Node {
+        switch n {
+        case .cls(var c): c.seal(); return .cls(c)
+        case .concat(let xs): return .concat(xs.map(seal))
+        case .alt(let xs): return .alt(xs.map(seal))
+        case .rep(let x, let a, let b, let g): return .rep(seal(x), min: a, max: b, greedy: g)
+        case .group(let x, let c): return .group(seal(x), capture: c)
+        case .look(let x, let a, let p, let w): return .look(seal(x), ahead: a, positive: p, width: w)
+        case .caseToggle(let x, let g): return .caseToggle(seal(x), ignore: g)
+        default: return n
+        }
+    }
+    private var s: [UInt32] = []
+    private var caps: [Int] = []
+
+    lazy var pre: ((UInt32) -> Bool)? = PureRegex.firstSet(root, ignoreCase)
+    func matches(in text: String) -> [(Int, Int)] {
+        s = text.unicodeScalars.map { $0.value }
+        let pf = pre
+        var out: [(Int, Int)] = []
+        var at = 0
+        while at <= s.count {
+            if let pf { 
+                while at < s.count, !pf(s[at]) { at += 1 }
+                if at >= s.count { break }
+            }
+            caps = [Int](repeating: -1, count: (ncap + 1) * 2)
+            var end = -1
+            _ = m(root, at, ignoreCase) { e in end = e; return true }
+            if end >= 0 {
+                out.append((at, end))
+                at = end > at ? end : at + 1
+            } else { at += 1 }
+        }
+        return out
+    }
+
+    @inline(__always) func isWord(_ i: Int) -> Bool { i >= 0 && i < s.count && UniTables.isW(s[i]) }
+
+    // continuation-passing backtracker; returns true when the continuation accepted
+    func m(_ n: Node, _ i: Int, _ ic: Bool, _ k: (Int) -> Bool) -> Bool {
+        switch n {
+        case .empty: return k(i)
+        case .lit(let c):
+            guard i < s.count else { return false }
+            if s[i] == c { return k(i + 1) }
+            if ic { for v in Fold.variants(s[i]) where v == c { return k(i + 1) } }
+            return false
+        case .any:
+            guard i < s.count else { return false }
+            if !dotAll && s[i] == 10 { return false }
+            return k(i + 1)
+        case .cls(let cc):
+            guard i < s.count, cc.matches(s[i], ignoreCase: ic) else { return false }
+            return k(i + 1)
+        case .concat(let xs): return mseq(xs, 0, i, ic, k)
+        case .alt(let xs):
+            for x in xs { if m(x, i, ic, k) { return true } }
+            return false
+        case .group(let x, let cap):
+            guard let cap else { return m(x, i, ic, k) }
+            let os = caps[cap*2], oe = caps[cap*2+1]
+            if m(x, i, ic, { e in self.caps[cap*2] = i; self.caps[cap*2+1] = e; return k(e) }) { return true }
+            caps[cap*2] = os; caps[cap*2+1] = oe
+            return false
+        case .rep(let x, let lo, let hi, let greedy):
+            return mrep(x, lo, hi, greedy, i, 0, ic, k)
+        case .look(let x, let ahead, let pos, let w):
+            if ahead {
+                let hit = m(x, i, ic) { _ in true }
+                return hit == pos ? k(i) : false
+            } else {
+                let start = i - w
+                if start < 0 { return pos ? false : k(i) }
+                let hit = m(x, start, ic) { e in e == i }
+                return hit == pos ? k(i) : false
+            }
+        case .backref(let g):
+            let a = caps[g*2], b = caps[g*2+1]
+            if a < 0 { return k(i) }
+            let len = b - a
+            guard i + len <= s.count else { return false }
+            for j in 0..<len {
+                if s[i+j] == s[a+j] { continue }
+                if ic, Fold.variants(s[i+j]).contains(s[a+j]) { continue }
+                return false
+            }
+            return k(i + len)
+        case .wordB(let want):
+            let b = isWord(i - 1) != isWord(i)
+            return b == want ? k(i) : false
+        case .bol:
+            if i == 0 { return k(i) }
+            if multiline && s[i-1] == 10 { return k(i) }
+            return false
+        case .eol:
+            if i == s.count { return k(i) }
+            if multiline && s[i] == 10 { return k(i) }
+            if i == s.count - 1 && s[i] == 10 { return k(i) }
+            return false
+        case .inputStart: return i == 0 ? k(i) : false
+        case .inputEnd: return i == s.count ? k(i) : false
+        case .caseToggle(let x, let ign): return m(x, i, ign || ic, k)
+        }
+    }
+    func mseq(_ xs: [Node], _ idx: Int, _ i: Int, _ ic: Bool, _ k: (Int) -> Bool) -> Bool {
+        if idx == xs.count { return k(i) }
+        return m(xs[idx], i, ic) { e in self.mseq(xs, idx + 1, e, ic, k) }
+    }
+    func mrep(_ x: Node, _ lo: Int, _ hi: Int, _ greedy: Bool, _ i: Int, _ cnt: Int, _ ic: Bool, _ k: (Int) -> Bool) -> Bool {
+        if cnt < lo { return m(x, i, ic) { e in e == i ? false : self.mrep(x, lo, hi, greedy, e, cnt + 1, ic, k) } }
+        if greedy {
+            if cnt < hi, m(x, i, ic, { e in e == i ? false : self.mrep(x, lo, hi, greedy, e, cnt + 1, ic, k) }) { return true }
+            return k(i)
+        } else {
+            if k(i) { return true }
+            if cnt < hi { return m(x, i, ic) { e in e == i ? false : self.mrep(x, lo, hi, greedy, e, cnt + 1, ic, k) } }
+            return false
+        }
+    }
+}
