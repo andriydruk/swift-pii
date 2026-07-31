@@ -19,6 +19,7 @@ let package = Package(
         .library(name: "PresidioRegex", targets: ["PresidioRegex"]),
         .library(name: "PresidioAnalyzer", targets: ["PresidioAnalyzer"]),
         .library(name: "PresidioRecognizers", targets: ["PresidioRecognizers"]),
+        .library(name: "PresidioAnonymizer", targets: ["PresidioAnonymizer"]),
     ],
     targets: [
         .target(
@@ -52,6 +53,15 @@ let package = Package(
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
+        // De-identification: operators plus the span-rewriting engine.
+        // Pure string manipulation — one regex upstream, no NLP — so it stays
+        // dependency-free, including its own SHA-2.
+        .target(
+            name: "PresidioAnonymizer",
+            dependencies: ["PresidioCore"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
         // Benchmark harness. ADR 0001 traded throughput for cross-platform
         // determinism; this keeps a number on that trade.
         .executableTarget(
@@ -78,6 +88,11 @@ let package = Package(
         .testTarget(
             name: "PresidioRecognizersTests",
             dependencies: ["PresidioRecognizers", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .testTarget(
+            name: "PresidioAnonymizerTests",
+            dependencies: ["PresidioAnonymizer", "PresidioConformance"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(

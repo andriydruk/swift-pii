@@ -63,13 +63,14 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 3. PresidioCore stays Foundation-free.
+# 3. The core layers stay Foundation-free.
 # ---------------------------------------------------------------------------
-# The offset model and span algebra are pure stdlib. Keeping it that way means
-# the innermost layer has no ICU or platform dependency at all -- valuable for
-# WASM and Embedded, and a useful forcing function against creeping NSString
-# habits in index arithmetic.
-for target in PresidioCore PresidioRegex; do
+# The offset model, the regex engine and the anonymizer are pure stdlib --
+# including the anonymizer's own SHA-2. Keeping them that way means the
+# innermost layers have no ICU or platform dependency at all: valuable for WASM
+# and Embedded, and a useful forcing function against creeping NSString habits
+# in index arithmetic.
+for target in PresidioCore PresidioRegex PresidioAnonymizer; do
     [[ -d "Sources/$target" ]] || continue
     hits=$(grep -rnE "^[[:space:]]*import[[:space:]]+Foundation\b" \
         --include='*.swift' "Sources/$target" 2>/dev/null || true)

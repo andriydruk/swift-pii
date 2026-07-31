@@ -2,9 +2,9 @@
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
-**Status: M1 nearly complete.** Offset model, span algebra, conformance corpus,
-regex backend, matching engine, pattern recognizers and 41 checksum validators
-are done — 87% of the harvested corpus passes. The anonymizer (M2) is next.
+**Status: M1 done bar a long tail, M2 done bar crypto.** Detection (87% of the
+harvested corpus) and de-identification both work end to end and are
+differentially verified against Python. Encrypt/decrypt is the remaining gap.
 
 Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
 describes the behavioural target, not the product name.
@@ -170,6 +170,42 @@ Each was found by a conformance failure, and each silently changes detection:
 - **`ipaddress` is stricter than the regex.** The IPv4 pattern matches `010`,
   but CPython rejects leading zeros; IPv6 accepts a `%zone` suffix and IPv4 does
   not.
+
+## Anonymizer
+
+Detect-and-anonymize works end to end. The package is unusually portable —
+2,457 LOC of pure string manipulation, one regex, no NLP — so this is a close
+transliteration, and it keeps `PresidioAnonymizer` dependency-free including its
+own SHA-2.
+
+Upstream's anonymizer tests are imperative rather than table-driven, so there
+was nothing to harvest. Instead `presidio_anonymizer` is driven directly as an
+oracle ([`Tools/anonymizer_reference.py`](Tools/anonymizer_reference.py)): 43
+scenarios covering every operator, conflict resolution, whitespace merging, span
+edge cases and non-BMP offsets, recording the exact output text *and* the exact
+operator-result spans. **All 43 match.** That pins behaviour upstream never
+explicitly asserts.
+
+Operators: `replace`, `redact`, `mask`, `hash`, `keep`, `custom`, and
+`keep` on the deanonymize side. `encrypt`/`decrypt` are **not implemented** —
+they need AES-CBC, and `CryptoKit` has no CBC mode (it is also banned here), so
+that means either `swift-crypto`'s `CryptoExtras.AES._CBC` as the package's
+first dependency or a hand-written AES. Deferred deliberately rather than
+half-done.
+
+Two deviations from upstream, both intentional and both enforced by tests:
+
+- **`hash` requires an explicit salt.** Upstream generates `os.urandom(32)` when
+  none is given. This target has no portable random source, and silently
+  substituting a fixed salt would turn an unreversible hash into a reversible
+  one — so it errors instead.
+- **Conflict resolution carries the score.** `PIIEntity` upstream has no score,
+  but `_remove_conflicts` operates on `RecognizerResult` and decides identical
+  spans by score. Dropping it made every equal-span pair annihilate.
+
+The subtle part is that Python mutates entities **in place** during the merge
+pass, so a later iteration observes an earlier widening. Reading from the
+original input instead makes same-type overlaps vanish entirely.
 
 ## Recognizer definitions
 
