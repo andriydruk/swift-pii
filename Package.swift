@@ -15,11 +15,30 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        .library(name: "PresidioCore", targets: ["PresidioCore"])
+        .library(name: "PresidioCore", targets: ["PresidioCore"]),
+        .library(name: "PresidioRegex", targets: ["PresidioRegex"]),
     ],
     targets: [
         .target(
             name: "PresidioCore",
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        // Regex substrate. Character-class tables are generated from Python's
+        // `regex` module and compiled in as source rather than read from the
+        // host's ICU, whose Unicode data version varies by platform.
+        // See docs/decisions/0001-regex-backend.md.
+        .target(
+            name: "PresidioRegex",
+            dependencies: ["PresidioCore"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        // Benchmark harness. ADR 0001 traded throughput for cross-platform
+        // determinism; this keeps a number on that trade.
+        .executableTarget(
+            name: "presidio-bench",
+            dependencies: ["PresidioRegex"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
@@ -36,6 +55,11 @@ let package = Package(
         .testTarget(
             name: "PresidioCoreTests",
             dependencies: ["PresidioCore", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .testTarget(
+            name: "PresidioRegexTests",
+            dependencies: ["PresidioRegex", "PresidioConformance"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
     ]
