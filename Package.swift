@@ -20,6 +20,13 @@ let package = Package(
         .library(name: "PresidioAnalyzer", targets: ["PresidioAnalyzer"]),
         .library(name: "PresidioRecognizers", targets: ["PresidioRecognizers"]),
         .library(name: "PresidioAnonymizer", targets: ["PresidioAnonymizer"]),
+        .library(name: "PresidioAnonymizerCrypto", targets: ["PresidioAnonymizerCrypto"]),
+    ],
+    dependencies: [
+        // Only PresidioAnonymizerCrypto depends on this. CryptoKit has no
+        // AES-CBC mode at all, so encrypt/decrypt needs swift-crypto's
+        // _CryptoExtras, which is BoringSSL-backed on every platform.
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0")
     ],
     targets: [
         .target(
@@ -62,6 +69,19 @@ let package = Package(
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
+        // AES-CBC encrypt/decrypt. Kept in its own target so the anonymizer
+        // core stays dependency-free — swift-crypto vendors BoringSSL, which
+        // does not build everywhere (WASM notably), and most callers do not
+        // need reversible pseudonymization.
+        .target(
+            name: "PresidioAnonymizerCrypto",
+            dependencies: [
+                "PresidioAnonymizer",
+                .product(name: "_CryptoExtras", package: "swift-crypto"),
+            ],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
         // Benchmark harness. ADR 0001 traded throughput for cross-platform
         // determinism; this keeps a number on that trade.
         .executableTarget(
@@ -88,6 +108,11 @@ let package = Package(
         .testTarget(
             name: "PresidioRecognizersTests",
             dependencies: ["PresidioRecognizers", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .testTarget(
+            name: "PresidioAnonymizerCryptoTests",
+            dependencies: ["PresidioAnonymizerCrypto", "PresidioConformance"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(

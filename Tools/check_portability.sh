@@ -83,6 +83,22 @@ for target in PresidioCore PresidioRegex PresidioAnonymizer; do
 done
 
 # ---------------------------------------------------------------------------
+# 3a. swift-crypto stays confined to one target.
+# ---------------------------------------------------------------------------
+# It vendors BoringSSL, which does not build everywhere (WASM notably). Keeping
+# it behind PresidioAnonymizerCrypto means detection and the anonymizer core
+# remain buildable on every target; letting it leak would silently narrow the
+# platform matrix.
+crypto_hits=$(grep -rlnE "^[[:space:]]*import[[:space:]]+(Crypto|_CryptoExtras)\b" \
+    --include='*.swift' Sources 2>/dev/null | grep -v '^Sources/PresidioAnonymizerCrypto/' || true)
+if [[ -n "$crypto_hits" ]]; then
+    fail "swift-crypto imported outside PresidioAnonymizerCrypto:"
+    printf '       %s\n' "$crypto_hits"
+else
+    pass "swift-crypto confined to PresidioAnonymizerCrypto"
+fi
+
+# ---------------------------------------------------------------------------
 # 3b. Unicode tables must not be hand-edited.
 # ---------------------------------------------------------------------------
 # They are generated from Python's `regex` module and pin the Unicode version

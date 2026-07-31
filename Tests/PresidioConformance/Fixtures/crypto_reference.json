@@ -1,0 +1,1283 @@
+{
+ "schema_version": 1,
+ "note": "Encryption uses a random IV upstream, so only decryption is byte-reproducible. known_answer pins the cipher with a fixed IV; interop must decrypt to plaintext.",
+ "stats": {
+  "known_answer": 42,
+  "interop": 42
+ },
+ "valid_key_sizes": [
+  16,
+  24,
+  32
+ ],
+ "invalid_key_sizes": [
+  5,
+  15,
+  17,
+  33
+ ],
+ "known_answer": [
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    0,
+    13,
+    26,
+    39,
+    52,
+    65,
+    78,
+    91,
+    104,
+    117,
+    130,
+    143,
+    156,
+    169,
+    182,
+    195
+   ],
+   "plaintext": "",
+   "ciphertext": "AA0aJzRBTltodYKPnKm2w0yOLXtmtKepsM01wnrUVKc="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    7,
+    20,
+    33,
+    46,
+    59,
+    72,
+    85,
+    98,
+    111,
+    124,
+    137,
+    150,
+    163,
+    176,
+    189,
+    202
+   ],
+   "plaintext": "a",
+   "ciphertext": "BxQhLjtIVWJvfImWo7C9ymCHu1ExugsUNqXuvOQuBjA="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    14,
+    27,
+    40,
+    53,
+    66,
+    79,
+    92,
+    105,
+    118,
+    131,
+    144,
+    157,
+    170,
+    183,
+    196,
+    209
+   ],
+   "plaintext": "text_for_encryption",
+   "ciphertext": "DhsoNUJPXGl2g5CdqrfE0XXRKOjxnl7QOe99whUn7eZu2fUVjPdjIl-X68_yQLlH"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    21,
+    34,
+    47,
+    60,
+    73,
+    86,
+    99,
+    112,
+    125,
+    138,
+    151,
+    164,
+    177,
+    190,
+    203,
+    216
+   ],
+   "plaintext": "My name is Bond, James Bond",
+   "ciphertext": "FSIvPElWY3B9ipeksb7L2D0S4hqDQjWRsyoLIKJBxjYbxG5RDkPY_HmTEDlAabMa"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    28,
+    41,
+    54,
+    67,
+    80,
+    93,
+    106,
+    119,
+    132,
+    145,
+    158,
+    171,
+    184,
+    197,
+    210,
+    223
+   ],
+   "plaintext": "xxxxxxxxxxxxxxx",
+   "ciphertext": "HCk2Q1BdaneEkZ6ruMXS38a45YrUHtVD26XPoXWCW1E="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    35,
+    48,
+    61,
+    74,
+    87,
+    100,
+    113,
+    126,
+    139,
+    152,
+    165,
+    178,
+    191,
+    204,
+    217,
+    230
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxx",
+   "ciphertext": "IzA9SldkcX6LmKWyv8zZ5uk7zNs0jKChn3GkQaawomy7Zm9MiJtuyLywCnk8J4HL"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    42,
+    55,
+    68,
+    81,
+    94,
+    107,
+    120,
+    133,
+    146,
+    159,
+    172,
+    185,
+    198,
+    211,
+    224,
+    237
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxx",
+   "ciphertext": "KjdEUV5reIWSn6y5xtPg7Txcf8J7H0ewmojxpwaLxK0iyNrlrwRAkxwkFo9LOZTr"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    49,
+    62,
+    75,
+    88,
+    101,
+    114,
+    127,
+    140,
+    153,
+    166,
+    179,
+    192,
+    205,
+    218,
+    231,
+    244
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "MT5LWGVyf4yZprPAzdrn9JKQ9HE8Knhvb5p3zRZ-YS3dqCFuKqKL61FRD-mYGYMY"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    56,
+    69,
+    82,
+    95,
+    108,
+    121,
+    134,
+    147,
+    160,
+    173,
+    186,
+    199,
+    212,
+    225,
+    238,
+    251
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "OEVSX2x5hpOgrbrH1OHu-1nb41JI37JrEZBl9_ka6o0HlCT9M0AlYEc6sMU2WkwAIptWX9VNfcfS3LwGmOgR6A=="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    63,
+    76,
+    89,
+    102,
+    115,
+    128,
+    141,
+    154,
+    167,
+    180,
+    193,
+    206,
+    219,
+    232,
+    245,
+    2
+   ],
+   "plaintext": "café naïve",
+   "ciphertext": "P0xZZnOAjZqntMHO2-j1Avarj4oxKE9y0-wj0JkdWvo="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    70,
+    83,
+    96,
+    109,
+    122,
+    135,
+    148,
+    161,
+    174,
+    187,
+    200,
+    213,
+    226,
+    239,
+    252,
+    9
+   ],
+   "plaintext": "😈 devil 😈",
+   "ciphertext": "RlNgbXqHlKGuu8jV4u_8CatkyFMnlR2WBb4tyLnIzzs="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    77,
+    90,
+    103,
+    116,
+    129,
+    142,
+    155,
+    168,
+    181,
+    194,
+    207,
+    220,
+    233,
+    246,
+    3,
+    16
+   ],
+   "plaintext": "田中さん",
+   "ciphertext": "TVpndIGOm6i1ws_c6fYDEIHdI4bRdDxT90G5gtxRLRg="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    84,
+    97,
+    110,
+    123,
+    136,
+    149,
+    162,
+    175,
+    188,
+    201,
+    214,
+    227,
+    240,
+    253,
+    10,
+    23
+   ],
+   "plaintext": "שלום עולם",
+   "ciphertext": "VGFue4iVoq-8ydbj8P0KF1_Par6xdfM3nEVsd88r9BP3-6ZNIlzhxStv-w7aYRXd"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "iv": [
+    91,
+    104,
+    117,
+    130,
+    143,
+    156,
+    169,
+    182,
+    195,
+    208,
+    221,
+    234,
+    247,
+    4,
+    17,
+    30
+   ],
+   "plaintext": "line1\nline2\ttab",
+   "ciphertext": "W2h1go-cqbbD0N3q9wQRHucRVm1U8BO-kkDP7cVULOU="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    0,
+    13,
+    26,
+    39,
+    52,
+    65,
+    78,
+    91,
+    104,
+    117,
+    130,
+    143,
+    156,
+    169,
+    182,
+    195
+   ],
+   "plaintext": "",
+   "ciphertext": "AA0aJzRBTltodYKPnKm2wxRYq0IpZEHhenqmlyuwlOU="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    7,
+    20,
+    33,
+    46,
+    59,
+    72,
+    85,
+    98,
+    111,
+    124,
+    137,
+    150,
+    163,
+    176,
+    189,
+    202
+   ],
+   "plaintext": "a",
+   "ciphertext": "BxQhLjtIVWJvfImWo7C9ymGJQafeaQinW5bJz0tOe7A="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    14,
+    27,
+    40,
+    53,
+    66,
+    79,
+    92,
+    105,
+    118,
+    131,
+    144,
+    157,
+    170,
+    183,
+    196,
+    209
+   ],
+   "plaintext": "text_for_encryption",
+   "ciphertext": "DhsoNUJPXGl2g5CdqrfE0fX1f4IHmI9nmsZihOe3_iZXMcI1o7hJjaVOYbrQE0nF"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    21,
+    34,
+    47,
+    60,
+    73,
+    86,
+    99,
+    112,
+    125,
+    138,
+    151,
+    164,
+    177,
+    190,
+    203,
+    216
+   ],
+   "plaintext": "My name is Bond, James Bond",
+   "ciphertext": "FSIvPElWY3B9ipeksb7L2CYum71_0lNgcr0Wuzeror0pnoZF4sfPrNyCcCTXvGZz"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    28,
+    41,
+    54,
+    67,
+    80,
+    93,
+    106,
+    119,
+    132,
+    145,
+    158,
+    171,
+    184,
+    197,
+    210,
+    223
+   ],
+   "plaintext": "xxxxxxxxxxxxxxx",
+   "ciphertext": "HCk2Q1BdaneEkZ6ruMXS32TUb3VHxCo_jxDjDYfSFbE="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    35,
+    48,
+    61,
+    74,
+    87,
+    100,
+    113,
+    126,
+    139,
+    152,
+    165,
+    178,
+    191,
+    204,
+    217,
+    230
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxx",
+   "ciphertext": "IzA9SldkcX6LmKWyv8zZ5rRyfAYSZ--WEL4AyG_2xaLDR60iQIUs3_GauF0XzSJ3"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    42,
+    55,
+    68,
+    81,
+    94,
+    107,
+    120,
+    133,
+    146,
+    159,
+    172,
+    185,
+    198,
+    211,
+    224,
+    237
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxx",
+   "ciphertext": "KjdEUV5reIWSn6y5xtPg7da5NqiRCJ064vSZ_qrFWGG0dikVPrzXUXeCaBUWKDui"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    49,
+    62,
+    75,
+    88,
+    101,
+    114,
+    127,
+    140,
+    153,
+    166,
+    179,
+    192,
+    205,
+    218,
+    231,
+    244
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "MT5LWGVyf4yZprPAzdrn9PUyr8LVNhhmK71YW7ITjqKa4c4Y4PRo5I1FkUkrIEwF"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    56,
+    69,
+    82,
+    95,
+    108,
+    121,
+    134,
+    147,
+    160,
+    173,
+    186,
+    199,
+    212,
+    225,
+    238,
+    251
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "OEVSX2x5hpOgrbrH1OHu-2s5yir2n1siB6PcPeAis62mCJG3Rb4e8qz8AuhzrnDXshDkGlaAiXcrrgejdJH0VQ=="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    63,
+    76,
+    89,
+    102,
+    115,
+    128,
+    141,
+    154,
+    167,
+    180,
+    193,
+    206,
+    219,
+    232,
+    245,
+    2
+   ],
+   "plaintext": "café naïve",
+   "ciphertext": "P0xZZnOAjZqntMHO2-j1Aiy4oSfEcs04zPk8VnB0GfY="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    70,
+    83,
+    96,
+    109,
+    122,
+    135,
+    148,
+    161,
+    174,
+    187,
+    200,
+    213,
+    226,
+    239,
+    252,
+    9
+   ],
+   "plaintext": "😈 devil 😈",
+   "ciphertext": "RlNgbXqHlKGuu8jV4u_8Cf0SXDHr8gWpWESPeVudMDk="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    77,
+    90,
+    103,
+    116,
+    129,
+    142,
+    155,
+    168,
+    181,
+    194,
+    207,
+    220,
+    233,
+    246,
+    3,
+    16
+   ],
+   "plaintext": "田中さん",
+   "ciphertext": "TVpndIGOm6i1ws_c6fYDEAniVLfu2mnnFVJAzJfqBXM="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    84,
+    97,
+    110,
+    123,
+    136,
+    149,
+    162,
+    175,
+    188,
+    201,
+    214,
+    227,
+    240,
+    253,
+    10,
+    23
+   ],
+   "plaintext": "שלום עולם",
+   "ciphertext": "VGFue4iVoq-8ydbj8P0KF9LT2_IWzUlNoU4oSKkg9oLi8ETYSDP4WQ5NGyuaSzMx"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "iv": [
+    91,
+    104,
+    117,
+    130,
+    143,
+    156,
+    169,
+    182,
+    195,
+    208,
+    221,
+    234,
+    247,
+    4,
+    17,
+    30
+   ],
+   "plaintext": "line1\nline2\ttab",
+   "ciphertext": "W2h1go-cqbbD0N3q9wQRHpR1uyJZc0rpoVy-67n8nfQ="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    0,
+    13,
+    26,
+    39,
+    52,
+    65,
+    78,
+    91,
+    104,
+    117,
+    130,
+    143,
+    156,
+    169,
+    182,
+    195
+   ],
+   "plaintext": "",
+   "ciphertext": "AA0aJzRBTltodYKPnKm2w4gbKnDmqW3gPyxOPrBnvRY="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    7,
+    20,
+    33,
+    46,
+    59,
+    72,
+    85,
+    98,
+    111,
+    124,
+    137,
+    150,
+    163,
+    176,
+    189,
+    202
+   ],
+   "plaintext": "a",
+   "ciphertext": "BxQhLjtIVWJvfImWo7C9ylypdhb-6ljFdS_-lNj0-vE="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    14,
+    27,
+    40,
+    53,
+    66,
+    79,
+    92,
+    105,
+    118,
+    131,
+    144,
+    157,
+    170,
+    183,
+    196,
+    209
+   ],
+   "plaintext": "text_for_encryption",
+   "ciphertext": "DhsoNUJPXGl2g5CdqrfE0W_o_ZGfefCvXhTZxgheSrblprLMIsAZLZlnYq4Bn0a7"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    21,
+    34,
+    47,
+    60,
+    73,
+    86,
+    99,
+    112,
+    125,
+    138,
+    151,
+    164,
+    177,
+    190,
+    203,
+    216
+   ],
+   "plaintext": "My name is Bond, James Bond",
+   "ciphertext": "FSIvPElWY3B9ipeksb7L2LinUbr277pUBrh6VagdELZmftpMuOTWfptiS2hC1EmX"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    28,
+    41,
+    54,
+    67,
+    80,
+    93,
+    106,
+    119,
+    132,
+    145,
+    158,
+    171,
+    184,
+    197,
+    210,
+    223
+   ],
+   "plaintext": "xxxxxxxxxxxxxxx",
+   "ciphertext": "HCk2Q1BdaneEkZ6ruMXS37mvvplKSvHs5XwwvND2PjI="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    35,
+    48,
+    61,
+    74,
+    87,
+    100,
+    113,
+    126,
+    139,
+    152,
+    165,
+    178,
+    191,
+    204,
+    217,
+    230
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxx",
+   "ciphertext": "IzA9SldkcX6LmKWyv8zZ5rUB7dFsvtQqTk1PAiQwhHIcU4cMcbcqQLhWauVUKtM6"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    42,
+    55,
+    68,
+    81,
+    94,
+    107,
+    120,
+    133,
+    146,
+    159,
+    172,
+    185,
+    198,
+    211,
+    224,
+    237
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxx",
+   "ciphertext": "KjdEUV5reIWSn6y5xtPg7RKLWRSdT0vTbiUoRxjp7dPUIglotbVUxc2c6yMf1S3z"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    49,
+    62,
+    75,
+    88,
+    101,
+    114,
+    127,
+    140,
+    153,
+    166,
+    179,
+    192,
+    205,
+    218,
+    231,
+    244
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "MT5LWGVyf4yZprPAzdrn9NEgVdMv-zrNLb-Xo9DQzlQEOB2hChTCM-r9m2FQKxe9"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    56,
+    69,
+    82,
+    95,
+    108,
+    121,
+    134,
+    147,
+    160,
+    173,
+    186,
+    199,
+    212,
+    225,
+    238,
+    251
+   ],
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "OEVSX2x5hpOgrbrH1OHu-36TBFa3CRAhAra1X6AVCLtwULJc05ZRv3JYlOKu98QD5LWf5119AbI-lfob35sjDw=="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    63,
+    76,
+    89,
+    102,
+    115,
+    128,
+    141,
+    154,
+    167,
+    180,
+    193,
+    206,
+    219,
+    232,
+    245,
+    2
+   ],
+   "plaintext": "café naïve",
+   "ciphertext": "P0xZZnOAjZqntMHO2-j1AlyWMUrys3-A-A7V7ZXuLQo="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    70,
+    83,
+    96,
+    109,
+    122,
+    135,
+    148,
+    161,
+    174,
+    187,
+    200,
+    213,
+    226,
+    239,
+    252,
+    9
+   ],
+   "plaintext": "😈 devil 😈",
+   "ciphertext": "RlNgbXqHlKGuu8jV4u_8CTs-4eDFdsjOyREvZ-UHmGE="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    77,
+    90,
+    103,
+    116,
+    129,
+    142,
+    155,
+    168,
+    181,
+    194,
+    207,
+    220,
+    233,
+    246,
+    3,
+    16
+   ],
+   "plaintext": "田中さん",
+   "ciphertext": "TVpndIGOm6i1ws_c6fYDEIkb03D6fKU9n8k9lzvtPME="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    84,
+    97,
+    110,
+    123,
+    136,
+    149,
+    162,
+    175,
+    188,
+    201,
+    214,
+    227,
+    240,
+    253,
+    10,
+    23
+   ],
+   "plaintext": "שלום עולם",
+   "ciphertext": "VGFue4iVoq-8ydbj8P0KF9Ayuk7G6Ih0gDdpV6a5x2V4QaOps-ld5ycaVF0WCim8"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "iv": [
+    91,
+    104,
+    117,
+    130,
+    143,
+    156,
+    169,
+    182,
+    195,
+    208,
+    221,
+    234,
+    247,
+    4,
+    17,
+    30
+   ],
+   "plaintext": "line1\nline2\ttab",
+   "ciphertext": "W2h1go-cqbbD0N3q9wQRHm5dmjpIfRiTF5uxAykW-Fk="
+  }
+ ],
+ "interop": [
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "",
+   "ciphertext": "K_2f2pq8z1d6fGr_cZz5IzEadQRFu8r1UDekupCF2P0="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "a",
+   "ciphertext": "d6bGtDQfbn1yYmB5nDtMWq67T_ub2UgvQBAEepv9r8M="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "text_for_encryption",
+   "ciphertext": "slfb9brDFHFHY_5wQKkG7HhMRicHvNxm_ojdzMk4Jf_vlq1zkHB12APd4vGNvalx"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "My name is Bond, James Bond",
+   "ciphertext": "0PUA8w-AqsN7GugXZArqr_B0bp_es9EJIwFbvNQ5O5a8en3ufMQCk4JemZuNrFEF"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxx",
+   "ciphertext": "vqNOeVA_Old-DZoVfha6qNczMZVfmofYEPu9DNpKGuE="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxx",
+   "ciphertext": "DAVe3qmpDOnnjIMRVWi0abONNJh_VS0gGliHAptbVpF8WevxqHB2HPaByd1sQCaU"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxxx",
+   "ciphertext": "M_7vF_MxMTMO61aUeYV7zINkKWgo0HHBtpRi0konxDV9sAqxhLRNQDNHeg_xxHXu"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "OP0AF2ojAklj3wSv0jVzKM0XjW_KRhit2chfiJlSWYtAWujhpE3Cp9tb3DpRB3WB"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "87msehRomS06rZt7sJhKWejSt5ypXoWWAvCBY83jIE48yjWh6Q-8n7PhKplc8KYeyrJxR1HiyH6SQ34s9ifhSw=="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "café naïve",
+   "ciphertext": "CihN_Qu86cqzWrCSaVdQD1fEvIFlnAGu06gmAKrR0Co="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "😈 devil 😈",
+   "ciphertext": "-qSwih9sUfUXY4lJL58OGlzUAUeZD7d0FYZs1yz4lFE="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "田中さん",
+   "ciphertext": "tm11HewTf6QkAmhkd6tjoHI2pfjx52OXB5zQ1sGqUqU="
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "שלום עולם",
+   "ciphertext": "IUw2VirOcvm2mHJC2OhJe6Vzy1MAHN5iVlPoiifUctjTHEiLp1FLapXHwDUldH-1"
+  },
+  {
+   "key_name": "aes128",
+   "key": "0123456789abcdef",
+   "plaintext": "line1\nline2\ttab",
+   "ciphertext": "V1XqDBluVer-oLUrUvG6sRt_-96iz0wZWGiXhOrxqto="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "",
+   "ciphertext": "tkCSDcQoaeOQ-XoRe-53PoFN8RWPUoeYT7tyyJbW4O0="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "a",
+   "ciphertext": "rUMJoiZt2XeUKwh1FHupkheUcuy7TGUZNBjYDZkOh2Y="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "text_for_encryption",
+   "ciphertext": "SrJRr4FYjVcwjli9nV8EgiKS2NdbbzGr7IiDlZl2fqobsgOTUTntr9fu3adKVQNn"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "My name is Bond, James Bond",
+   "ciphertext": "RisnKqvEjHBjFYSOCO6bvtnaReWllRu1_sGzXhI1X9ZPktn0fTx2_e4goJ-fzp53"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "xxxxxxxxxxxxxxx",
+   "ciphertext": "QwIB92ZGOyzJipf04-ZpV8J5fCWtt8L0pQOCBr7BY4E="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "xxxxxxxxxxxxxxxx",
+   "ciphertext": "BVCFZ5k6D7uQKpcT6Oj8DahnpdxmEga0clftTE1xa4HkSxEztONBsVuODJnIn5h5"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "xxxxxxxxxxxxxxxxx",
+   "ciphertext": "sP3AuzGm06eHvIprSNTGaABZaD1IW0Ma311Ka32B4wMRK8GX96YN13gPaUP-hd5E"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "d_bNZQS9dZLQfSr1VjZSNAnbojd2UmfroMqJyfcaPhRoYs_NYGERDf9yUdIrXX0a"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "MwXL4DRSIHA4g4b3NRtb1FVp-WCBxTEvHMtmwMdthc8hdMU-u-NZb1-BIDGqUrPRDKA1-77SoIN9RvE-pw209Q=="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "café naïve",
+   "ciphertext": "XvxQWSNXwTolt_EO5TV60CcdnrvmN8z13Z4z17FpgsQ="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "😈 devil 😈",
+   "ciphertext": "VBgKRSwQ41MtZb9oiviJpNIXVRtd69k_duC_ZCDd4YI="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "田中さん",
+   "ciphertext": "SNBmmXWu6qmN5H_BCGYG7Ty7LXjERlmTF21XWEeGQy8="
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "שלום עולם",
+   "ciphertext": "mSQRwdTM_tKa4OZ5HEp7GDXHd5xGmu0T-YYHfLaSUN9-uyo3NQFCmCEXAaGb7rbn"
+  },
+  {
+   "key_name": "aes192",
+   "key": "0123456789abcdef01234567",
+   "plaintext": "line1\nline2\ttab",
+   "ciphertext": "V_irQwXSrUgyYN3oKN_Qvpr93gS6MvNWDz7S80V3fNo="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "",
+   "ciphertext": "5u8rmL8Im0nbtJH3lJKcPSi1bP0B4SyMXukwA7__xpI="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "a",
+   "ciphertext": "vfsZ8M4IXzDw-EnRJUAiXWiHH_Vh1ycOZKvv9GhlOWM="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "text_for_encryption",
+   "ciphertext": "DlmNgEH9Q9oNRVykMoUTbC02gIVD-a6oQffcgkDiV9ZNdlsDlK-wWlEBS744cEfp"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "My name is Bond, James Bond",
+   "ciphertext": "IXMDXA2q2qjeuaOTyePpywrb7N8wrjbKr4GG-a9qNRJaYwg_yrWfWcNU7Ci_fGcF"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxx",
+   "ciphertext": "3ZNKeRSpRXjPbpq3UcRFCEh2_7U9WlwD3skMKXuBxtY="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxx",
+   "ciphertext": "u50UYFcM99jBE0QuzmKVppwGppD4H1H45L053JbxLa61T2cN16XXTZm9eEtIhzsD"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxxx",
+   "ciphertext": "zhOtgakKZ9Lb07PpbaHIDirY6BwG1UhzNdhE4J1gdXOvV4-ZilClZ4spytwMwDp8"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "sbvoEE9dBVNxQqJ1V3aXQntlFpxMcESeoDC3vBl_MHmqr-EsmxyhuxvhgQYsCKQm"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ciphertext": "a8Mei4qi-fsZ2qEsybE6kEfFJ-aRJDVBGI4TBLAG_aqkn9Cc4Q7QLcA7zo-78PbqXkyA-u96J3_rQkcTR-QjSA=="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "café naïve",
+   "ciphertext": "pYKAEXF_tKn3FxLxGDC1Jkqgpp2ztw81uPOs9ROb6i8="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "😈 devil 😈",
+   "ciphertext": "oenPqZLg13v1tXYxFzxIzKz--tkj9UhLAKBco5SD_uQ="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "田中さん",
+   "ciphertext": "0gMwmIsVVHeRwYXQ1Lp6z9O-1ihslpGvcY_f_uj5bGo="
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "שלום עולם",
+   "ciphertext": "kq3LW-F_FX5v_6y--TEEWfFMnuUXdwK-fFr91MrOTX3Z1it1ZsOROTZDT5mIHHyM"
+  },
+  {
+   "key_name": "aes256",
+   "key": "0123456789abcdef0123456789abcdef",
+   "plaintext": "line1\nline2\ttab",
+   "ciphertext": "Z3nbhKmWBnA4kLcs2Iy-5vEqmO8xYgtCiG6Hivs-J5g="
+  }
+ ]
+}

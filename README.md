@@ -2,9 +2,9 @@
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
-**Status: M1 done bar a long tail, M2 done bar crypto.** Detection (87% of the
+**Status: M1 done bar a long tail, M2 complete.** Detection (87% of the
 harvested corpus) and de-identification both work end to end and are
-differentially verified against Python. Encrypt/decrypt is the remaining gap.
+differentially verified against Python, including reversible AES encryption.
 
 Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
 describes the behavioural target, not the product name.
@@ -186,12 +186,39 @@ edge cases and non-BMP offsets, recording the exact output text *and* the exact
 operator-result spans. **All 43 match.** That pins behaviour upstream never
 explicitly asserts.
 
-Operators: `replace`, `redact`, `mask`, `hash`, `keep`, `custom`, and
-`keep` on the deanonymize side. `encrypt`/`decrypt` are **not implemented** —
-they need AES-CBC, and `CryptoKit` has no CBC mode (it is also banned here), so
-that means either `swift-crypto`'s `CryptoExtras.AES._CBC` as the package's
-first dependency or a hand-written AES. Deferred deliberately rather than
-half-done.
+Operators: `replace`, `redact`, `mask`, `hash`, `keep`, `custom`, `encrypt`,
+and `keep`/`decrypt` on the deanonymize side.
+
+### Encryption
+
+`encrypt`/`decrypt` live in a **separate target**, `PresidioAnonymizerCrypto`,
+so the anonymizer core stays dependency-free. swift-crypto vendors BoringSSL,
+which does not build everywhere (WASM notably), and most callers do not need
+reversible pseudonymization. A lint keeps the dependency confined.
+
+`CryptoKit` cannot do this at all — its `AES` enum exposes only `GCM` and
+`KeyWrap`, with no CBC mode — so this uses swift-crypto's
+`_CryptoExtras.AES._CBC`, which is BoringSSL-backed on every platform including
+Darwin.
+
+"Byte-compatible" is the wrong bar for encryption: upstream calls
+`os.urandom(16)` per invocation, so ciphertext is not reproducible even
+Python-to-Python. Two things are testable and both are verified:
+
+| | |
+|---|---|
+| **42 known-answer vectors** | IV pinned → ciphertext **byte-identical to Python**, across AES-128/192/256 and 14 plaintexts (empty, block-boundary, emoji, CJK, RTL) |
+| **42 interop ciphertexts** | produced by real Presidio with its random IV → must decrypt to the original plaintext |
+
+The known-answer vectors are also what pins swift-crypto's behaviour, which is
+why `Package.resolved` is not committed: a version bump that changed AES-CBC
+would fail these immediately.
+
+Two encoding details that would otherwise bite: Python's URL-safe base64 uses
+`-`/`_` where Foundation emits `+`/`/`, and `urlsafe_b64decode` silently
+*discards* out-of-alphabet characters where `Data(base64Encoded:)` returns nil.
+Both are reproduced, the latter so a ciphertext that picked up whitespace in
+transit still decodes.
 
 Two deviations from upstream, both intentional and both enforced by tests:
 
