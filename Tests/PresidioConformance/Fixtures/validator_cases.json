@@ -1,0 +1,1121 @@
+{
+ "schema_version": 1,
+ "source": {
+  "repo": "data-privacy-stack/presidio",
+  "commit": "2bb88d2adca2346959d52a4d48540a5ad8fa481f",
+  "tests_dir": "presidio-analyzer/tests"
+ },
+ "stats": {
+  "tables": 21,
+  "cases": 203,
+  "recognizers": 18
+ },
+ "tables": [
+  {
+   "recognizer": "DeBsnrRecognizer",
+   "entities": [
+    "DE_BSNR"
+   ],
+   "file": "presidio-analyzer/tests/test_de_bsnr_recognizer.py",
+   "test": "test_when_de_bsnr_validated_then_result_is_correct",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "021234568",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "521234567",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "711234567",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "351234567",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "741234567",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "991234567",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "051234567",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "000000000",
+     "expected": "invalid"
+    },
+    {
+     "input": "02123456",
+     "expected": "invalid"
+    },
+    {
+     "input": "0212345689",
+     "expected": "invalid"
+    },
+    {
+     "input": "02123456A",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "DeHealthInsuranceRecognizer",
+   "entities": [
+    "DE_HEALTH_INSURANCE"
+   ],
+   "file": "presidio-analyzer/tests/test_de_health_insurance_recognizer.py",
+   "test": "test_when_de_health_insurance_validated_then_checksum_result_is_correct",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "A000500015",
+     "expected": "valid"
+    },
+    {
+     "input": "C000500021",
+     "expected": "valid"
+    },
+    {
+     "input": "A123456780",
+     "expected": "valid"
+    },
+    {
+     "input": "M123456785",
+     "expected": "valid"
+    },
+    {
+     "input": "B123456782",
+     "expected": "valid"
+    },
+    {
+     "input": "Z000000005",
+     "expected": "valid"
+    },
+    {
+     "input": "Z999999997",
+     "expected": "valid"
+    },
+    {
+     "input": "A123456787",
+     "expected": "invalid"
+    },
+    {
+     "input": "M123456789",
+     "expected": "invalid"
+    },
+    {
+     "input": "A000500010",
+     "expected": "invalid"
+    },
+    {
+     "input": "1123456780",
+     "expected": "invalid"
+    },
+    {
+     "input": "A12345678",
+     "expected": "invalid"
+    },
+    {
+     "input": "A1234567890",
+     "expected": "invalid"
+    },
+    {
+     "input": "a123456780",
+     "expected": "valid"
+    }
+   ]
+  },
+  {
+   "recognizer": "DeIdCardRecognizer",
+   "entities": [
+    "DE_ID_CARD"
+   ],
+   "file": "presidio-analyzer/tests/test_de_id_card_recognizer.py",
+   "test": "test_when_de_id_card_validated_then_checksum_result_is_correct",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "L01X00T44",
+     "expected": "valid"
+    },
+    {
+     "input": "C01234565",
+     "expected": "valid"
+    },
+    {
+     "input": "CZ6311T03",
+     "expected": "valid"
+    },
+    {
+     "input": "G00000002",
+     "expected": "valid"
+    },
+    {
+     "input": "l01x00t44",
+     "expected": "valid"
+    },
+    {
+     "input": "L01X00T47",
+     "expected": "invalid"
+    },
+    {
+     "input": "C01234567",
+     "expected": "invalid"
+    },
+    {
+     "input": "T22000129",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "T00000000",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "L01X00T4",
+     "expected": "invalid"
+    },
+    {
+     "input": "L01X00T440",
+     "expected": "invalid"
+    },
+    {
+     "input": "L01X00T4A",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "DeLanrRecognizer",
+   "entities": [
+    "DE_LANR"
+   ],
+   "file": "presidio-analyzer/tests/test_de_lanr_recognizer.py",
+   "test": "test_when_de_lanr_validated_then_checksum_result_is_correct",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "123456601",
+     "expected": "valid"
+    },
+    {
+     "input": "234567701",
+     "expected": "valid"
+    },
+    {
+     "input": "100000601",
+     "expected": "valid"
+    },
+    {
+     "input": "987654401",
+     "expected": "valid"
+    },
+    {
+     "input": "555555501",
+     "expected": "valid"
+    },
+    {
+     "input": "999999901",
+     "expected": "valid"
+    },
+    {
+     "input": "123456901",
+     "expected": "invalid"
+    },
+    {
+     "input": "234567601",
+     "expected": "invalid"
+    },
+    {
+     "input": "100000401",
+     "expected": "invalid"
+    },
+    {
+     "input": "12345660",
+     "expected": "invalid"
+    },
+    {
+     "input": "1234566010",
+     "expected": "invalid"
+    },
+    {
+     "input": "12345660a",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "DePassportRecognizer",
+   "entities": [
+    "DE_PASSPORT"
+   ],
+   "file": "presidio-analyzer/tests/test_de_passport_recognizer.py",
+   "test": "test_when_de_passport_validated_then_checksum_result_is_correct",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "C01234565",
+     "expected": "valid"
+    },
+    {
+     "input": "F12345671",
+     "expected": "valid"
+    },
+    {
+     "input": "L01X00T44",
+     "expected": "valid"
+    },
+    {
+     "input": "CZ6311T03",
+     "expected": "valid"
+    },
+    {
+     "input": "G00000002",
+     "expected": "valid"
+    },
+    {
+     "input": "C01X00T41",
+     "expected": "valid"
+    },
+    {
+     "input": "c01234565",
+     "expected": "valid"
+    },
+    {
+     "input": "C01234567",
+     "expected": "invalid"
+    },
+    {
+     "input": "L01X00T47",
+     "expected": "invalid"
+    },
+    {
+     "input": "C0123456",
+     "expected": "invalid"
+    },
+    {
+     "input": "C012345678",
+     "expected": "invalid"
+    },
+    {
+     "input": "C0123456A",
+     "expected": "invalid"
+    },
+    {
+     "input": "A01234567",
+     "expected": "invalid"
+    },
+    {
+     "input": "IOQSUBDE1",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "DeSocialSecurityRecognizer",
+   "entities": [
+    "DE_SOCIAL_SECURITY"
+   ],
+   "file": "presidio-analyzer/tests/test_de_social_security_recognizer.py",
+   "test": "test_when_de_social_security_validated_then_checksum_result_is_correct",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "15070649C103",
+     "expected": "valid"
+    },
+    {
+     "input": "65070803A019",
+     "expected": "valid"
+    },
+    {
+     "input": "20151090B023",
+     "expected": "valid"
+    },
+    {
+     "input": "38551285K051",
+     "expected": "valid"
+    },
+    {
+     "input": "15070649C100",
+     "expected": "invalid"
+    },
+    {
+     "input": "65070803A012",
+     "expected": "invalid"
+    },
+    {
+     "input": "65070803A018",
+     "expected": "invalid"
+    },
+    {
+     "input": "150706491103",
+     "expected": "invalid"
+    },
+    {
+     "input": "15070649C10",
+     "expected": "invalid"
+    },
+    {
+     "input": "15070649C1030",
+     "expected": "invalid"
+    },
+    {
+     "input": "15420649C103",
+     "expected": "invalid"
+    },
+    {
+     "input": "15850649C103",
+     "expected": "invalid"
+    },
+    {
+     "input": "15070049C103",
+     "expected": "invalid"
+    },
+    {
+     "input": "15071349C103",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "DeTaxIdRecognizer",
+   "entities": [
+    "DE_TAX_ID"
+   ],
+   "file": "presidio-analyzer/tests/test_de_tax_id_recognizer.py",
+   "test": "test_when_de_tax_id_validated_then_checksum_result_is_correct",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "12345678903",
+     "expected": "valid"
+    },
+    {
+     "input": "98765432106",
+     "expected": "valid"
+    },
+    {
+     "input": "12345678901",
+     "expected": "invalid"
+    },
+    {
+     "input": "98765432100",
+     "expected": "invalid"
+    },
+    {
+     "input": "02345678903",
+     "expected": "invalid"
+    },
+    {
+     "input": "abcdefghijk",
+     "expected": "invalid"
+    },
+    {
+     "input": "1234567890",
+     "expected": "invalid"
+    },
+    {
+     "input": "123456789030",
+     "expected": "invalid"
+    },
+    {
+     "input": "11111111111",
+     "expected": "invalid"
+    },
+    {
+     "input": "11112345678",
+     "expected": "invalid"
+    },
+    {
+     "input": "12222234567",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "DeVatIdRecognizer",
+   "entities": [
+    "DE_VAT_ID"
+   ],
+   "file": "presidio-analyzer/tests/test_de_vat_id_recognizer.py",
+   "test": "test_when_de_vat_id_validated_in_default_mode_then_tri_state",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "DE136695976",
+     "expected": "valid"
+    },
+    {
+     "input": "DE129273398",
+     "expected": "valid"
+    },
+    {
+     "input": "DE123456788",
+     "expected": "valid"
+    },
+    {
+     "input": "DE111111117",
+     "expected": "valid"
+    },
+    {
+     "input": "de136695976",
+     "expected": "valid"
+    },
+    {
+     "input": "DE 136 695 976",
+     "expected": "valid"
+    },
+    {
+     "input": "DE-136-695-976",
+     "expected": "valid"
+    },
+    {
+     "input": "DE.136.695.976",
+     "expected": "valid"
+    },
+    {
+     "input": "de 136-695.976",
+     "expected": "valid"
+    },
+    {
+     "input": "DE12345678",
+     "expected": "invalid"
+    },
+    {
+     "input": "DE1234567890",
+     "expected": "invalid"
+    },
+    {
+     "input": "AT123456789",
+     "expected": "invalid"
+    },
+    {
+     "input": "",
+     "expected": "invalid"
+    },
+    {
+     "input": "DEabcdefghi",
+     "expected": "invalid"
+    },
+    {
+     "input": "DE123456789",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "DE987654321",
+     "expected": "indeterminate"
+    },
+    {
+     "input": "DE100000001",
+     "expected": "indeterminate"
+    }
+   ]
+  },
+  {
+   "recognizer": "DeVatIdRecognizer",
+   "entities": [
+    "DE_VAT_ID"
+   ],
+   "file": "presidio-analyzer/tests/test_de_vat_id_recognizer.py",
+   "test": "test_when_de_vat_id_validated_in_strict_mode_then_checksum_is_enforced",
+   "argnames": [
+    "number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "DE136695976",
+     "expected": "valid"
+    },
+    {
+     "input": "DE 136 695 976",
+     "expected": "valid"
+    },
+    {
+     "input": "DE12345678",
+     "expected": "invalid"
+    },
+    {
+     "input": "AT123456789",
+     "expected": "invalid"
+    },
+    {
+     "input": "DE123456789",
+     "expected": "invalid"
+    },
+    {
+     "input": "DE987654321",
+     "expected": "invalid"
+    },
+    {
+     "input": "DE100000001",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "InGstinRecognizer",
+   "entities": [
+    "IN_GSTIN"
+   ],
+   "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "gstin",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "27ABCDE1234F1Z5",
+     "expected": "valid"
+    },
+    {
+     "input": "07PQRST6789K1Z2",
+     "expected": "valid"
+    },
+    {
+     "input": "01ABCDE1234F1Z5",
+     "expected": "valid"
+    },
+    {
+     "input": "37ABCDE1234F1Z5",
+     "expected": "valid"
+    },
+    {
+     "input": "27ABCDE1234F1Z",
+     "expected": "invalid"
+    },
+    {
+     "input": "27ABCDE1234F1Z55",
+     "expected": "invalid"
+    },
+    {
+     "input": "00ABCDE1234F1Z5",
+     "expected": "invalid"
+    },
+    {
+     "input": "38ABCDE1234F1Z5",
+     "expected": "invalid"
+    },
+    {
+     "input": "27ABCDE1234F1Y5",
+     "expected": "invalid"
+    },
+    {
+     "input": "27ABCDE1234F1Z",
+     "expected": "invalid"
+    },
+    {
+     "input": "27ABCDE1234F1Z5",
+     "expected": "valid"
+    },
+    {
+     "input": "27ABCDE1234F1Z5",
+     "expected": "valid"
+    }
+   ]
+  },
+  {
+   "recognizer": "InGstinRecognizer",
+   "entities": [
+    "IN_GSTIN"
+   ],
+   "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
+   "test": "test_validate_pan_format",
+   "argnames": [
+    "pan",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "ABCDE1234F",
+     "expected": "valid"
+    },
+    {
+     "input": "PQRST6789K",
+     "expected": "valid"
+    },
+    {
+     "input": "ABCDE1234F",
+     "expected": "valid"
+    },
+    {
+     "input": "ABCD1234F",
+     "expected": "invalid"
+    },
+    {
+     "input": "ABCDE12345F",
+     "expected": "invalid"
+    },
+    {
+     "input": "12345ABCDE",
+     "expected": "invalid"
+    },
+    {
+     "input": "ABCDE1234",
+     "expected": "invalid"
+    },
+    {
+     "input": "ABCDE1234F",
+     "expected": "valid"
+    }
+   ]
+  },
+  {
+   "recognizer": "PlPeselRecognizer",
+   "entities": [
+    "PL_PESEL"
+   ],
+   "file": "presidio-analyzer/tests/test_pl_pesel_recognizer.py",
+   "test": "test_validate_result_checksum",
+   "argnames": [
+    "pesel",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "44051401458",
+     "expected": "valid"
+    },
+    {
+     "input": "02070803628",
+     "expected": "valid"
+    },
+    {
+     "input": "11111111116",
+     "expected": "valid"
+    },
+    {
+     "input": "44051401459",
+     "expected": "invalid"
+    },
+    {
+     "input": "85040812345",
+     "expected": "invalid"
+    },
+    {
+     "input": "4405140145",
+     "expected": "invalid"
+    },
+    {
+     "input": "440514014588",
+     "expected": "invalid"
+    },
+    {
+     "input": "4405140145A",
+     "expected": "invalid"
+    },
+    {
+     "input": "44-051401458",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaCompanyRegistrationRecognizer",
+   "entities": [
+    "ZA_COMPANY_REGISTRATION"
+   ],
+   "file": "presidio-analyzer/tests/test_za_company_registration_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "registration_number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "2009/199240/23",
+     "expected": "valid"
+    },
+    {
+     "input": "2014/256030/07",
+     "expected": "valid"
+    },
+    {
+     "input": "CK2001/123456",
+     "expected": "valid"
+    },
+    {
+     "input": "K2010/654321",
+     "expected": "valid"
+    },
+    {
+     "input": "99/199240/23",
+     "expected": "invalid"
+    },
+    {
+     "input": "2009/19924/23",
+     "expected": "invalid"
+    },
+    {
+     "input": "AB2001/123456",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaDriverLicenseRecognizer",
+   "entities": [
+    "ZA_DRIVER_LICENSE"
+   ],
+   "file": "presidio-analyzer/tests/test_za_driver_license_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "licence_number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "60390002CGBV",
+     "expected": "valid"
+    },
+    {
+     "input": "4024048D4P60",
+     "expected": "valid"
+    },
+    {
+     "input": "30040008X6Z6",
+     "expected": "valid"
+    },
+    {
+     "input": "8001015009087",
+     "expected": "invalid"
+    },
+    {
+     "input": "60390002",
+     "expected": "invalid"
+    },
+    {
+     "input": "ABCDEFGHIJK",
+     "expected": "invalid"
+    },
+    {
+     "input": "ABC1234567890",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaIdNumberRecognizer",
+   "entities": [
+    "ZA_ID_NUMBER"
+   ],
+   "file": "presidio-analyzer/tests/test_za_id_number_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "id_number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "8001015009087",
+     "expected": "valid"
+    },
+    {
+     "input": "8001015000086",
+     "expected": "valid"
+    },
+    {
+     "input": "9202201234088",
+     "expected": "valid"
+    },
+    {
+     "input": "0002294321191",
+     "expected": "valid"
+    },
+    {
+     "input": "9912316789285",
+     "expected": "valid"
+    },
+    {
+     "input": "0001015002288",
+     "expected": "valid"
+    },
+    {
+     "input": "8001015009086",
+     "expected": "invalid"
+    },
+    {
+     "input": "9913326789285",
+     "expected": "invalid"
+    },
+    {
+     "input": "9902294321191",
+     "expected": "invalid"
+    },
+    {
+     "input": "8001015000076",
+     "expected": "invalid"
+    },
+    {
+     "input": "8001015009176",
+     "expected": "invalid"
+    },
+    {
+     "input": "80010150090",
+     "expected": "invalid"
+    },
+    {
+     "input": "80010150090870",
+     "expected": "invalid"
+    },
+    {
+     "input": "80010150090A7",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaIdNumberRecognizer",
+   "entities": [
+    "ZA_ID_NUMBER"
+   ],
+   "file": "presidio-analyzer/tests/test_za_id_number_recognizer.py",
+   "test": "test_has_valid_birth_date",
+   "argnames": [
+    "date_part",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "050101",
+     "expected": "valid"
+    },
+    {
+     "input": "000229",
+     "expected": "valid"
+    },
+    {
+     "input": "990229",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaIncomeTaxNumberRecognizer",
+   "entities": [
+    "ZA_INCOME_TAX_NUMBER"
+   ],
+   "file": "presidio-analyzer/tests/test_za_income_tax_number_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "tax_number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "0123456789",
+     "expected": "valid"
+    },
+    {
+     "input": "1234567890",
+     "expected": "valid"
+    },
+    {
+     "input": "9123456789",
+     "expected": "valid"
+    },
+    {
+     "input": "4020269678",
+     "expected": "invalid"
+    },
+    {
+     "input": "5123456789",
+     "expected": "invalid"
+    },
+    {
+     "input": "012345678",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaLicensePlateRecognizer",
+   "entities": [
+    "ZA_LICENSE_PLATE"
+   ],
+   "file": "presidio-analyzer/tests/test_za_license_plate_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "plate",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "KD93GKGP",
+     "expected": "valid"
+    },
+    {
+     "input": "DK28LFGP",
+     "expected": "valid"
+    },
+    {
+     "input": "CC75CXZN",
+     "expected": "valid"
+    },
+    {
+     "input": "GET103WP",
+     "expected": "valid"
+    },
+    {
+     "input": "015SBZEC",
+     "expected": "valid"
+    },
+    {
+     "input": "YES",
+     "expected": "invalid"
+    },
+    {
+     "input": "1234GP",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaPassportRecognizer",
+   "entities": [
+    "ZA_PASSPORT"
+   ],
+   "file": "presidio-analyzer/tests/test_za_passport_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "passport_number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "A34855903",
+     "expected": "valid"
+    },
+    {
+     "input": "D12345678",
+     "expected": "valid"
+    },
+    {
+     "input": "M87654321",
+     "expected": "valid"
+    },
+    {
+     "input": "T11223344",
+     "expected": "valid"
+    },
+    {
+     "input": "B12345678",
+     "expected": "invalid"
+    },
+    {
+     "input": "A1234567",
+     "expected": "invalid"
+    },
+    {
+     "input": "A123456789",
+     "expected": "invalid"
+    },
+    {
+     "input": "X12345678",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaTrafficRegisterNumberRecognizer",
+   "entities": [
+    "ZA_TRAFFIC_REGISTER_NUMBER"
+   ],
+   "file": "presidio-analyzer/tests/test_za_traffic_register_number_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "trn",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "1234567890123",
+     "expected": "valid"
+    },
+    {
+     "input": "6001015000076",
+     "expected": "valid"
+    },
+    {
+     "input": "8001015009087",
+     "expected": "invalid"
+    },
+    {
+     "input": "123456789012",
+     "expected": "invalid"
+    },
+    {
+     "input": "12345678901234",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "ZaVatNumberRecognizer",
+   "entities": [
+    "ZA_VAT_NUMBER"
+   ],
+   "file": "presidio-analyzer/tests/test_za_vat_number_recognizer.py",
+   "test": "test_validate_result",
+   "argnames": [
+    "vat_number",
+    "expected"
+   ],
+   "cases": [
+    {
+     "input": "4020269678",
+     "expected": "valid"
+    },
+    {
+     "input": "4170229407",
+     "expected": "valid"
+    },
+    {
+     "input": "3020269678",
+     "expected": "invalid"
+    },
+    {
+     "input": "402026967",
+     "expected": "invalid"
+    },
+    {
+     "input": "40202696789",
+     "expected": "invalid"
+    }
+   ]
+  }
+ ]
+}
