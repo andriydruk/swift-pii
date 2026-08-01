@@ -198,7 +198,29 @@ Relative to Python we are now 4.5× slower (0.414 s vs 0.093 s), improved from
   dispatch table's indirection costs more than skipping 46% of those tests
   saves. This would only pay off for a pattern set with distinctive literal
   prefixes, which this one does not have.
-- **Remaining targets**: memoization of the backtracking matcher, and making
-  `PureRegex` `Sendable` so patterns can be shared and swept concurrently.
+- ~~Make `PureRegex` `Sendable` so patterns can be swept concurrently.~~ Done
+  (2026-08-01), and it is by far the largest win available:
+
+  | | time | vs Python |
+  |---|---:|---|
+  | Python `regex` (C, single-threaded) | 0.093 s | 1.0× |
+  | this engine, single-threaded | 0.406 s | 4.4× slower |
+  | this engine, 14 cores | **0.055 s** | **1.7× faster** |
+
+  7.3× speedup, same 5,996 matches. Conformance is plain `Sendable`, not
+  `@unchecked`: the class was made genuinely immutable by deleting two dead
+  fields left over from the CPS matcher and computing the prefilter in `init`
+  rather than lazily. All match state already lived in a per-call `VM`.
+
+  `PatternRecognizer` is `Sendable` too, which required storing compilation
+  failures as text rather than as `Error` — `Error` is not `Sendable` and would
+  have cost the whole type its conformance for a field that only gets printed.
+
+  Note the practical consequence: single-threaded throughput is the wrong number
+  to optimize next. Scanning 155 independent patterns is embarrassingly
+  parallel, so cores beat micro-optimization by an order of magnitude.
+- **Remaining target**: memoization of the backtracking matcher. Lower priority
+  now — it would improve the single-threaded number that concurrency has already
+  made secondary.
 - Revisit PCRE2-with-table-substitution only if M5 leaves the engine short of
   budget. Correctness stays the gate.

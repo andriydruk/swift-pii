@@ -87,5 +87,38 @@ let sweptScalars = Double(corpusScalars * compiled.count)
 print("sweep     \(String(format: "%.3f", best)) s  (best of \(rounds))")
 print("matches   \(matchCount)")
 print("throughput \(String(format: "%.1f", sweptScalars / best / 1_000_000)) M scalar-comparisons/s")
+
+// --- Concurrent sweep -----------------------------------------------------
+// PureRegex is Sendable, so one compiled pattern can be shared across tasks.
+// The 155 patterns are independent, which makes this embarrassingly parallel.
+let cores = ProcessInfo.processInfo.activeProcessorCount
+let sendablePatterns = compiled
+let texts = reference.texts
+
+func concurrentSweep() -> Int {
+    let counter = NSLock()
+    nonisolated(unsafe) var found = 0
+    DispatchQueue.concurrentPerform(iterations: sendablePatterns.count) { index in
+        let rx = sendablePatterns[index]
+        var local = 0
+        for text in texts { local += rx.matches(in: text).count }
+        counter.lock(); found += local; counter.unlock()
+    }
+    return found
+}
+
+_ = concurrentSweep()   // warm
+var bestConcurrent = Double.infinity
+var concurrentMatches = 0
+for _ in 0..<rounds {
+    let start = now()
+    concurrentMatches = concurrentSweep()
+    bestConcurrent = min(bestConcurrent, now() - start)
+}
+print("")
+print("cores      \(cores)")
+print("concurrent \(String(format: "%.3f", bestConcurrent)) s  (best of \(rounds))  matches \(concurrentMatches)")
+print("speedup    \(String(format: "%.2f", best / bestConcurrent))x")
+print("           \(String(format: "%.1f", Double(corpusScalars) / bestConcurrent / 1024)) KB/s")
 print("          \(String(format: "%.1f", Double(corpusScalars) / best / 1024)) KB/s of corpus "
       + "through all \(compiled.count) patterns")

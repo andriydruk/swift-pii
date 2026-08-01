@@ -110,10 +110,17 @@ of a match is asserted as strongly as presence.
 
 Cost of the trade, measured on that same workload (release, M4 Max):
 
-| | full 155-pattern sweep |
-|---|---:|
-| Python `regex` (C) | 0.093 s |
-| this engine | 0.414 s (**4.5× slower**) |
+| | full 155-pattern sweep | |
+|---|---:|---|
+| Python `regex` (C, single-threaded) | 0.093 s | |
+| this engine, single-threaded | 0.406 s | 4.4× slower |
+| this engine, 14 cores | **0.055 s** | **1.7× faster** |
+
+`PureRegex` and `PatternRecognizer` are `Sendable` — plain, not `@unchecked` —
+so one compiled pattern can be shared across tasks. All match state lives in a
+per-call VM. Scanning 155 independent patterns is embarrassingly parallel, which
+makes concurrency worth an order of magnitude more than micro-optimization:
+7.3× on 14 cores, verified to produce identical results under concurrent load.
 
 We are slower than the implementation we are replacing. That is acceptable while
 correctness is the gate — compilation is only 0.15 ms/pattern, and the absolute

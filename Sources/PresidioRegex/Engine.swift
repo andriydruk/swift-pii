@@ -347,7 +347,12 @@ func fixedWidth(_ n: Node) -> Int? {
 /// must not be shared across concurrent tasks. Compile one per task, or gate
 /// access. Making compiled patterns shareable is scheduled for the hardening
 /// milestone (PLAN.md M5).
-public final class PureRegex {
+/// A compiled pattern.
+///
+/// Immutable after construction and therefore `Sendable`: all match state lives
+/// in a `VM` created per call, so one compiled pattern can be shared across
+/// tasks and swept concurrently.
+public final class PureRegex: Sendable {
     let root: Node
     let ncap: Int
     let ignoreCase: Bool
@@ -372,9 +377,16 @@ public final class PureRegex {
             r, captureCount: n,
             ignoreCase: ignoreCase, dotAll: dotAll, multiline: multiline
         )
+        // Computed here rather than lazily: a `lazy var` is mutable state and
+        // would cost Sendable conformance.
+        self.pre = Prefilter(r, ignoreCase: ignoreCase)
     }
 
     let program: Program
+
+    /// Precomputed at compile time; see Prefilter.swift for why it is not a
+    /// closure any more.
+    let pre: Prefilter?
 
     static func seal(_ n: Node) -> Node {
         switch n {
@@ -388,12 +400,7 @@ public final class PureRegex {
         default: return n
         }
     }
-    private var s: [UInt32] = []
-    private var caps: [Int] = []
 
-    /// Precomputed at compile time; see Prefilter.swift for why it is not a
-    /// closure any more.
-    lazy var pre: Prefilter? = Prefilter(root, ignoreCase: ignoreCase)
     /// One match, with the spans of its capturing groups.
     ///
     /// Group numbering follows the regex convention: group 0 is the whole
@@ -465,87 +472,4 @@ public final class PureRegex {
         return out
     }
 
-    @inline(__always) func isWord(_ i: Int) -> Bool { i >= 0 && i < s.count && UnicodeTables.isWord(s[i]) }
-
-    // continuation-passing backtracker; returns true when the continuation accepted
-    func m(_ n: Node, _ i: Int, _ ic: Bool, _ k: (Int) -> Bool) -> Bool {
-        switch n {
-        case .empty: return k(i)
-        case .lit(let c):
-            guard i < s.count else { return false }
-            if s[i] == c { return k(i + 1) }
-            if ic { for v in Fold.variants(s[i]) where v == c { return k(i + 1) } }
-            return false
-        case .any:
-            guard i < s.count else { return false }
-            if !dotAll && s[i] == 10 { return false }
-            return k(i + 1)
-        case .cls(let cc):
-            guard i < s.count, cc.matches(s[i], ignoreCase: ic) else { return false }
-            return k(i + 1)
-        case .concat(let xs): return mseq(xs, 0, i, ic, k)
-        case .alt(let xs):
-            for x in xs { if m(x, i, ic, k) { return true } }
-            return false
-        case .group(let x, let cap):
-            guard let cap else { return m(x, i, ic, k) }
-            let os = caps[cap*2], oe = caps[cap*2+1]
-            if m(x, i, ic, { e in self.caps[cap*2] = i; self.caps[cap*2+1] = e; return k(e) }) { return true }
-            caps[cap*2] = os; caps[cap*2+1] = oe
-            return false
-        case .rep(let x, let lo, let hi, let greedy):
-            return mrep(x, lo, hi, greedy, i, 0, ic, k)
-        case .look(let x, let ahead, let pos, let w):
-            if ahead {
-                let hit = m(x, i, ic) { _ in true }
-                return hit == pos ? k(i) : false
-            } else {
-                let start = i - w
-                if start < 0 { return pos ? false : k(i) }
-                let hit = m(x, start, ic) { e in e == i }
-                return hit == pos ? k(i) : false
-            }
-        case .backref(let g):
-            let a = caps[g*2], b = caps[g*2+1]
-            if a < 0 { return k(i) }
-            let len = b - a
-            guard i + len <= s.count else { return false }
-            for j in 0..<len {
-                if s[i+j] == s[a+j] { continue }
-                if ic, Fold.variants(s[i+j]).contains(s[a+j]) { continue }
-                return false
-            }
-            return k(i + len)
-        case .wordB(let want):
-            let b = isWord(i - 1) != isWord(i)
-            return b == want ? k(i) : false
-        case .bol:
-            if i == 0 { return k(i) }
-            if multiline && s[i-1] == 10 { return k(i) }
-            return false
-        case .eol:
-            if i == s.count { return k(i) }
-            if multiline && s[i] == 10 { return k(i) }
-            if i == s.count - 1 && s[i] == 10 { return k(i) }
-            return false
-        case .inputStart: return i == 0 ? k(i) : false
-        case .inputEnd: return i == s.count ? k(i) : false
-        case .caseToggle(let x, let ign): return m(x, i, ign || ic, k)
-        }
-    }
-    func mseq(_ xs: [Node], _ idx: Int, _ i: Int, _ ic: Bool, _ k: (Int) -> Bool) -> Bool {
-        if idx == xs.count { return k(i) }
-        return m(xs[idx], i, ic) { e in self.mseq(xs, idx + 1, e, ic, k) }
-    }
-    func mrep(_ x: Node, _ lo: Int, _ hi: Int, _ greedy: Bool, _ i: Int, _ cnt: Int, _ ic: Bool, _ k: (Int) -> Bool) -> Bool {
-        if cnt < lo { return m(x, i, ic) { e in e == i ? false : self.mrep(x, lo, hi, greedy, e, cnt + 1, ic, k) } }
-        if greedy {
-            if cnt < hi, m(x, i, ic, { e in e == i ? false : self.mrep(x, lo, hi, greedy, e, cnt + 1, ic, k) }) { return true }
-            return k(i)
-        } else {
-            if k(i) { return true }
-            if cnt < hi { return m(x, i, ic) { e in e == i ? false : self.mrep(x, lo, hi, greedy, e, cnt + 1, ic, k) } }
-            return false
-        }
-    }
 }

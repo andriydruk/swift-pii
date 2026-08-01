@@ -224,7 +224,7 @@ struct RecognizerConformanceTests {
             guard let recognizer = Catalog.makeRecognizer(definition) else { continue }
             for failure in recognizer.compilationFailures {
                 failures.append(
-                    "\(definition.class)/\(failure.pattern.name): \(failure.error)"
+                    "\(definition.class)/\(failure.pattern.name): \(failure.reason)"
                 )
             }
         }
