@@ -161,11 +161,40 @@ recognizer whose *patterns* cannot be extracted:
 
 | Recognizer | cases | Why |
 |---|---:|---|
-| `PhoneRecognizer` | 106 | delegates to libphonenumber, no regex |
+| `PhoneRecognizer` | 106 | delegates to libphonenumber — **port started, see below** |
 | `UsMbiRecognizer` | 17 | builds `PATTERNS` programmatically |
 | `UrlRecognizer` | 16 | builds `PATTERNS` programmatically |
 | `ZaMobileNumberRecognizer` | 14 | same |
 | `ZaTelephoneNumberRecognizer` | 14 | same |
+
+### PhoneRecognizer — partial
+
+`PhoneRecognizer` has no patterns of its own: it delegates entirely to
+`phonenumbers`, so parity means porting Google's algorithm, not a regex. There
+is no shortcut available — **PhoneNumberKit has no text-scanning API**, only
+parse/format/validate, so it cannot supply the part that matters.
+
+Scope: 4,187 lines of Python (`phonenumbermatcher.py` + `phonenumberutil.py`)
+plus metadata for the twelve regions the recognizers configure (77 KB,
+extracted by [`Tools/extract_phone_metadata.py`](Tools/extract_phone_metadata.py)).
+
+**What works** — parse, validity, number type and region resolution, measured
+against `phonenumbers` itself over 480 cases:
+
+| | agreement |
+|---|---:|
+| parse / reject | 479/480 (99.8%) |
+| national number | 400/432 (92.6%) |
+| validity | 423/432 (97.9%) |
+| region resolution | 294/432 (68.1%) |
+
+**What does not** — `PhoneNumberMatcher`: finding numbers embedded in free text
+at a given leniency, which is exactly what the recognizer calls. Until that
+lands, `PhoneRecognizer` contributes nothing to conformance and its 106 cases
+stay uncovered.
+
+Region resolution is the weakest link and the next thing to fix, since it
+decides which region's patterns a number is validated against.
 
 ### Bulk data
 
