@@ -227,13 +227,17 @@ struct RecognizerConformanceTests {
             missing[table.recognizer, default: 0] += table.cases.count
         }
         // None of these is a checksum gap — they have no extractable patterns.
+        // All three delegate to libphonenumber rather than declaring PATTERNS.
         // PhoneRecognizer is nonetheless implemented, via the custom-recognizer
         // path rather than the catalogue; see PhoneRecognizerTests.
+        //
+        // UrlRecognizer and UsMbiRecognizer were here until the extractor
+        // learned to fold f-strings and `+` over class-level string constants;
+        // their patterns were always liftable, just not spelled as literals.
         #expect(Set(missing.keys) == [
-            "PhoneRecognizer", "UsMbiRecognizer", "UrlRecognizer",
-            "ZaMobileNumberRecognizer", "ZaTelephoneNumberRecognizer",
+            "PhoneRecognizer", "ZaMobileNumberRecognizer", "ZaTelephoneNumberRecognizer",
         ])
-        #expect(missing.values.reduce(0, +) <= 167)
+        #expect(missing.values.reduce(0, +) <= 134)
     }
 
     @Test("every catalogue recognizer either builds or is explained")

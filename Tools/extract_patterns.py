@@ -49,12 +49,74 @@ FEATURE_PROBES = {
 }
 
 
-def const_str(node: ast.AST) -> str | None:
+def const_str(node: ast.AST, env: dict[str, str] | None = None) -> str | None:
+    """Fold a node to a string, resolving class-level string constants.
+
+    Several recognizers assemble their patterns from named parts rather than
+    writing them out — UrlRecognizer concatenates a shared BASE_URL_REGEX,
+    UsMbiRecognizer builds character classes with f-strings. Refusing to fold
+    those left four recognizers unported for no reason other than how their
+    source is spelled, so `env` carries the class-body string bindings and this
+    resolves against it.
+
+    Deliberately conservative: only string constants, names already bound in
+    `env`, `+`, and f-strings whose every field folds. Anything else returns
+    None and the recognizer is reported as needing a hand port, which is the
+    same outcome as before.
+    """
+    env = env or {}
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
         return node.value
-    # Implicit concatenation of adjacent string literals shows up as a JoinedStr
-    # only for f-strings; plain adjacency is already folded by the parser.
+    if isinstance(node, ast.Name):
+        return env.get(node.id)
+    # `self.X` / `cls.X` inside a class body refer to the same bindings.
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+        if node.value.id in ("self", "cls"):
+            return env.get(node.attr)
+        return None
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        left = const_str(node.left, env)
+        right = const_str(node.right, env)
+        return None if left is None or right is None else left + right
+    if isinstance(node, ast.JoinedStr):
+        parts = []
+        for piece in node.values:
+            if isinstance(piece, ast.Constant) and isinstance(piece.value, str):
+                parts.append(piece.value)
+            elif isinstance(piece, ast.FormattedValue):
+                # A conversion or format spec would change the text; refuse
+                # rather than guess.
+                if piece.conversion not in (-1, None) or piece.format_spec is not None:
+                    return None
+                folded = const_str(piece.value, env)
+                if folded is None:
+                    return None
+                parts.append(folded)
+            else:
+                return None
+        return "".join(parts)
     return None
+
+
+def string_env(cls: ast.ClassDef) -> dict[str, str]:
+    """Class-level `NAME = <string>` bindings, in source order.
+
+    Order matters: later constants are built from earlier ones, so each is
+    folded against what is already bound.
+    """
+    env: dict[str, str] = {}
+    for stmt in cls.body:
+        targets = (
+            stmt.targets if isinstance(stmt, ast.Assign)
+            else [stmt.target] if isinstance(stmt, ast.AnnAssign) else []
+        )
+        folded = const_str(stmt.value, env) if getattr(stmt, "value", None) else None
+        if folded is None:
+            continue
+        for t in targets:
+            if isinstance(t, ast.Name):
+                env[t.id] = folded
+    return env
 
 
 def const_num(node: ast.AST) -> float | None:
@@ -72,6 +134,7 @@ def pattern_features(rx: str) -> list[str]:
 
 def extract_patterns(cls: ast.ClassDef) -> list[dict] | None:
     """Pull the PATTERNS class attribute, if it is a literal list."""
+    env = string_env(cls)
     for stmt in cls.body:
         targets = (
             stmt.targets if isinstance(stmt, ast.Assign)
@@ -101,8 +164,8 @@ def extract_patterns(cls: ast.ClassDef) -> list[dict] | None:
                 if kw.arg:
                     args[kw.arg] = kw.value
 
-            name = const_str(args.get("name")) if "name" in args else None
-            rx = const_str(args.get("regex")) if "regex" in args else None
+            name = const_str(args.get("name"), env) if "name" in args else None
+            rx = const_str(args.get("regex"), env) if "regex" in args else None
             score = const_num(args.get("score")) if "score" in args else None
             if rx is None:
                 return None  # computed pattern; needs a hand port
