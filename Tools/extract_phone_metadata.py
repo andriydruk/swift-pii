@@ -106,8 +106,24 @@ for code in sorted(codes):
     if members:
         by_code[str(code)] = members
 
+# The matcher's own regexes. These are built from character-class constants at
+# import time, so they are lifted as compiled strings rather than reconstructed.
+import phonenumbers.phonenumbermatcher as _M
+matcher = {
+    "pattern": _M._PATTERN.pattern,
+    "matching_brackets": _M._MATCHING_BRACKETS.pattern,
+    "pub_pages": _M._PUB_PAGES.pattern,
+    "slash_dates": _M._SLASH_SEPARATED_DATES.pattern,
+    "time_stamps": _M._TIME_STAMPS.pattern,
+    "time_stamps_suffix": _M._TIME_STAMPS_SUFFIX.pattern,
+    "lead_class": _M._LEAD_CLASS,
+    "unwanted_end_chars": _M._UNWANTED_END_CHAR_PATTERN.pattern,
+    "inner_matches": [p.pattern for p in _M._INNER_MATCHES],
+}
+
 json.dump({
     "phonenumbers_version": phonenumbers.__version__,
+    "matcher": matcher,
     "regions": out,
     "regions_by_country_code": by_code,
 }, sys.stdout, ensure_ascii=False)

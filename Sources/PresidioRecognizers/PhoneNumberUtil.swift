@@ -9,11 +9,20 @@ public struct PhoneNumber: Sendable, Hashable {
     public let nationalNumber: String
     /// How many leading zeros the national number had.
     public let leadingZeros: Int
+    /// True when the country code came from the default region rather than
+    /// from a leading `+`. libphonenumber calls this
+    /// `country_code_source == FROM_DEFAULT_COUNTRY`, and it decides whether a
+    /// national prefix is required.
+    public let fromDefaultRegion: Bool
 
-    public init(countryCode: Int, nationalNumber: String, leadingZeros: Int = 0) {
+    public init(
+        countryCode: Int, nationalNumber: String,
+        leadingZeros: Int = 0, fromDefaultRegion: Bool = false
+    ) {
         self.countryCode = countryCode
         self.nationalNumber = nationalNumber
         self.leadingZeros = leadingZeros
+        self.fromDefaultRegion = fromDefaultRegion
     }
 
     /// `national_significant_number`: the national number with its leading
@@ -94,6 +103,7 @@ public enum PhoneNumberUtil {
         let pager: Descriptor?
         let uan: Descriptor?
         let voicemail: Descriptor?
+        let numberFormat: [NumberFormat]?
 
         enum CodingKeys: String, CodingKey {
             case countryCode = "country_code"
@@ -110,6 +120,22 @@ public enum PhoneNumberUtil {
             case sharedCost = "shared_cost"
             case personalNumber = "personal_number"
             case voip, pager, uan, voicemail
+            case numberFormat = "number_format"
+        }
+    }
+
+    struct NumberFormat: Decodable {
+        let pattern: String
+        let leadingDigitsPattern: [String]
+        let nationalPrefixFormattingRule: String?
+        let nationalPrefixOptionalWhenFormatting: Bool
+
+        enum CodingKeys: String, CodingKey {
+            case pattern
+            case leadingDigitsPattern = "leading_digits_pattern"
+            case nationalPrefixFormattingRule = "national_prefix_formatting_rule"
+            case nationalPrefixOptionalWhenFormatting =
+                "national_prefix_optional_when_formatting"
         }
     }
 
@@ -240,7 +266,8 @@ public enum PhoneNumberUtil {
         return PhoneNumber(
             countryCode: countryCode,
             nationalNumber: stripped.isEmpty ? digits : stripped,
-            leadingZeros: stripped.isEmpty ? 0 : zeros
+            leadingZeros: stripped.isEmpty ? 0 : zeros,
+            fromDefaultRegion: !hasPlus
         )
     }
 
@@ -369,6 +396,60 @@ public enum PhoneNumberUtil {
             }
         }
         return nil
+    }
+
+    /// Port of `_is_national_prefix_present_if_required`.
+    ///
+    /// A number written in international form never needs a national prefix.
+    /// One written nationally does, when the format rule that applies to it
+    /// says so — which is what rejects a Philippine mobile typed without its
+    /// leading 0.
+    public static func isNationalPrefixPresentIfRequired(
+        _ number: PhoneNumber, raw: String
+    ) -> Bool {
+        guard number.fromDefaultRegion else { return true }
+        guard let code = regionCode(for: number),
+              let region = metadata?.regions[code],
+              let formats = region.numberFormat
+        else { return true }
+
+        let national = number.significantNumber
+        guard let rule = chooseFormat(formats, for: national),
+              let prefixRule = rule.nationalPrefixFormattingRule,
+              !prefixRule.isEmpty
+        else { return true }
+        if rule.nationalPrefixOptionalWhenFormatting { return true }
+        // A rule that is just the first group plus punctuation does not carry a
+        // national prefix, so none is required.
+        if formattingRuleHasFirstGroupOnly(prefixRule) { return true }
+
+        guard let prefix = region.nationalPrefix, !prefix.isEmpty else { return true }
+        return digitsOnly(raw).hasPrefix(prefix)
+    }
+
+    /// `_choose_formatting_pattern_for_number`.
+    static func chooseFormat(
+        _ formats: [NumberFormat], for national: String
+    ) -> NumberFormat? {
+        for format in formats {
+            let leading = format.leadingDigitsPattern
+            // Only the last leading-digits pattern is checked, as a prefix.
+            if let last = leading.last {
+                guard let regex = regex("^(?:" + last + ")"),
+                      regex.matches(in: national).contains(where: { $0.0 == 0 })
+                else { continue }
+            }
+            if fullMatch(format.pattern, national) { return format }
+        }
+        return nil
+    }
+
+    /// `_formatting_rule_has_first_group_only`: the rule is `$1` with optional
+    /// surrounding punctuation.
+    static func formattingRuleHasFirstGroupOnly(_ rule: String) -> Bool {
+        let stripped = rule.filter { $0 != "(" && $0 != ")" && $0 != "-"
+            && $0 != " " && $0 != "." }
+        return stripped == "$1"
     }
 
     static func mainRegion(forCountryCode code: Int) -> Region? {

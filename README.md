@@ -161,25 +161,25 @@ recognizer whose *patterns* cannot be extracted:
 
 | Recognizer | cases | Why |
 |---|---:|---|
-| `PhoneRecognizer` | 106 | delegates to libphonenumber — **port started, see below** |
+| `PhoneRecognizer` | 106 | delegates to libphonenumber — **ported, see below** |
 | `UsMbiRecognizer` | 17 | builds `PATTERNS` programmatically |
 | `UrlRecognizer` | 16 | builds `PATTERNS` programmatically |
 | `ZaMobileNumberRecognizer` | 14 | same |
 | `ZaTelephoneNumberRecognizer` | 14 | same |
 
-### PhoneRecognizer — partial
+### PhoneRecognizer
 
 `PhoneRecognizer` has no patterns of its own: it delegates entirely to
-`phonenumbers`, so parity means porting Google's algorithm, not a regex. There
-is no shortcut available — **PhoneNumberKit has no text-scanning API**, only
-parse/format/validate, so it cannot supply the part that matters.
+`phonenumbers`, so parity means porting Google's algorithm. There was no
+shortcut — **PhoneNumberKit has no text-scanning API**, only parse/format/
+validate, so it cannot supply `PhoneNumberMatcher`, which is the part the
+recognizer is built on.
 
-Scope: 4,187 lines of Python (`phonenumbermatcher.py` + `phonenumberutil.py`)
-plus metadata for the twelve regions the recognizers configure (77 KB,
-extracted by [`Tools/extract_phone_metadata.py`](Tools/extract_phone_metadata.py)).
+Both halves are now ported, against metadata extracted for the 38 regions
+sharing the eleven configured country codes
+([`Tools/extract_phone_metadata.py`](Tools/extract_phone_metadata.py), 117 KB).
 
-**What works** — parse, validity, number type and region resolution, measured
-against `phonenumbers` itself over 480 cases:
+**Parse and validation**, over 480 differential cases:
 
 | | agreement |
 |---|---:|
@@ -188,18 +188,32 @@ against `phonenumbers` itself over 480 cases:
 | validity | 431/432 (99.8%) |
 | region resolution | 430/432 (99.5%) |
 
-**What does not** — `PhoneNumberMatcher`: finding numbers embedded in free text
-at a given leniency, which is exactly what the recognizer calls. Until that
-lands, `PhoneRecognizer` contributes nothing to conformance and its 106 cases
-stay uncovered.
+**The matcher**, over 624 differential cases across 12 regions and 2 leniencies:
 
-Two semantics were worth getting right. `region_code_for_number` returns a
-**single-region country code unconditionally**, without validating — only a
-shared code (+1, +44) is disambiguated, which is why the metadata covers all 38
-regions sharing the eleven configured country codes rather than just twelve.
-And `national_significant_number` keeps leading zeros, so `"020 7946 0958"`
-parsed as US is an *eleven*-digit number that matches nothing — dropping the
-zero makes it look like a valid US number.
+| | agreement |
+|---|---:|
+| exact per-case | 601/624 (96.3%) |
+| span recall | 394/407 (96.8%) |
+
+**The recognizer**, over its own 106 harvested corpus cases: **98/106 (92.5%)**.
+
+Three semantics were worth getting right, each of which silently changes results:
+
+- `region_code_for_number` returns a **single-region country code
+  unconditionally**, without validating. Only a shared code (+1, +44) is
+  disambiguated — which is why the metadata covers 38 regions, not 12.
+- `national_significant_number` **keeps leading zeros**, and that is what
+  validation matches. `"020 7946 0958"` parsed as US is an eleven-digit number
+  matching nothing; dropping the zero makes a British number look like a valid
+  US one.
+- `_is_national_prefix_present_if_required` rejects a nationally-formatted
+  number missing its prefix — this is what makes a Philippine mobile invalid
+  without its leading `0`.
+
+Known gaps: `STRICT_GROUPING` and `EXACT_GROUPING` leniency fall back to
+`VALID` (more permissive), and the 8 remaining corpus failures are the leniency
+table, whose expected count varies with a per-row `leniency` column the corpus
+does not carry.
 
 ### Bulk data
 

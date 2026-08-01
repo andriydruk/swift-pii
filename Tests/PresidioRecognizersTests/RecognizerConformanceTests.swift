@@ -226,9 +226,9 @@ struct RecognizerConformanceTests {
         for table in corpus.tables where Self.definitions[table.recognizer] == nil {
             missing[table.recognizer, default: 0] += table.cases.count
         }
-        // PhoneRecognizer delegates to libphonenumber; UsMbi and Url build
-        // their patterns programmatically; the two ZA number recognizers
-        // likewise. None of these is a checksum gap.
+        // None of these is a checksum gap — they have no extractable patterns.
+        // PhoneRecognizer is nonetheless implemented, via the custom-recognizer
+        // path rather than the catalogue; see PhoneRecognizerTests.
         #expect(Set(missing.keys) == [
             "PhoneRecognizer", "UsMbiRecognizer", "UrlRecognizer",
             "ZaMobileNumberRecognizer", "ZaTelephoneNumberRecognizer",
