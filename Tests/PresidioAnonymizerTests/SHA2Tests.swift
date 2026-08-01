@@ -1,4 +1,5 @@
 import Testing
+import PresidioCore
 @testable import PresidioAnonymizer
 
 /// Known-answer tests for the hand-written SHA-2.

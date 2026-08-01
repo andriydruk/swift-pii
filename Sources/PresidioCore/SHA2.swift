@@ -1,5 +1,9 @@
 /// SHA-256 and SHA-512 (FIPS 180-4), in pure Swift.
 ///
+/// Lives in PresidioCore because two unrelated consumers need it: the
+/// anonymizer's `hash` operator, and `CryptoRecognizer`, whose Bitcoin address
+/// check is a double SHA-256 over base58-decoded bytes.
+///
 /// Written here rather than pulled from swift-crypto so the package keeps zero
 /// dependencies and builds unchanged on every target. These are hashes, not
 /// secret-key primitives — there is no key material to leak through a timing

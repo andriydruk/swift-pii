@@ -149,26 +149,40 @@ Against the 1,654-case corpus harvested from Presidio's own tests:
 
 | | cases | |
 |---|---:|---|
-| **Verified green** | **1,439** | 87% — every case passes, spans and scores |
-| Blocked | 48 | 3% — needs more than a checksum (see below) |
-| No pattern data | 167 | 10% — recognizer builds patterns programmatically |
+| **Verified green** | **1,487** | 90% — every case passes, spans and scores |
+| Blocked on validators | **0** | — |
+| No extractable patterns | 167 | 10% — see below |
 
-**41 validators implemented**, covering Luhn and its variants, Verhoeff,
-ISO 7064 Mod 11,10, mod-97/23/11/10 weighted sums, date plausibility, and
-structural rules — across DE, ZA, KR, AU, IT, ES, SE, TR, TH, FI, IN, PH, UK,
-US and CA, plus the generic IBAN, IP, MAC, UUID, credit-card, NHS, ABA, NPI and
-medical-licence recognizers.
+**53 validators**, covering every recognizer whose patterns can be lifted into
+data. The blocked count is a test-enforced hard zero, not a ratchet.
 
-The blocked count is a **test-enforced ratchet** — it may only go down. What
-remains needs something other than arithmetic:
+The remaining 167 are a different kind of gap — not a missing checksum, but a
+recognizer whose *patterns* cannot be extracted:
 
-| Recognizer | cases | Blocker |
+| Recognizer | cases | Why |
 |---|---:|---|
-| `SgUenRecognizer` | 11 | Format A/B/C alphabets + a current-year comparison |
-| `CryptoRecognizer` | 10 | SHA-256, base58 and bech32/bech32m |
-| `InVehicleRegistrationRecognizer` | 10 | State/RTO district tables |
-| `ZaCompanyRegistrationRecognizer` | 9 | Legacy prefix table + current-year comparison |
-| `EmailRecognizer` | 8 | Public Suffix List (upstream uses `tldextract`) |
+| `PhoneRecognizer` | 106 | delegates to libphonenumber, no regex |
+| `UsMbiRecognizer` | 17 | builds `PATTERNS` programmatically |
+| `UrlRecognizer` | 16 | builds `PATTERNS` programmatically |
+| `ZaMobileNumberRecognizer` | 14 | same |
+| `ZaTelephoneNumberRecognizer` | 14 | same |
+
+### Bulk data
+
+Five recognizers needed data rather than arithmetic, extracted by
+[`Tools/extract_recognizer_data.py`](Tools/extract_recognizer_data.py): the
+Public Suffix List (10,239 rules) for `EmailRecognizer`, India's RTO district
+tables for vehicle registrations, Singapore's UEN alphabets, South Africa's
+legacy company prefixes, and base58/bech32 plus SHA-256 for `CryptoRecognizer`.
+
+The PSL is punycoded at extraction time. It stores IDN suffixes in Unicode
+(`рф`) while addresses carry them as A-labels (`xn--p1ai`), so 459 rules would
+otherwise never match — and doing it in Python keeps IDNA out of the Swift
+package entirely.
+
+These validators fail *closed* when their data does not decode, which is
+indistinguishable from "nothing validates". A test asserts the resource is
+present, because one missing key once disabled all five silently.
 
 ### Behaviours that are easy to get wrong
 

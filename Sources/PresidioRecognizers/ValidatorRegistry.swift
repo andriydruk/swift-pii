@@ -85,6 +85,17 @@ public enum ValidatorRegistry {
         ),
         "IbanRecognizer": RecognizerLogic(validate: IbanValidator.validate),
 
+        // Data-backed validators. See DataValidators.
+        "EmailRecognizer": RecognizerLogic(validate: DataValidators.email),
+        "CryptoRecognizer": RecognizerLogic(validate: DataValidators.crypto),
+        "SgUenRecognizer": RecognizerLogic(validate: DataValidators.singaporeUen),
+        "ZaCompanyRegistrationRecognizer": RecognizerLogic(
+            validate: DataValidators.zaCompanyRegistration
+        ),
+        "InVehicleRegistrationRecognizer": RecognizerLogic(
+            validate: DataValidators.indiaVehicleRegistration
+        ),
+
         // Country-specific national IDs. See CountryValidators.
         "ThTninRecognizer": RecognizerLogic(validate: CountryValidators.thaiTnin),
         "FiPersonalIdentityCodeRecognizer": RecognizerLogic(

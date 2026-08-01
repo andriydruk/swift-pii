@@ -1,3 +1,4 @@
+import PresidioCore
 /// Replaces the span with a salted SHA-2 digest.
 ///
 /// Upstream requires a salt of at least 16 bytes, or generates 32 random bytes

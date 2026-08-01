@@ -186,21 +186,54 @@ struct RecognizerConformanceTests {
             }
         }
 
-        // Ratchet: this must go DOWN as validators land. If it rises, either a
-        // validator was removed or the corpus grew in an unhandled area.
-        // Currently 48/1654 (3%), across 5 recognizers that each need
-        // something beyond a checksum: a public suffix list (Email), SHA-256 +
-        // base58 + bech32 (Crypto), large state/district tables
-        // (InVehicleRegistration), or constants plus a current-date comparison
-        // (SgUen, ZaCompanyRegistration).
+        // Every recognizer that has extractable patterns now has its logic.
+        // This is a hard zero, not a ratchet: a regression means a validator
+        // was removed or upstream added a recognizer we have not handled.
         #expect(
-            blockedCases <= 48,
+            blockedCases == 0,
             """
             \(blockedCases)/\(totalCases) cases blocked on \
             \(blockedRecognizers.count) unimplemented validators. \
             Lower this bound as validators land; it must never rise.
             """
         )
+    }
+
+    /// The data-backed validators fail *closed* when their bundled JSON does
+    /// not decode — every one of them returns `.invalid`, which is
+    /// indistinguishable from "nothing validates". That is exactly what
+    /// happened when the extractor skipped `LEGACY_PREFIXES` (a `frozenset(...)`
+    /// call rather than a literal): one missing key silently disabled five
+    /// recognizers. This asserts the resource is really there.
+    @Test("the bundled recognizer data decodes")
+    func recognizerDataLoads() {
+        #expect(
+            DataValidators.isDataLoaded,
+            "\(DataValidators.loadFailure ?? "unknown failure")"
+        )
+        // Spot-check each section, so a partially-empty payload is caught too.
+        #expect(DataValidators.publicSuffixLength(["example", "site"]) == 1)
+        #expect(DataValidators.publicSuffixLength(["example", "co", "uk"]) == 2)
+        #expect(DataValidators.crypto("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4") == .valid)
+    }
+
+    /// Recognizers whose patterns cannot be lifted into data at all, so they are
+    /// not merely missing a validator. Reported rather than ignored.
+    @Test("recognizers without extractable patterns are accounted for")
+    func unextractableRecognizersAreVisible() throws {
+        let corpus = try Corpus.recognizerCases()
+        var missing: [String: Int] = [:]
+        for table in corpus.tables where Self.definitions[table.recognizer] == nil {
+            missing[table.recognizer, default: 0] += table.cases.count
+        }
+        // PhoneRecognizer delegates to libphonenumber; UsMbi and Url build
+        // their patterns programmatically; the two ZA number recognizers
+        // likewise. None of these is a checksum gap.
+        #expect(Set(missing.keys) == [
+            "PhoneRecognizer", "UsMbiRecognizer", "UrlRecognizer",
+            "ZaMobileNumberRecognizer", "ZaTelephoneNumberRecognizer",
+        ])
+        #expect(missing.values.reduce(0, +) <= 167)
     }
 
     @Test("every catalogue recognizer either builds or is explained")
