@@ -4,13 +4,27 @@ import PresidioRegex
 /// A parsed phone number: country calling code plus national significant number.
 public struct PhoneNumber: Sendable, Hashable {
     public let countryCode: Int
-    /// Digits only, national prefix stripped, leading zeros removed — the same
-    /// normalization libphonenumber applies before validation.
+    /// Digits with the national prefix stripped and leading zeros removed —
+    /// libphonenumber's `national_number`, which is an integer there.
     public let nationalNumber: String
+    /// How many leading zeros the national number had.
+    public let leadingZeros: Int
 
-    public init(countryCode: Int, nationalNumber: String) {
+    public init(countryCode: Int, nationalNumber: String, leadingZeros: Int = 0) {
         self.countryCode = countryCode
         self.nationalNumber = nationalNumber
+        self.leadingZeros = leadingZeros
+    }
+
+    /// `national_significant_number`: the national number with its leading
+    /// zeros put back.
+    ///
+    /// This, not `nationalNumber`, is what validation matches. Missing the
+    /// distinction makes `parse("020 7946 0958", "US")` look like a valid US
+    /// number — the zero is not a US national prefix, so it stays part of the
+    /// number and makes it 11 digits, which matches nothing.
+    public var significantNumber: String {
+        String(repeating: "0", count: leadingZeros) + nationalNumber
     }
 }
 
@@ -68,6 +82,7 @@ public enum PhoneNumberUtil {
         let nationalPrefixTransformRule: String?
         let leadingDigits: String?
         let mainCountryForCode: Bool
+        let sameMobileAndFixedLinePattern: Bool
         let generalDesc: Descriptor?
         let fixedLine: Descriptor?
         let mobile: Descriptor?
@@ -87,6 +102,7 @@ public enum PhoneNumberUtil {
             case nationalPrefixTransformRule = "national_prefix_transform_rule"
             case leadingDigits = "leading_digits"
             case mainCountryForCode = "main_country_for_code"
+            case sameMobileAndFixedLinePattern = "same_mobile_and_fixed_line_pattern"
             case generalDesc = "general_desc"
             case fixedLine = "fixed_line"
             case mobile, tollFree = "toll_free"
@@ -219,12 +235,12 @@ public enum PhoneNumberUtil {
 
         guard digits.count >= 2 else { throw .tooShort }
         guard digits.count <= 17 else { throw .tooLong }
-        // libphonenumber drops leading zeros from the national number unless
-        // the region marks them significant; none of the twelve here does.
-        let national = String(digits.drop { $0 == "0" })
+        let stripped = String(digits.drop { $0 == "0" })
+        let zeros = digits.count - stripped.count
         return PhoneNumber(
             countryCode: countryCode,
-            nationalNumber: national.isEmpty ? digits : national
+            nationalNumber: stripped.isEmpty ? digits : stripped,
+            leadingZeros: stripped.isEmpty ? 0 : zeros
         )
     }
 
@@ -257,88 +273,102 @@ public enum PhoneNumberUtil {
     }
 
     // MARK: - Validation
+    //
+    // Ported from `_number_type_helper`, `_is_number_matching_desc`,
+    // `region_code_for_number` and `is_valid_number_for_region`. The structure
+    // matters more than it looks: an earlier version required validity for
+    // *every* region, which is not what libphonenumber does, and cost 32% of
+    // region-resolution agreement.
+
+    /// `_is_number_matching_desc`: possible-length gate, then a full pattern
+    /// match. An empty pattern never matches.
+    static func matchesDescriptor(_ national: String, _ descriptor: Descriptor?) -> Bool {
+        guard let descriptor else { return false }
+        if !descriptor.possibleLength.isEmpty,
+           !descriptor.possibleLength.contains(national.count) {
+            return false
+        }
+        guard !descriptor.nationalNumberPattern.isEmpty else { return false }
+        return fullMatch(descriptor.nationalNumberPattern, national)
+    }
+
+    /// `_number_type_helper`. The general descriptor gates everything, and the
+    /// specific types are checked before the fixed-line/mobile pair.
+    static func numberTypeHelper(_ national: String, _ region: Region) -> PhoneNumberType {
+        guard matchesDescriptor(national, region.generalDesc) else { return .unknown }
+        if matchesDescriptor(national, region.premiumRate) { return .premiumRate }
+        if matchesDescriptor(national, region.tollFree) { return .tollFree }
+        if matchesDescriptor(national, region.sharedCost) { return .sharedCost }
+        if matchesDescriptor(national, region.voip) { return .voip }
+        if matchesDescriptor(national, region.personalNumber) { return .personalNumber }
+        if matchesDescriptor(national, region.pager) { return .pager }
+        if matchesDescriptor(national, region.uan) { return .uan }
+        if matchesDescriptor(national, region.voicemail) { return .voicemail }
+
+        if matchesDescriptor(national, region.fixedLine) {
+            if region.sameMobileAndFixedLinePattern { return .fixedLineOrMobile }
+            return matchesDescriptor(national, region.mobile) ? .fixedLineOrMobile : .fixedLine
+        }
+        if matchesDescriptor(national, region.mobile) { return .mobile }
+        return .unknown
+    }
 
     public static func isPossible(_ number: PhoneNumber) -> Bool {
         guard let region = mainRegion(forCountryCode: number.countryCode),
               let general = region.generalDesc
         else { return false }
-        let length = number.nationalNumber.count
+        let length = number.significantNumber.count
         if general.possibleLength.isEmpty { return true }
         return general.possibleLength.contains(length)
             || general.possibleLengthLocalOnly.contains(length)
     }
 
+    /// `is_valid_number`: resolve the region, then check the number really is
+    /// of some known type there.
     public static func isValid(_ number: PhoneNumber) -> Bool {
-        regionCode(for: number) != nil
+        guard let code = regionCode(for: number),
+              let region = metadata?.regions[code],
+              region.countryCode == number.countryCode
+        else { return false }
+        return numberTypeHelper(number.significantNumber, region) != .unknown
     }
 
     public static func type(of number: PhoneNumber) -> PhoneNumberType {
         guard let code = regionCode(for: number),
               let region = metadata?.regions[code]
         else { return .unknown }
-        return type(of: number.nationalNumber, in: region)
+        return numberTypeHelper(number.significantNumber, region)
     }
 
-    static func type(of national: String, in region: Region) -> PhoneNumberType {
-        func matches(_ descriptor: Descriptor?) -> Bool {
-            guard let descriptor, !descriptor.nationalNumberPattern.isEmpty
-            else { return false }
-            return fullMatch(descriptor.nationalNumberPattern, national)
-        }
-        // Order matters: libphonenumber checks the specific types before the
-        // fixed-line/mobile pair, and reports fixedLineOrMobile when both hit.
-        if matches(region.premiumRate) { return .premiumRate }
-        if matches(region.tollFree) { return .tollFree }
-        if matches(region.sharedCost) { return .sharedCost }
-        if matches(region.voip) { return .voip }
-        if matches(region.personalNumber) { return .personalNumber }
-        if matches(region.pager) { return .pager }
-        if matches(region.uan) { return .uan }
-        if matches(region.voicemail) { return .voicemail }
-
-        let fixed = matches(region.fixedLine)
-        let mobile = matches(region.mobile)
-        if fixed { return mobile ? .fixedLineOrMobile : .fixedLine }
-        if mobile { return .mobile }
-        return .unknown
-    }
-
-    /// Which region a number belongs to, or nil when it is not valid anywhere
-    /// under its country code.
+    /// `region_code_for_number`.
+    ///
+    /// A country code with exactly one region returns it **unconditionally** —
+    /// no validation at all. Only a shared code (+1 spans the US, Canada and
+    /// the Caribbean; +44 spans GB, GG, IM and JE) is disambiguated, which is
+    /// why the metadata includes every region sharing a code rather than just
+    /// the twelve the recognizers name.
     public static func regionCode(for number: PhoneNumber) -> String? {
         guard let metadata,
-              let candidates = metadata.regionsByCountryCode[String(number.countryCode)]
+              let candidates = metadata.regionsByCountryCode[String(number.countryCode)],
+              !candidates.isEmpty
         else { return nil }
-        // A single-region code needs only a validity check; a shared code
-        // (+1 is US and CA) is disambiguated by leading digits, then by which
-        // region's patterns the number actually matches.
+        if candidates.count == 1 { return candidates[0] }
+
         for code in candidates {
             guard let region = metadata.regions[code] else { continue }
             if let leading = region.leadingDigits, !leading.isEmpty {
+                // A prefix match, not a full one — and note the `elif`: when
+                // leading digits are present but do not match, the region is
+                // skipped rather than falling through to the type check.
                 if let regex = regex("^(?:" + leading + ")"),
-                   regex.matches(in: number.nationalNumber).contains(where: { $0.0 == 0 }) {
+                   regex.matches(in: number.significantNumber).contains(where: { $0.0 == 0 }) {
                     return code
                 }
-                continue
+            } else if numberTypeHelper(number.significantNumber, region) != .unknown {
+                return code
             }
-            // Full validity, not just a general-descriptor match: the general
-            // pattern is deliberately loose, so accepting it alone reports a
-            // region for numbers libphonenumber rejects outright.
-            if isValid(number.nationalNumber, in: region) { return code }
         }
         return nil
-    }
-
-    /// A number is valid for a region when its length is possible *and* it
-    /// matches the general descriptor *and* it resolves to a known type.
-    static func isValid(_ national: String, in region: Region) -> Bool {
-        guard let general = region.generalDesc else { return false }
-        if !general.possibleLength.isEmpty,
-           !general.possibleLength.contains(national.count) {
-            return false
-        }
-        guard fullMatch(general.nationalNumberPattern, national) else { return false }
-        return type(of: national, in: region) != .unknown
     }
 
     static func mainRegion(forCountryCode code: Int) -> Region? {

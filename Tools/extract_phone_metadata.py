@@ -31,7 +31,23 @@ import json, sys
 import phonenumbers
 from phonenumbers import phonemetadata
 
-regions = json.loads(sys.argv[1])
+requested = json.loads(sys.argv[1])
+
+# Every region sharing a country code with a requested one must be included.
+# region_code_for_number returns a single-region code UNCONDITIONALLY and only
+# disambiguates when a code has several regions -- so a truncated list would
+# turn +44 (GB, GG, IM, JE) into an unconditional "GB" and diverge.
+from phonenumbers.phonenumberutil import COUNTRY_CODE_TO_REGION_CODE
+codes = set()
+for region in requested:
+    m = phonemetadata.PhoneMetadata.metadata_for_region(region)
+    if m is not None:
+        codes.add(m.country_code)
+regions = []
+for code in sorted(codes):
+    for region in COUNTRY_CODE_TO_REGION_CODE.get(code, []):
+        if region not in regions:
+            regions.append(region)
 
 def desc(d):
     if d is None:
@@ -65,6 +81,7 @@ for region in regions:
         "national_prefix_transform_rule": m.national_prefix_transform_rule,
         "leading_digits": m.leading_digits,
         "main_country_for_code": bool(m.main_country_for_code),
+        "same_mobile_and_fixed_line_pattern": bool(m.same_mobile_and_fixed_line_pattern),
         "general_desc": desc(m.general_desc),
         "fixed_line": desc(m.fixed_line),
         "mobile": desc(m.mobile),
@@ -82,14 +99,12 @@ for region in regions:
 
 # Which regions share each country code, in the order libphonenumber tries them.
 # +1 covers both US and CA, and region_code_for_number has to pick.
+# Preserve libphonenumber's own ordering: it is what decides which region wins.
 by_code = {}
-for region in regions:
-    m = phonemetadata.PhoneMetadata.metadata_for_region(region)
-    if m is None:
-        continue
-    by_code.setdefault(str(m.country_code), []).append(region)
-for code, members in by_code.items():
-    members.sort(key=lambda r: not phonemetadata.PhoneMetadata.metadata_for_region(r).main_country_for_code)
+for code in sorted(codes):
+    members = [r for r in COUNTRY_CODE_TO_REGION_CODE.get(code, []) if r in out]
+    if members:
+        by_code[str(code)] = members
 
 json.dump({
     "phonenumbers_version": phonenumbers.__version__,

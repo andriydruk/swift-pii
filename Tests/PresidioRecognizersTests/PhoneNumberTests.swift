@@ -22,6 +22,7 @@ struct PhoneNumberTests {
             let parsed: Bool
             let countryCode: Int?
             let nationalNumber: String?
+            let significant: String?
             let valid: Bool?
             let possible: Bool?
             let type: Int?
@@ -31,6 +32,7 @@ struct PhoneNumberTests {
                 case region, text, parsed, valid, possible, type
                 case countryCode = "country_code"
                 case nationalNumber = "national_number"
+                case significant
                 case regionCode = "region_code"
             }
         }
@@ -42,12 +44,20 @@ struct PhoneNumberTests {
         try! JSONDecoder().decode(Gold.self, from: Corpus.data(named: "phone_parse_gold"))
     }()
 
-    @Test("metadata for all twelve configured regions is bundled")
+    @Test("metadata covers every region sharing a configured country code")
     func metadataLoads() {
         #expect(PhoneNumberUtil.isMetadataLoaded)
-        #expect(Set(PhoneNumberUtil.supportedRegions) == [
+        let regions = Set(PhoneNumberUtil.supportedRegions)
+        // The twelve the recognizers name...
+        #expect(regions.isSuperset(of: [
             "US", "GB", "DE", "FR", "IL", "IN", "CA", "BR", "JP", "CN", "PH", "TR",
-        ])
+        ]))
+        // ...plus everyone sharing their country codes, because
+        // region_code_for_number only disambiguates when a code has more than
+        // one region. Truncating would make +44 an unconditional "GB".
+        #expect(regions.isSuperset(of: ["GG", "IM", "JE"]))   // +44
+        #expect(regions.isSuperset(of: ["PR", "JM", "BS"]))   // +1
+        #expect(regions.count >= 38)
     }
 
     /// Reported as measured agreement rather than asserted equality: the port is
@@ -67,8 +77,10 @@ struct PhoneNumberTests {
             if (produced != nil) == testCase.parsed { parseAgree += 1 }
             guard let produced, testCase.parsed else { continue }
 
+            // Compare the SIGNIFICANT number: leading zeros are part of it and
+            // are what validation matches against.
             let sameNumber = produced.countryCode == testCase.countryCode
-                && produced.nationalNumber == testCase.nationalNumber
+                && produced.significantNumber == (testCase.significant ?? testCase.nationalNumber)
             if sameNumber { numberAgree += 1 }
 
             let valid = PhoneNumberUtil.isValid(produced)
@@ -99,16 +111,12 @@ struct PhoneNumberTests {
         // Bounds record where the port actually is, measured rather than
         // aspirational. Raise them as it improves; they must never fall.
         //
-        // Current: parse/reject 479/480 (99.8%), NSN 400/432 (92.6%),
-        // validity 423/432 (97.9%), region 294/432 (68.1%).
-        //
-        // Region resolution is the weakest link and the next thing to fix — it
-        // decides which region's patterns a number is validated against, so the
-        // other three cannot get far ahead of it.
+        // Current: parse/reject 479/480 (99.8%), NSN 416/432 (96.3%),
+        // validity 431/432 (99.8%), region 430/432 (99.5%).
         #expect(total >= 400)
         #expect(Double(parseAgree) / Double(total) >= 0.99)
-        #expect(Double(numberAgree) / Double(parsedCases) >= 0.92)
-        #expect(Double(validAgree) / Double(parsedCases) >= 0.97)
-        #expect(Double(regionAgree) / Double(parsedCases) >= 0.68)
+        #expect(Double(numberAgree) / Double(parsedCases) >= 0.96)
+        #expect(Double(validAgree) / Double(parsedCases) >= 0.99)
+        #expect(Double(regionAgree) / Double(parsedCases) >= 0.99)
     }
 }

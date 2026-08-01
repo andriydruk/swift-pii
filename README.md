@@ -184,17 +184,22 @@ against `phonenumbers` itself over 480 cases:
 | | agreement |
 |---|---:|
 | parse / reject | 479/480 (99.8%) |
-| national number | 400/432 (92.6%) |
-| validity | 423/432 (97.9%) |
-| region resolution | 294/432 (68.1%) |
+| national number | 416/432 (96.3%) |
+| validity | 431/432 (99.8%) |
+| region resolution | 430/432 (99.5%) |
 
 **What does not** — `PhoneNumberMatcher`: finding numbers embedded in free text
 at a given leniency, which is exactly what the recognizer calls. Until that
 lands, `PhoneRecognizer` contributes nothing to conformance and its 106 cases
 stay uncovered.
 
-Region resolution is the weakest link and the next thing to fix, since it
-decides which region's patterns a number is validated against.
+Two semantics were worth getting right. `region_code_for_number` returns a
+**single-region country code unconditionally**, without validating — only a
+shared code (+1, +44) is disambiguated, which is why the metadata covers all 38
+regions sharing the eleven configured country codes rather than just twelve.
+And `national_significant_number` keeps leading zeros, so `"020 7946 0958"`
+parsed as US is an *eleven*-digit number that matches nothing — dropping the
+zero makes it look like a valid US number.
 
 ### Bulk data
 
