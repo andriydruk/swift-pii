@@ -219,10 +219,15 @@ once and shared. Where `@unchecked Sendable` appears it is because the type was
 
 ThreadSanitizer cannot load on this project's macOS dev host (Xcode's sanitizer
 dylib fails the platform code-signature policy), so the race check runs as its
-own **Linux CI job** over a concurrency suite that hammers a shared engine from
-8 tasks. Running the suite without TSan is not evidence of anything: a warm
-cache makes the race window small, and it passed happily while the bug was
-present.
+own **Linux CI job**.
+
+That job was then checked against a branch with the lock deliberately removed —
+and the first version of it **passed**, because the test warmed the tokenizer
+cache serially before the concurrent phase, so the tasks only ever read it. The
+test now gives every task text no other task has seen, and on the same broken
+branch TSan reports `Swift access race` in `SpacyTokenizer.emit`. A sanitizer
+job that has only ever seen correct code is not evidence. See
+[ADR 0002](docs/decisions/0002-concurrency.md).
 
 ## Diagnostics
 
