@@ -2,7 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    # ci/** so a guard can be validated by deliberately breaking it on a
+    # branch -- a sanitizer job that has only ever seen correct code proves
+    # nothing about whether it would catch the bug.
+    branches: [main, 'ci/**']
   pull_request:
 
 concurrency:
