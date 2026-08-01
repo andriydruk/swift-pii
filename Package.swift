@@ -1,7 +1,11 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
-// Swift Presidio — a Presidio-compatible PII detection and anonymization library.
+// swift-pii — a Presidio-compatible PII detection and anonymization library.
+//
+// Not affiliated with the Presidio project. Module names carry the `Presidio`
+// prefix to say what they are compatible with; the package does not, because a
+// package name implies authorship.
 //
 // Portability discipline (see PLAN.md §4): this package must never import an
 // Apple closed-source framework. macOS is the first supported platform, but the
@@ -10,7 +14,7 @@ import PackageDescription
 // on Darwin.
 
 let package = Package(
-    name: "SwiftPresidio",
+    name: "swift-pii",
     platforms: [
         .macOS(.v13)
     ],

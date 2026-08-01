@@ -148,6 +148,8 @@ def main() -> int:
     ap.add_argument("--presidio", required=True)
     ap.add_argument("--psl", required=True, help="public_suffix_list.dat")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--psl-out", required=True,
+                    help="PSL destination, kept separate for licence reasons")
     args = ap.parse_args()
 
     india_path = os.path.join(args.presidio, INDIA)
@@ -170,9 +172,29 @@ def main() -> int:
             "predefined_recognizers", "country_specific", *parts,
         )
 
+    # The PSL is Mozilla Public License 2.0, which is file-level copyleft. It
+    # is written to its own file with the upstream notice preserved, rather
+    # than merged into the MIT-licensed recognizer data, so the licence stays
+    # scoped to the file it applies to.
+    psl_payload = {
+        "schema_version": 1,
+        "source": "https://publicsuffix.org/list/public_suffix_list.dat",
+        "license": "MPL-2.0",
+        "notice": (
+            "This Source Code Form is subject to the terms of the Mozilla "
+            "Public License, v. 2.0. If a copy of the MPL was not distributed "
+            "with this file, You can obtain one at https://mozilla.org/MPL/2.0/."
+        ),
+        "note": "IDN suffixes punycoded; see Tools/extract_recognizer_data.py",
+        "rules": parse_psl(args.psl),
+    }
+    os.makedirs(os.path.dirname(os.path.abspath(args.psl_out)), exist_ok=True)
+    with open(args.psl_out, "w", encoding="utf-8") as fh:
+        json.dump(psl_payload, fh, ensure_ascii=False)
+        fh.write("\n")
+
     payload = {
         "schema_version": 1,
-        "public_suffix_list": parse_psl(args.psl),
         "india_vehicle": india_out,
         "sg_uen": class_constants(
             recognizer_path("singapore", "sg_uen_recognizer.py"), "SgUenRecognizer"
@@ -188,8 +210,9 @@ def main() -> int:
         json.dump(payload, fh, ensure_ascii=False)
         fh.write("\n")
 
-    psl = payload["public_suffix_list"]
+    psl = psl_payload["rules"]
     print(f"wrote {args.out} ({os.path.getsize(args.out) / 1024:.0f} KB)")
+    print(f"wrote {args.psl_out} ({os.path.getsize(args.psl_out) / 1024:.0f} KB, MPL-2.0)")
     print(f"  PSL: {len(psl['normal'])} normal, {len(psl['wildcard'])} wildcard, "
           f"{len(psl['exception'])} exception")
     india_prefixes = payload["india_vehicle"]["two_factor_registration_prefix"]

@@ -10,12 +10,13 @@ import PresidioAnalyzer
 /// `Tools/extract_recognizer_data.py`; only the logic lives here.
 public enum DataValidators {
 
+    struct PSL: Decodable {
+        let normal: [String]
+        let wildcard: [String]
+        let exception: [String]
+    }
+
     struct Data: Decodable {
-        struct PSL: Decodable {
-            let normal: [String]
-            let wildcard: [String]
-            let exception: [String]
-        }
         struct India: Decodable {
             let stateRtoDistrictMap: [String: [String]]
             let diplomaticCodes: [String]
@@ -57,13 +58,11 @@ public enum DataValidators {
             }
         }
 
-        let publicSuffixList: PSL
         let indiaVehicle: India
         let sgUen: SgUen
         let zaCompany: ZaCompany
 
         enum CodingKeys: String, CodingKey {
-            case publicSuffixList = "public_suffix_list"
             case indiaVehicle = "india_vehicle"
             case sgUen = "sg_uen"
             case zaCompany = "za_company"
@@ -99,7 +98,7 @@ public enum DataValidators {
     static var data: Data? { try? loaded.get() }
 
     /// True when the bundled data decoded. Asserted by the conformance suite.
-    public static var isDataLoaded: Bool { data != nil }
+    public static var isDataLoaded: Bool { data != nil && publicSuffixList != nil }
 
     /// Why the data failed to load, if it did.
     public static var loadFailure: String? {
@@ -110,12 +109,25 @@ public enum DataValidators {
         }
     }
 
-    private static let normalSuffixes: Set<String> =
-        Set(data?.publicSuffixList.normal ?? [])
-    private static let wildcardSuffixes: Set<String> =
-        Set(data?.publicSuffixList.wildcard ?? [])
-    private static let exceptionSuffixes: Set<String> =
-        Set(data?.publicSuffixList.exception ?? [])
+    /// The Public Suffix List, loaded from its own resource.
+    ///
+    /// Kept separate from the rest of the recognizer data because it is
+    /// MPL-2.0 — file-level copyleft — while everything else here is MIT.
+    /// Keeping it in its own file keeps the obligation scoped to that file.
+    struct PSLFile: Decodable { let rules: PSL }
+
+    static let publicSuffixList: PSL? = {
+        guard let url = Bundle.module.url(
+            forResource: "public_suffix_list", withExtension: "json"
+        ), let bytes = try? Foundation.Data(contentsOf: url),
+        let decoded = try? JSONDecoder().decode(PSLFile.self, from: bytes)
+        else { return nil }
+        return decoded.rules
+    }()
+
+    private static let normalSuffixes: Set<String> = Set(publicSuffixList?.normal ?? [])
+    private static let wildcardSuffixes: Set<String> = Set(publicSuffixList?.wildcard ?? [])
+    private static let exceptionSuffixes: Set<String> = Set(publicSuffixList?.exception ?? [])
 
     // MARK: - Email
 

@@ -1,4 +1,4 @@
-# SwiftPresidio
+# swift-pii
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
@@ -8,7 +8,14 @@ AES, spaCy-exact tokenization, and NER from raw text are all differentially
 verified against Python. NER parity is 98.9%, not exact — see below.
 
 Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
-describes the behavioural target, not the product name.
+describes the behavioural target. The package is deliberately not named after
+Presidio — MIT grants no trademark rights, and a `swift-presidio` would read as
+the official Swift port. Module names keep the `Presidio` prefix because there
+they describe what the code is compatible with.
+
+```swift
+.package(url: "https://github.com/andriydruk/swift-pii.git", from: "0.1.0")
+```
 
 ## Why this exists
 
