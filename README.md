@@ -3,7 +3,7 @@
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
 **Status: M1 done bar a long tail, M2 complete, M3 composed end to end.**
-Detection (87% of the harvested corpus), de-identification including reversible
+Detection (99.5% of the harvested corpus), de-identification including reversible
 AES, spaCy-exact tokenization, and NER from raw text are all differentially
 verified against Python. NER parity is 98.9%, not exact — see below.
 
@@ -156,25 +156,29 @@ Against the 1,654-case corpus harvested from Presidio's own tests:
 
 | | cases | |
 |---|---:|---|
-| **Verified green** | **1,487** | 90% — every case passes, spans and scores |
+| **Verified green** | **1,646** | 99.5% — every case passes, spans and scores |
 | Blocked on validators | **0** | — |
-| No extractable patterns | 167 | 10% — see below |
+| Known-divergent | 8 | 0.5% — the phone leniency table, below |
 
-**53 validators**, covering every recognizer whose patterns can be lifted into
-data. The blocked count is a test-enforced hard zero, not a ratchet.
+Every recognizer in the corpus now runs, and **53 validators** cover every one
+whose patterns can be lifted into data. The blocked count is a test-enforced
+hard zero, not a ratchet.
 
-The remaining 167 are a different kind of gap — not a missing checksum, but a
-recognizer whose *patterns* cannot be extracted:
+Three recognizers declare no `PATTERNS` at all — they delegate to
+libphonenumber — so they are driven through a custom-recognizer path rather
+than the catalogue:
 
-| Recognizer | cases | Why |
+| Recognizer | cases | Agreement |
 |---|---:|---|
-| `PhoneRecognizer` | 106 | delegates to libphonenumber — **ported, see below** |
-| `UsMbiRecognizer` | 17 | builds `PATTERNS` programmatically |
-| `UrlRecognizer` | 16 | builds `PATTERNS` programmatically |
-| `ZaMobileNumberRecognizer` | 14 | same |
-| `ZaTelephoneNumberRecognizer` | 14 | same |
+| `PhoneRecognizer` | 106 | 98/106 — see below |
+| `ZaMobileNumberRecognizer` | 14 | 14/14, spans included |
+| `ZaTelephoneNumberRecognizer` | 14 | 14/14, spans included |
 
-### PhoneRecognizer
+`UsMbiRecognizer` and `UrlRecognizer` were in this table until the extractor
+learned to fold f-strings and `+` over class-level string constants. Their
+patterns were always liftable — they were simply not spelled as literals.
+
+### The libphonenumber recognizers
 
 `PhoneRecognizer` has no patterns of its own: it delegates entirely to
 `phonenumbers`, so parity means porting Google's algorithm. There was no
@@ -182,9 +186,9 @@ shortcut — **PhoneNumberKit has no text-scanning API**, only parse/format/
 validate, so it cannot supply `PhoneNumberMatcher`, which is the part the
 recognizer is built on.
 
-Both halves are now ported, against metadata extracted for the 38 regions
-sharing the eleven configured country codes
-([`Tools/extract_phone_metadata.py`](Tools/extract_phone_metadata.py), 117 KB).
+Both halves are now ported, against metadata extracted for the 39 regions
+sharing the twelve configured country codes
+([`Tools/extract_phone_metadata.py`](Tools/extract_phone_metadata.py), 121 KB).
 
 **Parse and validation**, over 480 differential cases:
 
@@ -203,12 +207,17 @@ sharing the eleven configured country codes
 | span recall | 394/407 (96.8%) |
 
 **The recognizer**, over its own 106 harvested corpus cases: **98/106 (92.5%)**.
+The two South African line-type recognizers reuse the same matcher and split its
+results by `number_type`: **28/28, spans included**. Their prefix fallback is
+only consulted when the metadata cannot type a number, and its rule order
+matters — 086 and 087 are sharecall and VoIP lines that the bare "starts with 8"
+rule would call mobile.
 
 Three semantics were worth getting right, each of which silently changes results:
 
 - `region_code_for_number` returns a **single-region country code
   unconditionally**, without validating. Only a shared code (+1, +44) is
-  disambiguated — which is why the metadata covers 38 regions, not 12.
+  disambiguated — which is why the metadata covers 39 regions, not 13.
 - `national_significant_number` **keeps leading zeros**, and that is what
   validation matches. `"020 7946 0958"` parsed as US is an eleven-digit number
   matching nothing; dropping the zero makes a British number look like a valid
