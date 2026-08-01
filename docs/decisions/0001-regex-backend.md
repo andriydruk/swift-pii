@@ -137,10 +137,10 @@ Measured after the change:
 |---|---|---|
 | `a+` on 8 MB stack | ~2–4k chars | **500,000 chars** |
 | `a+` on 512 KB stack | ~400 chars | **100,000 chars** |
-| 155-pattern sweep | 0.507 s | **0.454 s** |
-| Throughput | 59.5 KB/s | **65.8 KB/s** |
+| 155-pattern sweep | 0.507 s | **0.414 s** |
+| Throughput | 59.5 KB/s | **72.1 KB/s** |
 
-So it is both unbounded and ~10% faster. Three things mattered for the speed:
+So it is both unbounded and ~20% faster (including the prefilter change below). Three things mattered for the speed:
 recursing on `self` for lookarounds rather than copying the VM struct (which
 duplicated the program, the input and every slot on each evaluation), an ASCII
 fast path for case folding (`Fold.variants` built a String, a Set and an Array
@@ -161,7 +161,7 @@ accepted.
 
 The large-stack test harness this previously required has been deleted.
 
-Relative to Python we are now 4.9× slower (0.454 s vs 0.093 s), improved from
+Relative to Python we are now 4.5× slower (0.414 s vs 0.093 s), improved from
 5.5×.
 
 **Deferred**
@@ -178,9 +178,27 @@ Relative to Python we are now 4.9× slower (0.454 s vs 0.093 s), improved from
   Done — see above.
 - Re-run this differential in CI whenever the `regex` module version changes.
 - ~~Convert the matcher to an explicit stack.~~ Done — see above.
-- **M5 optimization targets**, in expected order of payoff: a literal-prefix
-  index so a text is not swept once per pattern (currently 155 independent
-  passes); memoization of the backtracking matcher; and making `PureRegex`
-  `Sendable` so patterns can be shared and swept concurrently.
+- ~~Bitmap prefilter.~~ Done (2026-08-01), worth 12%: 0.454 s → 0.406 s. The
+  prefilter runs at every position for every pattern, so it is the hottest code
+  here, and it was an AST-derived closure — for an alternation, one escaping
+  closure call *per branch per character*. It is now a precomputed bitmap: exact
+  for ASCII, conservative above it. Being conservative is sound because a
+  prefilter may over-accept; it only ever skips positions that provably cannot
+  match.
+- ~~Single-pass dispatch across all patterns.~~ **Tried and rejected — do not
+  retry without new evidence.** The idea was to sweep the text once, waking only
+  the patterns whose first-set admits each character, instead of 155 independent
+  sweeps. Implemented, verified byte-identical to per-pattern scanning across
+  240,250 comparisons, and measured at **0.93× — 7% slower**.
+
+  The reason is structural rather than an implementation flaw: **an average
+  corpus character wakes 71.6 of the 155 patterns** (digits wake 93, letters
+  ~53). PII patterns are dominated by digit and letter classes, so nearly half
+  of them can start anywhere. With the prefilter now a single bit-test, the
+  dispatch table's indirection costs more than skipping 46% of those tests
+  saves. This would only pay off for a pattern set with distinctive literal
+  prefixes, which this one does not have.
+- **Remaining targets**: memoization of the backtracking matcher, and making
+  `PureRegex` `Sendable` so patterns can be shared and swept concurrently.
 - Revisit PCRE2-with-table-substitution only if M5 leaves the engine short of
   budget. Correctness stays the gate.

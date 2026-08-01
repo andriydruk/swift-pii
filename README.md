@@ -113,7 +113,7 @@ Cost of the trade, measured on that same workload (release, M4 Max):
 | | full 155-pattern sweep |
 |---|---:|
 | Python `regex` (C) | 0.093 s |
-| this engine | 0.454 s (**4.9× slower**) |
+| this engine | 0.414 s (**4.5× slower**) |
 
 We are slower than the implementation we are replacing. That is acceptable while
 correctness is the gate — compilation is only 0.15 ms/pattern, and the absolute
@@ -124,7 +124,17 @@ recursion. The predecessor's depth grew with the *input*: `a+` crashed at ~2–4
 characters even on the main thread's 8 MB stack, and at ~400 characters on the
 512 KB stacks Swift concurrency hands out — a crash-on-ordinary-input defect for
 any caller using a `Task`. It now handles 500,000 characters on 8 MB and 100,000
-on 512 KB, while being ~10% faster.
+on 512 KB, while being ~20% faster.
+
+The start-position prefilter is a precomputed bitmap rather than an AST-derived
+closure — it runs at every position for every pattern, so it is the hottest code
+in the package. Worth 12% on its own.
+
+A single-pass dispatch across all patterns was tried and **rejected on
+measurement**: it was byte-identical but 7% slower, because an average corpus
+character wakes 71.6 of the 155 patterns (digits wake 93). PII patterns are
+dominated by digit and letter classes, so there is no dispatch win to be had.
+Recorded in the ADR so it is not retried.
 
 ## Conformance status
 

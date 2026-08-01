@@ -391,7 +391,9 @@ public final class PureRegex {
     private var s: [UInt32] = []
     private var caps: [Int] = []
 
-    lazy var pre: ((UInt32) -> Bool)? = PureRegex.firstSet(root, ignoreCase)
+    /// Precomputed at compile time; see Prefilter.swift for why it is not a
+    /// closure any more.
+    lazy var pre: Prefilter? = Prefilter(root, ignoreCase: ignoreCase)
     /// One match, with the spans of its capturing groups.
     ///
     /// Group numbering follows the regex convention: group 0 is the whole
@@ -442,7 +444,7 @@ public final class PureRegex {
 
         while at <= input.count {
             if let prefilter {
-                while at < input.count, !prefilter(input[at]) { at += 1 }
+                while at < input.count, !prefilter.mayStart(input[at]) { at += 1 }
                 if at >= input.count { break }
             }
             vm.reset()
