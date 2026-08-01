@@ -84,6 +84,21 @@ struct CharClass {
 }
 
 enum Fold {
+    /// Case-insensitive scalar comparison.
+    ///
+    /// The ASCII path avoids `variants`, which builds a String, a Set and an
+    /// Array per call — ruinous on a per-character hot path.
+    @inline(__always)
+    static func equalIgnoringCase(_ a: UInt32, _ b: UInt32) -> Bool {
+        if a == b { return true }
+        if a < 128 && b < 128 {
+            let la = (a >= 65 && a <= 90) ? a + 32 : a
+            let lb = (b >= 65 && b <= 90) ? b + 32 : b
+            return la == lb
+        }
+        return variants(a).contains(b)
+    }
+
     // Simple case folding sufficient for the ASCII/Latin/Greek/Cyrillic ranges Presidio touches.
     static func variants(_ c: UInt32) -> [UInt32] {
         guard let u = Unicode.Scalar(c) else { return [c] }
@@ -352,7 +367,14 @@ public final class PureRegex {
         r = PureRegex.seal(r)
         (root, ncap) = (r, n)
         self.ignoreCase = ignoreCase; self.dotAll = dotAll; self.multiline = multiline
+        // The AST is retained for the prefilter; matching runs on the program.
+        self.program = Compiler.compile(
+            r, captureCount: n,
+            ignoreCase: ignoreCase, dotAll: dotAll, multiline: multiline
+        )
     }
+
+    let program: Program
 
     static func seal(_ n: Node) -> Node {
         switch n {
@@ -410,27 +432,33 @@ public final class PureRegex {
     /// of a match — `IbanRecognizer` walks its groups in reverse until one
     /// passes the checksum, which is how it avoids swallowing trailing text.
     public func matchesWithGroups(in text: String) -> [Match] {
-        s = text.unicodeScalars.map { $0.value }
-        let pf = pre
+        let input = text.unicodeScalars.map { $0.value }
+        let prefilter = pre
         var out: [Match] = []
         var at = 0
-        while at <= s.count {
-            if let pf {
-                while at < s.count, !pf(s[at]) { at += 1 }
-                if at >= s.count { break }
+        // One VM for the whole scan: constructing it per start position
+        // reallocates the slot array on every character of the input.
+        var vm = VM(program: program, input: input, multiline: multiline)
+
+        while at <= input.count {
+            if let prefilter {
+                while at < input.count, !prefilter(input[at]) { at += 1 }
+                if at >= input.count { break }
             }
-            caps = [Int](repeating: -1, count: (ncap + 1) * 2)
-            var end = -1
-            _ = m(root, at, ignoreCase) { e in end = e; return true }
-            if end >= 0 {
+            vm.reset()
+            if let end = vm.run(entry: 0, start: at) {
                 var groups: [Range<Int>?] = [at..<end]
-                for g in 1...Swift.max(ncap, 1) where ncap >= 1 {
-                    let lo = caps[g * 2], hi = caps[g * 2 + 1]
-                    groups.append(lo >= 0 && hi >= lo ? lo..<hi : nil)
+                if ncap >= 1 {
+                    for g in 1...ncap {
+                        let lo = vm.slots[g * 2], hi = vm.slots[g * 2 + 1]
+                        groups.append(lo >= 0 && hi >= lo ? lo..<hi : nil)
+                    }
                 }
                 out.append(Match(start: at, end: end, groups: groups))
                 at = end > at ? end : at + 1
-            } else { at += 1 }
+            } else {
+                at += 1
+            }
         }
         return out
     }

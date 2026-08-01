@@ -113,12 +113,18 @@ Cost of the trade, measured on that same workload (release, M4 Max):
 | | full 155-pattern sweep |
 |---|---:|
 | Python `regex` (C) | 0.093 s |
-| this engine | 0.514 s (**5.5× slower**) |
+| this engine | 0.454 s (**4.9× slower**) |
 
 We are slower than the implementation we are replacing. That is acceptable while
-correctness is the gate — compilation is only 0.18 ms/pattern, and the absolute
-numbers are small — but it is the M5 optimization target. See the ADR for the
-plan.
+correctness is the gate — compilation is only 0.15 ms/pattern, and the absolute
+numbers are small. See the ADR for the optimization plan.
+
+Matching runs on a bytecode VM with a heap-allocated backtrack stack, not
+recursion. The predecessor's depth grew with the *input*: `a+` crashed at ~2–4k
+characters even on the main thread's 8 MB stack, and at ~400 characters on the
+512 KB stacks Swift concurrency hands out — a crash-on-ordinary-input defect for
+any caller using a `Task`. It now handles 500,000 characters on 8 MB and 100,000
+on 512 KB, while being ~10% faster.
 
 ## Conformance status
 

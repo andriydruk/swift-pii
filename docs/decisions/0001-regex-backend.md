@@ -112,32 +112,57 @@ Both are rejected, for different reasons.
   0 conditionals, 0 `\p{...}`, 0 `\B`, and only fixed-width lookbehind
   (19 patterns, all single-character negative).
 
-**Newly measured (2026-08-01): recursion depth is a hard limit.**
+**Resolved (2026-08-01): the matcher is now a bytecode VM.**
 
-The engine is a recursive CPS backtracker, so its stack depth grows with the
-length of the text being matched. Measured against spaCy's 15 KB tokenizer infix
-pattern on texts of ~400 characters:
+The original continuation-passing matcher recursed once per repetition
+iteration, so depth grew with the *input* length at ~2.7 KB per iteration:
 
-| Thread stack | Result |
-|---|---|
-| 512 KB | **SIGBUS** |
-| 1 MB and above | OK |
+| Pattern | Stack | Died at |
+|---|---|---|
+| `a+` | 8 MB (main thread) | ~2–4k characters |
+| spaCy infix | 512 KB (Task / test runner) | ~400 characters |
 
-512 KB is exactly what secondary threads get by default — including
-swift-testing's runner and Swift concurrency's cooperative pool. So this is not
-a test-harness quirk: **a caller invoking a recognizer or the tokenizer from a
-`Task` can crash the process on ordinary input.** Roughly 2.5 KB of stack per
-character means a few thousand characters would exhaust even the main thread's
-8 MB.
+512 KB is what Swift concurrency's cooperative pool and swift-testing's runner
+hand out, so this was a crash-on-ordinary-input defect for any caller using a
+`Task` — a denial of service for a library that scans arbitrary documents.
 
-Tests that exercise long inputs run on an explicit large-stack thread
-(`Tests/PresidioNLPTests/LargeStack.swift`) so the suite tests real behaviour
-rather than dying — but that is containment, not a fix. Converting the matcher
-from recursion to an explicit state stack removes the limit and is the same work
-that fixes throughput, so it is one M5 task rather than two.
+`Program.swift` compiles the AST to instructions and `VM.swift` runs them with
+an explicit heap-allocated backtrack stack and an undo log for captures. Depth
+is now bounded by memory. The only recursion left is one level per *nested
+lookaround*, which is a property of the pattern (1–2) and never of the input.
 
-Until then: do not call this engine from a cooperative-pool thread with
-untrusted-length input.
+Measured after the change:
+
+| | Before | After |
+|---|---|---|
+| `a+` on 8 MB stack | ~2–4k chars | **500,000 chars** |
+| `a+` on 512 KB stack | ~400 chars | **100,000 chars** |
+| 155-pattern sweep | 0.507 s | **0.454 s** |
+| Throughput | 59.5 KB/s | **65.8 KB/s** |
+
+So it is both unbounded and ~10% faster. Three things mattered for the speed:
+recursing on `self` for lookarounds rather than copying the VM struct (which
+duplicated the program, the input and every slot on each evaluation), an ASCII
+fast path for case folding (`Fold.variants` built a String, a Set and an Array
+per call), and hoisting the VM out of the scan loop so the slot array is not
+reallocated at every start position.
+
+Bounded repeats are expanded rather than counted: across every pattern this
+package compiles, the largest upper bound is 63 and total expansion is ~1,987
+instructions, which is cheaper than counter machinery.
+
+Semantics were held to the differential corpus throughout — 240,250 pattern
+comparisons plus capture-group spans, 63,453 tokens, and the NER parity suite.
+Three deviations from textbook regex that the old matcher had are reproduced
+deliberately and marked in the source: `$` matching before a trailing newline
+without MULTILINE, captures persisting out of a successful positive lookaround,
+and a zero-width mandatory repetition failing its path rather than being
+accepted.
+
+The large-stack test harness this previously required has been deleted.
+
+Relative to Python we are now 4.9× slower (0.454 s vs 0.093 s), improved from
+5.5×.
 
 **Deferred**
 
@@ -152,9 +177,7 @@ untrusted-length input.
 - ~~Benchmark the engine on the real 155-pattern corpus before M1 closes.~~
   Done — see above.
 - Re-run this differential in CI whenever the `regex` module version changes.
-- **M5, now the top item: convert the matcher to an explicit stack.** It
-  removes the recursion-depth limit above *and* is the precondition for the
-  throughput work below.
+- ~~Convert the matcher to an explicit stack.~~ Done — see above.
 - **M5 optimization targets**, in expected order of payoff: a literal-prefix
   index so a text is not swept once per pattern (currently 155 independent
   passes); memoization of the backtracking matcher; and making `PureRegex`

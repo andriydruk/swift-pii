@@ -64,8 +64,8 @@ struct NERTests {
     @Test("entities match spaCy within the recorded bounds, from raw text")
     func entitiesMatchSpacy() throws {
         let directory = spacyModelDirectory()!
-        let (matched, expected, produced, report) = try withLargeStack { () -> (Int, Int, Int, [String]) in
-            let ner = try SpacyNER(modelDirectory: directory)
+        let ner = try SpacyNER(modelDirectory: directory)
+        let (matched, expected, produced, report): (Int, Int, Int, [String]) = {
             var matched = 0, expectedTotal = 0, producedTotal = 0
             var report: [String] = []
 
@@ -88,7 +88,7 @@ struct NERTests {
                 }
             }
             return (matched, expectedTotal, producedTotal, report)
-        }
+        }()
 
         #expect(expected >= 2000, "gold corpus too small: \(expected) entities")
 
@@ -124,8 +124,8 @@ struct NERTests {
     @Test("entity text round-trips onto the source")
     func entityTextRoundTrips() throws {
         let directory = spacyModelDirectory()!
-        try withLargeStack {
-            let ner = try SpacyNER(modelDirectory: directory)
+        let ner = try SpacyNER(modelDirectory: directory)
+        do {
             for testCase in Self.gold.cases.prefix(300) {
                 let scalars = Array(testCase.text.unicodeScalars)
                 for entity in ner.entities(in: testCase.text) {

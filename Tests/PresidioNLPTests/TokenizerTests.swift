@@ -55,7 +55,7 @@ struct TokenizerTests {
 
     @Test("token text and offsets match spaCy exactly")
     func tokensMatch() throws {
-        try withLargeStack {
+        do {
             let tokenizer = try Self.makeTokenizer()
             var checked = 0
             var divergences = 0
@@ -105,7 +105,7 @@ struct TokenizerTests {
 
     @Test("NORMs match spaCy exactly")
     func normsMatch() throws {
-        try withLargeStack {
+        do {
             let tokenizer = try Self.makeTokenizer()
             var checked = 0
             var divergences = 0
@@ -178,7 +178,7 @@ struct TokenizerTests {
 
     @Test("offsets round-trip onto the source text")
     func offsetsRoundTrip() throws {
-        try withLargeStack {
+        do {
             let tokenizer = try Self.makeTokenizer()
             for testCase in Self.gold.cases.prefix(500) {
                 let scalars = Array(testCase.text.unicodeScalars)
