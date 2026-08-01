@@ -28,6 +28,7 @@ let package = Package(
         .library(name: "PresidioNLP", targets: ["PresidioNLP"]),
         .library(name: "PresidioEngine", targets: ["PresidioEngine"]),
         .library(name: "PresidioEngineYAML", targets: ["PresidioEngineYAML"]),
+        .executable(name: "swift-pii", targets: ["swift-pii-cli"]),
     ],
     dependencies: [
         // Only PresidioAnonymizerCrypto depends on this. CryptoKit has no
@@ -126,6 +127,19 @@ let package = Package(
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
+        // The command-line tool. Logic lives in the library so it can be
+        // tested; the executable is five lines.
+        .target(
+            name: "PresidioCLI",
+            dependencies: ["PresidioEngine", "PresidioEngineYAML", "PresidioAnonymizer"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .executableTarget(
+            name: "swift-pii-cli",
+            dependencies: ["PresidioCLI"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
         // Benchmark harness. ADR 0001 traded throughput for cross-platform
         // determinism; this keeps a number on that trade.
         .executableTarget(
@@ -158,6 +172,12 @@ let package = Package(
         .testTarget(
             name: "PresidioEngineTests",
             dependencies: ["PresidioEngine", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        .testTarget(
+            name: "PresidioCLITests",
+            dependencies: ["PresidioCLI"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 

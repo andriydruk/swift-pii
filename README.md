@@ -63,7 +63,8 @@ Current corpus:
 
 | Corpus | Tables | Cases | Recognizers |
 |---|---:|---:|---:|
-| `recognizer_cases.json` | 101 | 1,654 (987 pos / 667 neg) | 83 |
+| `recognizer_cases.json` | 106 | 1,722 (1,034 pos / 688 neg) | 86 |
+| `computed_cases.json` | 1 | 9 | 1 |
 | `validator_cases.json` | 21 | 203 | 21 |
 
 50 upstream tables are not extractable (non-literal argvalues, mock-dependent,
@@ -150,6 +151,24 @@ measurement**: it was byte-identical but 7% slower, because an average corpus
 character wakes 71.6 of the 155 patterns (digits wake 93). PII patterns are
 dominated by digit and letter classes, so there is no dispatch win to be had.
 Recorded in the ADR so it is not retried.
+
+## Command line
+
+```bash
+swift-pii analyze   file.txt          # exits 1 if it finds PII
+swift-pii anonymize -o mask file.txt
+cat notes.txt | swift-pii analyze -
+```
+
+Formats: `standard`, `colored`, `github`, `parsable` (JSON per finding), and
+`auto`, which picks GitHub Actions annotations on CI, colour on a terminal, and
+plain otherwise. Options: `--entities`, `--threshold`, `--language`, `--config`
+(a YAML recognizer configuration), `--operator`, `--salt`.
+
+**Exit status is meaningful**, which upstream's is not. `presidio-cli` computes
+`max_level = 0`, never updates it, and exits on that — so it exits 0 whatever it
+finds, and cannot gate CI. This exits **1** when PII is found, **2** on a usage
+or I/O error, **0** when clean.
 
 ## The engine
 
