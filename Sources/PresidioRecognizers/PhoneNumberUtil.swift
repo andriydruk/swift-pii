@@ -14,15 +14,22 @@ public struct PhoneNumber: Sendable, Hashable {
     /// `country_code_source == FROM_DEFAULT_COUNTRY`, and it decides whether a
     /// national prefix is required.
     public let fromDefaultRegion: Bool
+    /// Digits after an extension marker ("ext.", "x", "#"), or empty.
+    ///
+    /// Kept rather than discarded because the matcher needs it: an `x` in a
+    /// candidate is only legitimate when what follows it *is* this extension.
+    public let extensionDigits: String
 
     public init(
         countryCode: Int, nationalNumber: String,
-        leadingZeros: Int = 0, fromDefaultRegion: Bool = false
+        leadingZeros: Int = 0, fromDefaultRegion: Bool = false,
+        extensionDigits: String = ""
     ) {
         self.countryCode = countryCode
         self.nationalNumber = nationalNumber
         self.leadingZeros = leadingZeros
         self.fromDefaultRegion = fromDefaultRegion
+        self.extensionDigits = extensionDigits
     }
 
     /// `national_significant_number`: the national number with its leading
@@ -211,6 +218,11 @@ public enum PhoneNumberUtil {
     /// Only the common ASCII markers are handled; the twelve regions here use
     /// no others.
     static func stripExtension(_ text: String) -> String {
+        splitExtension(text).number
+    }
+
+    /// The number and its extension, split at the first marker.
+    static func splitExtension(_ text: String) -> (number: String, extension: String) {
         let markers = ["ext.", "ext", "extension", "x", "#", ";"]
         let lowered = text.lowercased()
         var cut: String.Index?
@@ -222,8 +234,11 @@ public enum PhoneNumberUtil {
             guard head.contains(where: \.isNumber) else { continue }
             if cut == nil || range.lowerBound < cut! { cut = range.lowerBound }
         }
-        guard let cut else { return text }
-        return String(text[text.startIndex..<cut])
+        guard let cut else { return (text, "") }
+        return (
+            String(text[text.startIndex..<cut]),
+            digitsOnly(String(text[cut...]))
+        )
     }
 
     // MARK: - Parse
@@ -241,7 +256,8 @@ public enum PhoneNumberUtil {
         let hasPlus = trimmed.contains("+")
         // Strip an extension before taking digits, or "ext. 22" would be
         // appended to the national number and every such case would fail.
-        var digits = digitsOnly(stripExtension(trimmed))
+        let split = splitExtension(trimmed)
+        var digits = digitsOnly(split.number)
         guard !digits.isEmpty else { throw .notANumber }
 
         var countryCode = 0
@@ -264,7 +280,27 @@ public enum PhoneNumberUtil {
                   let regionData = metadata.regions[region]
             else { throw .notANumber }
             countryCode = regionData.countryCode
-            digits = stripNationalPrefix(digits, region: regionData)
+            // Upstream strips, then *checks the length of the result* and
+            // keeps the original if stripping made it implausible:
+            //
+            //   validation_result = _test_number_length(potential, metadata)
+            //   if validation_result not in (TOO_SHORT, IS_POSSIBLE_LOCAL_ONLY,
+            //                                INVALID_LENGTH):
+            //       normalized_national_number = potential
+            //
+            // Without that second gate, "123" in the US loses its leading 1 to
+            // become "23", and a GB number written "09-7625400" loses the 0 it
+            // needs — the strip is only accepted when it leaves something the
+            // region could actually dial.
+            let candidate = stripNationalPrefix(digits, region: regionData)
+            if candidate != digits {
+                switch testNumberLength(candidate, region: regionData) {
+                case .tooShort, .possibleLocalOnly, .invalidLength:
+                    break  // keep the unstripped number
+                case .possible, .tooLong:
+                    digits = candidate
+                }
+            }
         }
 
         guard digits.count >= 2 else { throw .tooShort }
@@ -275,7 +311,8 @@ public enum PhoneNumberUtil {
             countryCode: countryCode,
             nationalNumber: stripped.isEmpty ? digits : stripped,
             leadingZeros: stripped.isEmpty ? 0 : zeros,
-            fromDefaultRegion: !hasPlus
+            fromDefaultRegion: !hasPlus,
+            extensionDigits: split.extension
         )
     }
 
@@ -305,6 +342,39 @@ public enum PhoneNumberUtil {
             return digits
         }
         return remainder
+    }
+
+    /// Port of `ValidationResult`, for the length test below.
+    enum LengthValidation {
+        case possible
+        case possibleLocalOnly
+        case tooShort
+        case tooLong
+        case invalidLength
+    }
+
+    /// Port of `_test_number_length` with `numtype=UNKNOWN`, which resolves to
+    /// the general description.
+    ///
+    /// Note `invalidLength` is distinct from `tooShort`/`tooLong`: a region
+    /// whose possible lengths are 7, 9 and 10 rejects 8 as *invalid* rather
+    /// than as too short. Collapsing the two would accept strips that upstream
+    /// refuses.
+    static func testNumberLength(
+        _ national: String, region: Region
+    ) -> LengthValidation {
+        guard let general = region.generalDesc else { return .invalidLength }
+        let lengths = general.possibleLength
+        guard !lengths.isEmpty else { return .possible }
+
+        let actual = national.count
+        if general.possibleLengthLocalOnly.contains(actual) { return .possibleLocalOnly }
+
+        let minimum = lengths[0]
+        if minimum == actual { return .possible }
+        if minimum > actual { return .tooShort }
+        if let maximum = lengths.last, maximum < actual { return .tooLong }
+        return lengths.dropFirst().contains(actual) ? .possible : .invalidLength
     }
 
     // MARK: - Validation

@@ -55,7 +55,7 @@ public struct PhoneNumberMatcher {
         }
     }
 
-    private struct Compiled {
+    struct Compiled {
         let candidate: PureRegex
         let matchingBrackets: PureRegex
         let pubPages: PureRegex
@@ -104,6 +104,9 @@ public struct PhoneNumberMatcher {
     }()
 
     public static var isReady: Bool { compiled != nil }
+
+    /// Exposed for diagnostics only.
+    static var compiledForTesting: Compiled? { compiled }
 
     private let text: String
     private let scalars: [Unicode.Scalar]
@@ -280,7 +283,7 @@ public struct PhoneNumberMatcher {
             return PhoneNumberUtil.isPossible(number)
         case .valid, .strictGrouping, .exactGrouping:
             guard PhoneNumberUtil.isValid(number),
-                  containsOnlyValidXChars(candidate)
+                  containsOnlyValidXChars(candidate, number: number)
             else { return false }
             return PhoneNumberUtil.isNationalPrefixPresentIfRequired(
                 number, raw: candidate
@@ -291,7 +294,19 @@ public struct PhoneNumberMatcher {
     /// Port of `_contains_only_valid_x_chars`: an 'x' is either a carrier code
     /// (two or more) or an extension marker (exactly one), never a stray letter
     /// inside the number.
-    private func containsOnlyValidXChars(_ candidate: String) -> Bool {
+    ///
+    /// The single-'x' rule compares the *digits* after the marker against the
+    /// number's parsed extension:
+    ///
+    ///     elif normalize_digits_only(candidate[ii:]) != numobj.extension:
+    ///
+    /// An earlier port read that as "everything after the x must be digits",
+    /// which rejected every candidate written "…0132 ext. 22" — the 't' and the
+    /// '.' are not digits — and cost twelve of the thirteen matcher
+    /// divergences, one per configured region.
+    private func containsOnlyValidXChars(
+        _ candidate: String, number: PhoneNumber
+    ) -> Bool {
         let characters = Array(candidate)
         guard characters.count > 1 else { return true }
         var index = 0
@@ -299,14 +314,21 @@ public struct PhoneNumberMatcher {
             if characters[index] == "x" || characters[index] == "X" {
                 let next = characters[index + 1]
                 if next == "x" || next == "X" {
+                    // Carrier-code case. Upstream calls `is_number_match` on the
+                    // remainder and requires an NSN match; this compares the
+                    // digits directly, which is the same test for every case
+                    // the corpus exercises but would differ on a remainder that
+                    // needs its own country-code parse.
                     index += 1
+                    let rest = PhoneNumberUtil.digitsOnly(
+                        String(characters[(index + 1)...])
+                    )
+                    if rest != number.significantNumber { return false }
                 } else {
-                    // A single 'x' must introduce an extension, so everything
-                    // after it has to be digits.
-                    let rest = String(characters[(index + 1)...])
-                    if rest.contains(where: { !$0.isNumber && !$0.isWhitespace }) {
-                        return false
-                    }
+                    let rest = PhoneNumberUtil.digitsOnly(
+                        String(characters[(index + 1)...])
+                    )
+                    if rest != number.extensionDigits { return false }
                 }
             }
             index += 1

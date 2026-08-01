@@ -71,8 +71,11 @@ struct PhoneMatcherTests {
 
         #expect(total >= 600)
         // Measured bounds; raise as the port improves, never lower.
-        #expect(Double(exact) / Double(total) >= 0.80)
-        #expect(Double(spanAgree) / Double(spanTotal) >= 0.80)
+        // 623/624: the one holdout is a leniency-0 timestamp, "2012-01-02
+        // 08:00", where the inner-match fallback accepts "00" as a *possible*
+        // number. Presidio always uses leniency 1.
+        #expect(exact >= 623, "\(exact)/\(total)")
+        #expect(spanAgree == spanTotal, "span recall \(spanAgree)/\(spanTotal)")
     }
 }
 
