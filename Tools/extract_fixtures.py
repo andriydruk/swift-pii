@@ -51,9 +51,115 @@ class Unsupported(Exception):
     """A parametrize table whose shape this extractor does not understand."""
 
 
-def literal(node: ast.AST) -> Any:
-    """ast.literal_eval that also tolerates unary minus and nested tuples."""
-    return ast.literal_eval(node)
+# Bound on sequence repetition, so a hostile or mistyped `[x] * 10**9` in an
+# upstream table cannot exhaust memory during extraction.
+MAX_REPEAT = 10_000
+
+
+def literal(node: ast.AST, consts: dict[str, Any] | None = None) -> Any:
+    """Evaluate a parametrize table without executing anything.
+
+    `ast.literal_eval` alone rejects three idioms that are common in Presidio's
+    own tables and have nothing to do with running code:
+
+    * a module-level constant (`_PATTERN_SCORE`), so the table reads as prose;
+    * sequence repetition, `[(0.5, 0.8)] * 2`, to say "the same bounds twice";
+    * sequence concatenation, `A + B`.
+
+    Refusing those cost real coverage -- seven recognizer tables, three of them
+    for recognizers with no other test at all. This stays a *pure* evaluator:
+    names resolve only against `consts`, which itself holds only literals, and
+    the operators are the two that build sequences.
+    """
+    consts = consts or {}
+    try:
+        return ast.literal_eval(node)
+    except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):
+        pass
+
+    if isinstance(node, ast.Name):
+        if node.id in consts:
+            return consts[node.id]
+        raise Unsupported(f"unknown name {node.id!r}")
+    if isinstance(node, ast.List):
+        return [literal(e, consts) for e in node.elts]
+    if isinstance(node, ast.Tuple):
+        return tuple(literal(e, consts) for e in node.elts)
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
+        return -literal(node.operand, consts)
+    if isinstance(node, ast.JoinedStr):
+        # An f-string with no placeholders is just a string; upstream has a
+        # few, presumably left over from editing. One with placeholders is a
+        # computation and is refused.
+        parts = []
+        for piece in node.values:
+            if isinstance(piece, ast.Constant) and isinstance(piece.value, str):
+                parts.append(piece.value)
+            else:
+                raise Unsupported("f-string with placeholders")
+        return "".join(parts)
+    if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Mult, ast.Add)):
+        left = literal(node.left, consts)
+        right = literal(node.right, consts)
+        if isinstance(node.op, ast.Mult):
+            for seq, count in ((left, right), (right, left)):
+                if isinstance(seq, (list, tuple, str)) and isinstance(count, int):
+                    if count * max(len(seq), 1) > MAX_REPEAT:
+                        raise Unsupported("sequence repetition too large")
+                    return seq * count
+            if isinstance(left, (int, float)) and isinstance(right, (int, float)):
+                return left * right
+            raise Unsupported("unsupported operands for *")
+        if type(left) is type(right) and isinstance(left, (list, tuple, str)):
+            return left + right
+        if isinstance(left, (int, float)) and isinstance(right, (int, float)):
+            return left + right
+        raise Unsupported("unsupported operands for +")
+
+    raise Unsupported(f"non-literal {type(node).__name__}")
+
+
+def module_constants(tree: ast.Module) -> dict[str, Any]:
+    """Module-level `NAME = <literal>` bindings, in source order.
+
+    Order matters: a later constant may be built from an earlier one.
+    """
+    consts: dict[str, Any] = {}
+    for stmt in tree.body:
+        if not isinstance(stmt, ast.Assign):
+            continue
+        try:
+            value = literal(stmt.value, consts)
+        except (Unsupported, ValueError, SyntaxError, TypeError):
+            continue
+        for target in stmt.targets:
+            if isinstance(target, ast.Name):
+                consts[target.id] = value
+    return consts
+
+
+def asserts_no_results(fn: ast.FunctionDef) -> bool:
+    """True if the test body asserts that analysis produced nothing.
+
+    A table with only a `text` column carries no expectation in its rows, so
+    the expectation has to come from the body. `assert len(results) == 0` is
+    unambiguous, and reading it is why this does not have to guess from the
+    test's name.
+    """
+    for node in ast.walk(fn):
+        if not isinstance(node, ast.Assert):
+            continue
+        test = node.test
+        if not (isinstance(test, ast.Compare) and len(test.ops) == 1
+                and isinstance(test.ops[0], ast.Eq)):
+            continue
+        left, right = test.left, test.comparators[0]
+        if not (isinstance(left, ast.Call)
+                and getattr(left.func, "id", "") == "len"):
+            continue
+        if isinstance(right, ast.Constant) and right.value == 0:
+            return True
+    return False
 
 
 def find_fixture_return(tree: ast.Module, name: str) -> ast.AST | None:
@@ -128,17 +234,26 @@ def entity_list(tree: ast.Module) -> list[str] | None:
     return None
 
 
+def parse_argnames_from_string(value: Any) -> list[str]:
+    """Split a resolved `parametrize` argnames value into names.
+
+    Shared with `extract_computed_fixtures.py`, which gets the value from an
+    imported module rather than from the AST.
+    """
+    if isinstance(value, str):
+        return [p.strip() for p in value.split(",") if p.strip()]
+    if isinstance(value, (list, tuple)):
+        return [str(v) for v in value]
+    return []
+
+
 def parse_argnames(node: ast.AST) -> list[str] | None:
     """`"text, expected_len"` or `["text", "expected_len"]` -> list of names."""
     try:
         value = literal(node)
     except (ValueError, SyntaxError):
         return None
-    if isinstance(value, str):
-        return [p.strip() for p in value.split(",") if p.strip()]
-    if isinstance(value, (list, tuple)):
-        return [str(v) for v in value]
-    return None
+    return parse_argnames_from_string(value) or None
 
 
 def norm_span_list(raw: Any) -> list[tuple[int, int]]:
@@ -202,6 +317,7 @@ def build_cases(
     rows: list[Any],
     entities: list[str],
     exact_score: float | None = None,
+    assert_empty: bool = False,
 ) -> list[dict[str, Any]]:
     """Turn one parametrize table into normalized cases."""
     idx = {name: i for i, name in enumerate(argnames)}
@@ -243,6 +359,22 @@ def build_cases(
         (k for k in ("expected_entity", "entity_type", "expected_entities") if k in idx),
         None,
     )
+
+    # A single-column table of texts asserts its expectation in the body rather
+    # than in the rows -- `assert len(results) == 0`. The caller has already
+    # read that, so treat every row as a negative case.
+    if assert_empty and len_key is None and pos_key is None:
+        return [
+            {
+                "text": row if isinstance(row, str) else (
+                    row[idx[text_key]] if isinstance(row, (list, tuple)) else row
+                ),
+                "expected_count": 0,
+                "spans_enumerated": True,
+                "expected": [],
+            }
+            for row in rows
+        ]
 
     # A table with neither a length nor a positions column is not asserting
     # spans at all -- e.g. `test_sanitize_value` compares a helper's string
@@ -370,6 +502,10 @@ def try_validator_cases(argnames: list[str], rows: list[Any]) -> list[dict] | No
         if not isinstance(row, (list, tuple)) or len(row) != 2:
             return None
         candidate, expected = row
+        # Upstream writes some checksum tables with integer candidates
+        # (Aadhaar). The recognizer sees text either way, so normalize.
+        if isinstance(candidate, int) and not isinstance(candidate, bool):
+            candidate = str(candidate)
         if not isinstance(candidate, str):
             return None
         if not (expected is None or isinstance(expected, bool)):
@@ -408,6 +544,17 @@ def consumed_fixture(fn: ast.FunctionDef) -> str | None:
     return None
 
 
+def git_commit(repo: str) -> str:
+    """HEAD of the upstream checkout, so a corpus records what it came from."""
+    try:
+        return subprocess.run(
+            ["git", "-C", repo, "rev-parse", "HEAD"],
+            capture_output=True, text=True, check=True,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "unknown"
+
+
 def extract_file(path: str, rel: str) -> tuple[list[dict], list[dict], list[dict]]:
     """Returns (recognizer_tables, validator_tables, problems) for one file."""
     with open(path, encoding="utf-8") as fh:
@@ -419,6 +566,7 @@ def extract_file(path: str, rel: str) -> tuple[list[dict], list[dict], list[dict
 
     recognizer = recognizer_class_name(tree)
     entities = entity_list(tree) or []
+    consts = module_constants(tree)
 
     tables: list[dict] = []
     validators: list[dict] = []
@@ -441,10 +589,10 @@ def extract_file(path: str, rel: str) -> tuple[list[dict], list[dict], list[dict
                                  "reason": "unparseable argnames"})
                 continue
             try:
-                rows = literal(deco.args[1])
-            except (ValueError, SyntaxError):
+                rows = literal(deco.args[1], consts)
+            except (Unsupported, ValueError, SyntaxError, TypeError) as exc:
                 problems.append({"file": rel, "test": node.name,
-                                 "reason": "non-literal argvalues"})
+                                 "reason": f"non-literal argvalues: {exc}"})
                 continue
             if not isinstance(rows, (list, tuple)):
                 problems.append({"file": rel, "test": node.name,
@@ -468,7 +616,8 @@ def extract_file(path: str, rel: str) -> tuple[list[dict], list[dict], list[dict
 
             try:
                 cases = build_cases(
-                    argnames, list(rows), entities, assertion_exact_score(node)
+                    argnames, list(rows), entities, assertion_exact_score(node),
+                    assert_empty=asserts_no_results(node)
                 )
             except Unsupported as exc:
                 problems.append({"file": rel, "test": node.name,
@@ -505,14 +654,7 @@ def main() -> int:
         print(f"error: {tests_dir} not found", file=sys.stderr)
         return 2
 
-    commit = "unknown"
-    try:
-        commit = subprocess.run(
-            ["git", "-C", args.presidio, "rev-parse", "HEAD"],
-            capture_output=True, text=True, check=True,
-        ).stdout.strip()
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        pass
+    commit = git_commit(args.presidio)
 
     all_tables: list[dict] = []
     all_validators: list[dict] = []

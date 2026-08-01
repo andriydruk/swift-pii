@@ -6,13 +6,13 @@
   "tests_dir": "presidio-analyzer/tests"
  },
  "stats": {
-  "tables": 101,
-  "cases": 1654,
-  "positive": 987,
-  "negative": 667,
-  "recognizers": 83,
-  "entity_types": 84,
-  "skipped": 50
+  "tables": 106,
+  "cases": 1722,
+  "positive": 1034,
+  "negative": 688,
+  "recognizers": 86,
+  "entity_types": 87,
+  "skipped": 44
  },
  "recognizers": [
   "AbaRoutingRecognizer",
@@ -25,9 +25,11 @@
   "CreditCardRecognizer",
   "CryptoRecognizer",
   "DateRecognizer",
+  "DeBsnrRecognizer",
   "DeFuehrerscheinRecognizer",
   "DeHandelsregisterRecognizer",
   "DeHealthInsuranceRecognizer",
+  "DeIdCardRecognizer",
   "DeKfzRecognizer",
   "DeLanrRecognizer",
   "DePassportRecognizer",
@@ -70,6 +72,7 @@
   "PlPeselRecognizer",
   "SeOrganisationsnummerRecognizer",
   "SePersonnummerRecognizer",
+  "SgFinRecognizer",
   "SgUenRecognizer",
   "ThTninRecognizer",
   "TrLicensePlateRecognizer",
@@ -110,9 +113,11 @@
   "CREDIT_CARD",
   "CRYPTO",
   "DATE_TIME",
+  "DE_BSNR",
   "DE_FUEHRERSCHEIN",
   "DE_HANDELSREGISTER",
   "DE_HEALTH_INSURANCE",
+  "DE_ID_CARD",
   "DE_KFZ",
   "DE_LANR",
   "DE_PASSPORT",
@@ -154,6 +159,7 @@
   "PL_PESEL",
   "SE_ORGANISATIONSNUMMER",
   "SE_PERSONNUMMER",
+  "SG_NRIC_FIN",
   "SG_UEN",
   "TH_TNIN",
   "TR_LICENSE_PLATE",
@@ -2058,6 +2064,159 @@
    ]
   },
   {
+   "recognizer": "DeBsnrRecognizer",
+   "entities": [
+    "DE_BSNR"
+   ],
+   "file": "presidio-analyzer/tests/test_de_bsnr_recognizer.py",
+   "test": "test_when_all_de_bsnr_numbers_then_succeed",
+   "argnames": [
+    "text",
+    "expected_len",
+    "expected_positions",
+    "expected_score"
+   ],
+   "fixture": "recognizer",
+   "cases": [
+    {
+     "text": "021234568",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "521234567",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "711234567",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "351234567",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "Betriebsstättennummer: 021234568",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 23,
+       "end": 32,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "BSNR 711234567 der Praxis.",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 5,
+       "end": 14,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "991234567",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "051234567",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_BSNR",
+       "score_min": 0.2,
+       "score_max": 0.2
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "000000000",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "02123456",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "0212345689",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "02123456A",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    }
+   ]
+  },
+  {
    "recognizer": "DeFuehrerscheinRecognizer",
    "entities": [
     "DE_FUEHRERSCHEIN"
@@ -2429,6 +2588,207 @@
     },
     {
      "text": "A1234567890",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    }
+   ]
+  },
+  {
+   "recognizer": "DeIdCardRecognizer",
+   "entities": [
+    "DE_ID_CARD"
+   ],
+   "file": "presidio-analyzer/tests/test_de_id_card_recognizer.py",
+   "test": "test_when_all_de_id_cards_then_succeed",
+   "argnames": [
+    "text",
+    "expected_len",
+    "expected_positions",
+    "expected_score"
+   ],
+   "fixture": "recognizer",
+   "cases": [
+    {
+     "text": "L01X00T44",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 1.0,
+       "score_max": 1.0
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "C01234565",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 1.0,
+       "score_max": 1.0
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "CZ6311T03",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 1.0,
+       "score_max": 1.0
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "G00000002",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 1.0,
+       "score_max": 1.0
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "Personalausweis: L01X00T44.",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 17,
+       "end": 26,
+       "entity": "DE_ID_CARD",
+       "score_min": 1.0,
+       "score_max": 1.0
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "l01x00t44",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 1.0,
+       "score_max": 1.0
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "T22000129",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 0.5,
+       "score_max": 0.5
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "T00000000",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 0.5,
+       "score_max": 0.5
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "T99999999",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 0.5,
+       "score_max": 0.5
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "Ausweis Nr. T22000129 gültig bis 2025.",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 12,
+       "end": 21,
+       "entity": "DE_ID_CARD",
+       "score_min": 0.5,
+       "score_max": 0.5
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "t22000129",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "DE_ID_CARD",
+       "score_min": 0.5,
+       "score_max": 0.5
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "L01X00T47",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "C01234567",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "T2200012",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "T220001290",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "123456789",
      "expected_count": 0,
      "expected": [],
      "spans_enumerated": true
@@ -10179,6 +10539,289 @@
    ]
   },
   {
+   "recognizer": "IpRecognizer",
+   "entities": [
+    "IP_ADDRESS"
+   ],
+   "file": "presidio-analyzer/tests/test_ip_recognizer.py",
+   "test": "test_when_cidr_notation_then_largest_span_redacted",
+   "argnames": [
+    "text",
+    "expected_len",
+    "expected_positions",
+    "expected_score_ranges"
+   ],
+   "fixture": "recognizer",
+   "cases": [
+    {
+     "text": "192.168.1.0/24",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 14,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "10.0.0.0/8",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 10,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "0.0.0.0/0",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "192.168.1.1/32",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 14,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "2001:db8::/32",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 13,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "fe80::/10",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "::1/128",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 7,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "fe80::1%eth0/64",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 15,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "2001:db8::%eth0/128",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 19,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "::/0",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 4,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.05,
+       "score_max": 0.15
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "::/128",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 6,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.05,
+       "score_max": 0.15
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "::ffff:192.168.1.0/96",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 21,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "64:ff9b::192.0.2.0/96",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 21,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "Subnet: 192.168.1.0/24",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 8,
+       "end": 22,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "Prefix: 2001:db8::/32",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 8,
+       "end": 21,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "Route is 10.0.0.0/8.",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 9,
+       "end": 19,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "Use 2001:db8::/32.",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 4,
+       "end": 17,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "10.0.0.0/123",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 8,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "2001:db8::/9999",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 10,
+       "entity": "IP_ADDRESS",
+       "score_min": 0.6,
+       "score_max": 0.81
+      }
+     ],
+     "spans_enumerated": true
+    }
+   ]
+  },
+  {
    "recognizer": "ItDriverLicenseRecognizer",
    "entities": [
     "IT_DRIVER_LICENSE"
@@ -14175,6 +14818,168 @@
    ]
   },
   {
+   "recognizer": "SgFinRecognizer",
+   "entities": [
+    "SG_NRIC_FIN"
+   ],
+   "file": "presidio-analyzer/tests/test_sg_fin_recognizer.py",
+   "test": "test_when_sgfins_in_text_then_all_sg_fins_found",
+   "argnames": [
+    "text",
+    "expected_len",
+    "expected_positions",
+    "expected_score_ranges"
+   ],
+   "fixture": "recognizer",
+   "cases": [
+    {
+     "text": "S2740116C",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "T1234567Z",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "F2346401L",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "G1122144L",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "M4332674T",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "S9108268C T7572225C",
+     "expected_count": 2,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      },
+      {
+       "start": 10,
+       "end": 19,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "NRIC S2740116C was processed",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 5,
+       "end": 14,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.5,
+       "score_max": 0.8
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "A1234567Z",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.0,
+       "score_max": 0.3
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "B1234567Z",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 0,
+       "end": 9,
+       "entity": "SG_NRIC_FIN",
+       "score_min": 0.0,
+       "score_max": 0.3
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "PA12348L",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    }
+   ]
+  },
+  {
    "recognizer": "SgUenRecognizer",
    "entities": [
     "SG_UEN"
@@ -15817,6 +16622,80 @@
       }
      ],
      "spans_enumerated": true
+    }
+   ]
+  },
+  {
+   "recognizer": "UkDrivingLicenceRecognizer",
+   "entities": [
+    "UK_DRIVING_LICENCE"
+   ],
+   "file": "presidio-analyzer/tests/test_uk_driving_licence_recognizer.py",
+   "test": "test_invalid_uk_driving_licences",
+   "argnames": [
+    "text"
+   ],
+   "fixture": "recognizer",
+   "cases": [
+    {
+     "text": "MORGA600054SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MORGA613054SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MORGA650054SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MORGA663054SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MORGA601004SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MORGA601324SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MORGA65705SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MORGA6570544SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "99999657054SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
+    },
+    {
+     "text": "MO9G9657054SM9IJ",
+     "expected_count": 0,
+     "spans_enumerated": true,
+     "expected": []
     }
    ]
   },
@@ -19430,7 +20309,7 @@
   {
    "file": "presidio-analyzer/tests/test_analyzer_engine.py",
    "test": "test_when_analyze_with_unsupported_language_must_match",
-   "reason": "non-literal argvalues"
+   "reason": "non-literal argvalues: non-literal Call"
   },
   {
    "file": "presidio-analyzer/tests/test_analyzer_engine.py",
@@ -19457,7 +20336,7 @@
   {
    "file": "presidio-analyzer/tests/test_batch_analyzer_engine.py",
    "test": "test_analyze_iterator_returns_list_of_recognizer_results",
-   "reason": "non-literal argvalues"
+   "reason": "non-literal argvalues: non-literal Call"
   },
   {
    "file": "presidio-analyzer/tests/test_batch_analyzer_engine.py",
@@ -19517,19 +20396,15 @@
    "rows": 2
   },
   {
-   "file": "presidio-analyzer/tests/test_de_bsnr_recognizer.py",
-   "test": "test_when_all_de_bsnr_numbers_then_succeed",
-   "reason": "non-literal argvalues"
-  },
-  {
-   "file": "presidio-analyzer/tests/test_de_id_card_recognizer.py",
-   "test": "test_when_all_de_id_cards_then_succeed",
-   "reason": "non-literal argvalues"
-  },
-  {
    "file": "presidio-analyzer/tests/test_entity_recognizer.py",
    "test": "test_sanitize_value",
-   "reason": "non-literal argvalues"
+   "reason": "unsupported shape: no length or position column in ['input_text', 'params', 'expected_output']",
+   "argnames": [
+    "input_text",
+    "params",
+    "expected_output"
+   ],
+   "rows": 2
   },
   {
    "file": "presidio-analyzer/tests/test_entity_recognizer.py",
@@ -19574,12 +20449,13 @@
   {
    "file": "presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
    "test": "test_is_palindrome",
-   "reason": "non-literal argvalues"
-  },
-  {
-   "file": "presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
-   "test": "test_is_verhoeff",
-   "reason": "non-literal argvalues"
+   "reason": "unsupported shape: no length or position column in ['input_text', 'case_sensitive', 'expected_output']",
+   "argnames": [
+    "input_text",
+    "case_sensitive",
+    "expected_output"
+   ],
+   "rows": 5
   },
   {
    "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
@@ -19590,11 +20466,6 @@
     "expected"
    ],
    "rows": 5
-  },
-  {
-   "file": "presidio-analyzer/tests/test_ip_recognizer.py",
-   "test": "test_when_cidr_notation_then_largest_span_redacted",
-   "reason": "non-literal argvalues"
   },
   {
    "file": "presidio-analyzer/tests/test_ner_model_configuration.py",
@@ -19620,17 +20491,17 @@
   {
    "file": "presidio-analyzer/tests/test_ng_nin_recognizer.py",
    "test": "test_when_nin_in_text_then_all_ng_nins_found",
-   "reason": "non-literal argvalues"
+   "reason": "non-literal argvalues: unknown name 'VALID_NIN_1'"
   },
   {
    "file": "presidio-analyzer/tests/test_pattern_recognizer.py",
    "test": "test_deny_list_regex_flags",
-   "reason": "non-literal argvalues"
+   "reason": "non-literal argvalues: non-literal Attribute"
   },
   {
    "file": "presidio-analyzer/tests/test_pattern_recognizer.py",
    "test": "test_global_regex_flag_deny_list_returns_right_result",
-   "reason": "non-literal argvalues"
+   "reason": "non-literal argvalues: non-literal BinOp"
   },
   {
    "file": "presidio-analyzer/tests/test_recognizer_registry.py",
@@ -19767,11 +20638,6 @@
    "rows": 4
   },
   {
-   "file": "presidio-analyzer/tests/test_sg_fin_recognizer.py",
-   "test": "test_when_sgfins_in_text_then_all_sg_fins_found",
-   "reason": "non-literal argvalues"
-  },
-  {
    "file": "presidio-analyzer/tests/test_spacy_nlp_engine.py",
    "test": "test_batch_processing_with_as_tuples_returns_context",
    "reason": "unsupported shape: no text column in ['texts', 'as_tuples']",
@@ -19789,15 +20655,6 @@
     "key"
    ],
    "rows": 4
-  },
-  {
-   "file": "presidio-analyzer/tests/test_uk_driving_licence_recognizer.py",
-   "test": "test_invalid_uk_driving_licences",
-   "reason": "unsupported shape: no length or position column in ['text']",
-   "argnames": [
-    "text"
-   ],
-   "rows": 10
   },
   {
    "file": "presidio-analyzer/tests/test_yaml_recognizer_models.py",

@@ -104,11 +104,11 @@ struct RecognizerConformanceTests {
     /// These have no excuse for failing.
     @Test("pure-pattern recognizers match upstream exactly")
     func purePatternRecognizers() throws {
-        let corpus = try Corpus.recognizerCases()
+        let tables = try Corpus.allRecognizerTables()
         var total = Outcome()
         var covered = 0
 
-        for table in corpus.tables {
+        for table in tables {
             guard let definition = Self.definitions[table.recognizer],
                   !definition.needsSwiftLogic, Self.isSupported(table)
             else { continue }
@@ -135,11 +135,11 @@ struct RecognizerConformanceTests {
     /// Recognizers whose checksum logic is implemented in `ValidatorRegistry`.
     @Test("recognizers with implemented validators match upstream exactly")
     func implementedValidatorRecognizers() throws {
-        let corpus = try Corpus.recognizerCases()
+        let tables = try Corpus.allRecognizerTables()
         var total = Outcome()
         var covered: [String] = []
 
-        for table in corpus.tables {
+        for table in tables {
             guard let definition = Self.definitions[table.recognizer],
                   definition.needsSwiftLogic, Self.isSupported(table),
                   (ValidatorRegistry.logic(for: table.recognizer, fixture: table.fixture)
@@ -170,12 +170,12 @@ struct RecognizerConformanceTests {
     /// corpus is still blocked on unimplemented checksum logic.
     @Test("unimplemented validator coverage is tracked")
     func unimplementedCoverageIsVisible() throws {
-        let corpus = try Corpus.recognizerCases()
+        let tables = try Corpus.allRecognizerTables()
         var blockedCases = 0
         var blockedRecognizers = Set<String>()
         var totalCases = 0
 
-        for table in corpus.tables {
+        for table in tables {
             totalCases += table.cases.count
             guard let definition = Self.definitions[table.recognizer] else { continue }
             if definition.needsSwiftLogic,
@@ -221,9 +221,9 @@ struct RecognizerConformanceTests {
     /// not merely missing a validator. Reported rather than ignored.
     @Test("recognizers without extractable patterns are accounted for")
     func unextractableRecognizersAreVisible() throws {
-        let corpus = try Corpus.recognizerCases()
+        let tables = try Corpus.allRecognizerTables()
         var missing: [String: Int] = [:]
-        for table in corpus.tables where Self.definitions[table.recognizer] == nil {
+        for table in tables where Self.definitions[table.recognizer] == nil {
             missing[table.recognizer, default: 0] += table.cases.count
         }
         // None of these is a checksum gap — they have no extractable patterns.

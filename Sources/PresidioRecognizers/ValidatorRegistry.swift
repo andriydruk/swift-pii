@@ -135,6 +135,9 @@ public enum ValidatorRegistry {
         "UkDrivingLicenceRecognizer": RecognizerLogic(
             validate: CountryValidators.ukDrivingLicence
         ),
+        "DeBsnrRecognizer": RecognizerLogic(validate: CountryValidators.germanBsnr),
+        "NgNinRecognizer": RecognizerLogic(validate: CountryValidators.nigerianNin),
+        "DeIdCardRecognizer": RecognizerLogic(validate: CountryValidators.germanIdCard),
         "DeTaxIdRecognizer": RecognizerLogic(validate: CountryValidators.germanTaxId),
         "DeVatIdRecognizer": RecognizerLogic(
             // Default (heuristic) mode: a checksum failure is indeterminate,

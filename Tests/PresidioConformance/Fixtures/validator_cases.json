@@ -6,9 +6,9 @@
   "tests_dir": "presidio-analyzer/tests"
  },
  "stats": {
-  "tables": 21,
-  "cases": 203,
-  "recognizers": 18
+  "tables": 22,
+  "cases": 206,
+  "recognizers": 19
  },
  "tables": [
   {
@@ -581,6 +581,32 @@
     },
     {
      "input": "DE100000001",
+     "expected": "invalid"
+    }
+   ]
+  },
+  {
+   "recognizer": "InAadhaarRecognizer",
+   "entities": [
+    "IN_AADHAAR"
+   ],
+   "file": "presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
+   "test": "test_is_verhoeff",
+   "argnames": [
+    "input_number",
+    "is_verhoeff"
+   ],
+   "cases": [
+    {
+     "input": "312345678909",
+     "expected": "valid"
+    },
+    {
+     "input": "400123456787",
+     "expected": "valid"
+    },
+    {
+     "input": "123456789012",
      "expected": "invalid"
     }
    ]

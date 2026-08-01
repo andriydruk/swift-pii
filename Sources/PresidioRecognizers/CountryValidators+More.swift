@@ -334,3 +334,90 @@ extension CountryValidators {
         return weightedSum(Array(digits.prefix(8)), weights) % 11 == digits[8]
     }
 }
+
+public extension CountryValidators {
+
+    /// `DeBsnrRecognizer.validate_result` — Betriebsstättennummer.
+    ///
+    /// Never returns `.valid`. BSNR has no published Prüfziffer, so upstream
+    /// only rejects the clearly-malformed and leaves everything else
+    /// indeterminate — the `\b\d{9}\b` pattern is far too broad to promote a
+    /// match to full confidence on shape alone. Final confidence comes from
+    /// context words via the enhancer.
+    static func germanBsnr(_ text: String) -> Validation {
+        let value = text.trimmedASCII()
+        guard value.count == 9, value.allSatisfy(\.isASCIIDigit) else { return .invalid }
+        guard value != "000000000" else { return .invalid }
+        return .unknown
+    }
+
+    /// `DeIdCardRecognizer.validate_result` — nPA, ICAO Doc 9303 check digit.
+    ///
+    /// Tri-state, and the middle state is load-bearing: pre-2010 "T + 8 digits"
+    /// numbers predate ICAO and carry no check digit, so they stay at pattern
+    /// score rather than being rejected.
+    static func germanIdCard(_ text: String) -> Validation {
+        let value = text.trimmedASCII().uppercased()
+        guard value.count == 9 else { return .invalid }
+
+        let characters = Array(value)
+        if characters[0] == "T", characters.dropFirst().allSatisfy(\.isASCIIDigit) {
+            return .unknown
+        }
+        guard let last = characters.last, last.isASCIIDigit else { return .invalid }
+
+        // ICAO 7-3-1 weighting, digits at face value and letters as A=10..Z=35.
+        let weights = [7, 3, 1]
+        var total = 0
+        for (index, character) in characters.dropLast().enumerated() {
+            let value: Int
+            if character.isASCIIDigit {
+                value = character.wholeNumberValue ?? 0
+            } else if let ascii = character.asciiValue, ascii >= 65, ascii <= 90 {
+                value = Int(ascii - 65) + 10
+            } else {
+                return .invalid
+            }
+            total += value * weights[index % 3]
+        }
+        return total % 10 == (last.wholeNumberValue ?? -1) ? .valid : .invalid
+    }
+}
+
+private extension Character {
+    var isASCIIDigit: Bool { isASCII && isNumber }
+}
+
+private extension String {
+    /// Python's `str.strip()`.
+    func trimmedASCII() -> String {
+        var scalars = Substring(self)
+        while let f = scalars.first, f.isWhitespace { scalars = scalars.dropFirst() }
+        while let l = scalars.last, l.isWhitespace { scalars = scalars.dropLast() }
+        return String(scalars)
+    }
+}
+
+public extension CountryValidators {
+
+    /// `NgNinRecognizer.validate_result` — Nigerian National Identity Number.
+    ///
+    /// Binary, not tri-state: upstream returns a plain bool, so a failed
+    /// checksum drops the match rather than leaving it at pattern score.
+    ///
+    /// The digits are checksummed as a *string*, not via `int(value)`. That
+    /// matters for a NIN like `00000000005`: converting to an integer first
+    /// would drop the leading zeros and checksum a shorter number.
+    static func nigerianNin(_ text: String) -> Validation {
+        guard text.count == 11 else { return .invalid }
+        var digits: [Int] = []
+        digits.reserveCapacity(11)
+        for character in text {
+            guard character.isASCII, character.isNumber,
+                  let value = character.wholeNumberValue
+            else { return .invalid }
+            digits.append(value)
+        }
+        return Checksums.verhoeff(digits) ? .valid : .invalid
+    }
+}

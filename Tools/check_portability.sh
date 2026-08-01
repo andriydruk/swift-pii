@@ -139,8 +139,8 @@ if [[ ! -f "$CORPUS" ]]; then
     fail "missing conformance corpus: $CORPUS (run Tools/extract_fixtures.py)"
 else
     cases=$(python3 -c "import json,sys; d=json.load(open('$CORPUS')); print(sum(len(t['cases']) for t in d['tables']))" 2>/dev/null || echo 0)
-    if [[ "$cases" -lt 1600 ]]; then
-        fail "conformance corpus has only ${cases} cases (expected >= 1600)"
+    if [[ "$cases" -lt 1700 ]]; then
+        fail "conformance corpus has only ${cases} cases (expected >= 1700)"
     else
         pass "conformance corpus: ${cases} cases"
     fi
