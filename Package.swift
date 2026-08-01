@@ -26,6 +26,7 @@ let package = Package(
         .library(name: "PresidioAnonymizer", targets: ["PresidioAnonymizer"]),
         .library(name: "PresidioAnonymizerCrypto", targets: ["PresidioAnonymizerCrypto"]),
         .library(name: "PresidioNLP", targets: ["PresidioNLP"]),
+        .library(name: "PresidioEngine", targets: ["PresidioEngine"]),
     ],
     dependencies: [
         // Only PresidioAnonymizerCrypto depends on this. CryptoKit has no
@@ -96,6 +97,17 @@ let package = Package(
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
+        // AnalyzerEngine: composes the recognizers, the context enhancer and
+        // the NLP pipeline into the end-to-end entry point. Depends on both
+        // PresidioRecognizers and PresidioNLP, which is why it is its own
+        // target rather than living in either.
+        .target(
+            name: "PresidioEngine",
+            dependencies: ["PresidioRecognizers", "PresidioNLP"],
+            resources: [.process("Resources")],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
         // Benchmark harness. ADR 0001 traded throughput for cross-platform
         // determinism; this keeps a number on that trade.
         .executableTarget(
@@ -122,6 +134,12 @@ let package = Package(
         .testTarget(
             name: "PresidioRecognizersTests",
             dependencies: ["PresidioRecognizers", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        .testTarget(
+            name: "PresidioEngineTests",
+            dependencies: ["PresidioEngine", "PresidioConformance"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(

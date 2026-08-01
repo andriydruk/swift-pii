@@ -187,3 +187,50 @@ public final class PatternRecognizer: Sendable {
         return kept
     }
 }
+
+public extension PatternRecognizer {
+    /// A copy with different context words.
+    ///
+    /// The registry configuration can override a recognizer's context per
+    /// language — `CreditCardRecognizer` gets Spanish context words under
+    /// `es` — and `PatternRecognizer` is immutable, so the override has to
+    /// rebuild rather than mutate.
+    func withContext(_ context: [String]) -> PatternRecognizer {
+        PatternRecognizer(
+            name: name, entity: entity, patterns: patterns, context: context,
+            logic: logic, flags: flags, strategy: strategy
+        )
+    }
+}
+
+public extension PatternRecognizer {
+    /// A copy compiled with different regex flags.
+    ///
+    /// The registry configuration carries `global_regex_flags`, and upstream's
+    /// loader applies it to every recognizer it builds — overriding the flags
+    /// a recognizer sets for itself. `IbanRecognizer` is the case that makes
+    /// this visible: it defaults to `DOTALL | MULTILINE`, so on its own it is
+    /// case-sensitive, but inside an `AnalyzerEngine` the default config's
+    /// flags (26, which adds `IGNORECASE`) replace that. Both behaviours are
+    /// upstream's; which one applies depends on how the recognizer was built.
+    func withFlags(_ flags: RegexFlags) -> PatternRecognizer {
+        PatternRecognizer(
+            name: name, entity: entity, patterns: patterns, context: context,
+            logic: logic, flags: flags, strategy: strategy
+        )
+    }
+}
+
+public extension RegexFlags {
+    /// Decode Python `re` module flag bits.
+    ///
+    /// `re.IGNORECASE == 2`, `re.MULTILINE == 8`, `re.DOTALL == 16`; the
+    /// default config ships 26, which is all three.
+    init(pythonFlags bits: Int) {
+        self.init(
+            ignoreCase: bits & 2 != 0,
+            dotAll: bits & 16 != 0,
+            multiline: bits & 8 != 0
+        )
+    }
+}

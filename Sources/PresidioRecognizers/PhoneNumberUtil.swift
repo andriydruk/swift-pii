@@ -447,9 +447,22 @@ public enum PhoneNumberUtil {
     /// `_formatting_rule_has_first_group_only`: the rule is `$1` with optional
     /// surrounding punctuation.
     static func formattingRuleHasFirstGroupOnly(_ rule: String) -> Bool {
-        let stripped = rule.filter { $0 != "(" && $0 != ")" && $0 != "-"
-            && $0 != " " && $0 != "." }
-        return stripped == "$1"
+        // `_FIRST_GROUP_ONLY_PREFIX_PATTERN` is `\(?\\1\)?` — an optional open
+        // paren, the literal backreference, an optional close paren, matched in
+        // full. Nothing else is permitted, so a rule carrying the national
+        // prefix (`0\1`) or extra punctuation correctly fails.
+        //
+        // The backreference is spelled `\1`, not `$1`: `$1` is libphonenumber's
+        // Java convention, and this metadata comes from python-phonenumbers,
+        // which rewrites it. Testing for `$1` here silently never matched, so
+        // every region whose format rule is first-group-only — Brazil's
+        // `(\1)` among them — was treated as requiring a national prefix, and
+        // every bare national number was rejected as a false positive.
+        if rule.isEmpty { return true }
+        var scalars = Substring(rule)
+        if scalars.first == "(" { scalars = scalars.dropFirst() }
+        if scalars.last == ")" { scalars = scalars.dropLast() }
+        return scalars == "\\1"
     }
 
     static func mainRegion(forCountryCode code: Int) -> Region? {

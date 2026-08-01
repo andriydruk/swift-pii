@@ -19,18 +19,51 @@ public struct RecognizerResult: Sendable, Hashable {
     public var score: Double
     public var recognitionMetadata: [String: String]
 
+    /// The recognizer context word that raised this result's score, if any.
+    /// Part of upstream's `analysis_explanation`.
+    public var supportiveContextWord: String?
+
     public init(
         entityType: String,
         start: Int,
         end: Int,
         score: Double,
-        recognitionMetadata: [String: String] = [:]
+        recognitionMetadata: [String: String] = [:],
+        supportiveContextWord: String? = nil
     ) {
         self.entityType = entityType
         self.start = start
         self.end = end
         self.score = score
         self.recognitionMetadata = recognitionMetadata
+        self.supportiveContextWord = supportiveContextWord
+    }
+
+    // MARK: - Equality
+    //
+    // Deliberately narrower than the stored properties. Python compares and
+    // hashes on `(entity_type, start, end, score)` only — metadata and the
+    // analysis explanation are excluded:
+    //
+    //     hash(f"{self.start} {self.end} {self.score} {self.entity_type}")
+    //
+    // `remove_duplicates` starts with `list(set(results))`, so this is what
+    // decides whether two results collapse. Synthesized conformance would also
+    // compare `recognitionMetadata`, which is invisible within a single
+    // recognizer — every result carries the same name — but diverges the moment
+    // the engine merges results from several, since the identical span found by
+    // two recognizers would then survive as two results instead of one.
+
+    public static func == (lhs: RecognizerResult, rhs: RecognizerResult) -> Bool {
+        lhs.entityType == rhs.entityType && lhs.start == rhs.start
+            && lhs.end == rhs.end && lhs.score == rhs.score
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(entityType)
+        hasher.combine(start)
+        hasher.combine(end)
+        hasher.combine(score)
     }
 
     /// Length of the span in Unicode scalars.

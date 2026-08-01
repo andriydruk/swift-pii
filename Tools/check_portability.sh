@@ -131,4 +131,20 @@ else
     fi
 fi
 
+# The registry configuration decides which recognizers a default engine loads.
+# Without it the engine would load the whole catalogue and report entities
+# Presidio never would -- which reads as a wall of false positives, not as a
+# missing file.
+REGCONF=Sources/PresidioEngine/Resources/registry_config.json
+if [[ ! -f "$REGCONF" ]]; then
+    fail "missing registry config: $REGCONF (run Tools/extract_registry_config.py)"
+else
+    enabled=$(python3 -c "import json; d=json.load(open('$REGCONF')); print(sum(1 for e in d['recognizers'] if e['enabled'] and any(l['language']=='en' for l in e['languages'])))" 2>/dev/null || echo 0)
+    if [[ "$enabled" -ne 17 ]]; then
+        fail "registry config enables ${enabled} English recognizers (expected 17)"
+    else
+        pass "registry config: ${enabled} English recognizers enabled"
+    fi
+fi
+
 exit $status

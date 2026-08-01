@@ -192,4 +192,57 @@ public enum Corpus {
     public static func validatorCases() throws -> ValidatorCorpus {
         try load("validator_cases", as: ValidatorCorpus.self)
     }
+
+    // MARK: - Analyzer engine oracle
+
+    /// One text, the NLP artifacts spaCy produced for it, and the results
+    /// Presidio's `AnalyzerEngine` returned under each option set.
+    ///
+    /// The artifacts are recorded so the Swift engine can be driven with
+    /// Python's own tokenization and NER output. Without that, an engine
+    /// divergence and an NER divergence look identical.
+    public struct AnalyzerCorpus: Codable, Sendable {
+        public struct Entity: Codable, Sendable {
+            public let text: String
+            public let label: String
+            public let start: Int
+            public let end: Int
+        }
+
+        public struct Artifacts: Codable, Sendable {
+            public let tokens: [String]
+            public let tokenIndices: [Int]
+            public let lemmas: [String]
+            public let keywords: [String]
+            public let entities: [Entity]
+            public let scores: [Double]
+
+            enum CodingKeys: String, CodingKey {
+                case tokens
+                case tokenIndices = "token_indices"
+                case lemmas, keywords, entities, scores
+            }
+        }
+
+        public struct Expected: Codable, Sendable {
+            public let entity: String
+            public let start: Int
+            public let end: Int
+            public let score: Double
+        }
+
+        public struct Entry: Codable, Sendable {
+            public let text: String
+            public let artifacts: Artifacts
+            public let runs: [String: [Expected]]
+        }
+
+        public let model: String
+        public let cases: [String]
+        public let texts: [Entry]
+    }
+
+    public static func analyzerReference() throws -> AnalyzerCorpus {
+        try load("analyzer_reference", as: AnalyzerCorpus.self)
+    }
 }

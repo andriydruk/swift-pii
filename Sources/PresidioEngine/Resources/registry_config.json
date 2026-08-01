@@ -1,0 +1,1446 @@
+{
+ "schema_version": 1,
+ "source": "presidio_analyzer/conf/default_recognizers.yaml",
+ "supported_languages": [
+  "en"
+ ],
+ "global_regex_flags": 26,
+ "recognizers": [
+  {
+   "name": "CreditCardRecognizer",
+   "class_name": "CreditCardRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": [
+      "credit",
+      "card",
+      "visa",
+      "mastercard",
+      "cc",
+      "amex",
+      "discover",
+      "jcb",
+      "diners",
+      "maestro",
+      "instapayment"
+     ]
+    },
+    {
+     "language": "es",
+     "context": [
+      "tarjeta",
+      "credito",
+      "visa",
+      "mastercard",
+      "cc",
+      "amex",
+      "discover",
+      "jcb",
+      "diners",
+      "maestro",
+      "instapayment"
+     ]
+    },
+    {
+     "language": "it",
+     "context": null
+    },
+    {
+     "language": "pl",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UsBankRecognizer",
+   "class_name": "UsBankRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UsLicenseRecognizer",
+   "class_name": "UsLicenseRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UsItinRecognizer",
+   "class_name": "UsItinRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UsPassportRecognizer",
+   "class_name": "UsPassportRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UsSsnRecognizer",
+   "class_name": "UsSsnRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UsMbiRecognizer",
+   "class_name": "UsMbiRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UsNpiRecognizer",
+   "class_name": "UsNpiRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "NhsRecognizer",
+   "class_name": "NhsRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "uk",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UkDrivingLicenceRecognizer",
+   "class_name": "UkDrivingLicenceRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "uk",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UkNinoRecognizer",
+   "class_name": "UkNinoRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "uk",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UkPassportRecognizer",
+   "class_name": "UkPassportRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "uk",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UkPostcodeRecognizer",
+   "class_name": "UkPostcodeRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "uk",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UkPostcodeRecognizer",
+   "class_name": "UkPostcodeRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "uk",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UkVehicleRegistrationRecognizer",
+   "class_name": "UkVehicleRegistrationRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "uk",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "SgFinRecognizer",
+   "class_name": "SgFinRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "sg",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "AuAbnRecognizer",
+   "class_name": "AuAbnRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "au",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "AuAcnRecognizer",
+   "class_name": "AuAcnRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "au",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "AuTfnRecognizer",
+   "class_name": "AuTfnRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "au",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "AuMedicareRecognizer",
+   "class_name": "AuMedicareRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "au",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "NgNinRecognizer",
+   "class_name": "NgNinRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "ng",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "NgVehicleRegistrationRecognizer",
+   "class_name": "NgVehicleRegistrationRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "ng",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "InPanRecognizer",
+   "class_name": "InPanRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "in",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "InAadhaarRecognizer",
+   "class_name": "InAadhaarRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "in",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "InVehicleRegistrationRecognizer",
+   "class_name": "InVehicleRegistrationRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "in",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "InPassportRecognizer",
+   "class_name": "InPassportRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "in",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "EsNifRecognizer",
+   "class_name": "EsNifRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "es",
+     "context": null
+    }
+   ],
+   "country_code": "es",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "EsNieRecognizer",
+   "class_name": "EsNieRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "es",
+     "context": null
+    }
+   ],
+   "country_code": "es",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "EsPassportRecognizer",
+   "class_name": "EsPassportRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "es",
+     "context": null
+    }
+   ],
+   "country_code": "es",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ItDriverLicenseRecognizer",
+   "class_name": "ItDriverLicenseRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "it",
+     "context": null
+    }
+   ],
+   "country_code": "it",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ItFiscalCodeRecognizer",
+   "class_name": "ItFiscalCodeRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "it",
+     "context": null
+    }
+   ],
+   "country_code": "it",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ItVatCodeRecognizer",
+   "class_name": "ItVatCodeRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "it",
+     "context": null
+    }
+   ],
+   "country_code": "it",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ItIdentityCardRecognizer",
+   "class_name": "ItIdentityCardRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "it",
+     "context": null
+    }
+   ],
+   "country_code": "it",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ItPassportRecognizer",
+   "class_name": "ItPassportRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "it",
+     "context": null
+    }
+   ],
+   "country_code": "it",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "PhPassportRecognizer",
+   "class_name": "PhPassportRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "ph",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "PhTinRecognizer",
+   "class_name": "PhTinRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "ph",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "PlPeselRecognizer",
+   "class_name": "PlPeselRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "pl",
+     "context": null
+    }
+   ],
+   "country_code": "pl",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "KrBrnRecognizer",
+   "class_name": "KrBrnRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "ko",
+     "context": null
+    },
+    {
+     "language": "kr",
+     "context": null
+    }
+   ],
+   "country_code": "kr",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "KrRrnRecognizer",
+   "class_name": "KrRrnRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "ko",
+     "context": null
+    },
+    {
+     "language": "kr",
+     "context": null
+    }
+   ],
+   "country_code": "kr",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "KrDriverLicenseRecognizer",
+   "class_name": "KrDriverLicenseRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "ko",
+     "context": null
+    },
+    {
+     "language": "kr",
+     "context": null
+    }
+   ],
+   "country_code": "kr",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "KrFrnRecognizer",
+   "class_name": "KrFrnRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "ko",
+     "context": null
+    },
+    {
+     "language": "kr",
+     "context": null
+    }
+   ],
+   "country_code": "kr",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "SeOrganisationsnummerRecognizer",
+   "class_name": "SeOrganisationsnummerRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "sv",
+     "context": null
+    }
+   ],
+   "country_code": "se",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "SePersonnummerRecognizer",
+   "class_name": "SePersonnummerRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "sv",
+     "context": null
+    }
+   ],
+   "country_code": "se",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaCompanyRegistrationRecognizer",
+   "class_name": "ZaCompanyRegistrationRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaDriverLicenseRecognizer",
+   "class_name": "ZaDriverLicenseRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaIdNumberRecognizer",
+   "class_name": "ZaIdNumberRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaIncomeTaxNumberRecognizer",
+   "class_name": "ZaIncomeTaxNumberRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaLicensePlateRecognizer",
+   "class_name": "ZaLicensePlateRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaMobileNumberRecognizer",
+   "class_name": "ZaMobileNumberRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaPassportRecognizer",
+   "class_name": "ZaPassportRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaTrafficRegisterNumberRecognizer",
+   "class_name": "ZaTrafficRegisterNumberRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaTelephoneNumberRecognizer",
+   "class_name": "ZaTelephoneNumberRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ZaVatNumberRecognizer",
+   "class_name": "ZaVatNumberRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "za",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "ThTninRecognizer",
+   "class_name": "ThTninRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "th",
+     "context": null
+    }
+   ],
+   "country_code": "th",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "TrNationalIdRecognizer",
+   "class_name": "TrNationalIdRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "tr",
+     "context": null
+    }
+   ],
+   "country_code": "tr",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "TrLicensePlateRecognizer",
+   "class_name": "TrLicensePlateRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "tr",
+     "context": null
+    }
+   ],
+   "country_code": "tr",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "PhUmidRecognizer",
+   "class_name": "PhUmidRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "ph",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "HuggingFaceNerRecognizer",
+   "class_name": "HuggingFaceNerRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "CryptoRecognizer",
+   "class_name": "CryptoRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DateRecognizer",
+   "class_name": "DateRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "EmailRecognizer",
+   "class_name": "EmailRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "IbanRecognizer",
+   "class_name": "IbanRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "IpRecognizer",
+   "class_name": "IpRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "MedicalLicenseRecognizer",
+   "class_name": "MedicalLicenseRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "MacAddressRecognizer",
+   "class_name": "MacAddressRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UuidRecognizer",
+   "class_name": "UuidRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "PhoneRecognizer",
+   "class_name": "PhoneRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "UrlRecognizer",
+   "class_name": "UrlRecognizer",
+   "type": "predefined",
+   "enabled": true,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "InVoterRecognizer",
+   "class_name": "InVoterRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "in",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "InGstinRecognizer",
+   "class_name": "InGstinRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "in",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeTaxIdRecognizer",
+   "class_name": "DeTaxIdRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeTaxNumberRecognizer",
+   "class_name": "DeTaxNumberRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DePassportRecognizer",
+   "class_name": "DePassportRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeIdCardRecognizer",
+   "class_name": "DeIdCardRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeSocialSecurityRecognizer",
+   "class_name": "DeSocialSecurityRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeHealthInsuranceRecognizer",
+   "class_name": "DeHealthInsuranceRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeKfzRecognizer",
+   "class_name": "DeKfzRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeHandelsregisterRecognizer",
+   "class_name": "DeHandelsregisterRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DePlzRecognizer",
+   "class_name": "DePlzRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeLanrRecognizer",
+   "class_name": "DeLanrRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeBsnrRecognizer",
+   "class_name": "DeBsnrRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeVatIdRecognizer",
+   "class_name": "DeVatIdRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "DeFuehrerscheinRecognizer",
+   "class_name": "DeFuehrerscheinRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "de",
+     "context": null
+    }
+   ],
+   "country_code": "de",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "BasicLangExtractRecognizer",
+   "class_name": "BasicLangExtractRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": null,
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "CaSinRecognizer",
+   "class_name": "CaSinRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    },
+    {
+     "language": "fr",
+     "context": null
+    }
+   ],
+   "country_code": "ca",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "CaPostalCodeRecognizer",
+   "class_name": "CaPostalCodeRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    },
+    {
+     "language": "fr",
+     "context": null
+    }
+   ],
+   "country_code": "ca",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  }
+ ]
+}
