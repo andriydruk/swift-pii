@@ -2,10 +2,10 @@
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
-**Status: M1 done bar a long tail, M2 complete, M3 tokenizer done.** Detection
-(87% of the harvested corpus), de-identification including reversible AES, and
-spaCy-exact tokenization are all differentially verified against Python. NER
-model inference is the remaining piece.
+**Status: M1 done bar a long tail, M2 complete, M3 composed end to end.**
+Detection (87% of the harvested corpus), de-identification including reversible
+AES, spaCy-exact tokenization, and NER from raw text are all differentially
+verified against Python. NER parity is 98.9%, not exact — see below.
 
 Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
 describes the behavioural target, not the product name.
@@ -265,6 +265,50 @@ Resolution order, determined empirically against spaCy rather than from docs:
 The gold file must come from the **loaded model**, not `spacy.blank("en")`: a
 blank pipeline ships no `lexeme_norm` table, so it leaves `licence` alone and
 would wrongly fail a correct implementation.
+
+## NER
+
+`SpacyNER` runs spaCy's v3 pipeline in pure Swift: tokenizer → MultiHashEmbed →
+Maxout → LayerNorm → 4 residual maxout-window blocks → transition-based parser
+over BILUO actions. Weights are read straight from the model's thinc msgpack
+files, so there is no conversion step and no ML runtime — the matmul is
+hand-written SIMD.
+
+Input is raw text; output is `NamedEntity` with **scalar character offsets**,
+which is what a PII pipeline actually needs.
+
+Model weights are **not bundled** (15 MB for `en_core_web_sm`, 619 MB for `lg`).
+Point `SpacyNER(modelDirectory:)` at an unpacked model. The parity suite is
+gated on `SPACY_MODEL_DIR` and reports when unset rather than passing vacuously.
+
+### Parity is 98.9%, not exact
+
+Measured end to end over 2,000 texts / 2,592 entities from `en_core_web_sm`:
+
+| | |
+|---|---:|
+| Matched | 2,564 |
+| Missed | 28 |
+| Spurious | 69 |
+| Recall | 98.92% |
+
+The layers are cleanly separable, and the gap is isolated:
+
+- **Tokenization: exact.** 0/2000 token divergences on this very corpus.
+- **NORMs: exact.** 0/2000 divergences.
+- **Forward pass: not exact.** The residual is entirely here.
+
+The likely cause is float accumulation order — the hand-written SIMD reduction
+sums in a different order from numpy's BLAS, which flips `argmax` on borderline
+transitions. The divergent cases are plausible spans with a different label or
+extent (`DATE` vs `CARDINAL` over an identical span), never corrupted offsets.
+To confirm, dump the tok2vec output for a divergent sentence and diff it against
+spaCy's; a last-few-bits difference is accumulation order.
+
+Worth stating plainly: an earlier prototype measured 0 FP / 0 FN, but that was
+with **spaCy supplying the tokens and norms** and the `tok2vec` component
+excluded from the pipeline. Composed end to end against the full pipeline, it is
+98.9%. The pipeline difference alone accounts for only 4 of 2,000 texts.
 
 ## Recognizer definitions
 
