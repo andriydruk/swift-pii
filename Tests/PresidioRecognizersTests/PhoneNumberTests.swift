@@ -114,9 +114,13 @@ struct PhoneNumberTests {
         // Current: parse/reject 479/480 (99.8%), NSN 416/432 (96.3%),
         // validity 431/432 (99.8%), region 430/432 (99.5%).
         #expect(total >= 400)
-        #expect(Double(parseAgree) / Double(total) >= 0.99)
-        #expect(Double(numberAgree) / Double(parsedCases) >= 0.96)
-        #expect(Double(validAgree) / Double(parsedCases) >= 0.99)
-        #expect(Double(regionAgree) / Double(parsedCases) >= 0.99)
+        // Absolute counts, not ratios. A ratio bound set loosely lets a real
+        // regression pass: dropping the descriptor anchoring took the
+        // recognizer from 101/106 to 98/106 and every ratio bound here stayed
+        // satisfied. These are the current measurements; raise, never lower.
+        #expect(parseAgree == total, "parse \(parseAgree)/\(total)")
+        #expect(numberAgree >= 429, "nsn \(numberAgree)/\(parsedCases)")
+        #expect(validAgree == parsedCases, "validity \(validAgree)/\(parsedCases)")
+        #expect(regionAgree >= 431, "region \(regionAgree)/\(parsedCases)")
     }
 }

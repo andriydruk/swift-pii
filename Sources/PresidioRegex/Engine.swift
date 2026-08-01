@@ -471,6 +471,23 @@ public final class PureRegex: Sendable {
         return scan(&vm, input, from: start)
     }
 
+    /// Whether the pattern matches starting at offset 0, tried once.
+    ///
+    /// For a pattern anchored `^...$` a match can only begin at the start, so
+    /// the ordinary left-to-right scan spends its time re-running a program
+    /// that cannot succeed anywhere else. This runs the VM once.
+    ///
+    /// The pattern must carry its own `$`. Checking `end == count` here instead
+    /// would be wrong: the VM returns the first end it reaches, so for
+    /// `a|ab` against "ab" it returns 1 and never backtracks — it is the `$`
+    /// that forces the engine to keep looking for an end-of-input match.
+    public func matchesAnchored(_ text: String) -> Bool {
+        let input = Self.scalarValues(of: text)
+        var vm = VM(program: program, input: input, multiline: multiline)
+        vm.reset()
+        return vm.run(entry: 0, start: 0) != nil
+    }
+
     public func firstMatch(in text: String, from start: Int = 0) -> Match? {
         firstMatch(inScalars: Self.scalarValues(of: text), from: start)
     }

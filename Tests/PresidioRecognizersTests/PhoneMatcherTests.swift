@@ -139,7 +139,7 @@ struct PhoneRecognizerTests {
         // not carry — the same fixture-variant limitation as DE_VAT_ID, except
         // here the variant is per row rather than per table. STRICT_GROUPING
         // and EXACT_GROUPING are also not implemented and fall back to VALID.
-        #expect(Double(passed) / Double(passed + failed) >= 0.92)
+        #expect(passed >= 101, "\(passed)/\(passed + failed)")
     }
 }
 
