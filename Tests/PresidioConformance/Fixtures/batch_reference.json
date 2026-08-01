@@ -1,0 +1,374 @@
+{
+ "iterator": [
+  {
+   "texts": [
+    "my card is 4095-2609-9393-4932",
+    "call 212-555-5555",
+    "a@example.com"
+   ],
+   "results": [
+    [
+     {
+      "entity": "CREDIT_CARD",
+      "start": 11,
+      "end": 30,
+      "score": 1.0
+     }
+    ],
+    [
+     {
+      "entity": "PHONE_NUMBER",
+      "start": 5,
+      "end": 17,
+      "score": 0.4
+     }
+    ],
+    [
+     {
+      "entity": "EMAIL_ADDRESS",
+      "start": 0,
+      "end": 13,
+      "score": 1.0
+     },
+     {
+      "entity": "URL",
+      "start": 2,
+      "end": 13,
+      "score": 0.5
+     }
+    ]
+   ]
+  },
+  {
+   "texts": [
+    "",
+    "no pii here",
+    "0"
+   ],
+   "results": [
+    [],
+    [],
+    []
+   ]
+  }
+ ],
+ "dicts": [
+  {
+   "name": "keys_as_context",
+   "input": "{'credit_card': '4095-2609-9393-4932', 'notes': '4095-2609-9393-4932'}",
+   "keys_to_skip": [],
+   "results": [
+    {
+     "key": "credit_card",
+     "value": "'4095-2609-9393-4932'",
+     "kind": "single",
+     "results": [
+      {
+       "entity": "CREDIT_CARD",
+       "start": 0,
+       "end": 19,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "key": "notes",
+     "value": "'4095-2609-9393-4932'",
+     "kind": "single",
+     "results": [
+      {
+       "entity": "CREDIT_CARD",
+       "start": 0,
+       "end": 19,
+       "score": 1.0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "falsy_values_skipped",
+   "input": "{'empty': '', 'zero': 0, 'false': False, 'real': 'a@example.com'}",
+   "keys_to_skip": [],
+   "results": [
+    {
+     "key": "empty",
+     "value": "''",
+     "kind": "single",
+     "results": []
+    },
+    {
+     "key": "zero",
+     "value": "0",
+     "kind": "single",
+     "results": []
+    },
+    {
+     "key": "false",
+     "value": "False",
+     "kind": "single",
+     "results": []
+    },
+    {
+     "key": "real",
+     "value": "'a@example.com'",
+     "kind": "single",
+     "results": [
+      {
+       "entity": "EMAIL_ADDRESS",
+       "start": 0,
+       "end": 13,
+       "score": 1.0
+      },
+      {
+       "entity": "URL",
+       "start": 2,
+       "end": 13,
+       "score": 0.5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "keys_to_skip",
+   "input": "{'email': 'a@example.com', 'phone': '212-555-5555'}",
+   "keys_to_skip": [
+    "phone"
+   ],
+   "results": [
+    {
+     "key": "email",
+     "value": "'a@example.com'",
+     "kind": "single",
+     "results": [
+      {
+       "entity": "EMAIL_ADDRESS",
+       "start": 0,
+       "end": 13,
+       "score": 1.0
+      },
+      {
+       "entity": "URL",
+       "start": 2,
+       "end": 13,
+       "score": 0.5
+      }
+     ]
+    },
+    {
+     "key": "phone",
+     "value": "'212-555-5555'",
+     "kind": "single",
+     "results": []
+    }
+   ]
+  },
+  {
+   "name": "nested",
+   "input": "{'outer': {'email': 'a@example.com', 'inner': {'phone': '212-555-5555'}}, 'top': '4095-2609-9393-4932'}",
+   "keys_to_skip": [],
+   "results": [
+    {
+     "key": "outer",
+     "value": "{'email': 'a@example.com', 'inner': {'phone': '212-555-5555'}}",
+     "kind": "nested",
+     "results": [
+      {
+       "key": "email",
+       "value": "'a@example.com'",
+       "kind": "single",
+       "results": [
+        {
+         "entity": "EMAIL_ADDRESS",
+         "start": 0,
+         "end": 13,
+         "score": 1.0
+        },
+        {
+         "entity": "URL",
+         "start": 2,
+         "end": 13,
+         "score": 0.5
+        }
+       ]
+      },
+      {
+       "key": "inner",
+       "value": "{'phone': '212-555-5555'}",
+       "kind": "nested",
+       "results": [
+        {
+         "key": "phone",
+         "value": "'212-555-5555'",
+         "kind": "single",
+         "results": [
+          {
+           "entity": "PHONE_NUMBER",
+           "start": 0,
+           "end": 12,
+           "score": 0.75
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "top",
+     "value": "'4095-2609-9393-4932'",
+     "kind": "single",
+     "results": [
+      {
+       "entity": "CREDIT_CARD",
+       "start": 0,
+       "end": 19,
+       "score": 1.0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "nested_keys_to_skip",
+   "input": "{'outer': {'email': 'a@example.com', 'phone': '212-555-5555'}}",
+   "keys_to_skip": [
+    "outer.phone"
+   ],
+   "results": [
+    {
+     "key": "outer",
+     "value": "{'email': 'a@example.com', 'phone': '212-555-5555'}",
+     "kind": "nested",
+     "results": [
+      {
+       "key": "email",
+       "value": "'a@example.com'",
+       "kind": "single",
+       "results": [
+        {
+         "entity": "EMAIL_ADDRESS",
+         "start": 0,
+         "end": 13,
+         "score": 1.0
+        },
+        {
+         "entity": "URL",
+         "start": 2,
+         "end": 13,
+         "score": 0.5
+        }
+       ]
+      },
+      {
+       "key": "phone",
+       "value": "'212-555-5555'",
+       "kind": "single",
+       "results": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "list_value",
+   "input": "{'emails': ['a@example.com', 'b@example.com'], 'n': 42}",
+   "keys_to_skip": [],
+   "results": [
+    {
+     "key": "emails",
+     "value": "['a@example.com', 'b@example.com']",
+     "kind": "list",
+     "results": [
+      [
+       {
+        "entity": "EMAIL_ADDRESS",
+        "start": 0,
+        "end": 13,
+        "score": 1.0
+       },
+       {
+        "entity": "URL",
+        "start": 2,
+        "end": 13,
+        "score": 0.5
+       }
+      ],
+      [
+       {
+        "entity": "EMAIL_ADDRESS",
+        "start": 0,
+        "end": 13,
+        "score": 1.0
+       },
+       {
+        "entity": "URL",
+        "start": 2,
+        "end": 13,
+        "score": 0.5
+       }
+      ]
+     ]
+    },
+    {
+     "key": "n",
+     "value": "42",
+     "kind": "single",
+     "results": []
+    }
+   ]
+  },
+  {
+   "name": "primitive_types",
+   "input": "{'num': 4095260993934932, 'flag': True, 'flt': 3.5}",
+   "keys_to_skip": [],
+   "results": [
+    {
+     "key": "num",
+     "value": "4095260993934932",
+     "kind": "single",
+     "results": [
+      {
+       "entity": "CREDIT_CARD",
+       "start": 0,
+       "end": 16,
+       "score": 1.0
+      },
+      {
+       "entity": "DATE_TIME",
+       "start": 0,
+       "end": 16,
+       "score": 0.85
+      },
+      {
+       "entity": "US_BANK_NUMBER",
+       "start": 0,
+       "end": 16,
+       "score": 0.05
+      },
+      {
+       "entity": "US_DRIVER_LICENSE",
+       "start": 0,
+       "end": 16,
+       "score": 0.01
+      }
+     ]
+    },
+    {
+     "key": "flag",
+     "value": "True",
+     "kind": "single",
+     "results": []
+    },
+    {
+     "key": "flt",
+     "value": "3.5",
+     "kind": "single",
+     "results": []
+    }
+   ]
+  }
+ ],
+ "schema_version": 1
+}
