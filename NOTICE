@@ -71,6 +71,27 @@ host platform's Unicode version.
   Sources/PresidioRegex/UnicodeTables.swift
 
 --------------------------------------------------------------------------------
+Yams and libyaml — MIT
+Copyright (c) 2016 JP Simard
+Copyright (c) 2006-2016 Kirill Simonov, 2017-2020 Ingy dot Net
+https://github.com/jpsim/Yams
+
+A dependency of PresidioEngineYAML only, for reading a user's own recognizer
+configuration. Yams vendors libyaml's C source (built with YAML_DECLARE_STATIC),
+so no system library is required. Both are MIT; neither is redistributed here in
+source form -- SwiftPM fetches them.
+
+--------------------------------------------------------------------------------
+Presidio configuration files — MIT
+Copyright (c) Presidio Contributors
+
+Presidio's own YAML configuration files, copied verbatim so the YAML reader is
+tested against real configurations rather than ones written to suit it. Includes
+the deliberately malformed fixtures its error tests use.
+
+  Tests/PresidioConformance/Fixtures/conf/*.yaml
+
+--------------------------------------------------------------------------------
 spaCy models (en_core_web_sm / en_core_web_lg) — MIT
 Copyright (c) ExplosionAI GmbH
 

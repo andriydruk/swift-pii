@@ -20,6 +20,11 @@ public struct RegistryConfiguration: Sendable, Decodable {
         /// Overrides the recognizer class's own context words for this
         /// language when present.
         public let context: [String]?
+
+        public init(language: String, context: [String]? = nil) {
+            self.language = language
+            self.context = context
+        }
     }
 
     public struct Entry: Sendable, Decodable {
@@ -40,6 +45,24 @@ public struct RegistryConfiguration: Sendable, Decodable {
             case countryCode = "country_code"
             case scoreThresholds = "score_thresholds"
         }
+
+        public init(
+            name: String,
+            className: String,
+            type: String = "predefined",
+            enabled: Bool = true,
+            languages: [LanguageEntry],
+            countryCode: String? = nil,
+            scoreThresholds: [String: Double] = [:]
+        ) {
+            self.name = name
+            self.className = className
+            self.type = type
+            self.enabled = enabled
+            self.languages = languages
+            self.countryCode = countryCode
+            self.scoreThresholds = scoreThresholds
+        }
     }
 
     public let supportedLanguages: [String]
@@ -51,6 +74,16 @@ public struct RegistryConfiguration: Sendable, Decodable {
         case supportedLanguages = "supported_languages"
         case globalRegexFlags = "global_regex_flags"
         case recognizers
+    }
+
+    public init(
+        supportedLanguages: [String] = ["en"],
+        globalRegexFlags: Int? = nil,
+        recognizers: [Entry] = []
+    ) {
+        self.supportedLanguages = supportedLanguages
+        self.globalRegexFlags = globalRegexFlags
+        self.recognizers = recognizers
     }
 
     public static let `default`: RegistryConfiguration? = {

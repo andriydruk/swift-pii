@@ -171,6 +171,38 @@ remaining divergences are all a missing `PHONE_NUMBER` across two texts, the
 phone matcher's own measured gap; nothing else diverges and there are no false
 positives, both of which the test asserts separately from the ratchet.
 
+### Configuration from YAML
+
+Reproducing Presidio's defaults needs no YAML parser — the default config is
+resolved to JSON at build time. Reading **your own** config file is a separate
+target, `PresidioEngineYAML`, so callers who never read one never link a parser:
+
+```swift
+import PresidioEngineYAML
+
+let registry = try YAMLConfiguration.registry(atPath: "recognizers.yaml")
+let engine = try AnalyzerEngine(registry: registry)
+```
+
+It accepts the same format `RecognizerRegistryProvider` does — `type: predefined`
+entries resolve against the catalogue, and `type: custom` entries are built from
+their `patterns` or `deny_list`. Note that upstream treats an entry with **no**
+`type` as custom, not predefined; Presidio's own `example_recognizers.yaml`
+relies on that, since none of its entries declare one.
+
+The reader is tested against Presidio's 41 real config files rather than ones
+written to suit it, and the sharpest check needs no oracle at all: parsing
+`default_recognizers.yaml` at runtime must produce the *identical*
+`RegistryConfiguration` the build-time extraction produces. If the two paths
+ever disagree, one of them is wrong.
+
+Backed by [Yams](https://github.com/jpsim/Yams), which vendors libyaml's C
+source — no system library, and it builds wherever a C compiler does. A
+hand-rolled subset parser was the alternative; it was rejected because a config
+decides *which PII recognizers run*, and YAML has too many quiet
+misinterpretations (`key: yes` is a boolean, `#` inside an unquoted scalar) to
+risk one.
+
 ### A default engine loads 17 recognizers, not 88
 
 `AnalyzerEngine()` does not load the whole catalogue. Upstream ships

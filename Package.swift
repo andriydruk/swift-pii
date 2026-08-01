@@ -27,12 +27,17 @@ let package = Package(
         .library(name: "PresidioAnonymizerCrypto", targets: ["PresidioAnonymizerCrypto"]),
         .library(name: "PresidioNLP", targets: ["PresidioNLP"]),
         .library(name: "PresidioEngine", targets: ["PresidioEngine"]),
+        .library(name: "PresidioEngineYAML", targets: ["PresidioEngineYAML"]),
     ],
     dependencies: [
         // Only PresidioAnonymizerCrypto depends on this. CryptoKit has no
         // AES-CBC mode at all, so encrypt/decrypt needs swift-crypto's
         // _CryptoExtras, which is BoringSSL-backed on every platform.
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0")
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0"),
+        // Only PresidioEngineYAML depends on this. Yams vendors libyaml's C
+        // source (MIT, YAML_DECLARE_STATIC), so it needs no system library and
+        // builds anywhere there is a C compiler.
+        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"),
     ],
     targets: [
         .target(
@@ -108,6 +113,19 @@ let package = Package(
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
+        // YAML configuration. Kept in its own target so the engine stays free
+        // of a YAML dependency: reproducing Presidio's *defaults* needs no
+        // parser at all, because the default config is extracted to JSON at
+        // build time. This target is for reading a user's own config file.
+        //
+        // Same reasoning as PresidioAnonymizerCrypto: a dependency that not
+        // every caller needs does not belong in the target every caller imports.
+        .target(
+            name: "PresidioEngineYAML",
+            dependencies: ["PresidioEngine", .product(name: "Yams", package: "Yams")],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
         // Benchmark harness. ADR 0001 traded throughput for cross-platform
         // determinism; this keeps a number on that trade.
         .executableTarget(
@@ -140,6 +158,12 @@ let package = Package(
         .testTarget(
             name: "PresidioEngineTests",
             dependencies: ["PresidioEngine", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        .testTarget(
+            name: "PresidioEngineYAMLTests",
+            dependencies: ["PresidioEngineYAML", "PresidioConformance"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(

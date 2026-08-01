@@ -98,6 +98,21 @@ else
     pass "swift-crypto confined to PresidioAnonymizerCrypto"
 fi
 
+# 3b. Yams stays confined to one target.
+# ---------------------------------------------------------------------------
+# Yams vendors libyaml's C source, which is portable, but reproducing Presidio's
+# *defaults* needs no YAML parser at all -- the default config is resolved to
+# JSON at build time. Keeping Yams behind PresidioEngineYAML means callers who
+# never read a config file never link a YAML parser.
+yaml_hits=$(grep -rlnE "^[[:space:]]*import[[:space:]]+Yams\b" \
+    --include='*.swift' Sources 2>/dev/null | grep -v '^Sources/PresidioEngineYAML/' || true)
+if [[ -n "$yaml_hits" ]]; then
+    fail "Yams imported outside PresidioEngineYAML:"
+    printf '       %s\n' "$yaml_hits"
+else
+    pass "Yams confined to PresidioEngineYAML"
+fi
+
 # ---------------------------------------------------------------------------
 # 3b. Unicode tables must not be hand-edited.
 # ---------------------------------------------------------------------------

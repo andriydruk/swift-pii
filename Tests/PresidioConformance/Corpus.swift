@@ -245,4 +245,27 @@ public enum Corpus {
     public static func analyzerReference() throws -> AnalyzerCorpus {
         try load("analyzer_reference", as: AnalyzerCorpus.self)
     }
+
+    // MARK: - Upstream YAML configurations
+
+    /// Presidio's own config files, copied verbatim so the YAML reader is
+    /// tested against real configurations rather than ones written to suit it.
+    ///
+    /// `.process` flattens the directory, so these are addressed by basename.
+    public static func yamlConfig(named name: String) throws -> String {
+        guard let url = Bundle.module.url(forResource: name, withExtension: "yaml")
+        else { throw LoadError.missingResource("\(name).yaml") }
+        return try String(contentsOf: url, encoding: .utf8)
+    }
+
+    /// Every bundled upstream config, by basename.
+    public static func allYAMLConfigs() throws -> [(name: String, text: String)] {
+        guard let urls = Bundle.module.urls(
+            forResourcesWithExtension: "yaml", subdirectory: nil
+        ) else { return [] }
+        return try urls
+            .map { (name: $0.deletingPathExtension().lastPathComponent,
+                    text: try String(contentsOf: $0, encoding: .utf8)) }
+            .sorted { $0.name < $1.name }
+    }
 }

@@ -234,3 +234,66 @@ public extension RegexFlags {
         )
     }
 }
+
+// MARK: - Deny lists
+
+public extension PatternRecognizer {
+
+    /// `PatternRecognizer`'s default `deny_list_score`.
+    static let defaultDenyListScore = 1.0
+
+    /// Build a recognizer that matches a fixed list of terms.
+    ///
+    /// Port of `PatternRecognizer(deny_list:)`, which compiles the terms into a
+    /// single pattern rather than matching them literally. The boundary
+    /// assertions are upstream's and are not `\b`: a term ending in `.` — the
+    /// "Titles recognizer" in Presidio's own example config is `Mr.`, `Dr.` —
+    /// has no word boundary after it, so `\b` would never match it.
+    static func denyList(
+        name: String,
+        entity: String,
+        terms: [String],
+        context: [String] = [],
+        score: Double = PatternRecognizer.defaultDenyListScore,
+        flags: RegexFlags = .presidioDefault
+    ) -> PatternRecognizer {
+        PatternRecognizer(
+            name: name, entity: entity,
+            patterns: [denyListPattern(terms, score: score)],
+            context: context, flags: flags
+        )
+    }
+
+    /// Port of `_deny_list_to_regex`.
+    static func denyListPattern(
+        _ terms: [String], score: Double = PatternRecognizer.defaultDenyListScore
+    ) -> Pattern {
+        let escaped = terms.map(regexEscape).joined(separator: "|")
+        return Pattern(
+            name: "deny_list",
+            regex: #"(?:^|(?<=\W))("# + escaped + #")(?:(?=\W)|$)"#,
+            score: score
+        )
+    }
+
+    /// Port of Python's `re.escape`.
+    ///
+    /// Since Python 3.7 this escapes *only* characters that can be special in a
+    /// pattern, so it is a specific set rather than "everything non-alphanumeric":
+    /// letters, digits, `_`, and every non-ASCII scalar are left alone. Escaping
+    /// more than Python does would still match, but the generated pattern would
+    /// stop being comparable to upstream's — and escaping less would change what
+    /// a deny list matches.
+    static func regexEscape(_ text: String) -> String {
+        // CPython's `_special_chars_map`, verbatim.
+        let special = Set<Unicode.Scalar>(
+            "()[]{}?*+-|^$\\.&~# \t\n\r\u{0B}\u{0C}".unicodeScalars
+        )
+        var out = String.UnicodeScalarView()
+        for scalar in text.unicodeScalars {
+            if special.contains(scalar) { out.append("\\") }
+            out.append(scalar)
+        }
+        return String(out)
+    }
+}

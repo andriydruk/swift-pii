@@ -75,7 +75,9 @@ def main() -> int:
             # `class_name` lets a config give a recognizer a display name that
             # differs from its class.
             "class_name": raw.get("class_name", name),
-            "type": raw.get("type", "predefined"),
+            # Upstream's `_split_recognizers`: an entry is *custom* unless it
+            # says `type: predefined`. A bare string entry is predefined.
+            "type": raw.get("type", "custom"),
             "enabled": bool(raw.get("enabled", True)),
             "languages": languages,
             "country_code": raw.get("country_code"),
