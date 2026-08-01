@@ -82,9 +82,13 @@ public enum CustomRecognizerRegistry {
     public static func make(_ className: String) -> (any CustomRecognizing)? {
         switch className {
         case "PhoneRecognizer": return PhoneRecognizer()
+        case "ZaMobileNumberRecognizer": return ZaPhoneNumberRecognizer.mobile()
+        case "ZaTelephoneNumberRecognizer": return ZaPhoneNumberRecognizer.telephone()
         default: return nil
         }
     }
 
-    public static let implemented: Set<String> = ["PhoneRecognizer"]
+    public static let implemented: Set<String> = [
+        "PhoneRecognizer", "ZaMobileNumberRecognizer", "ZaTelephoneNumberRecognizer",
+    ]
 }

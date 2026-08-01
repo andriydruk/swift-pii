@@ -139,3 +139,74 @@ struct PhoneRecognizerTests {
         #expect(Double(passed) / Double(passed + failed) >= 0.92)
     }
 }
+
+/// The two South African line-type recognizers, against their corpus tables.
+///
+/// These share PhoneRecognizer's matcher but split its results by line type, so
+/// what is really under test here is the classifier: `number_type` from the
+/// metadata, with a digit-prefix fallback when the metadata says UNKNOWN.
+@Suite("ZA phone recognizer conformance")
+struct ZaPhoneRecognizerTests {
+
+    @Test("ZA mobile and telephone cases from the harvested corpus")
+    func corpusCases() throws {
+        let corpus = try Corpus.recognizerCases()
+        var passed = 0, failed = 0
+        var report: [String] = []
+
+        for table in corpus.tables {
+            guard let recognizer = CustomRecognizerRegistry.make(table.recognizer),
+                  table.recognizer.hasPrefix("Za")
+            else { continue }
+            for testCase in table.cases {
+                let got = recognizer.analyze(testCase.text).sortedByStart()
+                var problem: String?
+                if got.count != testCase.expectedCount {
+                    problem = "expected \(testCase.expectedCount), got \(got.count)"
+                } else if testCase.spansEnumerated {
+                    for (result, expected) in zip(got, testCase.expected)
+                    where result.start != expected.start || result.end != expected.end {
+                        problem = "span \(result.start)..<\(result.end), "
+                            + "expected \(expected.start)..<\(expected.end)"
+                        break
+                    }
+                }
+                if let problem {
+                    failed += 1
+                    if report.count < 8 {
+                        report.append(
+                            "\(table.recognizer): "
+                            + "\(testCase.text.prefix(50).debugDescription) \(problem)"
+                        )
+                    }
+                } else {
+                    passed += 1
+                }
+            }
+        }
+
+        print("""
+            ZA line-type recognizers over their corpus:
+              agreement \(passed)/\(passed + failed)
+            \(report.joined(separator: "\n"))
+            """)
+        #expect(passed + failed == 28, "expected both ZA tables")
+        #expect(failed == 0, "\(report.joined(separator: "\n"))")
+    }
+
+    /// The prefix fallback is only reached when the metadata cannot type the
+    /// number, and its ordering is load-bearing: 086 and 087 are telephone
+    /// lines that would be called mobile by the bare "starts with 8" rule.
+    @Test("the NSN prefix fallback keeps upstream's rule order")
+    func prefixFallbackOrder() {
+        typealias R = ZaPhoneNumberRecognizer
+        #expect(R.classifyByNSNPrefix("821234567") == .mobile)
+        #expect(R.classifyByNSNPrefix("801234567") == .telephone)
+        #expect(R.classifyByNSNPrefix("861234567") == .telephone)
+        #expect(R.classifyByNSNPrefix("871234567") == .telephone)
+        #expect(R.classifyByNSNPrefix("711234567") == .mobile)
+        #expect(R.classifyByNSNPrefix("211234567") == .telephone)
+        #expect(R.classifyByNSNPrefix("011234567") == nil)
+        #expect(R.classifyByNSNPrefix("") == nil)
+    }
+}

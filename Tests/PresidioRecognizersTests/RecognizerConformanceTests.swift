@@ -227,9 +227,10 @@ struct RecognizerConformanceTests {
             missing[table.recognizer, default: 0] += table.cases.count
         }
         // None of these is a checksum gap — they have no extractable patterns.
-        // All three delegate to libphonenumber rather than declaring PATTERNS.
-        // PhoneRecognizer is nonetheless implemented, via the custom-recognizer
-        // path rather than the catalogue; see PhoneRecognizerTests.
+        // All three delegate to libphonenumber rather than declaring PATTERNS,
+        // and all three are nonetheless implemented, via the custom-recognizer
+        // path rather than the catalogue; see PhoneRecognizerTests and
+        // ZaPhoneRecognizerTests. Every table in the corpus now runs.
         //
         // UrlRecognizer and UsMbiRecognizer were here until the extractor
         // learned to fold f-strings and `+` over class-level string constants;

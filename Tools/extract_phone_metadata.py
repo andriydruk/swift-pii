@@ -23,8 +23,9 @@ import subprocess
 import sys
 
 # PhoneRecognizer.DEFAULT_SUPPORTED_REGIONS, plus JP/CN which the general test
-# adds, plus PH and TR which have their own region-configured test suites.
-REGIONS = ["US", "GB", "DE", "FR", "IL", "IN", "CA", "BR", "JP", "CN", "PH", "TR"]
+# adds, plus PH and TR which have their own region-configured test suites, plus
+# ZA for ZaMobileNumberRecognizer / ZaTelephoneNumberRecognizer.
+REGIONS = ["US", "GB", "DE", "FR", "IL", "IN", "CA", "BR", "JP", "CN", "PH", "TR", "ZA"]
 
 CHILD = r'''
 import json, sys
