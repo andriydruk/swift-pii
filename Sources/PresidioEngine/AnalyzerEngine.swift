@@ -12,10 +12,22 @@ public struct AnalyzerEngine: Sendable {
         case regex
     }
 
-    public enum EngineError: Error, Equatable {
+    public enum EngineError: Error, Equatable, CustomStringConvertible {
         case languageNotSupported(String)
         case registryLanguageMismatch(registry: [String], engine: [String])
         case invalidAllowListRegex(String)
+
+        public var description: String {
+            switch self {
+            case .languageNotSupported(let language):
+                return "language '\(language)' is not in the engine's supported set"
+            case .registryLanguageMismatch(let registry, let engine):
+                return "registry supports \(registry) but the engine supports \(engine); "
+                    + "recognizers for a language the engine cannot process would never fire"
+            case .invalidAllowListRegex(let pattern):
+                return "allow_list is not a valid regular expression: \(pattern)"
+            }
+        }
     }
 
     public let registry: RecognizerRegistry

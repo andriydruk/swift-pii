@@ -20,10 +20,21 @@ public struct RecognizerRegistry: Sendable {
         self.supportedLanguages = supportedLanguages
     }
 
-    public enum RegistryError: Error, Equatable {
+    public enum RegistryError: Error, Equatable, CustomStringConvertible {
         case noLanguage
         case noEntitiesRequested
         case noMatchingRecognizers
+
+        public var description: String {
+            switch self {
+            case .noLanguage:
+                return "no language provided"
+            case .noEntitiesRequested:
+                return "no entities requested and allFields is false"
+            case .noMatchingRecognizers:
+                return "no recognizer supports the requested entities in this language"
+            }
+        }
     }
 
     /// Port of `load_predefined_recognizers`.

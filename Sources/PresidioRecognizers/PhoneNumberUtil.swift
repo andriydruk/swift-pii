@@ -54,12 +54,20 @@ public enum PhoneNumberType: Int, Sendable {
     case unknown = 99
 }
 
-public enum PhoneParseError: Error, Equatable {
+public enum PhoneParseError: Error, Equatable, CustomStringConvertible {
     /// Mirrors `NumberParseException.NOT_A_NUMBER` (0), `TOO_SHORT_NSN` (2),
     /// `TOO_LONG` (3) — the codes the oracle records.
     case notANumber
     case tooShort
     case tooLong
+
+    public var description: String {
+        switch self {
+        case .notANumber: return "not a phone number"
+        case .tooShort: return "national number is too short"
+        case .tooLong: return "national number is too long"
+        }
+    }
 }
 
 /// A port of the parts of `phonenumbers` that `PhoneRecognizer` depends on.

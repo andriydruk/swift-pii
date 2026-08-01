@@ -51,9 +51,18 @@ public extension EntityRecognizing {
 
 /// Validation port of `normalize_score_thresholds`.
 public enum ScoreThresholds {
-    public enum Invalid: Error, Equatable {
+    public enum Invalid: Error, Equatable, CustomStringConvertible {
         case emptyOrPaddedKey(String)
         case outOfRange(entity: String, value: Double)
+
+        public var description: String {
+            switch self {
+            case .emptyOrPaddedKey(let key):
+                return "score_thresholds key must be a non-empty, unpadded string: '\(key)'"
+            case .outOfRange(let entity, let value):
+                return "score threshold for \(entity) must be within 0...1, got \(value)"
+            }
+        }
     }
 
     public static func validate(_ thresholds: [String: Double]) throws -> [String: Double] {
