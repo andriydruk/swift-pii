@@ -253,19 +253,28 @@ public enum Corpus {
     ///
     /// `.process` flattens the directory, so these are addressed by basename.
     public static func yamlConfig(named name: String) throws -> String {
-        guard let url = Bundle.module.url(forResource: name, withExtension: "yaml")
+        guard let path = Bundle.module.path(forResource: name, ofType: "yaml")
         else { throw LoadError.missingResource("\(name).yaml") }
-        return try String(contentsOf: url, encoding: .utf8)
+        return try String(contentsOfFile: path, encoding: .utf8)
     }
 
     /// Every bundled upstream config, by basename.
+    ///
+    /// Enumerated through `FileManager` rather than
+    /// `Bundle.urls(forResourcesWithExtension:subdirectory:)`, which
+    /// swift-corelibs-foundation does not provide — the Linux canary caught
+    /// that, which is exactly what it is for.
     public static func allYAMLConfigs() throws -> [(name: String, text: String)] {
-        guard let urls = Bundle.module.urls(
-            forResourcesWithExtension: "yaml", subdirectory: nil
-        ) else { return [] }
-        return try urls
-            .map { (name: $0.deletingPathExtension().lastPathComponent,
-                    text: try String(contentsOf: $0, encoding: .utf8)) }
-            .sorted { $0.name < $1.name }
+        guard let directory = Bundle.module.resourcePath else { return [] }
+        let names = try FileManager.default.contentsOfDirectory(atPath: directory)
+            .filter { $0.hasSuffix(".yaml") }
+            .sorted()
+        return try names.map { file in
+            let name = String(file.dropLast(".yaml".count))
+            let text = try String(
+                contentsOfFile: directory + "/" + file, encoding: .utf8
+            )
+            return (name: name, text: text)
+        }
     }
 }
