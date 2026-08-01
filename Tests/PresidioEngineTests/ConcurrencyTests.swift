@@ -38,6 +38,13 @@ struct ConcurrencyTests {
 
     /// The tokenizer keeps a memoization cache, so this is the path where a
     /// shared pipeline actually mutates state on every call.
+    ///
+    /// **The text must be novel per task.** An earlier version of this test
+    /// reused a fixed corpus and computed the expected results serially first,
+    /// which warmed the cache — so the concurrent tasks only ever *read* it and
+    /// ThreadSanitizer saw nothing. Verified by deliberately removing the lock
+    /// on a branch: the old test passed under TSan with the race present. Each
+    /// task now writes cache entries the others are simultaneously reading.
     @Test("a shared tokenizer-backed engine is safe under concurrent use")
     func sharedEngineWithTokenizer() async throws {
         var registry = try RecognizerRegistry.loadPredefined()
@@ -45,16 +52,25 @@ struct ConcurrencyTests {
         let engine = try AnalyzerEngine(
             registry: registry, nlpEngine: try TokenizerOnlyNlpEngine()
         )
-        let expected = try Self.texts.map { try engine.analyze(text: $0) }
+
+        // Unique per (task, round) so every call misses the cache and writes,
+        // with enough shared vocabulary that reads and writes collide.
+        func text(task: Int, round: Int) -> String {
+            "Case \(task)-\(round): Dr. Smith\(round) called D.J. O'Neill-\(task) "
+            + "re: acct \(task)\(round)00, N.Y. office, isn't it? e.g. 4095-2609-9393-4932"
+        }
 
         try await withThrowingTaskGroup(of: Void.self) { group in
-            for _ in 0..<8 {
+            for task in 0..<8 {
                 group.addTask {
-                    for _ in 0..<20 {
-                        for (index, text) in Self.texts.enumerated() {
-                            let got = try engine.analyze(text: text)
-                            #expect(got == expected[index])
-                        }
+                    for round in 0..<60 {
+                        let subject = text(task: task, round: round)
+                        let got = try engine.analyze(text: subject)
+                        // Same input must give the same answer whatever else
+                        // is running; recomputing serially here would just warm
+                        // the cache again, so compare against a second pass.
+                        #expect(try engine.analyze(text: subject) == got)
+                        #expect(got.contains { $0.entityType == "CREDIT_CARD" })
                     }
                 }
             }
