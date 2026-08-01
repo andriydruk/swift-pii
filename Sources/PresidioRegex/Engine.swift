@@ -226,6 +226,11 @@ struct Parser {
         case UInt32(UInt8(ascii: "0")): return .lit(0)
         case UInt32(UInt8(ascii: "x")): return .lit(try hex(2))
         case UInt32(UInt8(ascii: "u")): return .lit(try hex(4))
+        // Python's 8-hex-digit escape. Omitting it is not a missing feature but
+        // a silent corruption: "\U00010137-\U0001013F" parses as a literal 'U'
+        // followed by digits, yielding a spurious '7'-'U' range that swallows
+        // ASCII uppercase.
+        case UInt32(UInt8(ascii: "U")): return .lit(try hex(8))
         case 49...57: return .backref(Int(c - 48))
         default: return .lit(c)
         }
@@ -268,6 +273,7 @@ struct Parser {
                 case UInt32(UInt8(ascii: "v")): lo = 11
                 case UInt32(UInt8(ascii: "x")): lo = try hex(2)
                 case UInt32(UInt8(ascii: "u")): lo = try hex(4)
+                case UInt32(UInt8(ascii: "U")): lo = try hex(8)
                 default: lo = e
                 }
             } else { lo = p[i]; i += 1 }
@@ -279,6 +285,7 @@ struct Parser {
                     switch e {
                     case UInt32(UInt8(ascii: "x")): hi = try hex(2)
                     case UInt32(UInt8(ascii: "u")): hi = try hex(4)
+                    case UInt32(UInt8(ascii: "U")): hi = try hex(8)
                     case UInt32(UInt8(ascii: "n")): hi = 10
                     default: hi = e
                     }

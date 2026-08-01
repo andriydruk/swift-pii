@@ -112,6 +112,33 @@ Both are rejected, for different reasons.
   0 conditionals, 0 `\p{...}`, 0 `\B`, and only fixed-width lookbehind
   (19 patterns, all single-character negative).
 
+**Newly measured (2026-08-01): recursion depth is a hard limit.**
+
+The engine is a recursive CPS backtracker, so its stack depth grows with the
+length of the text being matched. Measured against spaCy's 15 KB tokenizer infix
+pattern on texts of ~400 characters:
+
+| Thread stack | Result |
+|---|---|
+| 512 KB | **SIGBUS** |
+| 1 MB and above | OK |
+
+512 KB is exactly what secondary threads get by default — including
+swift-testing's runner and Swift concurrency's cooperative pool. So this is not
+a test-harness quirk: **a caller invoking a recognizer or the tokenizer from a
+`Task` can crash the process on ordinary input.** Roughly 2.5 KB of stack per
+character means a few thousand characters would exhaust even the main thread's
+8 MB.
+
+Tests that exercise long inputs run on an explicit large-stack thread
+(`Tests/PresidioNLPTests/LargeStack.swift`) so the suite tests real behaviour
+rather than dying — but that is containment, not a fix. Converting the matcher
+from recursion to an explicit state stack removes the limit and is the same work
+that fixes throughput, so it is one M5 task rather than two.
+
+Until then: do not call this engine from a cooperative-pool thread with
+untrusted-length input.
+
 **Deferred**
 
 - PCRE2 stays viable as an opt-in fast path *if* profiling demands it, but only
@@ -125,6 +152,9 @@ Both are rejected, for different reasons.
 - ~~Benchmark the engine on the real 155-pattern corpus before M1 closes.~~
   Done — see above.
 - Re-run this differential in CI whenever the `regex` module version changes.
+- **M5, now the top item: convert the matcher to an explicit stack.** It
+  removes the recursion-depth limit above *and* is the precondition for the
+  throughput work below.
 - **M5 optimization targets**, in expected order of payoff: a literal-prefix
   index so a text is not swept once per pattern (currently 155 independent
   passes); memoization of the backtracking matcher; and making `PureRegex`

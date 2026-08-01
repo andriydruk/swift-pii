@@ -21,6 +21,7 @@ let package = Package(
         .library(name: "PresidioRecognizers", targets: ["PresidioRecognizers"]),
         .library(name: "PresidioAnonymizer", targets: ["PresidioAnonymizer"]),
         .library(name: "PresidioAnonymizerCrypto", targets: ["PresidioAnonymizerCrypto"]),
+        .library(name: "PresidioNLP", targets: ["PresidioNLP"]),
     ],
     dependencies: [
         // Only PresidioAnonymizerCrypto depends on this. CryptoKit has no
@@ -82,6 +83,15 @@ let package = Package(
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
+        // spaCy's rule-based English tokenizer, plus the NORM tables the NER
+        // model consumes as a feature. Rule-based, so it ports exactly.
+        .target(
+            name: "PresidioNLP",
+            dependencies: ["PresidioCore", "PresidioRegex"],
+            resources: [.process("Resources")],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
         // Benchmark harness. ADR 0001 traded throughput for cross-platform
         // determinism; this keeps a number on that trade.
         .executableTarget(
@@ -118,6 +128,11 @@ let package = Package(
         .testTarget(
             name: "PresidioAnonymizerTests",
             dependencies: ["PresidioAnonymizer", "PresidioConformance"],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+        .testTarget(
+            name: "PresidioNLPTests",
+            dependencies: ["PresidioNLP", "PresidioConformance"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
         .testTarget(

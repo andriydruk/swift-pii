@@ -2,9 +2,10 @@
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
-**Status: M1 done bar a long tail, M2 complete.** Detection (87% of the
-harvested corpus) and de-identification both work end to end and are
-differentially verified against Python, including reversible AES encryption.
+**Status: M1 done bar a long tail, M2 complete, M3 tokenizer done.** Detection
+(87% of the harvested corpus), de-identification including reversible AES, and
+spaCy-exact tokenization are all differentially verified against Python. NER
+model inference is the remaining piece.
 
 Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
 describes the behavioural target, not the product name.
@@ -233,6 +234,37 @@ Two deviations from upstream, both intentional and both enforced by tests:
 The subtle part is that Python mutates entities **in place** during the merge
 pass, so a later iteration observes an earlier widening. Reading from the
 original input instead makes same-type overlaps vanish entirely.
+
+## Tokenizer
+
+spaCy's English tokenizer is entirely rule-based — four regexes plus a
+special-case table — so it ports exactly rather than approximately. It runs on
+`PureRegex`, not ICU, so token boundaries do not drift with the host's Unicode
+version.
+
+**63,453 tokens across 2,517 texts match spaCy exactly** — text, scalar offsets,
+*and* NORM.
+
+All three matter: boundaries decide what the NER model sees, offsets map spans
+back onto the source, and NORM is consumed directly as an NER feature.
+
+### NORM is not lowercase
+
+Resolution order, determined empirically against spaCy rather than from docs:
+
+1. If the token came from a tokenizer exception, that **exception piece's**
+   NORM. This is per-(exception, piece), not per surface form — `gonna` splits
+   into pieces carrying `going`/`to`, while a bare `a` elsewhere stays `a`.
+   Getting this wrong cost 994 mismatches on a first attempt.
+2. `lexeme_norm[exact surface form]` — keyed by the **exact** text, not
+   lowercased. `licence`→`license`, but `PLZ` stays `plz` because only `plz` is
+   a key.
+3. `BASE_NORMS[exact]` — punctuation folding (backtick→apostrophe, em-dash→hyphen).
+4. Otherwise lowercase.
+
+The gold file must come from the **loaded model**, not `spacy.blank("en")`: a
+blank pipeline ships no `lexeme_norm` table, so it leaves `licence` alone and
+would wrongly fail a correct implementation.
 
 ## Recognizer definitions
 
