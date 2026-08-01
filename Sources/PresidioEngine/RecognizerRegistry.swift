@@ -76,7 +76,7 @@ public struct RecognizerRegistry: Sendable {
         for className in CustomRecognizerRegistry.implemented.sorted()
         where isEnabled(className) {
             if let recognizer = CustomRecognizerRegistry.make(className) {
-                built.append(CustomRecognizerAdapter(recognizer))
+                built.append(recognizer)
             }
         }
         return RecognizerRegistry(recognizers: built, supportedLanguages: languages)
@@ -148,23 +148,3 @@ public struct RecognizerRegistry: Sendable {
     }
 }
 
-/// Bridges `CustomRecognizing` — which predates the engine — into the protocol
-/// the engine drives.
-public struct CustomRecognizerAdapter: EntityRecognizing {
-    private let wrapped: any CustomRecognizing
-
-    public init(_ wrapped: any CustomRecognizing) { self.wrapped = wrapped }
-
-    public var id: String { "\(wrapped.name)#custom" }
-    public var name: String { wrapped.name }
-    public var supportedEntities: [String] { [wrapped.entity] }
-    public var context: [String] { wrapped.context }
-
-    /// Ignores `entities` for the same reason `PatternRecognizer` does — see
-    /// its conformance.
-    public func analyze(
-        _ text: String, entities: [String], artifacts: NlpArtifacts?
-    ) -> [RecognizerResult] {
-        wrapped.analyze(text)
-    }
-}

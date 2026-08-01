@@ -10,7 +10,7 @@ import PresidioAnalyzer
 /// Classification is libphonenumber's `number_type` first, and a digit-prefix
 /// fallback only when the metadata says UNKNOWN. That order matters — the
 /// prefix rules alone would call 086 and 087 mobile, since both start with 8.
-public struct ZaPhoneNumberRecognizer: CustomRecognizing {
+public struct ZaPhoneNumberRecognizer: EntityRecognizing {
 
     public enum Classification: Sendable {
         case mobile
@@ -36,7 +36,9 @@ public struct ZaPhoneNumberRecognizer: CustomRecognizing {
     ]
 
     public let name: String
+    public var id: String { "\(name)#custom" }
     public let entity: String
+    public var supportedEntities: [String] { [entity] }
     public let context: [String]
     public let target: Classification
     public let leniency: PhoneLeniency
@@ -71,6 +73,13 @@ public struct ZaPhoneNumberRecognizer: CustomRecognizing {
             name: "ZaTelephoneNumberRecognizer", entity: entity,
             target: .telephone, leniency: leniency
         )
+    }
+
+    /// Ignores `entities` and `artifacts`; see `PhoneRecognizer`.
+    public func analyze(
+        _ text: String, entities: [String], artifacts: NlpArtifacts?
+    ) -> [RecognizerResult] {
+        analyze(text)
     }
 
     public func analyze(_ text: String) -> [RecognizerResult] {

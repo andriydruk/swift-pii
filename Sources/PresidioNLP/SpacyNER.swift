@@ -45,9 +45,12 @@ public enum NERError: Error, CustomStringConvertible {
 /// spaCy; composing them is where offsets, NORMs and token boundaries have to
 /// line up simultaneously.
 ///
-/// Not `Sendable`: it owns the tokenizer's caches and the model's scratch
-/// buffers. Build one per task.
-public final class SpacyNER {
+/// `@unchecked Sendable`. This was audited rather than assumed: `SpacyTokenizer`
+/// guards its memoization cache with a lock and builds its derived tables
+/// eagerly, and `NERModel`'s weights are written only during `init`. Inference
+/// allocates its scratch per call, so nothing is shared across threads but
+/// read-only data.
+public final class SpacyNER: @unchecked Sendable {
 
     private let tokenizer: SpacyTokenizer
     private let model: NERModel

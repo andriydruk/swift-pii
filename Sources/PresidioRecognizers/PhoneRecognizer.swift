@@ -1,24 +1,12 @@
 import PresidioCore
 import PresidioAnalyzer
 
-/// A recognizer whose detection is code rather than patterns plus a checksum.
-///
-/// `PatternRecognizer` covers everything driven by `PATTERNS`, but a handful of
-/// upstream recognizers have none — `PhoneRecognizer` delegates to
-/// libphonenumber, and a few others build their patterns programmatically.
-public protocol CustomRecognizing: Sendable {
-    var name: String { get }
-    var entity: String { get }
-    var context: [String] { get }
-    func analyze(_ text: String) -> [RecognizerResult]
-}
-
 /// Port of `presidio_analyzer.predefined_recognizers.PhoneRecognizer`.
 ///
 /// Runs libphonenumber's matcher once per configured region and merges the
 /// results. Scanning per region is upstream's own approach and is why the same
 /// number can be found several times before deduplication.
-public struct PhoneRecognizer: CustomRecognizing {
+public struct PhoneRecognizer: EntityRecognizing {
 
     /// `PhoneRecognizer.SCORE`.
     public static let score = 0.4
@@ -31,7 +19,9 @@ public struct PhoneRecognizer: CustomRecognizing {
     ]
 
     public let name = "PhoneRecognizer"
+    public let id = "PhoneRecognizer#custom"
     public let entity: String
+    public var supportedEntities: [String] { [entity] }
     public let context: [String]
     public let regions: [String]
     public let leniency: PhoneLeniency
@@ -46,6 +36,14 @@ public struct PhoneRecognizer: CustomRecognizing {
         self.regions = regions
         self.leniency = leniency
         self.context = context
+    }
+
+    /// Ignores `entities` and `artifacts` for the same reasons
+    /// `PatternRecognizer` does — see its `EntityRecognizing` conformance.
+    public func analyze(
+        _ text: String, entities: [String], artifacts: NlpArtifacts?
+    ) -> [RecognizerResult] {
+        analyze(text)
     }
 
     public func analyze(_ text: String) -> [RecognizerResult] {
@@ -79,7 +77,7 @@ public struct PhoneRecognizer: CustomRecognizing {
 /// Keyed by upstream class name, so the conformance suite can find them the
 /// same way it finds pattern recognizers.
 public enum CustomRecognizerRegistry {
-    public static func make(_ className: String) -> (any CustomRecognizing)? {
+    public static func make(_ className: String) -> (any EntityRecognizing)? {
         switch className {
         case "PhoneRecognizer": return PhoneRecognizer()
         case "ZaMobileNumberRecognizer": return ZaPhoneNumberRecognizer.mobile()

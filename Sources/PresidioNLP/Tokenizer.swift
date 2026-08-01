@@ -31,7 +31,12 @@ public struct Token: Sendable, Hashable {
 ///
 /// Matching runs on `PureRegex`, not `NSRegularExpression`, so behaviour does
 /// not drift with the host's ICU version. See docs/decisions/0001-regex-backend.md.
-public final class SpacyTokenizer {
+/// `@unchecked Sendable`: every stored property is immutable after `init`
+/// except the memoization cache, which is guarded by `cacheLock`. The three
+/// derived special-case tables used to be `lazy var`, whose initialization is
+/// itself a data race when the tokenizer is shared; they are now computed
+/// eagerly in `init`.
+public final class SpacyTokenizer: @unchecked Sendable {
 
     struct Rules: Decodable {
         struct Special: Decodable {
@@ -113,6 +118,14 @@ public final class SpacyTokenizer {
         self.specials = rules.specials.mapValues { pieces in
             pieces.map { Token0(orth: $0.orth, norm: $0.norm) }
         }
+        // Derived tables, eagerly: see buildSpecialSequences.
+        self.specialSequences = [:]
+        self.specialFirsts = []
+        self.specialMaxLength = 1
+        let sequences = buildSpecialSequences()
+        self.specialSequences = sequences
+        self.specialFirsts = Set(sequences.keys.compactMap(\.first))
+        self.specialMaxLength = sequences.keys.map(\.count).max() ?? 1
     }
 
     // MARK: - NORM
@@ -172,6 +185,10 @@ public final class SpacyTokenizer {
         }
     }
 
+    // Memoized span splits. Worth 4.3x on repeated text, so it stays -- but a
+    // shared tokenizer means concurrent mutation, hence the lock. Contention is
+    // low: the critical sections are two dictionary operations.
+    private let cacheLock = NSLock()
     private var cache: [String: [(String, String?)]] = [:]
     private let maxCache = 10_000
 
@@ -180,13 +197,22 @@ public final class SpacyTokenizer {
         _ out: inout [(String, Int, String?)]
     ) {
         let span = String(String.UnicodeScalarView(scalars[from..<to]))
+        cacheLock.lock()
+        let cached = cache[span]
+        cacheLock.unlock()
+
         let split: [(String, String?)]
-        if let cached = cache[span] {
+        if let cached {
             split = cached
         } else {
+            // Computed outside the lock: two tasks may duplicate the work for
+            // the same span, which costs a little and is always consistent,
+            // whereas holding the lock across tokenizeSpan would serialize it.
             var accumulated: [(String, String?)] = []
             tokenizeSpan(span, &accumulated, withSpecials: true)
+            cacheLock.lock()
             if cache.count < maxCache { cache[span] = accumulated }
+            cacheLock.unlock()
             split = accumulated
         }
         var offset = from
@@ -325,7 +351,17 @@ public final class SpacyTokenizer {
 
     /// Special cases are applied as a second pass over the *token sequence*, so
     /// a key like "N.Y." that affix-splitting broke apart is re-merged.
-    private lazy var specialSequences: [[String]: [Token0]] = {
+    // `var` only because building them calls instance methods, which Swift
+    // permits only once every stored property is initialized. Written once at
+    // the end of `init` and never again.
+    private var specialSequences: [[String]: [Token0]]
+    private var specialFirsts: Set<String>
+    private var specialMaxLength: Int
+
+    /// Special cases applied as a second pass over the token sequence.
+    /// Computed in `init` rather than lazily: a `lazy var` on a shared
+    /// instance races on first use.
+    private func buildSpecialSequences() -> [[String]: [Token0]] {
         var map: [[String]: [Token0]] = [:]
         for (key, pieces) in specials {
             // spaCy's faster_heuristics gate: only keys that themselves contain
@@ -339,12 +375,7 @@ public final class SpacyTokenizer {
             if sequence != pieces.map(\.orth) { map[sequence] = pieces }
         }
         return map
-    }()
-
-    private lazy var specialFirsts: Set<String> =
-        Set(specialSequences.keys.compactMap(\.first))
-    private lazy var specialMaxLength: Int =
-        specialSequences.keys.map(\.count).max() ?? 1
+    }
 
     private func applySpecialCases(
         _ tokens: [(String, Int, String?)]

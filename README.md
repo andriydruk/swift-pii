@@ -2,7 +2,7 @@
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
-**Status: M1–M4 complete.**
+**Status: M1–M5 complete.**
 Detection (99.5% of the harvested corpus), de-identification including reversible
 AES, spaCy-exact tokenization, NER from raw text, and the end-to-end
 `AnalyzerEngine` (99.8% across an option matrix) are all differentially verified
@@ -202,6 +202,75 @@ divergences — `MACs` lemmatizes to `mac`, which matches the context word
 exactly, while the lowercased token does not. So lemmatization is a protocol
 (`Lemmatizing`) with a default that is honest about what it does, and a real
 lemmatizer can be dropped in without touching the enhancer.
+
+## Concurrency
+
+Every public type is `Sendable`, and an `AnalyzerEngine` is meant to be built
+once and shared. Where `@unchecked Sendable` appears it is because the type was
+*audited*, and the justification is written at the declaration:
+
+- `SpacyTokenizer` memoizes span splits — worth 4.3× on repeated text, so the
+  cache stays and is guarded by a lock. Its three derived special-case tables
+  used to be `lazy var`, whose initialization is itself a race on a shared
+  instance; they are now built eagerly in `init`.
+- `NERModel`'s weights are `var` only because the msgpack decode assigns them
+  in a loop. They are written during `init` and read-only afterwards, and
+  inference allocates its scratch per call.
+
+ThreadSanitizer cannot load on this project's macOS dev host (Xcode's sanitizer
+dylib fails the platform code-signature policy), so the race check runs as its
+own **Linux CI job** over a concurrency suite that hammers a shared engine from
+8 tasks. Running the suite without TSan is not evidence of anything: a warm
+cache makes the race window small, and it passed happily while the bug was
+present.
+
+## Diagnostics
+
+Every bundled resource loads through `Bundle.module` into an optional, and every
+consumer of a failed load degrades *quietly* — a validator with no table returns
+`.invalid` for everything, which is indistinguishable from "nothing matched".
+That has already caused one real bug here, where a single missing key disabled
+five recognizers with no error anywhere.
+
+```swift
+print(Diagnostics.report())
+// ok   PresidioRecognizers/recognizers.json: 88 definitions, 88 with patterns
+// ok   PresidioEngine/registry_config.json: 17 English recognizers enabled, flags 26
+// ...
+```
+
+Each of the nine checks probes decoded **content**, not file presence — a
+truncated or schema-drifted file passes an existence check and fails here.
+
+## Performance
+
+Measured on the engine's real workload: 200 documents (~390 bytes each) through
+all 17 default recognizers, release build, M-series.
+
+| | per document |
+|---|---:|
+| `analyze` | **3.3 ms** |
+| engine construction | 20 ms — build once, share it |
+
+`PhoneRecognizer` is **69%** of that, and the reason is structural rather than a
+defect: it scans the whole text once per configured region, so the region list is
+the biggest lever a caller has.
+
+| regions | cost over the same corpus |
+|---|---:|
+| 8 (default) | 441 ms |
+| 2 | 125 ms |
+| 1 | 70 ms |
+
+```swift
+PhoneRecognizer(regions: ["US"])   // ~6x cheaper than the default eight
+```
+
+The M5 pass made the engine **1.8× faster** (6.1 → 3.3 ms/document) by fixing one
+thing: the phone matcher re-sliced the entire remaining text on every iteration
+*and* computed every remaining match only to take `.first`. `PureRegex` gained
+`firstMatch(inScalars:from:)`, which stops at the first hit and scans from an
+offset. The full test suite got 40% faster as a side effect.
 
 ## Conformance status
 

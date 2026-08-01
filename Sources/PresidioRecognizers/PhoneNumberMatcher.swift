@@ -122,16 +122,25 @@ public struct PhoneNumberMatcher {
     }
 
     /// All matches, in order.
+    ///
+    /// The scan converts the text to scalar values once and searches from an
+    /// advancing offset. The obvious formulation — re-slice the remaining text
+    /// each round and take `matches(in:).first` — is quadratic twice over: it
+    /// copies the tail per iteration, and it finds *every* remaining match only
+    /// to discard all but the first. `PhoneRecognizer` runs this once per
+    /// configured region, so that cost is multiplied by eight.
     public func matches() -> [PhoneMatch] {
         guard let compiled = Self.compiled else { return [] }
         var results: [PhoneMatch] = []
         var searchFrom = 0
+        let values = PureRegex.scalarValues(of: text)
 
         while searchFrom < scalars.count {
-            let tail = substring(searchFrom..<scalars.count)
-            guard let hit = compiled.candidate.matches(in: tail).first else { break }
-            let start = searchFrom + hit.0
-            var candidate = substring(start..<(searchFrom + hit.1))
+            guard let hit = compiled.candidate.firstMatch(
+                inScalars: values, from: searchFrom
+            ) else { break }
+            let start = hit.start
+            var candidate = substring(start..<hit.end)
 
             // Trim characters that cannot end a number, so trailing punctuation
             // is not swallowed into the match.

@@ -9,6 +9,9 @@ import PresidioNLP
 /// An engine built without it still finds everything the pattern recognizers
 /// find; it just has no PERSON/LOCATION/DATE_TIME, and the context enhancer
 /// has no surrounding words to look at.
+/// `@unchecked Sendable`: `SpacyNER` holds the tokenizer (thread-safe as of
+/// its own audit) and `NERModel`, whose weight arrays are written only during
+/// `init` and read-only thereafter. Inference scratch is local to each call.
 public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
 
     private let ner: SpacyNER
@@ -65,6 +68,8 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
 /// enhancer works on surrounding words, but no NER, so no PERSON or LOCATION.
 /// Useful when the recognizers you care about are pattern-based and you still
 /// want context scoring — which needs no weights at all.
+/// `@unchecked Sendable` for the same reason as `SpacyNlpEngine`, minus the
+/// model: `SpacyTokenizer` guards its memoization cache with a lock.
 public final class TokenizerOnlyNlpEngine: NlpEngineProviding, @unchecked Sendable {
 
     private let tokenizer: SpacyTokenizer

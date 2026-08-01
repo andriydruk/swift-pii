@@ -78,6 +78,19 @@ jobs:
               print(f"::notice::upstream gained {f - c} cases; refresh the corpus")
           PY
 
+  # ThreadSanitizer cannot load on the macOS dev host (Xcode's sanitizer
+  # dylib fails the platform code-signature policy), so the race check lives
+  # here. Scoped to the concurrency suite to keep it quick.
+  thread-sanitizer:
+    name: ThreadSanitizer (concurrency suite)
+    runs-on: ubuntu-latest
+    container: swift:6.2
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test under TSan
+        run: swift test --sanitize=thread --filter ConcurrencyTests
+
   # Not a supported target yet -- a canary. PresidioCore is stdlib-only, so it
   # should build and pass on Linux from day one. Catching portability drift the
   # week it lands is far cheaper than discovering it during the Android port.

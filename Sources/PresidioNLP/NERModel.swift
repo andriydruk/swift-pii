@@ -233,7 +233,10 @@ func gemmT(_ A: UnsafePointer<Float>, _ W: UnsafePointer<Float>, _ C: UnsafeMuta
 }
 
 // ============================ model ============================
-final class NERModel {
+/// `@unchecked Sendable`: every property below is a weight array written once
+/// during `init` and only read afterwards. They are `var` rather than `let`
+/// because the msgpack decode assigns them in a loop, not because they change.
+final class NERModel: @unchecked Sendable {
     // hash embeds
     var embE: [[Float]] = []; var embRows: [Int] = []; var embSeed: [UInt32] = []
     let width = 96

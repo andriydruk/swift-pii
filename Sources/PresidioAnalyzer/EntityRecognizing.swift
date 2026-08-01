@@ -39,6 +39,14 @@ public protocol EntityRecognizing: Sendable {
 public extension EntityRecognizing {
     var supportedLanguage: String { "en" }
     var scoreThresholds: [String: Double] { [:] }
+
+    /// Analyze with no entity filter and no NLP artifacts.
+    ///
+    /// The common case for a single recognizer used on its own, outside an
+    /// engine — which is how the conformance corpus drives them.
+    func analyze(_ text: String) -> [RecognizerResult] {
+        analyze(text, entities: [], artifacts: nil)
+    }
 }
 
 /// Validation port of `normalize_score_thresholds`.

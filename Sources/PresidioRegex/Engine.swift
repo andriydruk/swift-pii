@@ -441,18 +441,53 @@ public final class PureRegex: Sendable {
     /// of a match — `IbanRecognizer` walks its groups in reverse until one
     /// passes the checksum, which is how it avoids swallowing trailing text.
     public func matchesWithGroups(in text: String) -> [Match] {
-        let input = text.unicodeScalars.map { $0.value }
-        let prefilter = pre
+        let input = text.unicodeScalars.map(\.value)
         var out: [Match] = []
-        var at = 0
-        // One VM for the whole scan: constructing it per start position
-        // reallocates the slot array on every character of the input.
         var vm = VM(program: program, input: input, multiline: multiline)
+        var at = 0
+        while let match = scan(&vm, input, from: at) {
+            out.append(match)
+            at = match.end > match.start ? match.end : match.start + 1
+        }
+        return out
+    }
 
+    /// Scalar values of `text`, for callers that scan the same input repeatedly.
+    ///
+    /// Converting a String to scalars is linear, so a caller doing several
+    /// searches over one document should convert once rather than per search.
+    public static func scalarValues(of text: String) -> [UInt32] {
+        text.unicodeScalars.map(\.value)
+    }
+
+    /// The first match at or after `start`, or nil.
+    ///
+    /// Distinct from `matchesWithGroups(in:).first` in what it *does not* do:
+    /// that computes every match in the input and then discards all but one.
+    /// For a scanner that consumes matches left to right — the phone number
+    /// matcher is the case that motivated this — the difference is quadratic.
+    public func firstMatch(inScalars input: [UInt32], from start: Int = 0) -> Match? {
+        var vm = VM(program: program, input: input, multiline: multiline)
+        return scan(&vm, input, from: start)
+    }
+
+    public func firstMatch(in text: String, from start: Int = 0) -> Match? {
+        firstMatch(inScalars: Self.scalarValues(of: text), from: start)
+    }
+
+    /// One left-to-right search step, shared by the scanning entry points.
+    ///
+    /// The VM is passed `inout` because constructing one per start position
+    /// reallocates the slot array on every character of the input.
+    private func scan(_ vm: inout VM, _ input: [UInt32], from start: Int) -> Match? {
+        var at = start
         while at <= input.count {
-            if let prefilter {
+            if let prefilter = pre {
                 while at < input.count, !prefilter.mayStart(input[at]) { at += 1 }
-                if at >= input.count { break }
+                // Matches the original scan loop exactly, including this: with
+                // a prefilter, an empty match at end-of-input is never
+                // attempted, because no scalar there can start one.
+                if at >= input.count { return nil }
             }
             vm.reset()
             if let end = vm.run(entry: 0, start: at) {
@@ -463,13 +498,11 @@ public final class PureRegex: Sendable {
                         groups.append(lo >= 0 && hi >= lo ? lo..<hi : nil)
                     }
                 }
-                out.append(Match(start: at, end: end, groups: groups))
-                at = end > at ? end : at + 1
-            } else {
-                at += 1
+                return Match(start: at, end: end, groups: groups)
             }
+            at += 1
         }
-        return out
+        return nil
     }
 
 }

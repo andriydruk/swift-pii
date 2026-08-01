@@ -154,7 +154,7 @@ public enum DataValidators {
 
     /// Number of trailing labels forming the public suffix, per PSL rules:
     /// exceptions beat wildcards, wildcards beat exact matches, longest wins.
-    static func publicSuffixLength(_ labels: [String]) -> Int {
+    public static func publicSuffixLength(_ labels: [String]) -> Int {
         var best = 0
         for start in 0..<labels.count {
             let candidate = labels[start...].joined(separator: ".")
