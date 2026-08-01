@@ -99,8 +99,11 @@ struct PatternDifferentialTests {
     @Test("match spans are identical to Python for every pattern and text")
     func spansMatchPythonExactly() throws {
         let ref = Self.reference
-        #expect(ref.patterns.count == 155)
-        #expect(ref.texts.count >= 1500)
+        // A floor, not an equality: the corpus grows when upstream adds
+        // recognizers or when the extractor learns a new table shape, and
+        // neither should fail the differential. Shrinkage still does.
+        #expect(ref.patterns.count >= 161, "corpus shrank: \(ref.patterns.count)")
+        #expect(ref.texts.count >= 1600)
 
         var comparisons = 0
         var swiftMatchTotal = 0

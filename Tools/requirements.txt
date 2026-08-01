@@ -1,0 +1,16 @@
+# Pinned tool dependencies for regenerating the differential corpora.
+#
+# These versions are not arbitrary. The Unicode character-class tables in
+# PresidioRegex are generated from the `regex` module, and a test fails if the
+# reference corpus was built with a different one — a newer release ships
+# different Unicode data, which is the same version-skew that disqualified ICU
+# as a backend (ADR 0001). Regenerating with an unpinned `regex` trips that
+# guard immediately, which is what it is for.
+#
+#   python3 -m venv .venv && .venv/bin/pip install -r Tools/requirements.txt
+#   .venv/bin/pip install ./path/to/presidio/presidio-analyzer
+#   .venv/bin/python -m spacy download en_core_web_lg
+
+regex==2024.11.6      # __version__ 2.5.148 — matches UnicodeTables.sourceVersion
+phonenumbers==9.0.36  # matches phone_metadata.json
+PyYAML                # reads upstream's recognizer configuration

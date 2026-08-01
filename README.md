@@ -2,11 +2,14 @@
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
-**Status: M1–M5 complete.**
-Detection (99.5% of the harvested corpus), de-identification including reversible
-AES, spaCy-exact tokenization, NER from raw text, and the end-to-end
-`AnalyzerEngine` (99.8% across an option matrix) are all differentially verified
-against Python. NER parity is 98.9%, not exact — see below.
+**Status: the analyzer, the anonymizer and the CLI are complete and verified.**
+Detection, de-identification including reversible AES, spaCy-exact tokenization,
+NER from raw text, the end-to-end `AnalyzerEngine`, batch analysis and a
+command-line tool are all differentially verified against Python across
+**15,460 recorded cases**. NER parity is 98.9%, not exact — see below.
+
+Image redaction, structured-data support and the REST servers are **not** ported;
+see [Scope](#scope).
 
 Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
 describes the behavioural target. The package is deliberately not named after
@@ -17,6 +20,59 @@ they describe what the code is compatible with.
 ```swift
 .package(url: "https://github.com/andriydruk/swift-pii.git", from: "0.1.0")
 ```
+
+```swift
+import PresidioEngine
+import PresidioAnonymizer
+
+let text = "card 4095-2609-9393-4932, mail a@example.com"
+
+let engine = try AnalyzerEngine.makeDefault()
+let found = try engine.analyze(text: text)
+// CREDIT_CARD 5..<24 (1.0), EMAIL_ADDRESS 31..<44 (1.0), URL 33..<44 (0.5)
+
+let clean = try AnonymizerEngine().anonymize(text: text, analyzerResults: found)
+// "card <CREDIT_CARD>, mail <EMAIL_ADDRESS>"
+```
+
+That example is [a test](Tests/PresidioEngineTests/ReadmeExampleTests.swift), so
+it cannot drift — the offsets above were wrong when first written, because they
+were guessed rather than run.
+
+No model weights are needed for any of that — the 17 recognizers a default
+engine loads are pattern- and checksum-based. Add a spaCy model only if you want
+PERSON, LOCATION and DATE_TIME.
+
+## Scope
+
+What is ported, measured against upstream rather than asserted:
+
+| Upstream | Status |
+|---|---|
+| `presidio-analyzer` | **ported** — engine, batch engine, registry, context enhancer, YAML config, spaCy NLP |
+| `presidio-anonymizer` | **ported** — 8 of 9 operators, anonymize and deanonymize |
+| `presidio-cli` | **ported** — see [Command line](#command-line) |
+| `presidio-image-redactor` | not ported — needs DICOM and a cross-platform OCR story, neither of which exists in Swift |
+| `presidio-structured` | not ported |
+| REST API servers | not ported |
+
+**Recognizers: 88 of 99 classes.** The 10 genuinely absent are Azure ×3,
+LangExtract ×2, GLiNER, HuggingFaceNER, MedicalNER, Stanza and Transformers —
+every one a cloud service or an alternative NLP backend, not a detection rule.
+(`ZaPhoneNumberRecognizer` shows up in a naive diff but is upstream's abstract
+base class, and is implemented.)
+
+**Operators: 8 of 9** — replace, redact, mask, hash, encrypt, decrypt, keep,
+custom. `AHDSSurrogate` is out of scope.
+
+**NLP engines: 2 of 5** — spaCy and NoOp. Stanza, Transformers and SlimSpacy
+are absent, which is the same boundary as the missing recognizers.
+
+**Every shipped recognizer has harvested test cases; none ships unverified.**
+The two counts differ by one on purpose: 88 classes are ported, and 87 of them
+are directly testable. The odd one out is `SpacyRecognizer`, which runs no
+patterns — it only lifts spans out of NLP artifacts — so it is exercised through
+the engine's option matrix instead of a recognizer table.
 
 ## Why this exists
 
@@ -38,11 +94,11 @@ and nothing else does index arithmetic on a `String`.
 [`Tools/check_portability.sh`](Tools/check_portability.sh) in CI. `PresidioCore`
 goes further and imports no Foundation at all.
 
-**Tests are harvested, not written.** Presidio ships 215 test files and ~3,763
-concrete cases. The recognizer tables are pure data, so
-[`Tools/extract_fixtures.py`](Tools/extract_fixtures.py) lifts them into
-language-neutral JSON that Swift tests consume directly. Correctness is measured
-against upstream's own expectations rather than fixtures we invented.
+**Tests are harvested, not written.** Presidio's analyzer and anonymizer ship
+163 test files and 3,272 collected pytest cases. The recognizer tables are pure
+data, so [`Tools/extract_fixtures.py`](Tools/extract_fixtures.py) lifts them
+into language-neutral JSON that Swift tests consume directly. Correctness is
+measured against upstream's own expectations rather than fixtures we invented.
 
 **Ordering is deterministic here, unlike upstream.** Presidio's result order
 derives from Python `set` iteration and a sort key that omits `entity_type`, so
@@ -59,18 +115,40 @@ Regenerate from a Presidio checkout:
 python3 Tools/extract_fixtures.py --presidio /path/to/presidio --out Tests/PresidioConformance/Fixtures/recognizer_cases.json
 ```
 
+That one needs nothing installed — it reads with `ast` only. The oracle tools
+do, and their versions are pinned in
+[`Tools/requirements.txt`](Tools/requirements.txt) for a reason: the corpora
+record which `regex` and `phonenumbers` they were built with, and tests fail if
+those drift from the data compiled into the package.
+
 Current corpus:
 
 | Corpus | Tables | Cases | Recognizers |
 |---|---:|---:|---:|
 | `recognizer_cases.json` | 106 | 1,722 (1,034 pos / 688 neg) | 86 |
 | `computed_cases.json` | 1 | 9 | 1 |
-| `validator_cases.json` | 21 | 203 | 21 |
+| `validator_cases.json` | 22 | 206 | 22 |
 
-50 upstream tables are not extractable (non-literal argvalues, mock-dependent,
-or shapes the parser doesn't handle). They are **recorded in the artifact** under
-`skipped` with reasons — coverage you can't see is coverage you don't have.
-Those need the differential Python side-car planned for M1.
+44 upstream tables are still not extracted, and they are **recorded in the
+artifact** under `skipped` with reasons — coverage you can't see is coverage you
+don't have. What remains is almost entirely infrastructure rather than
+recognizer behaviour: registry configuration, NER model configuration, ONNX and
+device selection, and tests for recognizers this port does not ship.
+
+The extractor evaluates without executing. Beyond plain literals it folds
+module-level constants, sequence repetition (`[(0.5, 0.8)] * 2`) and
+placeholder-free f-strings, because refusing those cost seven real tables. It
+also reads `assert len(results) == 0` out of a test body, which is how a table
+with only a `text` column is understood as negative — from the assertion, not
+from the test's name.
+
+One upstream table computes its cases with a Verhoeff routine at module scope,
+so no static evaluator can reach it.
+[`Tools/extract_computed_fixtures.py`](Tools/extract_computed_fixtures.py)
+handles that class by *importing* the test module — a separate tool with a
+separate contract, writing its own artifact, so `extract_fixtures.py` stays
+`ast`-only and CI can regenerate the corpus from a bare checkout with no Python
+environment.
 
 Two upstream subtleties the extractor handles, both of which would otherwise
 corrupt the corpus:
@@ -113,9 +191,15 @@ membership matches Python for all 1.1M codepoints.
 
 ### Differential result
 
-All 155 patterns × 1,550 corpus texts = **240,250 comparisons, 5,996 matches,
+All 161 patterns × 1,609 corpus texts = **259,049 comparisons, 6,244 matches,
 zero divergences** from Python — same count, same offsets, same order. Absence
 of a match is asserted as strongly as presence.
+
+The reference records the `regex` module version it was built with, and a test
+fails if that differs from the version the Unicode tables were generated from
+(`regex==2024.11.6`, which reports `__version__ == 2.5.148`). That guard earns
+its keep: regenerating this corpus with a newer `regex` release tripped it
+immediately, which is the same data-version skew that disqualified ICU.
 
 Cost of the trade, measured on that same workload (release, M4 Max):
 
@@ -148,7 +232,8 @@ in the package. Worth 12% on its own.
 
 A single-pass dispatch across all patterns was tried and **rejected on
 measurement**: it was byte-identical but 7% slower, because an average corpus
-character wakes 71.6 of the 155 patterns (digits wake 93). PII patterns are
+character wakes 71.6 of the 155 patterns then in the corpus (digits wake 93).
+PII patterns are
 dominated by digit and letter classes, so there is no dispatch win to be had.
 Recorded in the ADR so it is not retried.
 
@@ -181,6 +266,11 @@ let results = try engine.analyze(text: "my card is 4095-2609-9393-4932")
 applies per-recognizer and per-entity thresholds, deduplicates, and applies
 allow lists. Verified against Presidio's own engine over **900 texts × 7 option
 sets — 6,289/6,300 runs agree exactly** (99.8%).
+
+`BatchAnalyzerEngine` runs it over lists and dictionaries. The substance there
+is not the iteration but what the keys do — a dictionary key is passed as
+context, so digits under `"credit_card"` score higher than the same digits under
+`"notes"`.
 
 The comparison injects **Python's NLP artifacts** rather than running our own
 pipeline. That is the point: otherwise a divergence in the engine and one in the
@@ -330,17 +420,34 @@ offset. The full test suite got 40% faster as a side effect.
 
 ## Conformance status
 
-Against the 1,654-case corpus harvested from Presidio's own tests:
+Every differential corpus in the repository, and how the port scores on it:
+
+| Corpus | cases | agreement |
+|---|---:|---|
+| Recognizers (harvested) | 1,731 | **1,723 (99.5%)** |
+| `AnalyzerEngine` option matrix | 6,300 | **6,289 (99.8%)** |
+| Tokenizer | 2,517 | **exact** |
+| Regex substrate | 1,550 | **exact** |
+| NER | 2,000 | 98.9% |
+| Phone parse / matcher | 1,104 | 99.8% / 96.3% |
+| Validators | 206 | **exact** |
+| Anonymizer + crypto | 43 | **exact** |
+| Batch analyzer | 9 | **exact** |
+| **Total** | **15,460** | |
+
+154 Swift tests drive those, in 24 suites.
+
+Against the recognizer corpus specifically:
 
 | | cases | |
 |---|---:|---|
-| **Verified green** | **1,646** | 99.5% — every case passes, spans and scores |
+| **Verified green** | **1,723** | 99.5% — every case passes, spans and scores |
 | Blocked on validators | **0** | — |
 | Known-divergent | 8 | 0.5% — the phone leniency table, below |
 
-Every recognizer in the corpus now runs, and **53 validators** cover every one
-whose patterns can be lifted into data. The blocked count is a test-enforced
-hard zero, not a ratchet.
+Every recognizer in the corpus runs, and **56 validators** cover every one whose
+patterns can be lifted into data. The blocked count is a test-enforced hard
+zero, not a ratchet.
 
 Three recognizers declare no `PATTERNS` at all — they delegate to
 libphonenumber — so they are driven through a custom-recognizer path rather
@@ -592,27 +699,46 @@ excluded from the pipeline. Composed end to end against the full pipeline, it is
 ## Recognizer definitions
 
 [`Tools/extract_patterns.py`](Tools/extract_patterns.py) lifts recognizers into
-data — 82 recognizers, **155 patterns**, 82 entity types, 55 needing a Swift
-checksum validator, 2 needing a hand port (`UsMbiRecognizer`, `UrlRecognizer`
-build their patterns programmatically).
+data — 84 recognizers, **161 patterns**, 84 entity types, 56 needing a Swift
+checksum validator, and **none** needing a hand port. Three recognizers are
+outside the catalogue entirely, because they declare no patterns at all and
+delegate to libphonenumber.
 
-Pattern feature census, which is why the port is tractable: `\b` 131, `\d` 112,
-negative lookahead 28, negative lookbehind 19 (all fixed-width single-character),
-inline `(?i)` 8 — and **zero** named groups, atomic groups, possessive
-quantifiers, conditionals, `\p{...}` or `\B`.
+Pattern feature census, which is why the port is tractable: `\b` 133, `\d` 116,
+negative lookahead 28, `\s` 21, negative lookbehind 19 (all fixed-width
+single-character), inline `(?i)` 12 — and **zero** named groups, atomic groups,
+possessive quantifiers, conditionals, `\p{...}` or `\B`.
 
 ## Layout
 
+Ten library modules, layered so a caller links only what it uses. A dependency
+not everyone needs does not belong in a module everyone imports — which is why
+swift-crypto and Yams each sit behind their own target, both enforced by the
+portability lint.
+
 ```
-Sources/PresidioCore/          offset model, span algebra    (stdlib only)
-Sources/PresidioRegex/         generated Unicode tables      (stdlib only)
-Sources/PresidioRecognizers/   extracted recognizer data
-Tests/PresidioConformance/     corpus loader + JSON fixtures
-Tools/extract_fixtures.py      harvests upstream pytest tables
-Tools/extract_patterns.py      harvests recognizer definitions
-Tools/unicode_classes_*.{py,swift}  the backend differential
-Tools/check_portability.sh     CI guardrails
+Sources/PresidioCore/            offset model, span algebra    (stdlib only)
+Sources/PresidioRegex/           bytecode regex engine         (stdlib only)
+Sources/PresidioAnalyzer/        patterns, scoring, dedup      (stdlib only)
+Sources/PresidioRecognizers/     recognizer catalogue + checksums + phone
+Sources/PresidioAnonymizer/      operators + span rewriting    (stdlib only)
+Sources/PresidioAnonymizerCrypto/ AES-CBC                      (swift-crypto)
+Sources/PresidioNLP/             spaCy tokenizer + NER
+Sources/PresidioEngine/          AnalyzerEngine, batch, context, diagnostics
+Sources/PresidioEngineYAML/      user YAML configuration       (Yams)
+Sources/PresidioCLI/             command-line logic
+Sources/swift-pii-cli/           the executable (four lines)
+
+Tests/PresidioConformance/       corpus loader + JSON fixtures
+Tools/extract_fixtures.py        harvests upstream pytest tables (ast only)
+Tools/extract_computed_fixtures.py  the import-time tables the above cannot reach
+Tools/extract_patterns.py        harvests recognizer definitions
+Tools/extract_registry_config.py resolves the default recognizer set
+Tools/analyzer_reference.py      records AnalyzerEngine behaviour
+Tools/check_portability.sh       CI guardrails
 ```
+
+10,020 lines of Swift across the modules, 4,219 lines of tests.
 
 ## Build
 
@@ -625,9 +751,31 @@ swift build && swift test && ./Tools/check_portability.sh
 - [PLAN.md](PLAN.md) — milestones, test strategy, effort
 - [PURE-SWIFT-VERDICT.md](PURE-SWIFT-VERDICT.md) — feasibility findings and measurements
 - [presidio-pure-swift-architecture.md](presidio-pure-swift-architecture.md) — full design
-- [prototypes/](prototypes/) — validated spaCy NER port and regex engine, not yet integrated
+- [docs/decisions/](docs/decisions/) — ADR 0001 (regex backend), ADR 0002 (concurrency)
+- [prototypes/](prototypes/) — the original spaCy NER and regex spikes, since integrated
+
+## Known gaps
+
+Stated rather than buried, in the order they would bother a user:
+
+- **No image redaction, structured-data support, or REST servers.** The port is
+  the two core libraries plus a CLI, not the whole product.
+- **8 phone cases diverge** — the leniency table, where the expected count
+  varies with a per-row column the corpus does not carry. `STRICT_GROUPING` and
+  `EXACT_GROUPING` fall back to `VALID`, so a caller asking for them gets a
+  *more permissive* result than requested.
+- **NER is 98.9%, not exact**, from float accumulation order in the forward
+  pass. Model weights are not bundled; the engine works without them, just with
+  no PERSON/LOCATION/DATE_TIME.
+- **44 upstream tables remain unharvested**, recorded with reasons. Mostly
+  infrastructure, not recognizer behaviour.
+- **Android and Windows are unverified.** Nothing Apple-specific is used and the
+  Linux canary is green, but neither has been built. The Android SDK needs a
+  toolchain match this machine does not have.
 
 ## Licence
 
-Recognizer patterns, context word lists, score constants, entity names, and test
-expectations derive from Presidio, MIT © Presidio Contributors.
+MIT. Recognizer patterns, context word lists, score constants, entity names, and
+test expectations derive from Presidio, MIT © Presidio Contributors. Bundled
+third-party data — including the MPL-2.0 Public Suffix List — is itemized in
+[NOTICE](NOTICE).
