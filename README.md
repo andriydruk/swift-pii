@@ -2,10 +2,11 @@
 
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
-**Status: M1 done bar a long tail, M2 complete, M3 composed end to end.**
+**Status: M1–M4 complete.**
 Detection (99.5% of the harvested corpus), de-identification including reversible
-AES, spaCy-exact tokenization, and NER from raw text are all differentially
-verified against Python. NER parity is 98.9%, not exact — see below.
+AES, spaCy-exact tokenization, NER from raw text, and the end-to-end
+`AnalyzerEngine` (99.8% across an option matrix) are all differentially verified
+against Python. NER parity is 98.9%, not exact — see below.
 
 Not affiliated with or endorsed by the Presidio project. "Presidio-compatible"
 describes the behavioural target. The package is deliberately not named after
@@ -149,6 +150,58 @@ measurement**: it was byte-identical but 7% slower, because an average corpus
 character wakes 71.6 of the 155 patterns (digits wake 93). PII patterns are
 dominated by digit and letter classes, so there is no dispatch win to be had.
 Recorded in the ADR so it is not retried.
+
+## The engine
+
+```swift
+let engine = try AnalyzerEngine.makeDefault()
+let results = try engine.analyze(text: "my card is 4095-2609-9393-4932")
+```
+
+`AnalyzerEngine` runs the recognizers, raises scores from surrounding context,
+applies per-recognizer and per-entity thresholds, deduplicates, and applies
+allow lists. Verified against Presidio's own engine over **900 texts × 7 option
+sets — 6,289/6,300 runs agree exactly** (99.8%).
+
+The comparison injects **Python's NLP artifacts** rather than running our own
+pipeline. That is the point: otherwise a divergence in the engine and one in the
+NER model are indistinguishable, and the failure that actually matters — an
+engine bug masked by a compensating NER difference — would never show up. The 11
+remaining divergences are all a missing `PHONE_NUMBER` across two texts, the
+phone matcher's own measured gap; nothing else diverges and there are no false
+positives, both of which the test asserts separately from the ratchet.
+
+### A default engine loads 17 recognizers, not 88
+
+`AnalyzerEngine()` does not load the whole catalogue. Upstream ships
+`conf/default_recognizers.yaml` and most country-specific entries carry
+`enabled: false`. Loading everything instead is not a more thorough version of
+Presidio — it reports entities Presidio never would, which reads as a wall of
+false positives. The resolved configuration is extracted to JSON by
+[`Tools/extract_registry_config.py`](Tools/extract_registry_config.py), so
+reproducing the defaults needs no YAML parser. Reading a *user's* YAML at
+runtime is not implemented.
+
+Pass `configuration: nil` to load everything explicitly.
+
+### The lemmatizer, and why there isn't one
+
+Upstream's context enhancer compares spaCy **lemmas**, which need POS tags,
+which need the tagger — a whole extra model component plus WordNet-derived
+tables. Whether that is worth porting is measurable, so it was measured:
+replacing lemmas with lowercased token text, over 3,241 texts in which the
+enhancer fired 177 times, changed **nothing** — 3,241/3,241 identical results.
+
+That is structural rather than lucky. Context matching is *substring* by
+default, and English lemmatization is nearly always a suffix strip, so the
+recognizer's context word is a substring of the inflected form either way
+(`card` matches both `card` and `cards`).
+
+It stops holding in `whole_word` mode, where the same corpus gives 2
+divergences — `MACs` lemmatizes to `mac`, which matches the context word
+exactly, while the lowercased token does not. So lemmatization is a protocol
+(`Lemmatizing`) with a default that is honest about what it does, and a real
+lemmatizer can be dropped in without touching the enhancer.
 
 ## Conformance status
 
