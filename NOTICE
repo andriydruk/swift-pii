@@ -52,11 +52,28 @@ The English tokenizer's prefix/suffix/infix rules and special cases, and the
 lexeme_norm table. The tokenizer implementation in Sources/PresidioNLP is
 ported from spaCy.
 
-Note: spacy-lookups-data also ships WordNet-derived lemma tables under the
-WordNet 3.0 licence. Those are NOT bundled here — only lexeme_norm is — so no
-WordNet attribution is required.
-
   Sources/PresidioNLP/Resources/en_tokenizer.json
+  Sources/PresidioEngine/Resources/en_lemma_lookup.json
+
+--------------------------------------------------------------------------------
+WordNet 3.0 — Princeton University
+Copyright 2006 by Princeton University
+
+spacy-lookups-data's English lemma tables derive from WordNet, and this package
+now bundles the lemma lookup table (see en_lemma_lookup.json above), so the
+WordNet notice applies:
+
+  WordNet Release 3.0 This software and database is being provided to you, the
+  LICENSEE, by Princeton University under the following license. By obtaining,
+  using and/or copying this software and database, you agree that you have
+  read, understood, and will comply with these terms and conditions.
+
+  THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND PRINCETON UNIVERSITY MAKES
+  NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. The name of Princeton
+  University or Princeton may not be used in advertising or publicity
+  pertaining to distribution of the software and/or database.
+
+Full text: https://wordnet.princeton.edu/license-and-commercial-use
 
 --------------------------------------------------------------------------------
 Unicode Character Database — Unicode License

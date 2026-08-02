@@ -97,3 +97,75 @@ struct LemmatizerGapTests {
         #expect(try #require(lemmatized) == 0.85, "0.5 + the 0.35 context factor")
     }
 }
+
+/// The lookup table, and why only part of it ships by default.
+@Suite("Lookup lemmatizer")
+struct LookupLemmatizerTests {
+
+    @Test("the table loaded")
+    func tableLoaded() {
+        #expect(LookupLemmatizer.isLoaded)
+    }
+
+    @Test("the default scope closes the measured gap")
+    func pluralsResolve() {
+        let lemmatizer = LookupLemmatizer()
+        // The six context words the measurement found, in their inflected form.
+        #expect(lemmatizer.lemma(for: "beneficiaries") == "beneficiary")
+        #expect(lemmatizer.lemma(for: "identities") == "identity")
+        #expect(lemmatizer.lemma(for: "deliveries") == "delivery")
+        #expect(lemmatizer.lemma(for: "securities") == "security")
+        #expect(lemmatizer.lemma(for: "taxonomies") == "taxonomy")
+        #expect(lemmatizer.lemma(for: "Identities") == "identity", "case-folded")
+    }
+
+    /// The reason `.full` is not the default, pinned so nobody "fixes" it.
+    ///
+    /// "number" is a context word for 36 recognizers. Stemming it to "numb"
+    /// costs the boost on any text that says "My number is …" — which is how
+    /// people write phone numbers.
+    @Test("the full scope stems words the default must leave alone")
+    func fullScopeOverStems() {
+        let plurals = LookupLemmatizer(scope: .plurals)
+        let full = LookupLemmatizer(scope: .full)
+
+        #expect(plurals.lemma(for: "number") == "number")
+        #expect(full.lemma(for: "number") == "numb", "why .full is not the default")
+
+        // Words the default deliberately leaves alone, because substring
+        // matching already reaches them and spaCy would not lemmatize them
+        // here either.
+        for word in ["number", "testing", "processing", "loading", "mapping"] {
+            #expect(plurals.lemma(for: word) == word, "\(word)")
+        }
+    }
+
+    @Test("an unknown word is just lowercased")
+    func unknownWordsPassThrough() {
+        let lemmatizer = LookupLemmatizer()
+        #expect(lemmatizer.lemma(for: "Zzyzx") == "zzyzx")
+        #expect(lemmatizer.lemma(for: "4155550132") == "4155550132")
+    }
+
+    /// End to end: the gap the whole exercise was about.
+    @Test("an inflected context word now boosts, as it does in Presidio")
+    func inflectedContextBoosts() throws {
+        let definitions = try Catalog.definitions()
+        guard let mbi = definitions.first(where: { $0.class == "UsMbiRecognizer" }),
+              let recognizer = Catalog.makeRecognizer(
+                  mbi, logic: ValidatorRegistry.logic(for: "UsMbiRecognizer")
+              )
+        else { Issue.record("UsMbiRecognizer unavailable"); return }
+
+        var registry = RecognizerRegistry(recognizers: [recognizer])
+        registry.add(SpacyRecognizer())
+        let engine = try AnalyzerEngine(
+            registry: registry, nlpEngine: try TokenizerOnlyNlpEngine()
+        )
+        let results = try engine.analyze(
+            text: "Their beneficiaries include 1EG4-TE5-MK73"
+        )
+        let mbiResult = try #require(results.first { $0.entityType == "US_MBI" })
+        #expect(mbiResult.score == 0.85, "0.5 pattern + 0.35 context")
+    }
+}

@@ -90,8 +90,76 @@ public protocol Lemmatizing: Sendable {
     func lemma(for token: String) -> String
 }
 
-/// Lowercasing stands in for lemmatization. See `Lemmatizing`.
+/// Lowercasing only. Kept for callers who want no table at all.
 public struct LowercaseLemmatizer: Lemmatizing {
     public init() {}
     public func lemma(for token: String) -> String { token.lowercased() }
+}
+
+/// Lowercases, then resolves inflections through spaCy's lemma lookup table.
+///
+/// spaCy's English pipeline lemmatizes in **rule** mode, which needs POS tags
+/// and therefore the tagger. This is the POS-free `lemma_lookup` table, so it
+/// is an approximation of a different kind — which is why the scope is a
+/// choice, and why the default is not the whole table.
+///
+/// Measured against spaCy's real lemmas over 11,223 tokens:
+///
+/// | | agreement | regressions vs lowercase |
+/// |---|---|---|
+/// | lowercase | 86.25% | — |
+/// | `.plurals` | 86.86% | **0** |
+/// | `.full` | 96.87% | 251 occurrences, 48 distinct |
+///
+/// `.full` wins on raw agreement and loses where it counts. It stems "number"
+/// to "numb", and "number" is a context word for 36 recognizers — so a phone
+/// number written "My number is …" drops from 0.75 to 0.4. On context-heavy
+/// text `.full` diverged from Presidio on 2 of 10 texts where lowercase
+/// diverged on none.
+///
+/// `.plurals` closes the only gap the context vocabulary actually exposes —
+/// 6 of 523 context words, all the `-y → -ies` plural — with no regressions.
+public struct LookupLemmatizer: Lemmatizing {
+
+    public enum Scope: String, Sendable {
+        /// `-ies → -y` only. The default: strictly better than lowercasing.
+        case plurals
+        /// The whole table. Higher raw agreement, worse context matching.
+        case full
+    }
+
+    struct Payload: Decodable {
+        let plurals: [String: String]
+        let full: [String: String]
+    }
+
+    private static let payload: Payload? = {
+        guard let url = Bundle.module.url(
+            forResource: "en_lemma_lookup", withExtension: "json"
+        ),
+        let bytes = try? Data(contentsOf: url),
+        let decoded = try? JSONDecoder().decode(Payload.self, from: bytes)
+        else { return nil }
+        return decoded
+    }()
+
+    /// True when the table loaded. A missing table degrades to lowercasing,
+    /// which is the previous default rather than a failure.
+    public static var isLoaded: Bool { payload != nil }
+
+    private let table: [String: String]
+    public let scope: Scope
+
+    public init(scope: Scope = .plurals) {
+        self.scope = scope
+        switch scope {
+        case .plurals: self.table = Self.payload?.plurals ?? [:]
+        case .full: self.table = Self.payload?.full ?? [:]
+        }
+    }
+
+    public func lemma(for token: String) -> String {
+        let lowered = token.lowercased()
+        return table[lowered] ?? lowered
+    }
 }

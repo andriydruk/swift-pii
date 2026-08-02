@@ -25,7 +25,7 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
     public init(
         modelDirectory: String,
         configuration: NerModelConfiguration = NerModelConfiguration(),
-        lemmatizer: any Lemmatizing = LowercaseLemmatizer(),
+        lemmatizer: any Lemmatizing = LookupLemmatizer(),
         supportedLanguages: [String] = ["en"]
     ) throws {
         self.ner = try SpacyNER(modelDirectory: modelDirectory)
@@ -78,7 +78,7 @@ public final class TokenizerOnlyNlpEngine: NlpEngineProviding, @unchecked Sendab
     public let supportedLanguages: [String]
 
     public init(
-        lemmatizer: any Lemmatizing = LowercaseLemmatizer(),
+        lemmatizer: any Lemmatizing = LookupLemmatizer(),
         supportedLanguages: [String] = ["en"]
     ) throws {
         self.tokenizer = try SpacyTokenizer.english()
