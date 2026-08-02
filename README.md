@@ -330,30 +330,39 @@ Pass `configuration: nil` to load everything explicitly.
 ### The lemmatizer, and why there isn't one
 
 Upstream's context enhancer compares spaCy **lemmas**, which in rule mode need
-POS tags — so the tagger — plus ~1.3 MB of WordNet-derived lookup tables. The
-default here is `LowercaseLemmatizer`, and the cost of that is measured rather
-than asserted.
+POS tags — so the tagger — plus WordNet-derived lookup tables. What ships here
+is the POS-free `lemma_lookup` table, **restricted to `-ies` plurals**, and the
+restriction is the interesting part.
 
-Raw lemma disagreement is common: over 1,500 texts, **42 distinct surface forms**
-lemmatize to something that is not a substring of themselves. Most are invisible
-because upstream drops them from keywords anyway — `be`, the lemma of every form
-of "is", is excluded by name.
+Measured against spaCy's real lemmas over 11,223 tokens:
 
-What matters is how many of the **523 context words across all 88 recognizers**
-can be reached *only* through a lemma. Measured: **6** — `beneficiary`,
-`birthday`, `delivery`, `identity`, `security`, `taxonomy` — all the same
-`-y → -ies` plural rule, one of which ("birthdaies") is not a word. In the 17
-recognizers a default engine loads, the count is **zero**.
+| | agreement | regressions vs lowercase |
+|---|---:|---:|
+| lowercase only | 86.25% | — |
+| **`-ies` subset (default)** | **86.86%** | **0** |
+| full lookup table | 96.87% | 251 occurrences, 48 distinct |
 
-An earlier version of this note claimed 0 divergences over 3,241 texts. That was
-a corpus artifact: the texts simply never inflected a context word. The number
-above comes from enumerating the context vocabulary directly, and
-[a test](Tests/PresidioEngineTests/LemmatizerGapTests.swift) pins both the
-vocabulary size and the one case where the gap bites, so a new context word that
-widens it is visible.
+The full table wins on raw agreement and loses where it counts. It stems
+`number` → `numb`, and `number` is a context word for **36 recognizers**, so a
+phone number written "My number is …" drops from 0.75 to 0.4. On context-heavy
+text the full table diverged from Presidio on 2 of 10 texts where lowercase
+diverged on none.
 
-`Lemmatizing` is a protocol, so a caller who needs spaCy-exact context matching
-can supply a real lemmatizer without touching the enhancer.
+Raw lemma accuracy is simply the wrong metric. What matters is agreement on the
+*context-matching outcome*, and there lowercasing wins because its errors are
+systematically harmless — substring matching absorbs suffix-stripping — while
+the full table's errors are not.
+
+The `-ies` subset closes the only gap the context vocabulary exposes: of **523
+context words across all 88 recognizers**, exactly **6** are reachable only
+through a lemma (`beneficiary`, `birthday`, `delivery`, `identity`, `security`,
+`taxonomy`), all the same plural rule. In the 17 recognizers a default engine
+loads, the count was zero.
+
+The full table is available as `LookupLemmatizer(scope: .full)`, and a test pins
+`number` → `numb` so the default is not "fixed" later. `Lemmatizing` remains a
+protocol, so a caller who ports the tagger can supply a rule-mode lemmatizer
+without touching the enhancer.
 
 ## Concurrency
 
