@@ -3,7 +3,8 @@
 A Presidio-compatible PII detection and anonymization library in pure Swift.
 
 **Status: the analyzer, the anonymizer and the CLI are complete and verified.**
-The end-to-end engine matches Presidio **exactly** across its option matrix.
+The end-to-end engine matches Presidio **exactly** across its option matrix, and
+so does every harvested recognizer case.
 Detection, de-identification including reversible AES, spaCy-exact tokenization,
 NER from raw text, the end-to-end `AnalyzerEngine`, batch analysis and a
 command-line tool are all differentially verified against Python across
@@ -425,26 +426,26 @@ Every differential corpus in the repository, and how the port scores on it:
 
 | Corpus | cases | agreement |
 |---|---:|---|
-| Recognizers (harvested) | 1,731 | **1,729 (99.9%)** |
+| Recognizers (harvested) | 1,731 | **1,731 (exact)** |
 | `AnalyzerEngine` option matrix | 6,300 | **6,300 (exact)** |
 | Tokenizer | 2,517 | **exact** |
-| Regex substrate | 1,550 | **exact** |
+| Regex substrate | 1,609 | **exact** |
 | NER | 2,000 | 98.9% |
-| Phone parse / matcher | 1,104 | 99.8% / 96.3% |
+| Phone parse / matcher | 2,256 | 99.8% / 99.9% |
 | Validators | 206 | **exact** |
 | Anonymizer + crypto | 43 | **exact** |
 | Batch analyzer | 9 | **exact** |
-| **Total** | **15,460** | |
+| **Total** | **16,671** | |
 
-154 Swift tests drive those, in 24 suites.
+156 Swift tests drive those, in 25 suites.
 
 Against the recognizer corpus specifically:
 
 | | cases | |
 |---|---:|---|
-| **Verified green** | **1,729** | 99.9% — every case passes, spans and scores |
+| **Verified green** | **1,731** | every case passes, spans and scores |
 | Blocked on validators | **0** | — |
-| Known-divergent | 2 | both `STRICT_GROUPING`/`EXACT_GROUPING`, below |
+| Known-divergent | **0** | — |
 
 Every recognizer in the corpus runs, and **56 validators** cover every one whose
 patterns can be lifted into data. The blocked count is a test-enforced hard
@@ -456,7 +457,7 @@ than the catalogue:
 
 | Recognizer | cases | Agreement |
 |---|---:|---|
-| `PhoneRecognizer` | 106 | 104/106 — see below |
+| `PhoneRecognizer` | 106 | **106/106** |
 | `ZaMobileNumberRecognizer` | 14 | 14/14, spans included |
 | `ZaTelephoneNumberRecognizer` | 14 | 14/14, spans included |
 
@@ -488,17 +489,23 @@ cannot be validated — so every Italian and Greek number was silently dropped.
 | validity | **432/432** |
 | region resolution | 431/432 (99.8%) |
 
-**The matcher**, over 624 differential cases across 12 regions and 2 leniencies:
+**The matcher**, over 1,776 differential cases — every text under every region
+under **all four leniencies**:
 
 | | agreement |
 |---|---:|
-| exact per-case | 623/624 (99.8%) |
-| span recall | **407/407** |
+| exact per-case | 1,775/1,776 (99.9%) |
+| span recall | **1,091/1,091** |
 
-**The recognizer**, over its own 106 harvested corpus cases: **104/106 (98.1%)**.
-Both holdouts are the same unimplemented feature — `STRICT_GROUPING` and
-`EXACT_GROUPING` verify digit grouping against a canonical format and fall back
-to `VALID` here, which is more permissive, so each finds one number too many.
+That corpus is built by
+[`Tools/phone_matcher_reference.py`](Tools/phone_matcher_reference.py) from
+texts chosen to stress grouping: the same number as one block, grouped
+canonically, grouped wrongly, with and without a national prefix, with
+extensions, with slashes. A corpus of well-formatted numbers cannot tell a
+working grouping check from one that always returns true — 209
+`STRICT_GROUPING` and 195 `EXACT_GROUPING` matches now exercise it.
+
+**The recognizer**, over its own 106 harvested corpus cases: **106/106**.
 The two South African line-type recognizers reuse the same matcher and split its
 results by `number_type`: **28/28, spans included**. Their prefix fallback is
 only consulted when the metadata cannot type a number, and its rule order
@@ -767,9 +774,6 @@ Stated rather than buried, in the order they would bother a user:
 
 - **No image redaction, structured-data support, or REST servers.** The port is
   the two core libraries plus a CLI, not the whole product.
-- **`STRICT_GROUPING` and `EXACT_GROUPING` are not implemented** and fall back
-  to `VALID`, so a caller asking for them gets a *more permissive* result than
-  requested. That is the whole of the remaining phone gap: 2 corpus cases.
 - **NER is 98.9%, not exact**, from float accumulation order in the forward
   pass. Model weights are not bundled; the engine works without them, just with
   no PERSON/LOCATION/DATE_TIME. The parity suite needs `SPACY_MODEL_DIR` to
