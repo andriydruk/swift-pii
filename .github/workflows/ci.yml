@@ -81,6 +81,43 @@ jobs:
               print(f"::notice::upstream gained {f - c} cases; refresh the corpus")
           PY
 
+  # The NER suite is gated on SPACY_MODEL_DIR, so for a long time it ran
+  # nowhere: not locally by default, and never in CI. Parity was a number in
+  # the README that nothing checked. It needs the exact model the gold corpus
+  # was built from -- a different patch release has different weights and
+  # scores ~62% against it, which looks like a catastrophic regression and is
+  # not one.
+  #
+  # Release, not debug: the hand-written SIMD GEMM is 200x slower unoptimised
+  # (477s vs 2s), which is what made this look too expensive for CI.
+  ner-parity:
+    name: NER parity (release)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch en_core_web_sm 3.7.1
+        run: |
+          curl -sSL -o model.whl \
+            https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
+          unzip -q model.whl -d model
+          echo "SPACY_MODEL_DIR=$PWD/model/en_core_web_sm/en_core_web_sm-3.7.1" >> "$GITHUB_ENV"
+
+      - name: Test
+        run: |
+          set -o pipefail
+          swift test -c release --filter NERTests 2>&1 | tee ner.log
+
+      - name: Assert the suite actually ran
+        # A --filter that matches nothing exits 0. Without this, deleting the
+        # suite or mistyping the filter would look like a pass -- which is
+        # exactly how the gap this job closes went unnoticed.
+        run: |
+          grep -qE "Test run with [1-9][0-9]* test" ner.log \
+            || { echo "::error::NER suite did not run"; exit 1; }
+          grep -q "spaCy NER parity" ner.log \
+            || { echo "::error::NER parity suite was skipped"; exit 1; }
+
   # ThreadSanitizer cannot load on the macOS dev host (Xcode's sanitizer
   # dylib fails the platform code-signature policy), so the race check lives
   # here. Scoped to the concurrency suite to keep it quick.

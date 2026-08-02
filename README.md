@@ -766,7 +766,15 @@ Stated rather than buried, in the order they would bother a user:
   *more permissive* result than requested.
 - **NER is 98.9%, not exact**, from float accumulation order in the forward
   pass. Model weights are not bundled; the engine works without them, just with
-  no PERSON/LOCATION/DATE_TIME.
+  no PERSON/LOCATION/DATE_TIME. The parity suite needs `SPACY_MODEL_DIR` to
+  point at **en_core_web_sm 3.7.1** — the version the gold corpus was built
+  from — and runs in its own CI job. Run it locally with:
+
+  ```bash
+  SPACY_MODEL_DIR=/path/to/en_core_web_sm-3.7.1 swift test -c release --filter NERTests
+  ```
+
+  Release matters: the hand-written SIMD GEMM is ~200× slower unoptimised.
 - **44 upstream tables remain unharvested**, recorded with reasons. Mostly
   infrastructure, not recognizer behaviour.
 - **Android and Windows are unverified.** Nothing Apple-specific is used and the

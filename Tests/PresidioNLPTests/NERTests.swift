@@ -21,6 +21,17 @@ import PresidioConformance
 /// fixture demonstrates.
 /// Free function rather than a static on the suite: a `.enabled(if:)` condition
 /// referencing the type it is attached to is a circular macro reference.
+/// Where to find an unpacked spaCy model.
+///
+/// The suite is skipped without one, which is convenient locally and was a
+/// trap: it meant NER parity ran nowhere for a long time, including CI. There
+/// is now a dedicated CI job that fetches the model and asserts the suite
+/// actually executed — a `--filter` matching nothing exits 0.
+///
+/// It must be **en_core_web_sm 3.7.1**, the version the gold corpus was built
+/// from. A different patch release has different weights and scores ~62%
+/// against this corpus, which reads as a catastrophic regression and is only a
+/// version mismatch.
 func spacyModelDirectory() -> String? {
     ProcessInfo.processInfo.environment["SPACY_MODEL_DIR"]
 }
