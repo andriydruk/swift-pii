@@ -329,22 +329,31 @@ Pass `configuration: nil` to load everything explicitly.
 
 ### The lemmatizer, and why there isn't one
 
-Upstream's context enhancer compares spaCy **lemmas**, which need POS tags,
-which need the tagger — a whole extra model component plus WordNet-derived
-tables. Whether that is worth porting is measurable, so it was measured:
-replacing lemmas with lowercased token text, over 3,241 texts in which the
-enhancer fired 177 times, changed **nothing** — 3,241/3,241 identical results.
+Upstream's context enhancer compares spaCy **lemmas**, which in rule mode need
+POS tags — so the tagger — plus ~1.3 MB of WordNet-derived lookup tables. The
+default here is `LowercaseLemmatizer`, and the cost of that is measured rather
+than asserted.
 
-That is structural rather than lucky. Context matching is *substring* by
-default, and English lemmatization is nearly always a suffix strip, so the
-recognizer's context word is a substring of the inflected form either way
-(`card` matches both `card` and `cards`).
+Raw lemma disagreement is common: over 1,500 texts, **42 distinct surface forms**
+lemmatize to something that is not a substring of themselves. Most are invisible
+because upstream drops them from keywords anyway — `be`, the lemma of every form
+of "is", is excluded by name.
 
-It stops holding in `whole_word` mode, where the same corpus gives 2
-divergences — `MACs` lemmatizes to `mac`, which matches the context word
-exactly, while the lowercased token does not. So lemmatization is a protocol
-(`Lemmatizing`) with a default that is honest about what it does, and a real
-lemmatizer can be dropped in without touching the enhancer.
+What matters is how many of the **523 context words across all 88 recognizers**
+can be reached *only* through a lemma. Measured: **6** — `beneficiary`,
+`birthday`, `delivery`, `identity`, `security`, `taxonomy` — all the same
+`-y → -ies` plural rule, one of which ("birthdaies") is not a word. In the 17
+recognizers a default engine loads, the count is **zero**.
+
+An earlier version of this note claimed 0 divergences over 3,241 texts. That was
+a corpus artifact: the texts simply never inflected a context word. The number
+above comes from enumerating the context vocabulary directly, and
+[a test](Tests/PresidioEngineTests/LemmatizerGapTests.swift) pins both the
+vocabulary size and the one case where the gap bites, so a new context word that
+widens it is visible.
+
+`Lemmatizing` is a protocol, so a caller who needs spaCy-exact context matching
+can supply a real lemmatizer without touching the enhancer.
 
 ## Concurrency
 
