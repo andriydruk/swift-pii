@@ -119,7 +119,7 @@ struct PhoneNumberTests {
         // recognizer from 101/106 to 98/106 and every ratio bound here stayed
         // satisfied. These are the current measurements; raise, never lower.
         #expect(parseAgree == total, "parse \(parseAgree)/\(total)")
-        #expect(numberAgree >= 429, "nsn \(numberAgree)/\(parsedCases)")
+        #expect(numberAgree >= 431, "nsn \(numberAgree)/\(parsedCases)")
         #expect(validAgree == parsedCases, "validity \(validAgree)/\(parsedCases)")
         #expect(regionAgree >= 431, "region \(regionAgree)/\(parsedCases)")
     }

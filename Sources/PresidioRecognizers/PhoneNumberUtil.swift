@@ -299,6 +299,33 @@ public enum PhoneNumberUtil {
                   let regionData = metadata.regions[region]
             else { throw .notANumber }
             countryCode = regionData.countryCode
+
+            // A number may carry its own country code with no leading "+",
+            // as "91-415-555-0132" and "11 98456 5666" do. Port of the
+            // default-region branch of `_maybe_extract_country_code`: strip
+            // the region's own calling code, then its national prefix, and
+            // keep that reading only when it is *better* -- the original did
+            // not match the general descriptor and the stripped one does, or
+            // the original was too long to be dialable at all.
+            let callingCode = String(regionData.countryCode)
+            var extracted = false
+            if digits.hasPrefix(callingCode), let general = regionData.generalDesc {
+                let remainder = String(digits.dropFirst(callingCode.count))
+                // The *raw* strip: inside `_maybe_extract_country_code`
+                // upstream calls `_maybe_strip_national_prefix_carrier_code`
+                // directly, and the length gate is a separate later step in
+                // `parse`. Gating here would keep the "1" in "1984565666" and
+                // lose the reading this branch exists to find.
+                let candidate = stripNationalPrefix(remainder, region: regionData)
+                let originalMatches = fullMatch(general.nationalNumberPattern, digits)
+                let candidateMatches = fullMatch(general.nationalNumberPattern, candidate)
+                if (!originalMatches && candidateMatches)
+                    || testNumberLength(digits, region: regionData) == .tooLong {
+                    digits = candidate
+                    extracted = true
+                }
+            }
+
             // Upstream strips, then *checks the length of the result* and
             // keeps the original if stripping made it implausible:
             //
@@ -311,14 +338,8 @@ public enum PhoneNumberUtil {
             // become "23", and a GB number written "09-7625400" loses the 0 it
             // needs — the strip is only accepted when it leaves something the
             // region could actually dial.
-            let candidate = stripNationalPrefix(digits, region: regionData)
-            if candidate != digits {
-                switch testNumberLength(candidate, region: regionData) {
-                case .tooShort, .possibleLocalOnly, .invalidLength:
-                    break  // keep the unstripped number
-                case .possible, .tooLong:
-                    digits = candidate
-                }
+            if !extracted {
+                digits = strippingNationalPrefix(digits, region: regionData)
             }
         }
 
@@ -333,6 +354,20 @@ public enum PhoneNumberUtil {
             fromDefaultRegion: !hasPlus,
             extensionDigits: split.extension
         )
+    }
+
+    /// The national prefix removed, but only when the result is still a
+    /// plausible length for the region — the two gates upstream applies in
+    /// sequence. Returns the input unchanged when either gate refuses.
+    static func strippingNationalPrefix(_ digits: String, region: Region) -> String {
+        let candidate = stripNationalPrefix(digits, region: region)
+        guard candidate != digits else { return digits }
+        switch testNumberLength(candidate, region: region) {
+        case .tooShort, .possibleLocalOnly, .invalidLength:
+            return digits
+        case .possible, .tooLong:
+            return candidate
+        }
     }
 
     /// Remove the national dialling prefix, honouring the region's parsing
