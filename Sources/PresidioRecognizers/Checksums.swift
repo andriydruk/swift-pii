@@ -27,8 +27,10 @@ public enum Checksums {
         var out: [Int] = []
         out.reserveCapacity(text.count)
         for character in text {
-            guard let value = character.wholeNumberValue,
-                  character.isASCII, (0...9).contains(value)
+            // Python's `int(ch)` accepts any Unicode decimal digit, and the
+            // recognizer patterns use `\d`, which matches them — so requiring
+            // ASCII here rejected values upstream validates.
+            guard let value = Python.digitValue(character), (0...9).contains(value)
             else { return nil }
             out.append(value)
         }
@@ -38,8 +40,7 @@ public enum Checksums {
     /// Digit values, ignoring every non-digit character.
     public static func digits(_ text: String) -> [Int] {
         text.compactMap {
-            guard $0.isASCII, let v = $0.wholeNumberValue, (0...9).contains(v)
-            else { return nil }
+            guard let v = Python.digitValue($0), (0...9).contains(v) else { return nil }
             return v
         }
     }

@@ -218,7 +218,7 @@ public enum DataValidators {
 
         case 10:
             // Format B: year of registration then 5 digits and a check letter.
-            guard let year = Int(String(value[0..<4])) else { return .invalid }
+            guard let year = Python.integer(String(value[0..<4])) else { return .invalid }
             // Compares against the current year, so this validator is
             // time-dependent by construction — as upstream's is.
             var calendar = Calendar(identifier: .gregorian)
@@ -246,14 +246,14 @@ public enum DataValidators {
         let currentYear = calendar.component(.year, from: Foundation.Date())
 
         func plausibleYear(_ text: String) -> Bool {
-            guard text.count == 4, text.allSatisfy(\.isNumber), let year = Int(text)
+            guard text.count == 4, text.allSatisfy(Python.isDigit), let year = Python.integer(text)
             else { return false }
             return year >= 1800 && year <= currentYear
         }
 
         // Modern: YYYY/NNNNNN/TT
-        if parts.count == 3, parts[0].allSatisfy(\.isNumber) {
-            guard parts[1].allSatisfy(\.isNumber), parts[2].allSatisfy(\.isNumber),
+        if parts.count == 3, parts[0].allSatisfy(Python.isDigit) {
+            guard parts[1].allSatisfy(Python.isDigit), parts[2].allSatisfy(Python.isDigit),
                   parts[0].count == 4, parts[1].count == 6, parts[2].count == 2,
                   plausibleYear(parts[0])
             else { return .invalid }
@@ -263,7 +263,7 @@ public enum DataValidators {
         // Legacy: <prefix>YYYY/NNNNNN, e.g. CK2001/123456
         if parts.count == 2 {
             let prefixAndYear = parts[0]
-            guard parts[1].count == 6, parts[1].allSatisfy(\.isNumber) else { return .invalid }
+            guard parts[1].count == 6, parts[1].allSatisfy(Python.isDigit) else { return .invalid }
             // Longest prefix first, so "NR" is preferred over "N".
             for prefix in za.legacyPrefixes.sorted(by: { $0.count > $1.count })
             where prefixAndYear.hasPrefix(prefix) {
@@ -298,7 +298,7 @@ public enum DataValidators {
                 ? String(value[2..<4])
                 : String(value[2..<3])
             let serial = String(value.suffix(4))
-            if serial.allSatisfy(\.isNumber), let number = Int(serial),
+            if serial.allSatisfy(Python.isDigit), let number = Int(serial),
                number > 0, number <= 9999,
                let districts = india.stateRtoDistrictMap[statePrefix] {
                 // Upstream accepts the code with or without a leading zero.
@@ -313,7 +313,7 @@ public enum DataValidators {
         for code in india.diplomaticCodes {
             guard let range = sanitized.range(of: code) else { continue }
             let prefix = String(sanitized[sanitized.startIndex..<range.lowerBound])
-            guard !prefix.isEmpty, prefix.allSatisfy(\.isNumber),
+            guard !prefix.isEmpty, prefix.allSatisfy(Python.isDigit),
                   let number = Int(prefix) else { continue }
             if (1...80).contains(number) || india.foreignMissionCodes.contains(number) {
                 return .valid

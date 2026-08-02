@@ -294,7 +294,7 @@ public enum PhoneNumberUtil {
     ) throws(PhoneParseError) -> PhoneNumber {
         guard let metadata else { throw .notANumber }
 
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed = text.pythonStripped()
         guard !trimmed.isEmpty else { throw .notANumber }
 
         let hasPlus = trimmed.contains("+")

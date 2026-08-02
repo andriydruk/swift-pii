@@ -53,9 +53,9 @@ public enum CountryValidators {
         guard chars.count == 11 else { return .invalid }
 
         let datePart = String(chars[0..<6])
-        guard let dd = Int(String(chars[0..<2])),
-              let mm = Int(String(chars[2..<4])),
-              let yy = Int(String(chars[4..<6]))
+        guard let dd = Python.integer(String(chars[0..<2])),
+              let mm = Python.integer(String(chars[2..<4])),
+              let yy = Python.integer(String(chars[4..<6]))
         else { return .invalid }
 
         // An unrecognized separator defaults to 2000, as upstream's
@@ -89,7 +89,7 @@ public enum CountryValidators {
         let chars = Array(text)
         guard chars.count >= 3 else { return .unknown }
         let province = String(chars[0..<2])
-        guard let code = Int(province), province.allSatisfy(\.isNumber)
+        guard let code = Int(province), province.allSatisfy(Python.isDigit)
         else { return .unknown }
         return (1...81).contains(code) ? .valid : .invalid
     }
@@ -214,7 +214,7 @@ public enum CountryValidators {
         else { return .invalid }
 
         let body = String(chars[1..<(chars.count - 1)])
-        guard body.allSatisfy(\.isNumber),
+        guard body.allSatisfy(Python.isDigit),
               let prefixIndex = "XYZ".firstIndex(of: chars[0])
         else { return .invalid }
 
@@ -306,7 +306,7 @@ public enum CountryValidators {
         guard chars.count == 7, chars[0].isLetter, chars[1].isLetter
         else { return .unknown }
         let ageText = String(chars[2..<4])
-        guard ageText.allSatisfy(\.isNumber), let age = Int(ageText)
+        guard ageText.allSatisfy(Python.isDigit), let age = Int(ageText)
         else { return .unknown }
         return (2...29).contains(age) || (51...79).contains(age) ? .valid : .invalid
     }

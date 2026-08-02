@@ -37,7 +37,7 @@ public enum IpValidator {
             guard !prefixText.isEmpty else { return false }
             // ip_interface also accepts a dotted netmask for IPv4, but the
             // recognizer's patterns only ever produce a numeric prefix.
-            guard prefixText.allSatisfy({ $0.isASCII && $0.isNumber }),
+            guard prefixText.allSatisfy({ Python.isDigit($0) }),
                   let prefix = Int(prefixText)
             else { return false }
             return prefix >= 0 && prefix <= (isV4 ? 32 : 128)
@@ -52,7 +52,7 @@ public enum IpValidator {
         var out: [UInt8] = []
         for octet in octets {
             guard !octet.isEmpty, octet.count <= 3,
-                  octet.allSatisfy({ $0.isASCII && $0.isNumber })
+                  octet.allSatisfy({ Python.isDigit($0) })
             else { return nil }
             // "01" and "010" are rejected; "0" alone is fine.
             if octet.count > 1 && octet.first == "0" { return nil }

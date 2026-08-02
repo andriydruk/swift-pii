@@ -1,5 +1,6 @@
 import Foundation
 import PresidioAnalyzer
+import PresidioRegex
 
 extension CountryValidators {
 
@@ -37,7 +38,13 @@ extension CountryValidators {
     /// heuristic mode a structurally valid but checksum-failing VAT ID returns
     /// `.unknown`, so the match survives at its pattern score.
     public static func germanVatId(_ text: String, strict: Bool = false) -> Validation {
-        let normalized = text.uppercased().filter { !" \t\n.-".contains($0) }
+        // Upstream strips `[\s.\-]`, and Python's `\s` on a str pattern is
+        // Unicode whitespace — a non-breaking space is removed there and was
+        // not here, which made every value padded with one fail on length.
+        let normalized = text.uppercased().filter { character in
+            !(character == "." || character == "-"
+              || character.unicodeScalars.allSatisfy { $0.properties.isWhitespace })
+        }
         guard normalized.count == 11, normalized.hasPrefix("DE") else { return .invalid }
         let body = String(normalized.dropFirst(2))
         guard let digits = Checksums.digitValues(body), digits.count == 9
@@ -47,7 +54,7 @@ extension CountryValidators {
     }
 
     public static func germanLanr(_ text: String) -> Validation {
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed = text.pythonStripped()
         guard let digits = Checksums.digitValues(trimmed), digits.count == 9
         else { return .invalid }
         let weights = [4, 9, 4, 9, 4, 9]
@@ -56,9 +63,9 @@ extension CountryValidators {
     }
 
     public static func germanHealthInsurance(_ text: String) -> Validation {
-        let value = Array(text.uppercased().trimmingCharacters(in: .whitespacesAndNewlines))
+        let value = Array(text.uppercased().pythonStripped())
         guard value.count == 10, value[0].isLetter, value[0].isASCII,
-              value.dropFirst().allSatisfy({ $0.isNumber && $0.isASCII })
+              value.dropFirst().allSatisfy({ Python.isDigit($0) })
         else { return .invalid }
 
         // The leading letter becomes its two-digit alphabet position.
@@ -79,15 +86,15 @@ extension CountryValidators {
     }
 
     public static func germanSocialSecurity(_ text: String) -> Validation {
-        let value = Array(text.uppercased().trimmingCharacters(in: .whitespacesAndNewlines))
+        let value = Array(text.uppercased().pythonStripped())
         guard value.count == 12,
-              value[0..<8].allSatisfy({ $0.isNumber && $0.isASCII }),
+              value[0..<8].allSatisfy({ Python.isDigit($0) }),
               value[8].isLetter, value[8].isASCII,
-              value[9..<12].allSatisfy({ $0.isNumber && $0.isASCII })
+              value[9..<12].allSatisfy({ Python.isDigit($0) })
         else { return .invalid }
 
-        let day = Int(String(value[2..<4]))!
-        let month = Int(String(value[4..<6]))!
+        let day = Python.integer(String(value[2..<4])) ?? -1
+        let month = Python.integer(String(value[4..<6])) ?? -1
         // 51-81 encodes a female birth day in the historical scheme.
         guard (1...31).contains(day) || (51...81).contains(day),
               (1...12).contains(month)
@@ -113,8 +120,14 @@ extension CountryValidators {
     private static let germanPassportForbidden = Set("ABDEIOQSU")
 
     public static func germanPassport(_ text: String) -> Validation {
-        let value = Array(text.uppercased().trimmingCharacters(in: .whitespacesAndNewlines))
-        guard value.count == 9, value[8].isNumber else { return .invalid }
+        let value = Array(text.uppercased().pythonStripped())
+        // `isNumber` is not a guarantee of a value: it is true for Character
+        // clusters and numeric forms that have no single digit value, so the
+        // check digit is taken as an Optional rather than force-unwrapped.
+        // Force-unwrapping it crashed on a digit carrying a combining mark.
+        guard value.count == 9, let check = value[8].wholeNumberValue,
+              value[8].isNumber
+        else { return .invalid }
         // Letters that look like digits are excluded from the document number.
         guard !value.dropLast().contains(where: { germanPassportForbidden.contains($0) })
         else { return .invalid }
@@ -123,7 +136,7 @@ extension CountryValidators {
         var total = 0
         for (index, character) in value.dropLast().enumerated() {
             let value: Int
-            if character.isNumber, let d = character.wholeNumberValue {
+            if let d = Python.digitValue(character) {
                 value = d
             } else if character.isASCII, character.isLetter,
                       let ascii = character.asciiValue, ascii >= 65, ascii <= 90 {
@@ -133,7 +146,7 @@ extension CountryValidators {
             }
             total += value * weights[index % 3]
         }
-        return total % 10 == value[8].wholeNumberValue! ? .valid : .invalid
+        return total % 10 == check ? .valid : .invalid
     }
 
     // MARK: - Korea
@@ -250,6 +263,12 @@ extension CountryValidators {
     public static func zaIdNumber(_ text: String) -> Validation {
         guard let digits = Checksums.digitValues(text), digits.count == 13
         else { return .invalid }
+        // Upstream tests these two positions by *character* membership —
+        // `pattern_text[10] not in {"0", "1", "2"}` — so an Arabic-Indic or
+        // full-width digit fails there even though it parses fine everywhere
+        // else in the same function. Comparing numeric values instead accepted
+        // numbers Presidio rejects.
+        let characters = Array(text)
 
         let yearSuffix = digits[0] * 10 + digits[1]
         let month = digits[2] * 10 + digits[3]
@@ -270,8 +289,9 @@ extension CountryValidators {
         let now = (currentYear, nowParts.month!, nowParts.day!)
         if birth > now { return .invalid }
 
-        guard "012".contains(String(digits[10])) else { return .invalid }
-        guard "89".contains(String(digits[11])) else { return .invalid }
+        guard characters.count == 13,
+              "012".contains(characters[10]), "89".contains(characters[11])
+        else { return .invalid }
 
         // Luhn with parity keyed off the total length.
         let parity = digits.count % 2
@@ -297,15 +317,32 @@ extension CountryValidators {
 
     // MARK: - India
 
+    /// `_sanitize_value`'s extraction pattern, compiled once.
+    static let gstinExtraction: PureRegex? = try? PureRegex(
+        #"\b((?:0[1-9]|[1-3][0-7])[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[0-9A-Za-z]{1}Z[0-9A-Za-z]{1})\b"#,
+        ignoreCase: false, dotAll: false, multiline: false
+    )
+
     public static func indianGstin(_ text: String) -> Validation {
-        let sanitized = Checksums.sanitize(
-            text.uppercased(), replacing: [("-", ""), (" ", "")]
+        // `_sanitize_value` first tries to *extract* a GSTIN from the text and
+        // only falls back to separator replacement when that finds nothing.
+        // Skipping the extraction step made every value with surrounding
+        // punctuation or a zero-width space fail on length.
+        let upper = text.uppercased()
+        let extracted = Self.gstinExtraction.flatMap { regex -> String? in
+            guard let match = regex.matchesWithGroups(in: upper).first,
+                  let span = match.span(1)
+            else { return nil }
+            return String(String.UnicodeScalarView(Array(upper.unicodeScalars)[span]))
+        }
+        let sanitized = extracted ?? Checksums.sanitize(
+            upper, replacing: [("-", ""), (" ", "")]
         )
         let value = Array(sanitized)
         guard value.count == 15 else { return .invalid }
 
         let stateCode = String(value[0..<2])
-        guard let state = Int(stateCode), stateCode.allSatisfy(\.isNumber),
+        guard let state = Python.integer(stateCode), stateCode.allSatisfy(Python.isDigit),
               (1...37).contains(state)
         else { return .invalid }
 
@@ -313,7 +350,7 @@ extension CountryValidators {
         let pan = Array(value[2..<12])
         let letterCount = pan.prefix(5).filter(\.isLetter).count
         guard letterCount >= 3,
-              pan[5..<9].allSatisfy({ $0.isNumber && $0.isASCII }),
+              pan[5..<9].allSatisfy({ Python.isDigit($0) }),
               pan[9].isLetter
         else { return .invalid }
 
@@ -345,8 +382,8 @@ public extension CountryValidators {
     /// match to full confidence on shape alone. Final confidence comes from
     /// context words via the enhancer.
     static func germanBsnr(_ text: String) -> Validation {
-        let value = text.trimmedASCII()
-        guard value.count == 9, value.allSatisfy(\.isASCIIDigit) else { return .invalid }
+        let value = text.pythonStripped()
+        guard value.count == 9, Python.isDigits(value) else { return .invalid }
         guard value != "000000000" else { return .invalid }
         return .unknown
     }
@@ -357,22 +394,22 @@ public extension CountryValidators {
     /// numbers predate ICAO and carry no check digit, so they stay at pattern
     /// score rather than being rejected.
     static func germanIdCard(_ text: String) -> Validation {
-        let value = text.trimmedASCII().uppercased()
+        let value = text.pythonStripped().uppercased()
         guard value.count == 9 else { return .invalid }
 
         let characters = Array(value)
-        if characters[0] == "T", characters.dropFirst().allSatisfy(\.isASCIIDigit) {
+        if characters[0] == "T", Python.isDigits(String(characters.dropFirst())) {
             return .unknown
         }
-        guard let last = characters.last, last.isASCIIDigit else { return .invalid }
+        guard let last = characters.last, Python.isDigit(last) else { return .invalid }
 
         // ICAO 7-3-1 weighting, digits at face value and letters as A=10..Z=35.
         let weights = [7, 3, 1]
         var total = 0
         for (index, character) in characters.dropLast().enumerated() {
             let value: Int
-            if character.isASCIIDigit {
-                value = character.wholeNumberValue ?? 0
+            if let digit = Python.digitValue(character) {
+                value = digit
             } else if let ascii = character.asciiValue, ascii >= 65, ascii <= 90 {
                 value = Int(ascii - 65) + 10
             } else {
@@ -380,23 +417,11 @@ public extension CountryValidators {
             }
             total += value * weights[index % 3]
         }
-        return total % 10 == (last.wholeNumberValue ?? -1) ? .valid : .invalid
+        return total % 10 == (Python.digitValue(last) ?? -1) ? .valid : .invalid
     }
 }
 
-private extension Character {
-    var isASCIIDigit: Bool { isASCII && isNumber }
-}
 
-private extension String {
-    /// Python's `str.strip()`.
-    func trimmedASCII() -> String {
-        var scalars = Substring(self)
-        while let f = scalars.first, f.isWhitespace { scalars = scalars.dropFirst() }
-        while let l = scalars.last, l.isWhitespace { scalars = scalars.dropLast() }
-        return String(scalars)
-    }
-}
 
 public extension CountryValidators {
 
@@ -413,9 +438,7 @@ public extension CountryValidators {
         var digits: [Int] = []
         digits.reserveCapacity(11)
         for character in text {
-            guard character.isASCII, character.isNumber,
-                  let value = character.wholeNumberValue
-            else { return .invalid }
+            guard let value = Python.digitValue(character) else { return .invalid }
             digits.append(value)
         }
         return Checksums.verhoeff(digits) ? .valid : .invalid
