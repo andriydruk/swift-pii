@@ -78,6 +78,73 @@ TEXTS = [
     "+91 4155 550132",
     "+30 21 0 1234567",
     "+81 3 3239 0321",
+
+    # --- Boundary characters. `_is_latin_letter` is Latin *blocks* only, so a
+    # Cyrillic or Greek letter beside a number does NOT suppress the match,
+    # while an accented Latin one does. Treating "any alphabetic scalar" as
+    # Latin silently drops the first group.
+    "abc8005001234",
+    "8005001234def",
+    "café4155550132",
+    "4155550132café",
+    "Привет4155550132",
+    "4155550132Привет",
+    "Ελλάδα4155550132",
+    "4155550132日本",
+    "日本4155550132",
+    "naïve 415-555-0132",
+
+    # `_is_invalid_punctuation_symbol` is '%' or Unicode category Sc, so every
+    # currency sign suppresses a match and '@' does not.
+    "%4155550132",
+    "4155550132%",
+    "$4155550132",
+    "4155550132$",
+    "£4155550132",
+    "€4155550132",
+    "¥4155550132",
+    "@4155550132",
+    "4155550132@",
+    "user@4155550132.example",
+
+    # --- Extension spellings from `_EXTN_PATTERN`, well beyond "ext"/"x"/"#".
+    "415-555-0132 extension 22",
+    "415-555-0132 extn 22",
+    "415-555-0132 int 22",
+    "415-555-0132 anexo 22",
+    "415-555-0132 доб 22",
+    "415-555-0132 ext: 22",
+    "415-555-0132 ext. 22",
+    "415-555-0132#22",
+    "415-555-0132 ~22",
+    "415-555-0132,,22",
+    "415-555-0132;22",
+    "415-555-0132 x22",
+    "415-555-0132 X22",
+    "+1 415-555-0132 ext 1234567",
+
+    # --- Two numbers with no separator, which is what the inner-match search
+    # is for. Upstream advances one character at a time, so it considers
+    # overlapping candidates; a non-overlapping scan finds fewer.
+    "4155550132 4155550199",
+    "(415) 555-0132(415) 555-0199",
+    "call 4155550132or4155550199 now",
+
+    # --- Carrier codes, the two-'x' branch of `_contains_only_valid_x_chars`:
+    # the digits after the marker must be the same number, checked by parsing
+    # rather than by string comparison.
+    "xx4155550132",
+    "0xx4155550132",
+    "415-555-0132 xx4155550132",
+    "+1 415 555 0132 xx14155550132",
+    "4155550132 xx4155550199",
+
+    # --- Short and long numbers, to exercise the possible-length branches.
+    "12",
+    "1234",
+    "415555013",
+    "41555501320",
+    "+1 4155550132000",
 ]
 
 out = []

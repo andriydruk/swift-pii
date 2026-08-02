@@ -69,11 +69,15 @@ struct PhoneMatcherTests {
             \(report.joined(separator: "\n"))
             """)
 
-        // Every text under every region under all four leniencies, including
-        // the two grouping ones — 209 STRICT_GROUPING and 195 EXACT_GROUPING
-        // matches, which is what makes those verified rather than asserted.
-        #expect(total >= 1700)
-        #expect(exact >= 1775, "\(exact)/\(total)")
+        // Every text under every region under all four leniencies. The texts
+        // are adversarial by design — non-Latin scripts and currency symbols
+        // beside numbers, every extension spelling libphonenumber knows,
+        // carrier codes, mis-grouped digits, run-together numbers — because a
+        // corpus of well-formatted numbers cannot tell a faithful port from an
+        // approximate one. It was 1,775/1,776 against the gentler corpus and
+        // 3,341/3,552 against this one.
+        #expect(total >= 4000)
+        #expect(exact >= 4031, "\(exact)/\(total)")
         #expect(spanAgree == spanTotal, "span recall \(spanAgree)/\(spanTotal)")
 
         // The single holdout is a leniency-0 timestamp, "2012-01-02 08:00",

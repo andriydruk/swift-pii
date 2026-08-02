@@ -133,6 +133,13 @@ matcher = {
     # Runs of the separator characters libphonenumber allows inside a number.
     # Used to turn a formatted number into its digit groups.
     "separator": phonenumbers.phonenumberutil._SEPARATOR_PATTERN.pattern,
+    # Extension markers. Far richer than "ext"/"x"/"#": it covers extn, int,
+    # anexo, доб, full-width forms, ~, ;, ,, and a bare trailing #.
+    "extn": phonenumbers.phonenumberutil._EXTN_PATTERN.pattern,
+    # What counts as "could be a phone number at all", used to decide whether
+    # the text before an extension marker is worth keeping.
+    "valid_phone_number": phonenumbers.phonenumberutil._VALID_PHONE_NUMBER_PATTERN.pattern,
+    "min_length_for_nsn": phonenumbers.phonenumberutil._MIN_LENGTH_FOR_NSN,
     "matching_brackets": _M._MATCHING_BRACKETS.pattern,
     "pub_pages": _M._PUB_PAGES.pattern,
     "slash_dates": _M._SLASH_SEPARATED_DATES.pattern,

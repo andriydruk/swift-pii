@@ -249,24 +249,40 @@ public enum PhoneNumberUtil {
         splitExtension(text).number
     }
 
-    /// The number and its extension, split at the first marker.
+    /// Port of `_maybe_strip_extension`.
+    ///
+    /// Driven by libphonenumber's own `_EXTN_PATTERN`, not a list of markers.
+    /// The pattern covers far more than "ext"/"x"/"#": `extn`, `int`, `anexo`,
+    /// `доб`, full-width forms, `~`, `;`, `,,` and a bare trailing `#`. A
+    /// hand-written marker list silently truncated every spelling it had not
+    /// been told about, keeping the number but losing the extension — which
+    /// then made the matcher reject the candidate for having a stray letter.
+    ///
+    /// The extension is only accepted when the text *before* the marker could
+    /// itself be a phone number, so a "#" in the middle of prose is not read
+    /// as one.
     static func splitExtension(_ text: String) -> (number: String, extension: String) {
-        let markers = ["ext.", "ext", "extension", "x", "#", ";"]
-        let lowered = text.lowercased()
-        var cut: String.Index?
-        for marker in markers {
-            guard let range = lowered.range(of: marker) else { continue }
-            // The marker must follow at least one digit, so a leading "#" in a
-            // short code is not mistaken for an extension.
-            let head = lowered[lowered.startIndex..<range.lowerBound]
-            guard head.contains(where: \.isNumber) else { continue }
-            if cut == nil || range.lowerBound < cut! { cut = range.lowerBound }
+        guard let extn = PhoneNumberMatcher.extensionRegex,
+              let viable = PhoneNumberMatcher.viableNumberRegex
+        else { return (text, "") }
+
+        let scalars = Array(text.unicodeScalars)
+        for match in extn.matchesWithGroups(in: text) {
+            let head = String(String.UnicodeScalarView(scalars[0..<match.start]))
+            guard head.unicodeScalars.count >= PhoneNumberMatcher.minLengthForNSN,
+                  viable.matchesAnchored(head)
+            else { continue }
+            // "We go through the capturing groups until we find one that
+            // captured some digits."
+            guard match.groupCount >= 1 else { continue }
+            for group in 1...match.groupCount {
+                guard let span = match.span(group) else { continue }
+                let digits = String(String.UnicodeScalarView(scalars[span]))
+                if !digits.isEmpty { return (head, digits) }
+            }
+            return (head, "")
         }
-        guard let cut else { return (text, "") }
-        return (
-            String(text[text.startIndex..<cut]),
-            digitsOnly(String(text[cut...]))
-        )
+        return (text, "")
     }
 
     // MARK: - Parse
@@ -584,14 +600,20 @@ public enum PhoneNumberUtil {
         return .unknown
     }
 
+    /// `is_possible_number`: a wrapper over `_test_number_length` that accepts
+    /// both IS_POSSIBLE and IS_POSSIBLE_LOCAL_ONLY.
+    ///
+    /// Routed through the same length test the parser uses rather than
+    /// re-deriving the rule, so the two cannot drift — an inline version here
+    /// treated an out-of-range length as possible when the region declared no
+    /// lengths, which `_test_number_length` does not.
     public static func isPossible(_ number: PhoneNumber) -> Bool {
-        guard let region = mainRegion(forCountryCode: number.countryCode),
-              let general = region.generalDesc
+        guard let region = mainRegion(forCountryCode: number.countryCode)
         else { return false }
-        let length = number.significantNumber.count
-        if general.possibleLength.isEmpty { return true }
-        return general.possibleLength.contains(length)
-            || general.possibleLengthLocalOnly.contains(length)
+        switch testNumberLength(number.significantNumber, region: region) {
+        case .possible, .possibleLocalOnly: return true
+        case .tooShort, .tooLong, .invalidLength: return false
+        }
     }
 
     /// `is_valid_number`: resolve the region, then check the number really is

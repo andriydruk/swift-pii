@@ -41,6 +41,9 @@ public struct PhoneNumberMatcher {
         let leadClass: String
         let unwantedEndChars: String
         let separator: String
+        let extn: String
+        let validPhoneNumber: String
+        let minLengthForNSN: Int
         let innerMatches: [String]
 
         enum CodingKeys: String, CodingKey {
@@ -52,7 +55,9 @@ public struct PhoneNumberMatcher {
             case timeStampsSuffix = "time_stamps_suffix"
             case leadClass = "lead_class"
             case unwantedEndChars = "unwanted_end_chars"
-            case separator
+            case separator, extn
+            case validPhoneNumber = "valid_phone_number"
+            case minLengthForNSN = "min_length_for_nsn"
             case innerMatches = "inner_matches"
         }
     }
@@ -67,6 +72,9 @@ public struct PhoneNumberMatcher {
         let leadClass: PureRegex
         let unwantedEndChars: PureRegex
         let separator: PureRegex
+        let extn: PureRegex
+        let validPhoneNumber: PureRegex
+        let minLengthForNSN: Int
         let innerMatches: [PureRegex]
     }
 
@@ -94,7 +102,9 @@ public struct PhoneNumberMatcher {
               let timeStampsSuffix = make(patterns.timeStampsSuffix),
               let leadClass = make(patterns.leadClass),
               let unwanted = make(patterns.unwantedEndChars),
-              let separator = make(patterns.separator)
+              let separator = make(patterns.separator),
+              let extn = make(patterns.extn),
+              let valid = make("^(?:" + patterns.validPhoneNumber + ")$")
         else { return nil }
         let inner = patterns.innerMatches.compactMap(make)
         guard inner.count == patterns.innerMatches.count else { return nil }
@@ -103,7 +113,9 @@ public struct PhoneNumberMatcher {
             candidate: candidate, matchingBrackets: brackets, pubPages: pubPages,
             slashDates: slashDates, timeStamps: timeStamps,
             timeStampsSuffix: timeStampsSuffix, leadClass: leadClass,
-            unwantedEndChars: unwanted, separator: separator, innerMatches: inner
+            unwantedEndChars: unwanted, separator: separator,
+            extn: extn, validPhoneNumber: valid,
+            minLengthForNSN: patterns.minLengthForNSN, innerMatches: inner
         )
     }()
 
@@ -115,6 +127,12 @@ public struct PhoneNumberMatcher {
     /// Runs of the characters libphonenumber allows between digit groups.
     /// Used by the formatter to split a formatted number into its groups.
     static var separatorRegex: PureRegex? { compiled?.separator }
+
+    /// `_EXTN_PATTERN`, `_VALID_PHONE_NUMBER_PATTERN` and `_MIN_LENGTH_FOR_NSN`,
+    /// which `PhoneNumberUtil.splitExtension` needs.
+    static var extensionRegex: PureRegex? { compiled?.extn }
+    static var viableNumberRegex: PureRegex? { compiled?.validPhoneNumber }
+    static var minLengthForNSN: Int { compiled?.minLengthForNSN ?? 2 }
 
     private let text: String
     private let scalars: [Unicode.Scalar]
@@ -226,21 +244,43 @@ public struct PhoneNumberMatcher {
         return nil
     }
 
-    private static let latinLetters: Set<Unicode.Scalar> = {
-        var set = Set<Unicode.Scalar>()
-        for value in UInt32(65)...90 { set.insert(Unicode.Scalar(value)!) }
-        for value in UInt32(97)...122 { set.insert(Unicode.Scalar(value)!) }
-        return set
-    }()
-
+    /// Port of `_is_latin_letter`.
+    ///
+    /// A letter *or* a non-spacing mark, and only in the Latin blocks —
+    /// combining marks count because they attach to a preceding Latin
+    /// character. The block test is the whole point: it is what makes
+    /// "Привет4155550132" a match and "café4155550132" not one.
+    ///
+    /// An earlier version tested `isAlphabetic`, which is every script, so any
+    /// Cyrillic, Greek or CJK character beside a number suppressed the match.
+    /// That is stricter than upstream and silently loses real numbers.
     private func isLatinLetter(_ scalar: Unicode.Scalar) -> Bool {
-        // Accents and combining marks count as part of a letter upstream; the
-        // ASCII range covers the cases the corpus exercises.
-        Self.latinLetters.contains(scalar) || scalar.properties.isAlphabetic
+        let category = scalar.properties.generalCategory
+        let isLetter = category == .uppercaseLetter || category == .lowercaseLetter
+            || category == .titlecaseLetter || category == .modifierLetter
+            || category == .otherLetter
+        guard isLetter || category == .nonspacingMark else { return false }
+
+        switch scalar.value {
+        case 0x0000...0x007F,   // Basic Latin
+             0x0080...0x00FF,   // Latin-1 Supplement
+             0x0100...0x017F,   // Latin Extended-A
+             0x0180...0x024F,   // Latin Extended-B
+             0x1E00...0x1EFF,   // Latin Extended Additional
+             0x0300...0x036F:   // Combining Diacritical Marks
+            return true
+        default:
+            return false
+        }
     }
 
+    /// Port of `_is_invalid_punctuation_symbol`: `%` or any currency symbol.
+    ///
+    /// Not the hand-picked `%$@` an earlier version used. `@` is not a
+    /// currency symbol and must not suppress a match, while `£`, `€` and `¥`
+    /// are and must.
     private func isInvalidPunctuation(_ scalar: Unicode.Scalar) -> Bool {
-        scalar == "%" || scalar == "$" || scalar == "@"
+        scalar == "%" || scalar.properties.generalCategory == .currencySymbol
     }
 
     /// Port of `_parse_and_verify`.
@@ -493,16 +533,18 @@ public struct PhoneNumberMatcher {
             if characters[index] == "x" || characters[index] == "X" {
                 let next = characters[index + 1]
                 if next == "x" || next == "X" {
-                    // Carrier-code case. Upstream calls `is_number_match` on the
-                    // remainder and requires an NSN match; this compares the
-                    // digits directly, which is the same test for every case
-                    // the corpus exercises but would differ on a remainder that
-                    // needs its own country-code parse.
+                    // Carrier-code case: the 'x's precede the national
+                    // significant number, so what follows must be the same
+                    // number. Upstream calls `is_number_match` and requires
+                    // NSN_MATCH; parsing the remainder is what makes that
+                    // hold for a tail carrying its own country code, which
+                    // comparing raw digits would not.
                     index += 1
-                    let rest = PhoneNumberUtil.digitsOnly(
-                        String(characters[(index + 1)...])
-                    )
-                    if rest != number.significantNumber { return false }
+                    let rest = String(characters[(index + 1)...])
+                    guard let parsed = try? PhoneNumberUtil.parse(
+                        rest, defaultRegion: region
+                    ), parsed.significantNumber == number.significantNumber
+                    else { return false }
                 } else {
                     let rest = PhoneNumberUtil.digitsOnly(
                         String(characters[(index + 1)...])
