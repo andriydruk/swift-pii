@@ -69,13 +69,17 @@ struct PhoneMatcherTests {
             \(report.joined(separator: "\n"))
             """)
 
-        #expect(total >= 600)
-        // Measured bounds; raise as the port improves, never lower.
-        // 623/624: the one holdout is a leniency-0 timestamp, "2012-01-02
-        // 08:00", where the inner-match fallback accepts "00" as a *possible*
-        // number. Presidio always uses leniency 1.
-        #expect(exact >= 623, "\(exact)/\(total)")
+        // Every text under every region under all four leniencies, including
+        // the two grouping ones — 209 STRICT_GROUPING and 195 EXACT_GROUPING
+        // matches, which is what makes those verified rather than asserted.
+        #expect(total >= 1700)
+        #expect(exact >= 1775, "\(exact)/\(total)")
         #expect(spanAgree == spanTotal, "span recall \(spanAgree)/\(spanTotal)")
+
+        // The single holdout is a leniency-0 timestamp, "2012-01-02 08:00",
+        // where the inner-match fallback accepts "00" as a *possible* number.
+        // Presidio always uses leniency 1.
+        #expect(total - exact <= 1, "\(total - exact) divergences")
     }
 }
 

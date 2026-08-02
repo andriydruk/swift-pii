@@ -40,6 +40,7 @@ public struct PhoneNumberMatcher {
         let timeStampsSuffix: String
         let leadClass: String
         let unwantedEndChars: String
+        let separator: String
         let innerMatches: [String]
 
         enum CodingKeys: String, CodingKey {
@@ -51,6 +52,7 @@ public struct PhoneNumberMatcher {
             case timeStampsSuffix = "time_stamps_suffix"
             case leadClass = "lead_class"
             case unwantedEndChars = "unwanted_end_chars"
+            case separator
             case innerMatches = "inner_matches"
         }
     }
@@ -64,6 +66,7 @@ public struct PhoneNumberMatcher {
         let timeStampsSuffix: PureRegex
         let leadClass: PureRegex
         let unwantedEndChars: PureRegex
+        let separator: PureRegex
         let innerMatches: [PureRegex]
     }
 
@@ -90,7 +93,8 @@ public struct PhoneNumberMatcher {
               let timeStamps = make(patterns.timeStamps),
               let timeStampsSuffix = make(patterns.timeStampsSuffix),
               let leadClass = make(patterns.leadClass),
-              let unwanted = make(patterns.unwantedEndChars)
+              let unwanted = make(patterns.unwantedEndChars),
+              let separator = make(patterns.separator)
         else { return nil }
         let inner = patterns.innerMatches.compactMap(make)
         guard inner.count == patterns.innerMatches.count else { return nil }
@@ -99,7 +103,7 @@ public struct PhoneNumberMatcher {
             candidate: candidate, matchingBrackets: brackets, pubPages: pubPages,
             slashDates: slashDates, timeStamps: timeStamps,
             timeStampsSuffix: timeStampsSuffix, leadClass: leadClass,
-            unwantedEndChars: unwanted, innerMatches: inner
+            unwantedEndChars: unwanted, separator: separator, innerMatches: inner
         )
     }()
 
@@ -107,6 +111,10 @@ public struct PhoneNumberMatcher {
 
     /// Exposed for diagnostics only.
     static var compiledForTesting: Compiled? { compiled }
+
+    /// Runs of the characters libphonenumber allows between digit groups.
+    /// Used by the formatter to split a formatted number into its groups.
+    static var separatorRegex: PureRegex? { compiled?.separator }
 
     private let text: String
     private let scalars: [Unicode.Scalar]
@@ -271,24 +279,195 @@ public struct PhoneNumberMatcher {
     }
 
     /// Port of `_verify`.
-    ///
-    /// STRICT_GROUPING and EXACT_GROUPING additionally require the candidate's
-    /// digit grouping to match a canonical format for the region. Those are not
-    /// implemented; they fall back to VALID, which is more permissive, so a
-    /// caller asking for them may see extra matches. Presidio's default is
-    /// VALID.
     private func verify(_ number: PhoneNumber, candidate: String) -> Bool {
         switch leniency {
         case .possible:
             return PhoneNumberUtil.isPossible(number)
-        case .valid, .strictGrouping, .exactGrouping:
+        case .valid:
             guard PhoneNumberUtil.isValid(number),
                   containsOnlyValidXChars(candidate, number: number)
             else { return false }
             return PhoneNumberUtil.isNationalPrefixPresentIfRequired(
                 number, raw: candidate
             )
+        case .strictGrouping, .exactGrouping:
+            // Everything VALID requires, plus the slash rule, plus the
+            // candidate's digit grouping matching a format for the region.
+            guard PhoneNumberUtil.isValid(number),
+                  containsOnlyValidXChars(candidate, number: number),
+                  !containsMoreThanOneSlashInNationalNumber(number, candidate),
+                  PhoneNumberUtil.isNationalPrefixPresentIfRequired(
+                      number, raw: candidate
+                  )
+            else { return false }
+            return checkNumberGroupingIsValid(
+                number, candidate: candidate,
+                checker: leniency == .strictGrouping
+                    ? Self.allNumberGroupsRemainGrouped
+                    : Self.allNumberGroupsAreExactlyPresent
+            )
         }
+    }
+
+    // MARK: - Grouping leniencies
+
+    /// Port of `_contains_more_than_one_slash_in_national_number`.
+    ///
+    /// One slash is fine, and a second is fine *only* when the first separated
+    /// the country code — "+1/415/555-0132" is one slash too many, but
+    /// "+1/415 555 0132" is a country code followed by the number.
+    func containsMoreThanOneSlashInNationalNumber(
+        _ number: PhoneNumber, _ candidate: String
+    ) -> Bool {
+        let scalars = Array(candidate.unicodeScalars)
+        guard let first = scalars.firstIndex(of: "/") else { return false }
+        guard let second = scalars[(first + 1)...].firstIndex(of: "/") else { return false }
+
+        // A number whose country code came from the candidate itself may put
+        // the first slash after that code.
+        if !number.fromDefaultRegion {
+            let head = String(String.UnicodeScalarView(scalars[0..<first]))
+            if PhoneNumberUtil.digitsOnly(head) == String(number.countryCode) {
+                return scalars[(second + 1)...].contains("/")
+            }
+        }
+        return true
+    }
+
+    /// Port of `_check_number_grouping_is_valid`.
+    func checkNumberGroupingIsValid(
+        _ number: PhoneNumber,
+        candidate: String,
+        checker: (PhoneNumber, String, [String]) -> Bool
+    ) -> Bool {
+        // "normalized to only contain ASCII digits, but with non-digits
+        // (spaces etc) retained".
+        let normalized = Self.normalizeKeepingSeparators(candidate)
+
+        if let groups = PhoneNumberUtil.nationalNumberGroups(number),
+           checker(number, normalized, groups) {
+            return true
+        }
+        // Fall back to the alternate formats for this country code.
+        for format in PhoneNumberUtil.alternateFormats(
+            countryCode: number.countryCode, nationalNumber: number.significantNumber
+        ) {
+            if let groups = PhoneNumberUtil.nationalNumberGroups(number, using: format),
+               checker(number, normalized, groups) {
+                return true
+            }
+        }
+        return false
+    }
+
+    /// `normalize_digits_only(candidate, keep_non_digits=True)`: map every
+    /// Unicode decimal digit to its ASCII form and leave everything else.
+    static func normalizeKeepingSeparators(_ text: String) -> String {
+        var out = String.UnicodeScalarView()
+        for scalar in text.unicodeScalars {
+            if let value = Character(scalar).wholeNumberValue,
+               scalar.properties.numericType == .decimal, value >= 0, value <= 9 {
+                out.append(Unicode.Scalar(UInt8(48 + value)))
+            } else {
+                out.append(scalar)
+            }
+        }
+        return String(out)
+    }
+
+    /// Port of `_all_number_groups_remain_grouped` — STRICT_GROUPING.
+    ///
+    /// Each formatted group must appear intact and in order; the candidate may
+    /// group them differently as long as no group is *split*.
+    static func allNumberGroupsRemainGrouped(
+        _ number: PhoneNumber, _ normalized: String, _ groups: [String]
+    ) -> Bool {
+        let scalars = Array(normalized.unicodeScalars)
+        var from = 0
+
+        if !number.fromDefaultRegion {
+            // Skip the country code when the candidate carried it.
+            let code = String(number.countryCode)
+            guard let range = Self.range(of: code, in: scalars, from: 0) else { return false }
+            from = range.upperBound
+        }
+
+        for (index, group) in groups.enumerated() {
+            guard let range = Self.range(of: group, in: scalars, from: from)
+            else { return false }
+            from = range.upperBound
+
+            if index == 0, from < scalars.count {
+                // Right after the national destination code. If the region has
+                // a national prefix and the next character is another digit,
+                // there was no separator there — which is only acceptable when
+                // the whole number is unformatted.
+                let region = PhoneNumberUtil.regionCode(for: number)
+                    .flatMap { PhoneNumberUtil.metadata?.regions[$0] }
+                    ?? PhoneNumberUtil.mainRegion(forCountryCode: number.countryCode)
+                let prefix = region?.nationalPrefix ?? ""
+                if !prefix.isEmpty,
+                   Character(scalars[from]).isNumber {
+                    let tail = String(String.UnicodeScalarView(
+                        scalars[(from - group.unicodeScalars.count)...]
+                    ))
+                    return tail.hasPrefix(number.significantNumber)
+                }
+            }
+        }
+
+        // Guard against having matched the extension as the last group.
+        let tail = String(String.UnicodeScalarView(scalars[from...]))
+        return number.extensionDigits.isEmpty || tail.contains(number.extensionDigits)
+    }
+
+    /// Port of `_all_number_groups_are_exactly_present` — EXACT_GROUPING.
+    static func allNumberGroupsAreExactlyPresent(
+        _ number: PhoneNumber, _ normalized: String, _ groups: [String]
+    ) -> Bool {
+        let candidateGroups = normalized
+            .split(whereSeparator: { !$0.isNumber || !$0.isASCII })
+            .map(String.init)
+        guard !candidateGroups.isEmpty else { return false }
+
+        var candidateIndex = number.extensionDigits.isEmpty
+            ? candidateGroups.count - 1
+            : candidateGroups.count - 2
+        guard candidateIndex >= 0 else { return false }
+
+        // The whole national number written as one block is acceptable — it may
+        // carry a national prefix or the country code in front of it.
+        if candidateGroups.count == 1
+            || candidateGroups[candidateIndex].contains(number.significantNumber) {
+            return true
+        }
+
+        var formattedIndex = groups.count - 1
+        while formattedIndex > 0 && candidateIndex >= 0 {
+            if candidateGroups[candidateIndex] != groups[formattedIndex] { return false }
+            formattedIndex -= 1
+            candidateIndex -= 1
+        }
+        // The first group may have a national prefix in front, so only require
+        // that it ends with the formatted group.
+        return candidateIndex >= 0 && candidateGroups[candidateIndex].hasSuffix(groups[0])
+    }
+
+    /// `str.find(sub, from)` over scalars.
+    static func range(
+        of needle: String, in haystack: [Unicode.Scalar], from: Int
+    ) -> Range<Int>? {
+        let target = Array(needle.unicodeScalars)
+        guard !target.isEmpty, from <= haystack.count else { return nil }
+        guard haystack.count >= target.count else { return nil }
+        var start = from
+        while start + target.count <= haystack.count {
+            if Array(haystack[start..<(start + target.count)]) == target {
+                return start..<(start + target.count)
+            }
+            start += 1
+        }
+        return nil
     }
 
     /// Port of `_contains_only_valid_x_chars`: an 'x' is either a carrier code

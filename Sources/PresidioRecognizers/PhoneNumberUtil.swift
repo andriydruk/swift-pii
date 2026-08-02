@@ -119,6 +119,7 @@ public enum PhoneNumberUtil {
         let uan: Descriptor?
         let voicemail: Descriptor?
         let numberFormat: [NumberFormat]?
+        let intlNumberFormat: [NumberFormat]?
 
         enum CodingKeys: String, CodingKey {
             case countryCode = "country_code"
@@ -136,17 +137,21 @@ public enum PhoneNumberUtil {
             case personalNumber = "personal_number"
             case voip, pager, uan, voicemail
             case numberFormat = "number_format"
+            case intlNumberFormat = "intl_number_format"
         }
     }
 
     struct NumberFormat: Decodable {
         let pattern: String
+        /// Replacement rule, `\1 \2 \3` style — what turns a national number
+        /// into its printed groups.
+        let format: String
         let leadingDigitsPattern: [String]
         let nationalPrefixFormattingRule: String?
         let nationalPrefixOptionalWhenFormatting: Bool
 
         enum CodingKeys: String, CodingKey {
-            case pattern
+            case pattern, format
             case leadingDigitsPattern = "leading_digits_pattern"
             case nationalPrefixFormattingRule = "national_prefix_formatting_rule"
             case nationalPrefixOptionalWhenFormatting =
@@ -157,10 +162,14 @@ public enum PhoneNumberUtil {
     struct Metadata: Decodable {
         let regions: [String: Region]
         let regionsByCountryCode: [String: [String]]
+        /// Extra formats, by country calling code, that the grouping leniencies
+        /// retry against when the canonical format does not match.
+        let altNumberFormats: [String: [NumberFormat]]
 
         enum CodingKeys: String, CodingKey {
             case regions
             case regionsByCountryCode = "regions_by_country_code"
+            case altNumberFormats = "alt_number_formats"
         }
     }
 
@@ -396,6 +405,109 @@ public enum PhoneNumberUtil {
             return digits
         }
         return remainder
+    }
+
+    // MARK: - Formatting
+    //
+    // Only as much of it as the grouping leniencies need: the digit groups a
+    // number would be printed in. Ported from `_format_nsn` +
+    // `_format_nsn_using_pattern` for RFC3966, which is the format upstream
+    // uses precisely because its separator is unambiguous.
+
+    /// The digit groups this number would be formatted into, or nil when no
+    /// format pattern applies.
+    ///
+    /// Port of `_get_national_number_groups_without_pattern`, which formats as
+    /// RFC3966 (`+CC-DG1-DG2-DGX`) and splits on the dashes.
+    static func nationalNumberGroups(
+        _ number: PhoneNumber, using explicit: NumberFormat? = nil
+    ) -> [String]? {
+        guard let region = mainRegion(forCountryCode: number.countryCode)
+        else { return nil }
+        let national = number.significantNumber
+
+        let format: NumberFormat?
+        if let explicit {
+            format = explicit
+        } else {
+            // `_format_nsn`: international formats win when present, and
+            // RFC3966 is an international format.
+            let intl = region.intlNumberFormat ?? []
+            let available = intl.isEmpty ? (region.numberFormat ?? []) : intl
+            format = chooseFormat(available, for: national)
+        }
+        guard let format else { return nil }
+        guard let formatted = applyFormat(format, to: national) else { return nil }
+        return splitOnSeparators(formatted)
+    }
+
+    /// Alternate formats for a country code whose leading digits admit `nsn`.
+    static func alternateFormats(
+        countryCode: Int, nationalNumber nsn: String
+    ) -> [NumberFormat] {
+        guard let formats = metadata?.altNumberFormats[String(countryCode)]
+        else { return [] }
+        return formats.filter { format in
+            // "There is only one leading digits pattern for alternate formats."
+            guard let leading = format.leadingDigitsPattern.first else { return true }
+            guard let regex = regex(leading) else { return false }
+            return regex.matches(in: nsn).contains { $0.0 == 0 }
+        }
+    }
+
+    /// Apply a format rule's backreferences to the national number.
+    ///
+    /// `re.sub(pattern, "\1 \2 \3", nsn)` in one step: full-match the
+    /// pattern to capture the groups, then substitute them into the rule.
+    static func applyFormat(_ format: NumberFormat, to national: String) -> String? {
+        guard let regex = regex("^(?:" + format.pattern + ")$"),
+              let match = regex.matchesWithGroups(in: national).first,
+              match.start == 0
+        else { return nil }
+
+        let scalars = Array(national.unicodeScalars)
+        var out = String.UnicodeScalarView()
+        var iterator = Array(format.format.unicodeScalars).makeIterator()
+        var pending: Unicode.Scalar? = iterator.next()
+        while let scalar = pending {
+            pending = iterator.next()
+            guard scalar == "\\", let digit = pending,
+                  let index = digit.properties.numericValue.map(Int.init), index >= 1
+            else {
+                out.append(scalar)
+                continue
+            }
+            pending = iterator.next()
+            guard index <= match.groupCount, let span = match.span(index) else {
+                continue  // a group that did not participate contributes nothing
+            }
+            out.append(contentsOf: scalars[span])
+        }
+        return String(out)
+    }
+
+    /// RFC3966 post-processing: drop a leading separator run, then collapse
+    /// every remaining run to a single dash — and return the pieces.
+    static func splitOnSeparators(_ formatted: String) -> [String] {
+        guard let separator = PhoneNumberMatcher.separatorRegex else {
+            return [formatted]
+        }
+        var groups: [String] = []
+        var current = String.UnicodeScalarView()
+        let spans = separator.matches(in: formatted)
+        let scalars = Array(formatted.unicodeScalars)
+        var index = 0
+        var inSeparator = 0
+        for (start, end) in spans where end > start {
+            while index < start { current.append(scalars[index]); index += 1 }
+            if !current.isEmpty { groups.append(String(current)) }
+            current = String.UnicodeScalarView()
+            index = end
+            inSeparator += 1
+        }
+        while index < scalars.count { current.append(scalars[index]); index += 1 }
+        if !current.isEmpty { groups.append(String(current)) }
+        return groups
     }
 
     /// Port of `ValidationResult`, for the length test below.

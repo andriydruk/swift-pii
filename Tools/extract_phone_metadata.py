@@ -121,8 +121,18 @@ for code in sorted(codes):
 # The matcher's own regexes. These are built from character-class constants at
 # import time, so they are lifted as compiled strings rather than reconstructed.
 import phonenumbers.phonenumbermatcher as _M
+# Alternate number formats, keyed by country calling code. STRICT_GROUPING and
+# EXACT_GROUPING retry against these when the canonical format does not match,
+# so without them the port would be stricter than upstream.
+alt_formats = {}
+for code, formats in _M._ALT_NUMBER_FORMATS.items():
+    alt_formats[str(code)] = [fmt(f) for f in formats]
+
 matcher = {
     "pattern": _M._PATTERN.pattern,
+    # Runs of the separator characters libphonenumber allows inside a number.
+    # Used to turn a formatted number into its digit groups.
+    "separator": phonenumbers.phonenumberutil._SEPARATOR_PATTERN.pattern,
     "matching_brackets": _M._MATCHING_BRACKETS.pattern,
     "pub_pages": _M._PUB_PAGES.pattern,
     "slash_dates": _M._SLASH_SEPARATED_DATES.pattern,
@@ -138,6 +148,7 @@ json.dump({
     "matcher": matcher,
     "regions": out,
     "regions_by_country_code": by_code,
+    "alt_number_formats": alt_formats,
 }, sys.stdout, ensure_ascii=False)
 '''
 
