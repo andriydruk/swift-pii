@@ -97,31 +97,43 @@ struct PhoneRecognizerTests {
         // the PH suite passes supported_regions=["PH"], the TR suite ["TR"].
         // Running them against the default eight regions matches PH national
         // numbers as US ones and inverts the negative cases.
-        func recognizer(for file: String) -> PhoneRecognizer {
+        func recognizer(for file: String, leniency: PhoneLeniency) -> PhoneRecognizer {
             if file.contains("ph_mobile_number") {
-                return PhoneRecognizer(entity: "PH_MOBILE_NUMBER", regions: ["PH"])
+                return PhoneRecognizer(
+                    entity: "PH_MOBILE_NUMBER", regions: ["PH"], leniency: leniency
+                )
             }
             if file.contains("tr_phone_number") {
-                return PhoneRecognizer(entity: "TR_PHONE_NUMBER", regions: ["TR"])
+                return PhoneRecognizer(
+                    entity: "TR_PHONE_NUMBER", regions: ["TR"], leniency: leniency
+                )
             }
             // test_phone_recognizer.py's fixture is
             // DEFAULT_SUPPORTED_REGIONS + ("JP", "CN").
             return PhoneRecognizer(
-                regions: PhoneRecognizer.defaultRegions + ["JP", "CN"]
+                regions: PhoneRecognizer.defaultRegions + ["JP", "CN"],
+                leniency: leniency
             )
         }
 
         for table in tables {
-            let recognizer = recognizer(for: table.file)
             for testCase in table.cases {
+                // A row may carry its own leniency; upstream's leniency table
+                // repeats the same text with different values and opposite
+                // expectations, so this cannot be a per-table setting.
+                let recognizer = recognizer(
+                    for: table.file,
+                    leniency: testCase.leniency.flatMap(PhoneLeniency.init(rawValue:))
+                        ?? .valid
+                )
                 let got = recognizer.analyze(testCase.text).sortedByStart()
                 if got.count == testCase.expectedCount { passed += 1 }
                 else {
                     failed += 1
                     if report.count < 8 {
                         report.append(
-                            "\(table.file.split(separator: "/").last ?? ""): "
-                            + "\(testCase.text.prefix(50).debugDescription) "
+                            "L\(testCase.leniency ?? 1) "
+                            + "\(testCase.text.suffix(28).debugDescription) "
                             + "expected \(testCase.expectedCount), got \(got.count)"
                         )
                     }
@@ -139,7 +151,12 @@ struct PhoneRecognizerTests {
         // not carry — the same fixture-variant limitation as DE_VAT_ID, except
         // here the variant is per row rather than per table. STRICT_GROUPING
         // and EXACT_GROUPING are also not implemented and fall back to VALID.
-        #expect(passed >= 101, "\(passed)/\(passed + failed)")
+        // 102/106. Each holdout has a named cause:
+        //   L1 "…91-415-555-0132"   country code written without a leading '+'
+        //   L1 "…+39 06 678 4343"   Italian metadata not bundled
+        //   L1 "…+30 21 0 1234567"  Greek metadata not bundled
+        //   L3 "…+91 4155 550132"   EXACT_GROUPING, which falls back to VALID
+        #expect(passed >= 102, "\(passed)/\(passed + failed)")
     }
 }
 

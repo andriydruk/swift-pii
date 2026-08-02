@@ -14069,7 +14069,8 @@
        "score_max": 1.0
       }
      ],
-     "spans_enumerated": true
+     "spans_enumerated": true,
+     "leniency": 1
     },
     {
      "text": "My US number is (415) 555-0132, and my international one is415-555-0132",
@@ -14090,7 +14091,8 @@
        "score_max": 1.0
       }
      ],
-     "spans_enumerated": true
+     "spans_enumerated": true,
+     "leniency": 0
     },
     {
      "text": "My US number is (415) 555-0132, and my international one is 91-415-555-0132",
@@ -14104,7 +14106,8 @@
        "score_max": 1.0
       }
      ],
-     "spans_enumerated": true
+     "spans_enumerated": true,
+     "leniency": 2
     },
     {
      "text": "My US number is (415) 555-0132, and my international one is 91-415-555-0132",
@@ -14125,7 +14128,8 @@
        "score_max": 1.0
       }
      ],
-     "spans_enumerated": true
+     "spans_enumerated": true,
+     "leniency": 1
     },
     {
      "text": "My US number is (415) 555-0132, and my international one is +91 4155 550132",
@@ -14139,7 +14143,8 @@
        "score_max": 1.0
       }
      ],
-     "spans_enumerated": true
+     "spans_enumerated": true,
+     "leniency": 3
     },
     {
      "text": "My US number is (415) 555-0132, and my international one is +91 4155 550132",
@@ -14160,7 +14165,8 @@
        "score_max": 1.0
       }
      ],
-     "spans_enumerated": true
+     "spans_enumerated": true,
+     "leniency": 2
     },
     {
      "text": "My US number is (415) 555-0132, and my international one is +91 4155550132",
@@ -14181,7 +14187,8 @@
        "score_max": 1.0
       }
      ],
-     "spans_enumerated": true
+     "spans_enumerated": true,
+     "leniency": 3
     }
    ]
   },

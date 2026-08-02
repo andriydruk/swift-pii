@@ -350,6 +350,7 @@ def build_cases(
                      "expected_spans", "start_end") if k in idx),
         None,
     )
+    leniency_key = "leniency" if "leniency" in idx else None
     score_key = next(
         (k for k in ("expected_score_ranges", "expected_score_range",
                      "expected_scores", "expected_score") if k in idx),
@@ -453,6 +454,15 @@ def build_cases(
                 "spans_enumerated": expected_len is None or len(spans) == expected_len,
             }
         )
+        # Some tables vary a *constructor* argument per row rather than per
+        # table. PhoneRecognizer's leniency is the case that matters: the same
+        # text appears twice with different leniency and opposite expectations,
+        # so dropping the column leaves two contradictory rows and one of them
+        # must fail.
+        if leniency_key is not None:
+            value = row[idx[leniency_key]]
+            if isinstance(value, int) and not isinstance(value, bool):
+                cases[-1]["leniency"] = value
     return cases
 
 

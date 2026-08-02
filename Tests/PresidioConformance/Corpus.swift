@@ -67,12 +67,17 @@ public enum Corpus {
         /// treated as the full expectation.
         public let expected: [Span]
         public let spansEnumerated: Bool
+        /// Set when the upstream table varies a constructor argument per row.
+        /// Only `PhoneRecognizer` does, and it matters: the same text appears
+        /// twice with different leniency and opposite expectations.
+        public let leniency: Int?
 
         enum CodingKeys: String, CodingKey {
             case text
             case expectedCount = "expected_count"
             case expected
             case spansEnumerated = "spans_enumerated"
+            case leniency
         }
     }
 
