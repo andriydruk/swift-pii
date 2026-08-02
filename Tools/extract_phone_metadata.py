@@ -5,9 +5,10 @@
 to lift — the behaviour lives in Google's metadata plus the matcher algorithm.
 This pulls the metadata; the algorithm is ported separately.
 
-Only the regions the recognizers actually configure are included. The full set
-is ~250 regions and 0.5 MB of metadata; these twelve are a small fraction of
-that, and the list is explicit so adding a region is a visible change.
+All ~245 regions are included. An earlier version took only the regions the
+recognizers configure, which conflated *scanning* with *validation*: a number
+carrying its own country code is parsed regardless of the configured regions,
+and without that region's metadata it cannot be validated, so it is dropped.
 
 Usage:
     python3 Tools/extract_phone_metadata.py --python <venv python> \\
@@ -22,10 +23,17 @@ import os
 import subprocess
 import sys
 
-# PhoneRecognizer.DEFAULT_SUPPORTED_REGIONS, plus JP/CN which the general test
-# adds, plus PH and TR which have their own region-configured test suites, plus
-# ZA for ZaMobileNumberRecognizer / ZaTelephoneNumberRecognizer.
-REGIONS = ["US", "GB", "DE", "FR", "IL", "IN", "CA", "BR", "JP", "CN", "PH", "TR", "ZA"]
+# Every region libphonenumber knows, not just the ones the recognizers
+# configure. Scanning is per configured region, but *validation* is not: a
+# number written "+39 06 678 4343" is parsed from its own country code, and
+# without Italian metadata it cannot be validated and is silently dropped.
+# Restricting the extract to 13 regions therefore did not save a lookup, it
+# lost real numbers.
+#
+# Cost measured before committing to it: 121 KB -> 526 KB of bundled JSON, and
+# no measurable change to engine throughput or construction time, because the
+# metadata is decoded once, lazily, and descriptor patterns compile on demand.
+REGIONS = ["__ALL__"]
 
 CHILD = r'''
 import json, sys
@@ -33,6 +41,9 @@ import phonenumbers
 from phonenumbers import phonemetadata
 
 requested = json.loads(sys.argv[1])
+if requested == ["__ALL__"]:
+    from phonenumbers.phonenumberutil import SUPPORTED_REGIONS
+    requested = sorted(SUPPORTED_REGIONS)
 
 # Every region sharing a country code with a requested one must be included.
 # region_code_for_number returns a single-region code UNCONDITIONALLY and only

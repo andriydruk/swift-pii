@@ -151,12 +151,11 @@ struct PhoneRecognizerTests {
         // not carry — the same fixture-variant limitation as DE_VAT_ID, except
         // here the variant is per row rather than per table. STRICT_GROUPING
         // and EXACT_GROUPING are also not implemented and fall back to VALID.
-        // 102/106. Each holdout has a named cause:
-        //   L1 "…91-415-555-0132"   country code written without a leading '+'
-        //   L1 "…+39 06 678 4343"   Italian metadata not bundled
-        //   L1 "…+30 21 0 1234567"  Greek metadata not bundled
-        //   L3 "…+91 4155 550132"   EXACT_GROUPING, which falls back to VALID
-        #expect(passed >= 102, "\(passed)/\(passed + failed)")
+        // 104/106. Both holdouts are the same unimplemented feature:
+        // STRICT_GROUPING (2) and EXACT_GROUPING (3) verify the candidate's
+        // digit grouping against a canonical format and fall back to VALID
+        // here, which is more permissive — so both find one number too many.
+        #expect(passed >= 104, "\(passed)/\(passed + failed)")
     }
 }
 

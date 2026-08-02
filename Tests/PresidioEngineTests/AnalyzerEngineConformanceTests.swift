@@ -155,17 +155,13 @@ struct AnalyzerEngineConformanceTests {
             """)
 
         #expect(totalCases >= 6000, "corpus shrank: \(totalCases) runs")
-        // 11/6300. Every one is a missing PHONE_NUMBER across two texts of the
-        // form "<a US number> ... and my international one is <a second
-        // number>", where the second number is only found by the inner-match
-        // path. That is the phone matcher's own measured gap (611/624 on its
-        // differential corpus), not engine logic: no other entity type
-        // diverges, and there are no extra results anywhere.
-        //
-        // A ratchet rather than an equality assertion, because the number can
-        // only be driven down by improving the matcher.
+        // Exact. This was a ratchet at 11 while the phone port was missing
+        // extension handling, descriptor anchoring, country-code extraction
+        // without a '+', and metadata for every region outside the configured
+        // set. With those closed there is no residual, so it is an equality:
+        // a single divergence is now a regression, not a known gap.
         #expect(
-            totalCases - totalMatched <= 11,
+            totalCases == totalMatched,
             "\(totalCases - totalMatched)/\(totalCases) runs diverged\n\(report.joined(separator: "\n"))"
         )
         // Nothing may diverge for any entity other than PHONE_NUMBER, and
