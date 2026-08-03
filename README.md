@@ -329,12 +329,33 @@ Pass `configuration: nil` to load everything explicitly.
 
 ### The lemmatizer, and why there isn't one
 
-Upstream's context enhancer compares spaCy **lemmas**, which in rule mode need
-POS tags — so the tagger — plus WordNet-derived lookup tables. What ships here
-is the POS-free `lemma_lookup` table, **restricted to `-ies` plurals**, and the
-restriction is the interesting part.
+Upstream's context enhancer compares spaCy **lemmas**. Both are available here,
+and which one you want depends on whether you have model weights.
 
-Measured against spaCy's real lemmas over 11,223 tokens:
+**With a model — `SpacyRuleLemmatizer`, exact.** The whole chain spaCy's English
+pipeline runs, ported: tagger → attribute ruler → rule-mode lemmatization.
+
+| stage | agreement over 5,513 tokens |
+|---|---|
+| fine-grained tags | **5,513/5,513** |
+| coarse POS | 5,499/5,513 |
+| **lemmas** | **5,513/5,513** |
+
+POS is not exact and cannot be: 22 attribute-ruler rules need the dependency
+parser, which is not ported. They decide AUX-versus-VERB, `IN`-as-SCONJ and
+`DT`/`WDT`-as-PRON, and every POS divergence is one of them. **None changes a
+lemma** — the ruler assigns those lemmas directly (`has` → `have` whether AUX or
+VERB), and DET and PRON have no lemma tables to differ over.
+
+```swift
+let nlp = try SpacyNlpEngine(
+    modelDirectory: path,
+    lemmatizer: try SpacyRuleLemmatizer(modelDirectory: path)
+)
+```
+
+**Without a model — `LookupLemmatizer`, the default.** spaCy's POS-free lookup
+table, restricted to `-ies` plurals:
 
 | | agreement | regressions vs lowercase |
 |---|---:|---:|
@@ -342,27 +363,18 @@ Measured against spaCy's real lemmas over 11,223 tokens:
 | **`-ies` subset (default)** | **86.86%** | **0** |
 | full lookup table | 96.87% | 251 occurrences, 48 distinct |
 
-The full table wins on raw agreement and loses where it counts. It stems
+The full table wins on raw agreement and loses where it counts: it stems
 `number` → `numb`, and `number` is a context word for **36 recognizers**, so a
-phone number written "My number is …" drops from 0.75 to 0.4. On context-heavy
-text the full table diverged from Presidio on 2 of 10 texts where lowercase
-diverged on none.
+phone number written "My number is …" drops from 0.75 to 0.4. Raw lemma accuracy
+is the wrong metric — what matters is agreement on the *context-matching
+outcome*, where lowercasing's errors are systematically harmless because
+substring matching absorbs suffix-stripping. It is available as
+`LookupLemmatizer(scope: .full)`, with a test pinning `number` → `numb` so the
+default is not "fixed" later.
 
-Raw lemma accuracy is simply the wrong metric. What matters is agreement on the
-*context-matching outcome*, and there lowercasing wins because its errors are
-systematically harmless — substring matching absorbs suffix-stripping — while
-the full table's errors are not.
-
-The `-ies` subset closes the only gap the context vocabulary exposes: of **523
-context words across all 88 recognizers**, exactly **6** are reachable only
-through a lemma (`beneficiary`, `birthday`, `delivery`, `identity`, `security`,
-`taxonomy`), all the same plural rule. In the 17 recognizers a default engine
-loads, the count was zero.
-
-The full table is available as `LookupLemmatizer(scope: .full)`, and a test pins
-`number` → `numb` so the default is not "fixed" later. `Lemmatizing` remains a
-protocol, so a caller who ports the tagger can supply a rule-mode lemmatizer
-without touching the enhancer.
+The gap the default leaves: of **523 context words across all 88 recognizers**,
+exactly **6** are reachable only through a lemma, all the `-y → -ies` plural. In
+the 17 a default engine loads, zero.
 
 ## Concurrency
 
@@ -448,7 +460,8 @@ Every differential corpus in the repository, and how the port scores on it:
 | `AnalyzerEngine` option matrix | 6,300 | **6,300 (exact)** |
 | Tokenizer | 2,517 | **exact** |
 | Regex substrate | 1,609 | **exact** |
-| NER | 2,000 | 98.9% |
+| NER | 2,000 | 99.85% |
+| Tagger / POS / lemma | 5,513 | exact / 99.75% / **exact** |
 | Phone parse / matcher | 2,256 | 99.8% / 99.9% |
 | Validators | 206 | **exact** |
 | Anonymizer + crypto | 43 | **exact** |
@@ -792,9 +805,9 @@ Stated rather than buried, in the order they would bother a user:
 
 - **No image redaction, structured-data support, or REST servers.** The port is
   the two core libraries plus a CLI, not the whole product.
-- **NER is 98.9%, not exact**, from float accumulation order in the forward
-  pass. Model weights are not bundled; the engine works without them, just with
-  no PERSON/LOCATION/DATE_TIME. The parity suite needs `SPACY_MODEL_DIR` to
+- **NER is 99.85%, not exact** — 4 of 2,592 entities. Model weights are not
+  bundled; the engine works without them, just with no
+  PERSON/LOCATION/DATE_TIME. The parity suite needs `SPACY_MODEL_DIR` to
   point at **en_core_web_sm 3.7.1** — the version the gold corpus was built
   from — and runs in its own CI job. Run it locally with:
 
