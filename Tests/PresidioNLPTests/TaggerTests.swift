@@ -65,3 +65,82 @@ struct TaggerTests {
         #expect(agreed == total, "\(report.joined(separator: "\n"))")
     }
 }
+
+/// The POS and lemma stages, against spaCy's own output.
+@Suite("spaCy POS and lemma parity", .enabled(if: spacyModelDirectory() != nil))
+struct RuleLemmatizerTests {
+
+    @Test("the tables loaded")
+    func tablesLoaded() {
+        #expect(AttributeRuler.isLoaded)
+        #expect(RuleLemmatizer.isLoaded)
+        #expect(SpacySymbols.count == 457)
+    }
+
+    @Test("POS and lemmas match spaCy")
+    func posAndLemmasMatchSpacy() throws {
+        let directory = spacyModelDirectory()!
+        let tagger = try TaggerModel(directory: directory)
+        let tokenizer = try SpacyTokenizer.english()
+        let lemmatizer = RuleLemmatizer()
+
+        var posAgreed = 0, lemmaAgreed = 0, total = 0
+        var posReport: [String] = []
+        var lemmaReport: [String] = []
+
+        for entry in TaggerTests.gold.texts {
+            let tokens = tokenizer.tokenize(entry.text)
+            guard tokens.count == entry.tokens.count else { continue }
+            let tags = tagger.tags(for: tokens, text: entry.text)
+
+            for (index, want) in entry.tokens.enumerated() {
+                total += 1
+                let lowered = tokens[index].text.lowercased()
+                let attributes = AttributeRuler.attributes(
+                    tag: tags[index], lowercased: lowered
+                )
+                if attributes.pos == want.pos {
+                    posAgreed += 1
+                } else if posReport.count < 8 {
+                    posReport.append(
+                        "\(want.text.debugDescription) [\(want.tag)]: "
+                        + "spaCy \(want.pos), swift \(attributes.pos)"
+                    )
+                }
+
+                let lemma = attributes.lemma ?? lemmatizer.lemma(
+                    text: tokens[index].text,
+                    pos: attributes.pos,
+                    morph: attributes.morph
+                )
+                if lemma == want.lemma {
+                    lemmaAgreed += 1
+                } else if lemmaReport.count < 10 {
+                    lemmaReport.append(
+                        "\(want.text.debugDescription) [\(want.pos)]: "
+                        + "spaCy \(want.lemma.debugDescription), "
+                        + "swift \(lemma.debugDescription)"
+                    )
+                }
+            }
+        }
+
+        print("""
+            POS   parity: \(posAgreed)/\(total)
+            Lemma parity: \(lemmaAgreed)/\(total)
+            \(posReport.joined(separator: "\n"))
+            --
+            \(lemmaReport.joined(separator: "\n"))
+            """)
+        #expect(total >= 5000)
+        // Lemmas are **exact**, which is the point of the whole chain.
+        #expect(lemmaAgreed == total, "lemma \(lemmaAgreed)/\(total)")
+        // POS is not, and cannot be: 22 attribute-ruler rules need the
+        // dependency parser this port does not have. Every divergence is one
+        // of them — AUX vs VERB for "has"/"have", DET vs PRON for "this",
+        // ADP vs SCONJ for "as" — and none of them changes a lemma, because
+        // the ruler assigns those lemmas directly and DET/PRON have no lemma
+        // tables to differ over.
+        #expect(posAgreed >= 5499, "POS \(posAgreed)/\(total)")
+    }
+}

@@ -1,5 +1,6 @@
 import Foundation
 import PresidioCore
+import PresidioNLP
 
 /// Port of the `NlpEngine` interface: turns text into `NlpArtifacts`.
 ///
@@ -88,6 +89,20 @@ public struct NoOpNlpEngine: NlpEngineProviding {
 /// in without touching the enhancer.
 public protocol Lemmatizing: Sendable {
     func lemma(for token: String) -> String
+
+    /// Lemmas for a whole tokenization.
+    ///
+    /// Rule-mode lemmatization needs the part-of-speech tag, which needs the
+    /// tagger, which needs the sentence — so a per-token entry point cannot
+    /// express it. Implementations that do not need context inherit the
+    /// default, which maps `lemma(for:)`.
+    func lemmas(for tokens: [Token], text: String) -> [String]
+}
+
+public extension Lemmatizing {
+    func lemmas(for tokens: [Token], text: String) -> [String] {
+        tokens.map { lemma(for: $0.text) }
+    }
 }
 
 /// Lowercasing only. Kept for callers who want no table at all.

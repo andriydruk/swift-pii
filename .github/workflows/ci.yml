@@ -91,7 +91,7 @@ jobs:
   # Release, not debug: the hand-written SIMD GEMM is 200x slower unoptimised
   # (477s vs 2s), which is what made this look too expensive for CI.
   ner-parity:
-    name: NER and tagger parity (release)
+    name: NER, tagger and lemma parity (release)
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
@@ -106,7 +106,7 @@ jobs:
       - name: Test
         run: |
           set -o pipefail
-          swift test -c release --filter "NERTests|TaggerTests" 2>&1 | tee ner.log
+          swift test -c release --filter "NERTests|TaggerTests|RuleLemmatizerTests" 2>&1 | tee ner.log
 
       - name: Assert the suite actually ran
         # A --filter that matches nothing exits 0. Without this, deleting the
@@ -119,6 +119,8 @@ jobs:
             || { echo "::error::NER parity suite was skipped"; exit 1; }
           grep -q "spaCy tagger parity" ner.log \
             || { echo "::error::tagger parity suite was skipped"; exit 1; }
+          grep -q "spaCy POS and lemma parity" ner.log \
+            || { echo "::error::lemma parity suite was skipped"; exit 1; }
 
   # ThreadSanitizer cannot load on the macOS dev host (Xcode's sanitizer
   # dylib fails the platform code-signature policy), so the race check lives

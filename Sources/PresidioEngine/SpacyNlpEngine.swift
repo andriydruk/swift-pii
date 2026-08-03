@@ -49,7 +49,7 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
         return NlpArtifacts(
             tokens: tokens.map(\.text),
             tokenIndices: tokens.map(\.offset),
-            lemmas: tokens.map { lemmatizer.lemma(for: $0.text) },
+            lemmas: lemmatizer.lemmas(for: tokens, text: text),
             entities: mapped,
             scores: scores,
             language: language,
@@ -91,7 +91,7 @@ public final class TokenizerOnlyNlpEngine: NlpEngineProviding, @unchecked Sendab
         return NlpArtifacts(
             tokens: tokens.map(\.text),
             tokenIndices: tokens.map(\.offset),
-            lemmas: tokens.map { lemmatizer.lemma(for: $0.text) },
+            lemmas: lemmatizer.lemmas(for: tokens, text: text),
             language: language,
             isStopWord: { LexicalTables.isStopWord($0, language: language) }
         )
@@ -99,5 +99,43 @@ public final class TokenizerOnlyNlpEngine: NlpEngineProviding, @unchecked Sendab
 
     public func isStopWord(_ word: String, language: String) -> Bool {
         LexicalTables.isStopWord(word, language: language)
+    }
+}
+
+/// spaCy's own lemmatizer, wired into the engine.
+///
+/// The exact thing Presidio's context enhancer compares against, rather than an
+/// approximation of it: **lemmas are exact** over 5,513 measured tokens.
+///
+/// Needs model weights, so it is not the package default — `LookupLemmatizer`
+/// still is, for callers with no model. Supply this when you have a model and
+/// want context matching to agree with Presidio exactly:
+///
+/// ```swift
+/// let nlp = try SpacyNlpEngine(
+///     modelDirectory: path,
+///     lemmatizer: try SpacyRuleLemmatizer(modelDirectory: path)
+/// )
+/// ```
+public struct SpacyRuleLemmatizer: Lemmatizing {
+
+    private let chain: SpacyLemmatizer
+
+    public init(modelDirectory: String) throws {
+        self.chain = try SpacyLemmatizer(modelDirectory: modelDirectory)
+    }
+
+    /// Attribute-ruler rules that need the dependency parser and are therefore
+    /// not applied. None of them changes a lemma — see `SpacyLemmatizer`.
+    public var parserDependentRuleCount: Int {
+        SpacyLemmatizer.parserDependentRuleCount
+    }
+
+    /// Without a sentence there is no tag, so this degrades to lowercasing.
+    /// `lemmas(for:text:)` is the real entry point.
+    public func lemma(for token: String) -> String { token.lowercased() }
+
+    public func lemmas(for tokens: [Token], text: String) -> [String] {
+        chain.lemmas(for: tokens, text: text)
     }
 }
