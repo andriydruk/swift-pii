@@ -1,6 +1,13 @@
 swift-pii bundles data derived from several third-party projects. Each is
 listed below with its licence and where it lives in this repository.
 
+Commercial use, including in closed-source products, is permitted by every
+licence here. The only copyleft component is the Public Suffix List (MPL 2.0),
+which is file-level and therefore does not reach code that merely reads it.
+Shipping the text of this file with your product satisfies the attribution
+requirements. See the README for a plain-language summary; this file is the
+authoritative list.
+
 This project is not affiliated with, endorsed by, or sponsored by any of them.
 
 --------------------------------------------------------------------------------
@@ -121,3 +128,8 @@ Explosion)" — an obligation discharged upstream that does not propagate to use
 of the weights.
 
   Sources/PresidioModelEnglish/Resources/model/
+
+Both of the model's own licence files travel with it unmodified:
+
+  Sources/PresidioModelEnglish/Resources/model/LICENSE
+  Sources/PresidioModelEnglish/Resources/model/LICENSES_SOURCES

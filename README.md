@@ -479,7 +479,68 @@ swift build && swift test && ./Tools/check_portability.sh
 The NER, tagger and lemmatizer parity suites need a spaCy model and are skipped
 without one; CI runs them in their own job. Everything else runs offline.
 
-## Licence
+## Licence and commercial use
+
+**Yes, you can use this in a commercial product**, including closed-source. No
+component here is copyleft in a way that reaches your code.
+
+This is not legal advice, and the summary below is a reading of the licence
+files rather than a substitute for them — the authoritative list is
+[NOTICE](NOTICE).
+
+| What | Licence | What it asks of you |
+|---|---|---|
+| This library | MIT | keep the copyright notice |
+| Presidio patterns, context words, test expectations | MIT | keep the notice |
+| spaCy model `en_core_web_sm` | MIT | keep the notice |
+| spaCy tokenizer rules | MIT | keep the notice |
+| libphonenumber metadata | Apache 2.0 | keep the notice |
+| Yams / libyaml | MIT | keep the notice |
+| swift-crypto | Apache 2.0 | keep the notice |
+| Unicode character data | Unicode | keep the notice |
+| WordNet 3.0 lemma tables | WordNet | keep the notice; Princeton's name may not be used to promote your product |
+| **Public Suffix List** | **MPL 2.0** | see below |
+
+In practice: ship the contents of `NOTICE` with your product — the usual
+"acknowledgements" or "open-source licences" screen — and you are done.
+
+### The two worth reading properly
+
+**The Public Suffix List is MPL 2.0**, which is the only copyleft licence in
+here. MPL 2.0 is *file-level*: the obligation attaches to the file, not to
+anything that links it. Your own code is unaffected. It lives in its own file
+with its notice preserved, deliberately, so the boundary is obvious:
+
+```
+Sources/PresidioRecognizers/Resources/public_suffix_list.json
+```
+
+If you redistribute that file **modified**, MPL asks you to make the modified
+version available under MPL. Shipping it unchanged — which is what you get —
+asks nothing beyond keeping the notice.
+
+**The model's training data.** `en_core_web_sm` is MIT, but it was trained on
+OntoNotes 5, which is itself licensed from the LDC. The model's own
+`LICENSES_SOURCES` records that as "commercial (licensed by Explosion)" — an
+obligation Explosion discharged when they trained and released the weights, and
+one that does not propagate to you. Both files travel with the model in this
+package so you can read them yourself:
+
+```
+Sources/PresidioModelEnglish/Resources/model/LICENSE
+Sources/PresidioModelEnglish/Resources/model/LICENSES_SOURCES
+```
+
+If you would rather not carry that question at all, do not add the
+`PresidioModelEnglish` product. The core library ships no trained weights.
+
+### What none of this does
+
+No component requires you to open-source your application, pay a royalty, share
+modifications to your own code, or grant patent rights beyond the standard
+Apache-2.0 terms on swift-crypto and the phone metadata.
+
+## Attribution
 
 MIT. Recognizer patterns, context words, score constants, entity names and test
 expectations derive from Presidio, MIT (c) Presidio Contributors. The bundled
