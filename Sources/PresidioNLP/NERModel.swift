@@ -356,8 +356,14 @@ final class NERModel: @unchecked Sendable {
             if f.count == 2, let v = UInt64(f[1]) { symbols[String(f[0])] = v }
         }
     }
+    /// spaCy's string-store id.
+    ///
+    /// The reserved-symbol table used to be read from a relative "symbols.tsv"
+    /// that was never present, so this silently degraded to a plain hash. The
+    /// table is bundled now — see `SpacySymbols` for why it matters.
     @inline(__always) func strID(_ s: String) -> UInt64 {
         if let v = symbols[s] { return v }
+        if let v = SpacySymbols.id(for: s) { return v }
         return murmurHash64A(Array(s.utf8), 1)
     }
 

@@ -103,31 +103,31 @@ struct NERTests {
 
         #expect(expected >= 2000, "gold corpus too small: \(expected) entities")
 
-        // Ratchet, not an equality assertion — end-to-end parity is NOT exact.
+        // Ratchet, not an equality assertion — end-to-end parity is not exact.
         //
-        // Tokenization and NORMs are exact (0/2000 divergences on this very
-        // corpus), so the residual is entirely in the model forward pass: most
-        // likely float accumulation order, since the hand-written SIMD reduction
-        // sums in a different order from numpy's BLAS, which flips argmax on
-        // borderline transitions. The divergent cases are plausible spans with a
-        // different label or extent (DATE vs CARDINAL over an identical span),
-        // not corrupted offsets.
+        // This comment used to blame float accumulation order. That was a
+        // guess, and it was wrong: 24 of the 28 misses came from the reserved
+        // string-store symbols, whose table was read from a relative
+        // "symbols.tsv" that never existed, so every shape like "X" hashed
+        // instead of resolving to its symbol id. Bundling the table took
+        // recall from 98.92% to 99.85%.
         //
-        // Current: 2564/2592 matched, 28 missed, 69 spurious = 98.92% recall.
-        // These bounds must not regress. To close the gap, dump the tok2vec
-        // output for a divergent sentence and diff it against spaCy's — if the
-        // vectors differ in the last few bits, it is accumulation order.
+        // Current: 2588/2592 matched = 99.85% recall and precision. The
+        // remaining 4 are plausible spans with a different label or extent,
+        // not corrupted offsets — the accumulation-order theory may finally be
+        // right about those, but it has not been demonstrated.
         let recall = Double(matched) / Double(expected)
         let precision = Double(matched) / Double(produced)
+        print("NER parity: matched \(matched)/\(expected) recall \(recall) precision \(precision)")
         #expect(
-            recall >= 0.989,
+            recall >= 0.998,
             """
             recall regressed to \(recall): matched \(matched), spacy \(expected)
             \(report.joined(separator: "\n"))
             """
         )
         #expect(
-            precision >= 0.973,
+            precision >= 0.998,
             "precision regressed to \(precision): matched \(matched), swift \(produced)"
         )
     }
