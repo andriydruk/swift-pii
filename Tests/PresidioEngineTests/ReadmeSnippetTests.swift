@@ -69,16 +69,19 @@ struct ReadmeCustomizationTests {
     func enableCountryRecognizer() throws {
         var registry = try RecognizerRegistry.loadPredefined()
         #expect(registry.recognizers.count == 17)
-        if let definition = try Catalog.definitions().first(where: {
-            $0.class == "DeTaxIdRecognizer"
-        }), let recognizer = Catalog.makeRecognizer(
-            definition, logic: ValidatorRegistry.logic(for: "DeTaxIdRecognizer")
-        ) {
+        // An English-language recognizer that ships disabled. A German one
+        // would be built and then never selected, because the registry filters
+        // on language — see LanguageTests.
+        let name = "AuMedicareRecognizer"
+        if let definition = try Catalog.definitions().first(where: { $0.class == name }),
+           let recognizer = Catalog.makeRecognizer(
+               definition, logic: ValidatorRegistry.logic(for: name)
+           ) {
             registry.add(recognizer)
         }
         #expect(registry.recognizers.count == 18)
         let detector = try PIIDetector(engine: AnalyzerEngine(registry: registry))
-        #expect(detector.supportedTypes.contains("DE_TAX_ID"))
+        #expect(detector.supportedTypes.contains("AU_MEDICARE"))
     }
 
     @Test("loading every recognizer")

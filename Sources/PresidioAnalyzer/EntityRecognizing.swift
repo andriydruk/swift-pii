@@ -107,6 +107,7 @@ private extension String {
 extension PatternRecognizer: EntityRecognizing {
     public var id: String { "\(name)#\(ObjectIdentifier(self).hashValue)" }
     public var supportedEntities: [String] { [entity] }
+    public var supportedLanguage: String { language }
 
     public func analyze(
         _ text: String, entities: [String], artifacts: NlpArtifacts?

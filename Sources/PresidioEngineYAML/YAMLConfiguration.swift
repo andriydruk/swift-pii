@@ -208,7 +208,8 @@ public enum YAMLConfiguration {
         }
 
         let recognizer = PatternRecognizer(
-            name: name, entity: entity, patterns: patterns, context: context, flags: flags
+            name: name, entity: entity, patterns: patterns, context: context,
+            flags: flags, language: entry["supported_language"] as? String ?? "en"
         )
         // A pattern that does not compile would otherwise just never match.
         if let failure = recognizer.compilationFailures.first {

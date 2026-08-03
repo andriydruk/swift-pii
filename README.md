@@ -208,15 +208,16 @@ a `String` by hand.
 
 The 71 disabled recognizers are country-specific and off by default because
 enabling them all reports entities most callers do not want. Load exactly what
-you need:
+you need — this adds Australian Medicare numbers to an English engine:
 
 ```swift
 import PresidioRecognizers
 
 var registry = try RecognizerRegistry.loadPredefined()   // the default 17
-if let definition = try Catalog.definitions().first(where: { $0.class == "DeTaxIdRecognizer" }),
+let name = "AuMedicareRecognizer"
+if let definition = try Catalog.definitions().first(where: { $0.class == name }),
    let recognizer = Catalog.makeRecognizer(
-       definition, logic: ValidatorRegistry.logic(for: "DeTaxIdRecognizer")) {
+       definition, logic: ValidatorRegistry.logic(for: name)) {
     registry.add(recognizer)
 }
 let detector = try PIIDetector(engine: AnalyzerEngine(registry: registry))
@@ -227,6 +228,10 @@ Or load everything:
 ```swift
 let registry = try RecognizerRegistry.loadPredefined(configuration: nil)
 ```
+
+A recognizer is only selected when its language matches the one you analyze
+with, so adding a German recognizer to an English engine does nothing. See
+[Other languages](#other-languages).
 
 ### Your own recognizer
 
@@ -269,6 +274,57 @@ recognizers:
         score: 0.8
     context: [employee, staff]
 ```
+
+## Other languages
+
+The recognizer catalogue is **not English-only**: 37 of its 88 entries are for
+other languages, and they detect national identifiers the English set never
+would.
+
+| | recognizers | examples |
+|---|---:|---|
+| German | 13 | tax ID, ID card, health insurance, driving licence, KFZ plate |
+| Italian | 5 | fiscal code, VAT, passport, driving licence, identity card |
+| Korean | 5 | RRN, BRN, FRN, driving licence, passport |
+| Spanish | 3 | NIF, NIE, passport |
+| Swedish | 2 | personnummer, organisationsnummer |
+| Turkish | 2 | national ID, licence plate |
+| Polish, Thai, Finnish | 1 each | PESEL, TNIN, henkilötunnus |
+
+They ship disabled, as they do upstream, because enabling every country at once
+reports entities most callers do not want. Opt in by language:
+
+```swift
+let registry = try RecognizerRegistry.loadPredefined(
+    languages: ["de"], configuration: nil
+)
+let engine = try AnalyzerEngine(
+    registry: registry,
+    nlpEngine: try TokenizerOnlyNlpEngine(supportedLanguages: ["de"]),
+    supportedLanguages: ["de"]
+)
+try engine.analyze(text: "Die Steuer-ID lautet 65929970489.", language: "de")
+// DE_TAX_ID 1.0
+```
+
+### What is English-only
+
+Pattern and checksum detection is language-agnostic — a German tax ID validates
+the same way whatever language surrounds it. The **linguistic** layer is not:
+
+- **The bundled model.** `PERSON`, `LOCATION` and `ORGANIZATION` come from
+  `en_core_web_sm`. For other languages you would need the corresponding spaCy
+  model, and this port reads only spaCy's English tokenizer rules — so a
+  non-English model would tokenize incorrectly.
+- **Stop words and lemmas.** Both tables are English. For another language,
+  context scoring still works by substring match on the lowercased token, but
+  stop-word filtering and inflection handling do not.
+- **Context words.** Most recognizers list English context words. A handful
+  carry Spanish, Italian and Polish ones.
+
+So for non-English text: **identifier detection works well; name detection does
+not**. If you need names in another language, that is the spaCy model plus
+per-language tokenizer rules — neither is ported.
 
 ## Many documents at once
 
@@ -463,8 +519,9 @@ deliberately not named after it — MIT grants no trademark rights, and a
 
 - **Names need the model.** Without it there is no `PERSON`, `LOCATION` or
   `DATE_TIME` from context — only what patterns can find.
-- **English only.** The recognizers carry Spanish, Italian and Polish context
-  words, but the bundled model and the lemmatizer are English.
+- **Names are English only.** Identifier detection works in every language the
+  catalogue covers, but `PERSON`/`LOCATION` need a model and only the English
+  one is ported — see [Other languages](#other-languages).
 - **No image redaction, structured-data support, or REST server.** This is a
   library, not a service.
 - **Windows and Android are unverified.** Nothing Apple-specific is used and

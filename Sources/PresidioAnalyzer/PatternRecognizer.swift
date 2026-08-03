@@ -22,6 +22,13 @@ public final class PatternRecognizer: Sendable {
     public let logic: RecognizerLogic
     public let flags: RegexFlags
     public let strategy: MatchStrategy
+    /// Language this recognizer is for, as an ISO code.
+    ///
+    /// The registry filters on it, so a recognizer that reports the wrong one
+    /// is simply never selected. It has to be carried explicitly: the protocol
+    /// default is "en", and inheriting that silently made every non-English
+    /// recognizer unreachable.
+    public let language: String
 
     private let compiled: [(pattern: Pattern, regex: PureRegex)]
 
@@ -40,7 +47,8 @@ public final class PatternRecognizer: Sendable {
         context: [String] = [],
         logic: RecognizerLogic = RecognizerLogic(),
         flags: RegexFlags = .presidioDefault,
-        strategy: MatchStrategy = .wholeMatch
+        strategy: MatchStrategy = .wholeMatch,
+        language: String = "en"
     ) {
         self.name = name
         self.entity = entity
@@ -49,6 +57,7 @@ public final class PatternRecognizer: Sendable {
         self.logic = logic
         self.flags = flags
         self.strategy = strategy
+        self.language = language
 
         var compiled: [(Pattern, PureRegex)] = []
         var failures: [(Pattern, String)] = []
@@ -198,7 +207,7 @@ public extension PatternRecognizer {
     func withContext(_ context: [String]) -> PatternRecognizer {
         PatternRecognizer(
             name: name, entity: entity, patterns: patterns, context: context,
-            logic: logic, flags: flags, strategy: strategy
+            logic: logic, flags: flags, strategy: strategy, language: language
         )
     }
 }
@@ -216,7 +225,7 @@ public extension PatternRecognizer {
     func withFlags(_ flags: RegexFlags) -> PatternRecognizer {
         PatternRecognizer(
             name: name, entity: entity, patterns: patterns, context: context,
-            logic: logic, flags: flags, strategy: strategy
+            logic: logic, flags: flags, strategy: strategy, language: language
         )
     }
 }

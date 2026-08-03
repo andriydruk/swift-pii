@@ -103,7 +103,8 @@ public enum Catalog {
             context: definition.context,
             logic: logic ?? ValidatorRegistry.logic(for: definition.class),
             flags: RegexFlags(names: definition.flags),
-            strategy: ValidatorRegistry.strategy(for: definition.class)
+            strategy: ValidatorRegistry.strategy(for: definition.class),
+            language: definition.language
         )
     }
 
