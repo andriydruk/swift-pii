@@ -15,10 +15,21 @@ import Foundation
 /// let nlp = try SpacyNlpEngine(modelDirectory: EnglishModel.directory)
 /// ```
 ///
-/// The weights are spaCy's `en_core_web_sm` 3.7.1, MIT-licensed and
-/// redistributed unmodified. Components this package never runs — the
-/// dependency parser, the sentence recognizer — are stripped, which is most of
-/// why 13 MB rather than the 15 MB spaCy ships.
+/// The weights are spaCy's `en_core_web_sm` 3.7.1, MIT-licensed. Only the
+/// files this package actually reads are kept — the dependency parser, the
+/// sentence recognizer, the lemmatizer lookups (extracted separately into
+/// PresidioNLP) and spaCy's `vocab/strings.json` are all dropped, which takes
+/// 15 MB down to 12. `strings.json` in particular is spaCy's string cache and
+/// is never consulted: ids are recomputed with MurmurHash64A plus the reserved
+/// symbol table.
+///
+/// | file | what it is |
+/// |---|---|
+/// | `tok2vec/model` | shared embedding network the tagger reads |
+/// | `ner/model` | the entity recognizer, with its own separate tok2vec |
+/// | `tagger/model` + `cfg` | softmax over 50 Penn Treebank tags, and their names |
+/// | `ner/moves` | the transition system's action set |
+/// | `vocab/*` | key-to-row and vectors; empty in `sm`, which ships no word vectors |
 public enum EnglishModel {
 
     /// Version of the underlying spaCy model.

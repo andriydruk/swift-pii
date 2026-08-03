@@ -84,9 +84,19 @@ try detector.findings(in: "David Johnson lives in Seattle")
 // LOCATION Seattle 0.85
 ```
 
-The model is **bundled in the package** — 13 MB of weights, no download, no file
-paths, works offline. It is a separate product so that callers who only need
+The model is **bundled in the package** — 12 MB, no download, no file paths,
+works offline. It is a separate product so that callers who only need
 pattern-based detection do not pay for weights they never load.
+
+Two neural networks are in there, and they are the only ones this library has:
+
+| | size | what it does |
+|---|---:|---|
+| `ner/model` | 5.9 MB | finds names, places, organisations, dates |
+| `tok2vec/model` + `tagger/model` | 6.0 MB | part-of-speech tags, which the lemmatizer needs |
+
+Everything else — the tokenizer, the lemmatizer, every recognizer — is rules and
+lookup tables, and ships in the core package with no weights at all.
 
 ## Removing it
 
