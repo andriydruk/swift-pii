@@ -67,7 +67,37 @@ Only words spaCy does not treat as stop words count, which is why `"call"`
 above does not help — it is in the stop list, and Presidio ignores it for the
 same reason.
 
-**Names, places and organisations** need a language model. Add one product:
+### When you need the language model
+
+Everything above is found from the text's own shape — a checksum, a format, a
+nearby keyword. Some personal data has no shape: a name is only a name because
+of how it is used. That needs a trained model.
+
+```
+Dr. Sarah Chen from Northwind Health called on March 3rd about invoice
+4095-2609-9393-4932. Reach her at sarah.chen@example.com or +1 415 555 0132.
+She lives in Portland.
+```
+
+| | without the model | with it |
+|---|---|---|
+| `CREDIT_CARD`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `URL` | found | found |
+| `PERSON` "Sarah Chen" | — | found |
+| `ORGANIZATION` "Northwind Health" | — | found |
+| `LOCATION` "Portland" | — | found |
+| `DATE_TIME` "March 3rd" | — | found |
+
+So: **add the model if free text is involved** — support tickets, emails, chat
+logs, medical or legal notes. **Skip it for structured data** — form fields,
+database columns, CSV exports, logs — where the things you are looking for are
+cards, emails, phone numbers and national IDs.
+
+It is not free in either direction. The model also labelled the card number as
+a `DATE_TIME` in the example above, a false positive the pattern-only pipeline
+does not make, and it roughly doubles processing time. Statistical recall costs
+some precision.
+
+**Adding it.** One product:
 
 ```swift
 .product(name: "PresidioModelEnglish", package: "swift-pii")
@@ -84,19 +114,28 @@ try detector.findings(in: "David Johnson lives in Seattle")
 // LOCATION Seattle 0.85
 ```
 
-The model is **bundled in the package** — 12 MB, no download, no file paths,
-works offline. It is a separate product so that callers who only need
-pattern-based detection do not pay for weights they never load.
+The weights are spaCy's **`en_core_web_sm`** — English, general-purpose,
+trained on web text, *small*. It is **bundled in the package**: 12 MB, no
+download, no file paths, works offline. A separate product so that callers who
+never ask for names do not carry it.
 
-Two neural networks are in there, and they are the only ones this library has:
+Two neural networks are in there, and they are the only ones in this library:
 
 | | size | what it does |
 |---|---:|---|
-| `ner/model` | 5.9 MB | finds names, places, organisations, dates |
+| `ner/model` | 5.9 MB | the entity recognizer — names, places, organisations, dates |
 | `tok2vec/model` + `tagger/model` | 6.0 MB | part-of-speech tags, which the lemmatizer needs |
 
-Everything else — the tokenizer, the lemmatizer, every recognizer — is rules and
-lookup tables, and ships in the core package with no weights at all.
+Everything else — the tokenizer, the lemmatizer, all 88 recognizers — is rules
+and lookup tables with no weights at all, and ships in the core package.
+
+The tagger is there for a second reason worth knowing: Presidio scores a
+candidate higher when a *supporting word* sits near it, and it compares those
+words by dictionary form. Deciding that "identities" is "identity" needs
+part-of-speech tags. Without the model that step is approximated, and the
+approximation is exact for all but six of the 523 context words in the
+catalogue — see
+[Lemmas and context scoring](docs/presidio-parity.md#lemmas-and-context-scoring).
 
 ## Removing it
 

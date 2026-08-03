@@ -86,6 +86,52 @@ from collapsing the same span found by two.
   model configuration, ONNX and device selection — rather than recognizer
   behaviour.
 
+## Lemmas and context scoring
+
+Presidio raises a result's score when a *supporting word* sits near it, and it
+compares those words by dictionary form — so deciding that "identities" is
+"identity" is what makes the boost fire. spaCy does that in **rule mode**, which
+needs part-of-speech tags and therefore the tagger.
+
+**With the model, this port is exact.** The whole chain is ported: tagger ->
+attribute ruler -> rule-mode lemmatization.
+
+| stage | agreement over 5,513 tokens |
+|---|---|
+| fine-grained tags | **5,513/5,513** |
+| coarse POS | 5,499/5,513 |
+| **lemmas** | **5,513/5,513** |
+
+POS is not exact and cannot be: 22 attribute-ruler rules need the dependency
+parser, which is not ported. They decide AUX-versus-VERB, `IN`-as-SCONJ and
+`DT`/`WDT`-as-PRON, and every POS divergence is one of them. **None changes a
+lemma** — the ruler assigns those lemmas directly (`has` -> `have` whether AUX
+or VERB), and DET and PRON have no lemma tables to differ over.
+
+**Without the model** the default is `LookupLemmatizer`: spaCy's POS-free lookup
+table, restricted to `-ies` plurals.
+
+| | agreement | regressions vs lowercase |
+|---|---:|---:|
+| lowercase only | 86.25% | — |
+| **`-ies` subset (default)** | **86.86%** | **0** |
+| full lookup table | 96.87% | 251 occurrences, 48 distinct |
+
+The full table wins on raw agreement and loses where it counts: it stems
+`number` -> `numb`, and `number` is a context word for **36 recognizers**, so a
+phone number written "My number is ..." drops from 0.75 to 0.4. Raw lemma
+accuracy is the wrong metric — what matters is agreement on the
+*context-matching outcome*, where lowercasing's errors are systematically
+harmless because substring matching absorbs suffix-stripping. It remains
+available as `LookupLemmatizer(scope: .full)`, with a test pinning
+`number` -> `numb` so the default is not "fixed" later.
+
+The gap the default leaves is small and measured: of **523 context words across
+all 88 recognizers**, exactly **6** are reachable only through a lemma
+(`beneficiary`, `birthday`, `delivery`, `identity`, `security`, `taxonomy`), all
+the `-y -> -ies` plural. In the 17 a default engine loads, zero.
+
+
 ## Regenerating the corpora
 
 ```bash
@@ -102,7 +148,7 @@ those drift from the data compiled into the package.
 
 ## Regex backend
 
-Settled in [ADR 0001](docs/decisions/0001-regex-backend.md) with a
+Settled in [ADR 0001](../docs/decisions/0001-regex-backend.md) with a
 1,112,064-codepoint differential against Python's `regex` module:
 
 | Backend | `\w` extra / missing | `\d` extra |
@@ -123,7 +169,7 @@ it: the host ICU version differs across Android, macOS and Windows, so `\b`
 would behave differently per platform.
 
 So the tables are generated from `regex` and compiled in as source
-([`UnicodeTables.swift`](Sources/PresidioRegex/UnicodeTables.swift), 796 + 71 + 10
+([`UnicodeTables.swift`](../Sources/PresidioRegex/UnicodeTables.swift), 796 + 71 + 10
 ranges), pinning the Unicode version as reviewable data. A test asserts
 membership matches Python for all 1.1M codepoints.
 
@@ -185,7 +231,7 @@ python3 Tools/extract_fixtures.py --presidio /path/to/presidio --out Tests/Presi
 
 That one needs nothing installed — it reads with `ast` only. The oracle tools
 do, and their versions are pinned in
-[`Tools/requirements.txt`](Tools/requirements.txt) for a reason: the corpora
+[`Tools/requirements.txt`](../Tools/requirements.txt) for a reason: the corpora
 record which `regex` and `phonenumbers` they were built with, and tests fail if
 those drift from the data compiled into the package.
 
@@ -212,7 +258,7 @@ from the test's name.
 
 One upstream table computes its cases with a Verhoeff routine at module scope,
 so no static evaluator can reach it.
-[`Tools/extract_computed_fixtures.py`](Tools/extract_computed_fixtures.py)
+[`Tools/extract_computed_fixtures.py`](../Tools/extract_computed_fixtures.py)
 handles that class by *importing* the test module — a separate tool with a
 separate contract, writing its own artifact, so `extract_fixtures.py` stays
 `ast`-only and CI can regenerate the corpus from a bare checkout with no Python
@@ -307,7 +353,7 @@ excluded from the pipeline. Composed end to end against the full pipeline, it is
 
 ## Recognizer definitions
 
-[`Tools/extract_patterns.py`](Tools/extract_patterns.py) lifts recognizers into
+[`Tools/extract_patterns.py`](../Tools/extract_patterns.py) lifts recognizers into
 data — 84 recognizers, **161 patterns**, 84 entity types, 56 needing a Swift
 checksum validator, and **none** needing a hand port. Three recognizers are
 outside the catalogue entirely, because they declare no patterns at all and
