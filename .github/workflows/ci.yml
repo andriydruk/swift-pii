@@ -88,8 +88,14 @@ jobs:
   # scores ~62% against it, which looks like a catastrophic regression and is
   # not one.
   #
-  # Release, not debug: the hand-written SIMD GEMM is 200x slower unoptimised
-  # (477s vs 2s), which is what made this look too expensive for CI.
+  # Release, not debug. The model forward pass is a hand-written matrix
+  # multiply -- no BLAS is available, since Accelerate is Apple-only -- and a
+  # tight numeric loop is the pathological case for an unoptimised build: no
+  # inlining, bounds checks on every element, and SIMD types that never become
+  # vector instructions. Measured on this model, 100 inferences take 15.4s in
+  # debug and 0.061s in release, a factor of 253. Model *loading* is only 18x,
+  # so it really is the arithmetic. That difference is what made running these
+  # suites in CI look unaffordable when it costs seconds.
   ner-parity:
     name: NER, tagger and lemma parity (release)
     runs-on: macos-15

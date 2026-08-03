@@ -536,6 +536,22 @@ swift build && swift test && ./Tools/check_portability.sh
 The NER, tagger and lemmatizer parity suites need a spaCy model and are skipped
 without one; CI runs them in their own job. Everything else runs offline.
 
+**Build release when you use the model.** The forward pass is a hand-written
+matrix multiply — there is no BLAS to call, because Accelerate is Apple-only and
+this package does not use it — and a tight numeric loop is the worst case for an
+unoptimised build: nothing is inlined, every array element is bounds-checked, and
+`SIMD8<Float>` never becomes a vector instruction. Measured here:
+
+| | debug | release |
+|---|---:|---:|
+| 100 NER inferences | 15.4 s | 0.061 s |
+| 100 tagger inferences | 15.7 s | 0.060 s |
+| loading the weights | 0.6 s | 0.033 s |
+
+That is **~250x on the arithmetic** and only 18x on loading, so it really is the
+matrix math. Ordinary Swift is 2–10x slower in debug; numeric kernels are the
+pathological case. Pattern-only detection has no such gap.
+
 ## Licence and commercial use
 
 **Yes, you can use this in a commercial product**, including closed-source. No
