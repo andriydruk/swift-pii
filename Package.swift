@@ -28,6 +28,7 @@ let package = Package(
         .library(name: "PresidioNLP", targets: ["PresidioNLP"]),
         .library(name: "PresidioEngine", targets: ["PresidioEngine"]),
         .library(name: "PresidioEngineYAML", targets: ["PresidioEngineYAML"]),
+        .library(name: "PresidioModelEnglish", targets: ["PresidioModelEnglish"]),
         .executable(name: "swift-pii", targets: ["swift-pii-cli"]),
     ],
     dependencies: [
@@ -109,7 +110,7 @@ let package = Package(
         // target rather than living in either.
         .target(
             name: "PresidioEngine",
-            dependencies: ["PresidioRecognizers", "PresidioNLP"],
+            dependencies: ["PresidioRecognizers", "PresidioNLP", "PresidioAnonymizer"],
             resources: [.process("Resources")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
@@ -124,6 +125,15 @@ let package = Package(
         .target(
             name: "PresidioEngineYAML",
             dependencies: ["PresidioEngine", .product(name: "Yams", package: "Yams")],
+            swiftSettings: [.swiftLanguageMode(.v6)]
+        ),
+
+        // The English model, bundled. Its own product so that callers who only
+        // need pattern-based detection do not pay 13 MB for weights they never
+        // load. Depends on nothing: it is data plus a path.
+        .target(
+            name: "PresidioModelEnglish",
+            resources: [.copy("Resources/model")],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 
@@ -171,7 +181,7 @@ let package = Package(
 
         .testTarget(
             name: "PresidioEngineTests",
-            dependencies: ["PresidioEngine", "PresidioConformance"],
+            dependencies: ["PresidioEngine", "PresidioConformance", "PresidioModelEnglish"],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 

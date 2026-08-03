@@ -109,11 +109,15 @@ the deliberately malformed fixtures its error tests use.
   Tests/PresidioConformance/Fixtures/conf/*.yaml
 
 --------------------------------------------------------------------------------
-spaCy models (en_core_web_sm / en_core_web_lg) — MIT
+spaCy model en_core_web_sm 3.7.1 — MIT
 Copyright (c) ExplosionAI GmbH
+https://github.com/explosion/spacy-models
 
-NOT bundled. SpacyNER loads them from a path at runtime. Noted here because the
-NER implementation reads their thinc weight format directly, and because their
-LICENSES_SOURCES records OntoNotes 5 as "commercial (licensed by Explosion)" —
-an obligation discharged upstream that does not propagate to users of the
-weights.
+**Bundled** in the PresidioModelEnglish product, redistributed unmodified except
+that components this package never runs (the dependency parser, the sentence
+recognizer, the lemmatizer lookups, which are extracted separately) are removed.
+Its LICENSES_SOURCES records OntoNotes 5 as "commercial (licensed by
+Explosion)" — an obligation discharged upstream that does not propagate to users
+of the weights.
+
+  Sources/PresidioModelEnglish/Resources/model/

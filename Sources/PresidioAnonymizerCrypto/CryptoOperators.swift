@@ -80,3 +80,15 @@ extension DeanonymizeEngine {
         DeanonymizeEngine(operators: [DeanonymizeKeepOperator(), DecryptOperator()])
     }
 }
+
+/// The AES operators, for registering with an engine.
+///
+/// `AnonymizerEngine()` and `DeanonymizeEngine()` default to the operators in
+/// `PresidioAnonymizer`, which deliberately excludes these — swift-crypto
+/// vendors BoringSSL and not every caller wants it linked. Pass this to opt in.
+public enum CryptoOperators {
+    /// Both directions; an engine keeps only the ones matching its own type.
+    public static var all: [any AnonymizerOperator] {
+        [EncryptOperator(), DecryptOperator()]
+    }
+}

@@ -142,3 +142,24 @@ public struct TextDocument: Sendable, Hashable {
         )
     }
 }
+
+public extension TextDocument {
+    /// The `String.Index` range for a scalar span, for callers that want to
+    /// slice or replace the original string directly.
+    ///
+    /// Scalar offsets are the wire contract everywhere in this package, but
+    /// Swift strings are grapheme-indexed, so anyone reaching for
+    /// `text[range]` needs this conversion rather than inventing their own.
+    func range(start: Int, end: Int, in text: String) -> Range<String.Index>? {
+        guard start >= 0, start <= end, end <= scalars.count else { return nil }
+        let scalars = text.unicodeScalars
+        guard let lower = scalars.index(
+                scalars.startIndex, offsetBy: start, limitedBy: scalars.endIndex
+              ),
+              let upper = scalars.index(
+                scalars.startIndex, offsetBy: end, limitedBy: scalars.endIndex
+              )
+        else { return nil }
+        return lower..<upper
+    }
+}

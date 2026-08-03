@@ -2,6 +2,7 @@ import Foundation
 import PresidioCore
 import PresidioAnalyzer
 import PresidioEngine
+import PresidioRecognizers
 import PresidioEngineYAML
 import PresidioAnonymizer
 
@@ -233,10 +234,19 @@ public struct CommandLineTool {
                 atPath: configPath, languages: [options.language]
             )
             return try AnalyzerEngine(
-                registry: registry, supportedLanguages: [options.language]
+                registry: registry,
+                nlpEngine: try TokenizerOnlyNlpEngine(),
+                supportedLanguages: [options.language]
             )
         }
-        return try AnalyzerEngine.makeDefault()
+        // Same defaults as `PIIDetector`: the tokenizer costs no weights and
+        // lets words near a candidate raise its score, so the CLI and the
+        // library do not disagree about the same text.
+        var registry = try RecognizerRegistry.loadPredefined()
+        registry.add(SpacyRecognizer())
+        return try AnalyzerEngine(
+            registry: registry, nlpEngine: try TokenizerOnlyNlpEngine()
+        )
     }
 
     /// Port of the `auto` format resolution: GitHub Actions first, then a
