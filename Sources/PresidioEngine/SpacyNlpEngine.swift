@@ -20,18 +20,59 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
 
     public let supportedLanguages: [String]
 
-    /// - Parameter modelDirectory: an unpacked spaCy model directory, e.g.
-    ///   `.../en_core_web_sm-3.7.1`.
+    /// What the lemmas came from, and why.
+    public let lemmatizerKind: String
+    private let fallbackReason: String?
+
+    public var warnings: [String] {
+        guard let fallbackReason else { return [] }
+        return [
+            "Lemmas are approximate: \(fallbackReason). Context matching will "
+            + "differ from Presidio on inflected context words."
+        ]
+    }
+
+    /// - Parameters:
+    ///   - modelDirectory: an unpacked spaCy model directory, e.g.
+    ///     `.../en_core_web_sm-3.7.1`.
+    ///   - lemmatizer: omit it to get spaCy's own rule-mode lemmatizer, built
+    ///     from the same model. There is a model here by construction, so the
+    ///     exact lemmatizer is the sensible default and the approximation is
+    ///     the thing you should have to ask for.
+    ///
+    ///     A model without a tagger falls back to `LookupLemmatizer`, and says
+    ///     so through `warnings` rather than quietly producing worse lemmas.
+    ///
+    ///     It costs throughput: the tagger runs a second tok2vec pass over
+    ///     every text, so NLP processing roughly doubles (1.1 -> 2.2 ms per
+    ///     text) and end-to-end `analyze` goes from 2.7 to 3.9 ms, about 45%.
+    ///     Construction is unaffected. Pass `LookupLemmatizer()` explicitly to
+    ///     trade the exactness back for the speed.
     public init(
         modelDirectory: String,
         configuration: NerModelConfiguration = NerModelConfiguration(),
-        lemmatizer: any Lemmatizing = LookupLemmatizer(),
+        lemmatizer: (any Lemmatizing)? = nil,
         supportedLanguages: [String] = ["en"]
     ) throws {
         self.ner = try SpacyNER(modelDirectory: modelDirectory)
         self.configuration = configuration
-        self.lemmatizer = lemmatizer
         self.supportedLanguages = supportedLanguages
+
+        if let lemmatizer {
+            self.lemmatizer = lemmatizer
+            self.lemmatizerKind = "\(type(of: lemmatizer)) (caller-supplied)"
+            self.fallbackReason = nil
+        } else if let rule = try? SpacyRuleLemmatizer(modelDirectory: modelDirectory) {
+            self.lemmatizer = rule
+            self.lemmatizerKind = "spaCy rule-mode (exact)"
+            self.fallbackReason = nil
+        } else {
+            self.lemmatizer = LookupLemmatizer()
+            self.lemmatizerKind = "lookup table (approximate)"
+            self.fallbackReason =
+                "\(modelDirectory) has no usable tagger, so rule-mode "
+                + "lemmatization is unavailable"
+        }
     }
 
     public func process(text: String, language: String) -> NlpArtifacts {

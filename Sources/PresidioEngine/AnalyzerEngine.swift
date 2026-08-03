@@ -76,16 +76,17 @@ public struct AnalyzerEngine: Sendable {
 
     /// Port of the `NoOpNlpEngine` + `LemmaContextAwareEnhancer` warning.
     public var configurationWarnings: [String] {
+        var warnings = nlpEngine.warnings
         guard nlpEngine is NoOpNlpEngine,
               contextEnhancer is LemmaContextAwareEnhancer
-        else { return [] }
-        return [
+        else { return warnings }
+        warnings.append(
             """
             LemmaContextAwareEnhancer cannot use context words from the analyzed \
             text with NoOpNlpEngine because no tokens or lemmas are produced. \
             Only context passed explicitly to analyze() can be used.
-            """
-        ]
+            """)
+        return warnings
     }
 
     public func supportedEntities(language: String = "en") -> [String] {

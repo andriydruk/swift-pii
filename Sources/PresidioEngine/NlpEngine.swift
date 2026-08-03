@@ -11,6 +11,17 @@ public protocol NlpEngineProviding: Sendable {
     func process(text: String, language: String) -> NlpArtifacts
     func isStopWord(_ word: String, language: String) -> Bool
     var supportedLanguages: [String] { get }
+
+    /// Anything the engine settled for rather than failed on.
+    ///
+    /// A pipeline that quietly degrades is the failure mode this package keeps
+    /// finding in itself, so a component that falls back says so here and
+    /// `AnalyzerEngine.configurationWarnings` surfaces it.
+    var warnings: [String] { get }
+}
+
+public extension NlpEngineProviding {
+    var warnings: [String] { [] }
 }
 
 /// spaCy's English lexical attributes, extracted from the loaded model.

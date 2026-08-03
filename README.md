@@ -332,8 +332,10 @@ Pass `configuration: nil` to load everything explicitly.
 Upstream's context enhancer compares spaCy **lemmas**. Both are available here,
 and which one you want depends on whether you have model weights.
 
-**With a model — `SpacyRuleLemmatizer`, exact.** The whole chain spaCy's English
-pipeline runs, ported: tagger → attribute ruler → rule-mode lemmatization.
+**With a model — exact, and the default.** `SpacyNlpEngine` builds spaCy's own
+lemma chain from the same model directory: tagger → attribute ruler → rule-mode
+lemmatization. There is a model there by construction, so the exact lemmatizer
+is the sensible default and the approximation is the thing you ask for.
 
 | stage | agreement over 5,513 tokens |
 |---|---|
@@ -348,11 +350,23 @@ lemma** — the ruler assigns those lemmas directly (`has` → `have` whether AU
 VERB), and DET and PRON have no lemma tables to differ over.
 
 ```swift
-let nlp = try SpacyNlpEngine(
-    modelDirectory: path,
-    lemmatizer: try SpacyRuleLemmatizer(modelDirectory: path)
-)
+let nlp = try SpacyNlpEngine(modelDirectory: path)   // exact lemmas
+nlp.lemmatizerKind      // "spaCy rule-mode (exact)"
+nlp.warnings            // [] — nothing was settled for
+
+// Trade the exactness back for throughput:
+let fast = try SpacyNlpEngine(modelDirectory: path, lemmatizer: LookupLemmatizer())
 ```
+
+It costs throughput, because the tagger runs a **second** tok2vec pass over
+every text: NLP processing roughly doubles (1.1 → 2.2 ms per text) and
+end-to-end `analyze` goes from 2.7 to 3.9 ms, about **45%**. Construction is
+unaffected.
+
+A model with no tagger falls back to the lookup table and **says so** through
+`warnings`, which `AnalyzerEngine.configurationWarnings` surfaces — a pipeline
+that silently degrades to worse lemmas is the failure mode this package keeps
+finding in itself.
 
 **Without a model — `LookupLemmatizer`, the default.** spaCy's POS-free lookup
 table, restricted to `-ies` plurals:
