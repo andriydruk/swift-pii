@@ -265,6 +265,48 @@ plain otherwise. Options: `--entities`, `--threshold`, `--language`, `--config`
 finds, and cannot gate CI. This exits **1** when PII is found, **2** on a usage
 or I/O error, **0** when clean.
 
+## Shipping it
+
+The data this library needs — recognizer patterns, tokenizer rules, lemma
+tables, model weights — travels as SwiftPM **resource bundles**. They are *not*
+linked into your binary.
+
+**Building an app** (Xcode, or an SPM package consumed by an app target): there
+is nothing to do. The bundles are copied into `YourApp.app/Contents/Resources`
+automatically.
+
+**Shipping a standalone executable** (a CLI, a Docker image, a server binary):
+copy the `.bundle` directories next to the executable.
+
+```bash
+swift build -c release
+cp .build/release/my-tool                        /dist/
+cp -R .build/release/*_Presidio*.bundle          /dist/
+```
+
+Copying only the binary appears to work on the machine that built it — the
+generated accessor falls back to the absolute build path — and then **crashes**
+with `could not load resource bundle` anywhere else. It is a fatal error, not a
+degraded mode, so it fails loudly rather than silently detecting nothing.
+
+Take only the bundles you use:
+
+| Bundle | Size | Needed for |
+|---|---:|---|
+| `PresidioRecognizers` | 884 KB | always |
+| `PresidioNLP` | 1.5 MB | always |
+| `PresidioEngine` | 1.0 MB | always |
+| `PresidioModelEnglish` | 12 MB | only for `PERSON` / `LOCATION` / `ORGANIZATION` |
+
+A pattern-only CLI ships in **6.4 MB** total, binary included; with the model,
+25 MB.
+
+To check a deployment at runtime:
+
+```swift
+print(Diagnostics.report())   // one line per resource, with what it decoded
+```
+
 ## Platform support
 
 | | |
