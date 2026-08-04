@@ -202,9 +202,14 @@ jobs:
         run: swift build -v
 
       - name: Test
+        # No `set -o pipefail` here, unlike the macOS jobs: this one runs in a
+        # container whose default shell is `sh`, where pipefail is not a valid
+        # option and the step dies before running a single test. Redirect and
+        # check the status explicitly instead.
         run: |
-          set -o pipefail
-          swift test 2>&1 | tee linux.log
+          swift test > linux.log 2>&1 || status=$?
+          cat linux.log
+          exit ${status:-0}
 
       - name: Assert the default build off Apple falls back
         # PresidioAccelerate is a *default* trait, so it is enabled here too --
