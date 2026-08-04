@@ -404,6 +404,9 @@ print(Diagnostics.report())   // one line per resource, with what it decoded
 
 ## Platform support
 
+Needs **Swift 6.1 or later** — that is where SwiftPM traits arrive, and the
+package declares one.
+
 | | |
 |---|---|
 | macOS | supported, CI |
@@ -412,8 +415,11 @@ print(Diagnostics.report())   // one line per resource, with what it decoded
 
 `PresidioCore` imports no Foundation at all; the regex engine, the analyzer and
 the anonymizer are stdlib-only. A CI lint bans `NaturalLanguage`, `CoreML`,
-`Vision`, `CryptoKit` and `Accelerate` outright, so the portability claim is
-enforced rather than asserted.
+`Vision` and `CryptoKit` outright, so the portability claim is enforced rather
+than asserted. `Accelerate` is the one Apple framework the package can touch,
+and only if you [ask for it](#faster-inference-on-apple-platforms-opt-in) — the
+same lint checks it stays confined to one file, stays behind its `#if`, and
+never becomes a default.
 
 Two dependencies exist, each confined to its own product so you link it only if
 you use it: **swift-crypto** for `PresidioAnonymizerCrypto`, and **Yams** for
@@ -426,28 +432,77 @@ all 17 default recognizers, release build, M-series.
 
 | | per document |
 |---|---:|
-| `analyze` | **3.3 ms** |
-| engine construction | 20 ms — build once, share it |
+| `analyze` | **5.7 ms** |
+| engine construction | 28 ms — build once, share it |
 
-`PhoneRecognizer` is **69%** of that, and the reason is structural rather than a
+`PhoneRecognizer` is **72%** of that, and the reason is structural rather than a
 defect: it scans the whole text once per configured region, so the region list is
 the biggest lever a caller has.
 
 | regions | cost over the same corpus |
 |---|---:|
-| 8 (default) | 441 ms |
-| 2 | 125 ms |
-| 1 | 70 ms |
+| 8 (default) | 791 ms |
+| 2 | 222 ms |
+| 1 | 120 ms |
 
 ```swift
-PhoneRecognizer(regions: ["US"])   // ~6x cheaper than the default eight
+PhoneRecognizer(regions: ["US"])   // ~6.5x cheaper than the default eight
 ```
 
-The M5 pass made the engine **1.8× faster** (6.1 → 3.3 ms/document) by fixing one
-thing: the phone matcher re-sliced the entire remaining text on every iteration
-*and* computed every remaining match only to take `.first`. `PureRegex` gained
-`firstMatch(inScalars:from:)`, which stops at the first hit and scans from an
-offset. The full test suite got 40% faster as a side effect.
+Reproduce any of this with
+`swift run -c release presidio-bench Tests/PresidioConformance/Fixtures/regex_reference.json`.
+
+An earlier pass made the engine **1.8× faster** (6.1 → 3.3 ms/document) by
+fixing one thing: the phone matcher re-sliced the entire remaining text on every
+iteration *and* computed every remaining match only to take `.first`.
+`PureRegex` gained `firstMatch(inScalars:from:)`, which stops at the first hit
+and scans from an offset.
+
+Some of that has since been spent, deliberately: 3.3 → 5.7 ms/document, and
+almost all of it inside the phone matcher, which went from 441 to 791 ms over
+this corpus when it gained libphonenumber's `STRICT_GROUPING`/`EXACT_GROUPING`
+checks and full metadata coverage. That was the trade the project chose — the
+phone matcher now agrees with Python on 4,031 of 4,032 adversarial cases. The
+regex engine underneath it did not change: it still sweeps this corpus in 0.455 s
+single-threaded, against 0.406 s when that figure was first recorded.
+
+### Faster inference on Apple platforms (opt-in)
+
+If you use the language model, most of its time goes into one matrix multiply.
+The default one is hand-written SIMD, portable to every platform. On Apple
+platforms you can swap it for Accelerate's BLAS instead:
+
+```swift
+.package(url: "https://github.com/andriydruk/swift-pii.git", from: "0.1.0",
+         traits: ["PresidioAccelerate"])
+```
+
+Nothing else changes — same API, same results. Working in this repo directly,
+it is `swift build --traits PresidioAccelerate` (likewise `swift test`).
+
+| same corpus, same binary, only the kernel differs | portable | Accelerate |
+|---|---:|---:|
+| NLP stage (tokenize + NER + tagger + lemmas) | 6.06 ms/doc | **2.38 ms/doc** |
+| end-to-end `analyze` with the model | 11.8 ms/doc | **8.2 ms/doc** |
+| end-to-end `analyze` without it | 5.58 ms/doc | 5.63 ms/doc — unchanged, as expected |
+
+**The gain grows with document length**, because that is what makes the matrices
+tall: on a single short sentence it is nearer 25%, and on paragraph-length
+documents like the ones above the inference stage is 2.5× faster. It does
+nothing at all for pattern-only detection, which is the last row — for most of
+the corpus above the phone matcher is still the expensive part.
+
+It is off by default for a reason worth stating plainly. With it on, macOS no
+longer runs the same arithmetic as Linux and Android. Measured over the full
+parity corpora the **outcomes are identical** — 5,513/5,513 tags, 5,513/5,513
+lemmas, 2,588/2,592 entities either way, and not one argmax flips — but ~93% of
+the intermediate floats differ in their last bits. A divergence that ever did
+show up would be platform-specific and hard to reproduce, so one behaviour
+everywhere stays the default. CI runs both kernels against the same gold
+corpora, so neither ships unverified.
+
+On a non-Apple platform the trait is inert: the code behind it is not compiled,
+and nothing links Accelerate.
 
 ## Concurrency
 

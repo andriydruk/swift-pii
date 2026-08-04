@@ -30,9 +30,12 @@ pass() {
 # These have no implementation outside Darwin, so importing one makes the
 # package permanently macOS/iOS-only. NaturalLanguage and CoreML in particular
 # are what the design deliberately replaced with the ported spaCy pipeline.
+# Accelerate is not in this list: it is allowed in exactly one file, behind the
+# opt-in `PresidioAccelerate` trait, and section 1a below is stricter about it
+# than a flat ban would be.
 BANNED_FRAMEWORKS=(
     NaturalLanguage CoreML Vision VisionKit DataDetection
-    CryptoKit CommonCrypto Accelerate TabularData
+    CryptoKit CommonCrypto TabularData
     Metal MetalPerformanceShaders CoreImage
     AppKit UIKit SwiftUI CoreGraphics QuartzCore
 )
@@ -46,6 +49,46 @@ for fw in "${BANNED_FRAMEWORKS[@]}"; do
     fi
 done
 [[ $status -eq 0 ]] && pass "no Apple closed-source framework imports"
+
+# ---------------------------------------------------------------------------
+# 1a. Accelerate: one file, behind the trait, off by default.
+# ---------------------------------------------------------------------------
+# The `PresidioAccelerate` trait swaps the hand-written matrix multiply for
+# cblas_sgemm. It is worth having -- ~4.7x on the shapes the model uses -- and
+# it is worth constraining, because with it on macOS no longer runs the same
+# arithmetic as Linux and Android.
+#
+# Three things must stay true, and each has failed silently in some project:
+# the import lives in one file, every import is guarded, and the trait is not
+# enabled by default. Any one of them slipping turns an opt-in into a default
+# nobody chose.
+ACCEL_FILE=Sources/PresidioNLP/GEMM.swift
+GUARD='#if PresidioAccelerate && canImport(Accelerate)'
+
+stray=$(grep -rln "^[[:space:]]*import[[:space:]]\+Accelerate\b" \
+    --include='*.swift' Sources Tests 2>/dev/null | grep -v "^${ACCEL_FILE}$" || true)
+if [[ -n "$stray" ]]; then
+    fail "Accelerate imported outside ${ACCEL_FILE}:"
+    printf '       %s\n' "$stray"
+elif [[ -f "$ACCEL_FILE" ]]; then
+    # Every `import Accelerate` must sit directly under the guard. Checked by
+    # line number rather than by eye: an import that drifted one line out of
+    # its #if would compile on macOS and break the Linux build only.
+    unguarded=0
+    while IFS=: read -r lineno _; do
+        [[ -z "$lineno" ]] && continue
+        prev=$(sed -n "$((lineno - 1))p" "$ACCEL_FILE")
+        [[ "$prev" == "$GUARD" ]] || unguarded=$((unguarded + 1))
+    done < <(grep -n "^[[:space:]]*import[[:space:]]\+Accelerate\b" "$ACCEL_FILE" || true)
+
+    if [[ "$unguarded" -ne 0 ]]; then
+        fail "${ACCEL_FILE}: ${unguarded} 'import Accelerate' not directly under '${GUARD}'"
+    elif grep -q "\.default(" Package.swift; then
+        fail "PresidioAccelerate must not be a default trait (found '.default(' in Package.swift)"
+    else
+        pass "Accelerate confined to ${ACCEL_FILE}, guarded, and opt-in"
+    fi
+fi
 
 # ---------------------------------------------------------------------------
 # 2. Foundation, never FoundationEssentials.

@@ -313,25 +313,28 @@ would wrongly fail a correct implementation.
 Maxout → LayerNorm → 4 residual maxout-window blocks → transition-based parser
 over BILUO actions. Weights are read straight from the model's thinc msgpack
 files, so there is no conversion step and no ML runtime — the matmul is
-hand-written SIMD.
+hand-written SIMD, or Accelerate's BLAS if you opt in (see below).
 
 Input is raw text; output is `NamedEntity` with **scalar character offsets**,
 which is what a PII pipeline actually needs.
 
-Model weights are **not bundled** (15 MB for `en_core_web_sm`, 619 MB for `lg`).
-Point `SpacyNER(modelDirectory:)` at an unpacked model. The parity suite is
-gated on `SPACY_MODEL_DIR` and reports when unset rather than passing vacuously.
+`SpacyNER(modelDirectory:)` takes an unpacked model directory. A trimmed
+`en_core_web_sm` (12 MB) ships in the separate `PresidioModelEnglish` product —
+`EnglishModel.directory` — so callers who want names do not have to find and
+unpack one, and callers who do not are not carrying weights. The parity suite is
+gated on `SPACY_MODEL_DIR` and reports when unset rather than passing vacuously,
+because it needs the untrimmed **3.7.1** the gold corpus was built from.
 
-### Parity is 98.9%, not exact
+### Parity is 99.85%, not exact
 
 Measured end to end over 2,000 texts / 2,592 entities from `en_core_web_sm`:
 
 | | |
 |---|---:|
-| Matched | 2,564 |
-| Missed | 28 |
-| Spurious | 69 |
-| Recall | 98.92% |
+| Matched | 2,588 |
+| Missed | 4 |
+| Spurious | 4 |
+| Recall, precision | 99.846% |
 
 The layers are cleanly separable, and the gap is isolated:
 
@@ -339,12 +342,50 @@ The layers are cleanly separable, and the gap is isolated:
 - **NORMs: exact.** 0/2000 divergences.
 - **Forward pass: not exact.** The residual is entirely here.
 
-The likely cause is float accumulation order — the hand-written SIMD reduction
-sums in a different order from numpy's BLAS, which flips `argmax` on borderline
-transitions. The divergent cases are plausible spans with a different label or
-extent (`DATE` vs `CARDINAL` over an identical span), never corrupted offsets.
-To confirm, dump the tok2vec output for a divergent sentence and diff it against
-spaCy's; a last-few-bits difference is accumulation order.
+This used to read 98.92%, and the explanation offered for the gap was float
+accumulation order. That explanation was a guess, and it was wrong: 24 of the 28
+misses came from the reserved string-store symbols, whose table was read from a
+relative `symbols.tsv` that never existed, so every shape like `"X"` hashed
+instead of resolving to its symbol id. Bundling the table took recall from
+98.92% to 99.85% and left the 4 above.
+
+Accumulation order is now unlikely to explain those 4 either — see the next
+section, where an entirely different summation order changes none of them. They
+are plausible spans with a different label or extent (`DATE` vs `CARDINAL` over
+an identical span), never corrupted offsets.
+
+### Two matrix kernels, one set of outcomes
+
+The matrix multiply has a second implementation behind the opt-in
+`PresidioAccelerate` trait: Accelerate's `cblas_sgemm` instead of the
+hand-written SIMD kernel. BLAS blocks and reduces in a completely different
+order, so this is a natural experiment on how much the arithmetic actually
+matters here.
+
+Over the full corpora, it does not matter at all:
+
+| | portable SIMD | Accelerate |
+|---|---:|---:|
+| Fine-grained tags | 5,513/5,513 | 5,513/5,513 |
+| Coarse POS | 5,499/5,513 | 5,499/5,513 |
+| Lemmas | 5,513/5,513 | 5,513/5,513 |
+| NER entities | 2,588/2,592 | 2,588/2,592 |
+
+Not one `argmax` flips across 5,513 tokens and 2,592 entities — including the 4
+divergent entities, which stay divergent in exactly the same way. Meanwhile
+~93% of the individual intermediate floats *do* differ, with a maximum absolute
+delta of 3.6e-05 at the shapes this model uses.
+
+Two things follow. The remaining NER gap is not a borderline-`argmax`-from-
+summation-order effect, or a different summation order would have moved it. And
+the margins in this network are wide enough that last-bit differences do not
+reach the output — which is why the trait is offered at all, and why it is still
+opt-in: "no divergence on this corpus" is not "never diverges", and a divergence
+that only appeared on macOS would be an unpleasant thing to debug.
+
+CI runs the parity suites under both kernels, and asserts from the test output
+which kernel each job compiled — a trait that silently did nothing would
+otherwise look exactly like a trait that worked.
 
 Worth stating plainly: an earlier prototype measured 0 FP / 0 FN, but that was
 with **spaCy supplying the tokens and norms** and the `tok2vec` component

@@ -126,7 +126,7 @@ Android (Swift 6.3+ SDK, shipped 2026-03-24, plus `swift-java`/JNI) and Windows.
 
 Building macOS-first is the right call — it removes the platform matrix from the critical path while the design is still moving. The only way it goes wrong is accidentally taking an Apple dependency. Three near-free checks prevent that:
 
-1. **CI lint banning Apple-framework imports** (`NaturalLanguage`, `CoreML`, `Vision`, `CryptoKit`, `Accelerate`, `TabularData`, `CommonCrypto`). One grep step.
+1. **CI lint banning Apple-framework imports** (`NaturalLanguage`, `CoreML`, `Vision`, `CryptoKit`, `TabularData`, `CommonCrypto`). One grep step. `Accelerate` came off the flat ban and onto a stricter rule instead: it is allowed in `Sources/PresidioNLP/GEMM.swift` only, only under `#if PresidioAccelerate && canImport(Accelerate)`, and the lint fails if it escapes either constraint or if the trait ever becomes a default. The point of the ban was never the import — it was that macOS must not quietly become the only platform that runs the real code path.
 2. **`import Foundation`, never `FoundationEssentials`** — `canImport(FoundationEssentials)` is *false* on macOS with Swift 6.2.4, so the "portable" import is the one that breaks Darwin builds.
 3. **A Linux cross-compile (or WASM) smoke build in CI from M0.** Not a supported target yet — just a canary. Catches portability drift the week it's introduced instead of at M6. Note Yams and swift-crypto's `_CryptoExtras` don't build for WASM, so use Linux cross-compile as the canary if you want a broader dependency set.
 

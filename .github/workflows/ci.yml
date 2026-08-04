@@ -30,7 +30,24 @@ jobs:
         run: swift build -v
 
       - name: Test
-        run: swift test
+        run: |
+          set -o pipefail
+          swift test 2>&1 | tee default.log
+
+      - name: Assert the default build is the portable kernel
+        # The whole point of PresidioAccelerate being a trait is that a default
+        # build runs the same arithmetic everywhere. If it ever became a default
+        # trait, every suite here would still pass -- while silently testing a
+        # different kernel from the one Linux and Android get.
+        run: |
+          grep -q "matrix kernel: portable SIMD" default.log \
+            || { echo "::error::default build is not using the portable kernel"; exit 1; }
+
+      - name: Build with the Accelerate trait
+        # Compile-checks the opt-in path on every push. The parity job below
+        # actually runs it, but that job needs a model download first, and a
+        # trait that no longer compiles should fail faster than that.
+        run: swift build --traits PresidioAccelerate
 
   # Regenerating the corpus must be reproducible. If upstream Presidio changes
   # shape, this fails here rather than silently shrinking coverage later.
@@ -88,17 +105,34 @@ jobs:
   # scores ~62% against it, which looks like a catastrophic regression and is
   # not one.
   #
-  # Release, not debug. The model forward pass is a hand-written matrix
-  # multiply -- no BLAS is available, since Accelerate is Apple-only -- and a
+  # Release, not debug. The model forward pass is a matrix multiply, and a
   # tight numeric loop is the pathological case for an unoptimised build: no
   # inlining, bounds checks on every element, and SIMD types that never become
   # vector instructions. Measured on this model, 100 inferences take 15.4s in
   # debug and 0.061s in release, a factor of 253. Model *loading* is only 18x,
   # so it really is the arithmetic. That difference is what made running these
   # suites in CI look unaffordable when it costs seconds.
+  #
+  # Both kernels, against the same gold corpora. `PresidioAccelerate` is opt-in
+  # precisely because it changes the arithmetic, and an opt-in path that CI
+  # never runs is a path whose users are the ones who find out. Neither column
+  # is allowed to ship unverified, so this is a matrix rather than one job plus
+  # a claim.
   ner-parity:
-    name: NER, tagger and lemma parity (release)
+    name: NER, tagger and lemma parity (${{ matrix.kernel.label }})
     runs-on: macos-15
+    strategy:
+      # Not fail-fast: when the two kernels disagree, the interesting
+      # information is which one broke, and cancelling the other hides it.
+      fail-fast: false
+      matrix:
+        kernel:
+          - label: portable SIMD
+            flags: ""
+            marker: "matrix kernel: portable SIMD"
+          - label: Accelerate
+            flags: "--traits PresidioAccelerate"
+            marker: "matrix kernel: Accelerate (cblas_sgemm)"
     steps:
       - uses: actions/checkout@v4
 
@@ -112,7 +146,16 @@ jobs:
       - name: Test
         run: |
           set -o pipefail
-          swift test -c release --filter "NERTests|TaggerTests|RuleLemmatizerTests" 2>&1 | tee ner.log
+          swift test -c release ${{ matrix.kernel.flags }} \
+            --filter "NERTests|TaggerTests|RuleLemmatizerTests|MatrixKernelTests" 2>&1 | tee ner.log
+
+      - name: Assert the expected kernel was compiled in
+        # Without this, a typo in the trait name would leave this column running
+        # the portable kernel and reporting a pass -- two identical jobs wearing
+        # different names, which is worse than not having the second one.
+        run: |
+          grep -qF "${{ matrix.kernel.marker }}" ner.log \
+            || { echo "::error::expected '${{ matrix.kernel.marker }}'"; exit 1; }
 
       - name: Assert the suite actually ran
         # A --filter that matches nothing exits 0. Without this, deleting the
@@ -157,6 +200,13 @@ jobs:
 
       - name: Build
         run: swift build -v
+
+      - name: Build with the Accelerate trait
+        # The trait is documented as inert off Apple platforms. "Inert" is a
+        # claim about a `canImport` that nobody here can evaluate by reading it,
+        # so it gets built: enabling it on Linux must still produce the portable
+        # kernel rather than a compile error.
+        run: swift build --traits PresidioAccelerate
 
       - name: Test
         run: swift test

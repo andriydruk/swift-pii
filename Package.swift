@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 import PackageDescription
 
 // swift-pii — a Presidio-compatible PII detection and anonymization library.
@@ -8,10 +8,14 @@ import PackageDescription
 // package name implies authorship.
 //
 // Portability discipline (see PLAN.md §4): this package must never import an
-// Apple closed-source framework. macOS is the first supported platform, but the
-// source stays portable so Android/Windows are a port, not a rewrite.
+// Apple closed-source framework in a default build. macOS is the first
+// supported platform, but the source stays portable so Android/Windows are a
+// port, not a rewrite. The single exception is the opt-in `PresidioAccelerate`
+// trait below, which Tools/check_portability.sh polices rather than trusts.
 // Use `import Foundation` — never `FoundationEssentials`, which does not exist
 // on Darwin.
+//
+// swift-tools-version is 6.1 because traits need it.
 
 let package = Package(
     name: "swift-pii",
@@ -30,6 +34,21 @@ let package = Package(
         .library(name: "PresidioEngineYAML", targets: ["PresidioEngineYAML"]),
         .library(name: "PresidioModelEnglish", targets: ["PresidioModelEnglish"]),
         .executable(name: "swift-pii", targets: ["swift-pii-cli"]),
+    ],
+    // Opt-in, and deliberately not a default trait.
+    //
+    // Enabling it swaps the hand-written SIMD matrix multiply for Accelerate's
+    // cblas_sgemm on Apple platforms: ~4.7x on the shapes this model uses, about
+    // 25-35% off end-to-end inference. Every parity corpus produces identical
+    // *outcomes* either way, but the intermediate floats differ in their last
+    // bits, so with this on macOS no longer runs the same arithmetic as Linux and
+    // Android. That is the whole reason it is a choice rather than the default.
+    // CI runs the parity suites both ways. See Sources/PresidioNLP/GEMM.swift.
+    traits: [
+        .trait(
+            name: "PresidioAccelerate",
+            description: "Use Accelerate's BLAS for model inference on Apple platforms."
+        )
     ],
     dependencies: [
         // Only PresidioAnonymizerCrypto depends on this. CryptoKit has no
