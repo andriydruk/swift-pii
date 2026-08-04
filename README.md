@@ -411,15 +411,20 @@ package declares one.
 |---|---|
 | macOS | supported, CI |
 | Linux | builds and tests green in CI |
-| Windows, Android | no Apple-only APIs are used, but **neither has been built** |
+| Windows, Android | no Apple-only APIs are **required**, but **neither has been built** |
 
 `PresidioCore` imports no Foundation at all; the regex engine, the analyzer and
 the anonymizer are stdlib-only. A CI lint bans `NaturalLanguage`, `CoreML`,
 `Vision` and `CryptoKit` outright, so the portability claim is enforced rather
-than asserted. `Accelerate` is the one Apple framework the package can touch,
-and only if you [ask for it](#faster-inference-on-apple-platforms-opt-in) — the
-same lint checks it stays confined to one file, stays behind its `#if`, and
-never becomes a default.
+than asserted.
+
+`Accelerate` is the one exception, and it is a *preference*, not a dependency:
+on Apple platforms it runs the model's matrix multiply
+([why](#the-model-runs-on-accelerate-where-it-exists)), and everywhere else the
+same build falls back to the portable kernel. The lint checks it stays in one
+file behind its `#if`, and that the portable kernel is always compiled — so
+"portable" never quietly becomes "compiles, untested, on the platform nobody
+runs CI for". Linux CI asserts the fallback actually happens.
 
 Two dependencies exist, each confined to its own product so you link it only if
 you use it: **swift-crypto** for `PresidioAnonymizerCrypto`, and **Yams** for
@@ -466,19 +471,13 @@ phone matcher now agrees with Python on 4,031 of 4,032 adversarial cases. The
 regex engine underneath it did not change: it still sweeps this corpus in 0.455 s
 single-threaded, against 0.406 s when that figure was first recorded.
 
-### Faster inference on Apple platforms (opt-in)
+### The model runs on Accelerate where it exists
 
 If you use the language model, most of its time goes into one matrix multiply.
-The default one is hand-written SIMD, portable to every platform. On Apple
-platforms you can swap it for Accelerate's BLAS instead:
-
-```swift
-.package(url: "https://github.com/andriydruk/swift-pii.git", from: "0.1.0",
-         traits: ["PresidioAccelerate"])
-```
-
-Nothing else changes — same API, same results. Working in this repo directly,
-it is `swift build --traits PresidioAccelerate` (likewise `swift test`).
+On Apple platforms that is Accelerate's BLAS; everywhere else it is a
+hand-written SIMD kernel that ships in the same source. You do not configure
+this and there is no extra product to add — the fallback is a `canImport`, so
+one build does the right thing on each platform.
 
 | same corpus, same binary, only the kernel differs | portable | Accelerate |
 |---|---:|---:|
@@ -492,17 +491,25 @@ documents like the ones above the inference stage is 2.5× faster. It does
 nothing at all for pattern-only detection, which is the last row — for most of
 the corpus above the phone matcher is still the expensive part.
 
-It is off by default for a reason worth stating plainly. With it on, macOS no
-longer runs the same arithmetic as Linux and Android. Measured over the full
-parity corpora the **outcomes are identical** — 5,513/5,513 tags, 5,513/5,513
-lemmas, 2,588/2,592 entities either way, and not one argmax flips — but ~93% of
-the intermediate floats differ in their last bits. A divergence that ever did
-show up would be platform-specific and hard to reproduce, so one behaviour
-everywhere stays the default. CI runs both kernels against the same gold
-corpora, so neither ships unverified.
+**Turning it off.** There is one reason to, and it is not correctness: with
+Accelerate in play, macOS does not run bit-identical arithmetic to Linux and
+Android. If you need one number everywhere — a cross-platform golden-output
+test, say, or a reproducibility requirement you have to argue in writing:
 
-On a non-Apple platform the trait is inert: the code behind it is not compiled,
-and nothing links Accelerate.
+```swift
+.package(url: "https://github.com/andriydruk/swift-pii.git", from: "0.1.0",
+         traits: [])          // portable kernel on every platform
+```
+
+Working in this repo directly, that is `swift build --disable-default-traits`
+(likewise `swift test`).
+
+What that buys you is *sameness*, not accuracy. Measured over the full parity
+corpora the **outcomes are already identical** — 5,513/5,513 tags, 5,513/5,513
+lemmas, 2,588/2,592 entities either way, and not one argmax flips across 5,513
+tokens — while ~93% of the intermediate floats differ in their last bits. CI
+runs both kernels against the same gold corpora on every push, because both are
+configurations someone ships.
 
 ## Concurrency
 

@@ -34,20 +34,20 @@ jobs:
           set -o pipefail
           swift test 2>&1 | tee default.log
 
-      - name: Assert the default build is the portable kernel
-        # The whole point of PresidioAccelerate being a trait is that a default
-        # build runs the same arithmetic everywhere. If it ever became a default
-        # trait, every suite here would still pass -- while silently testing a
-        # different kernel from the one Linux and Android get.
+      - name: Assert the default build on Apple is the Accelerate kernel
+        # PresidioAccelerate is a default trait, so this is what an unconfigured
+        # consumer on macOS actually gets. If the trait were dropped or renamed,
+        # every suite here would still pass while quietly testing something
+        # nobody ships.
         run: |
-          grep -q "matrix kernel: portable SIMD" default.log \
-            || { echo "::error::default build is not using the portable kernel"; exit 1; }
+          grep -q "matrix kernel: Accelerate (cblas_sgemm)" default.log \
+            || { echo "::error::default macOS build is not using Accelerate"; exit 1; }
 
-      - name: Build with the Accelerate trait
-        # Compile-checks the opt-in path on every push. The parity job below
-        # actually runs it, but that job needs a model download first, and a
-        # trait that no longer compiles should fail faster than that.
-        run: swift build --traits PresidioAccelerate
+      - name: Build with the trait disabled
+        # Compile-checks the opt-out on every push. The parity job below runs it
+        # properly, but that job downloads a model first, and a portable path
+        # that no longer compiles should fail faster than that.
+        run: swift build --disable-default-traits
 
   # Regenerating the corpus must be reproducible. If upstream Presidio changes
   # shape, this fails here rather than silently shrinking coverage later.
@@ -113,11 +113,11 @@ jobs:
   # so it really is the arithmetic. That difference is what made running these
   # suites in CI look unaffordable when it costs seconds.
   #
-  # Both kernels, against the same gold corpora. `PresidioAccelerate` is opt-in
-  # precisely because it changes the arithmetic, and an opt-in path that CI
-  # never runs is a path whose users are the ones who find out. Neither column
-  # is allowed to ship unverified, so this is a matrix rather than one job plus
-  # a claim.
+  # Both kernels, against the same gold corpora. `PresidioAccelerate` is on by
+  # default, so the Accelerate column is what Apple-platform users get and the
+  # portable column is what everyone else gets -- two shipped configurations,
+  # neither allowed to go unverified. Hence a matrix rather than one job plus a
+  # claim about the other.
   ner-parity:
     name: NER, tagger and lemma parity (${{ matrix.kernel.label }})
     runs-on: macos-15
@@ -128,10 +128,10 @@ jobs:
       matrix:
         kernel:
           - label: portable SIMD
-            flags: ""
+            flags: "--disable-default-traits"
             marker: "matrix kernel: portable SIMD"
           - label: Accelerate
-            flags: "--traits PresidioAccelerate"
+            flags: ""
             marker: "matrix kernel: Accelerate (cblas_sgemm)"
     steps:
       - uses: actions/checkout@v4
@@ -201,12 +201,16 @@ jobs:
       - name: Build
         run: swift build -v
 
-      - name: Build with the Accelerate trait
-        # The trait is documented as inert off Apple platforms. "Inert" is a
-        # claim about a `canImport` that nobody here can evaluate by reading it,
-        # so it gets built: enabling it on Linux must still produce the portable
-        # kernel rather than a compile error.
-        run: swift build --traits PresidioAccelerate
-
       - name: Test
-        run: swift test
+        run: |
+          set -o pipefail
+          swift test 2>&1 | tee linux.log
+
+      - name: Assert the default build off Apple falls back
+        # PresidioAccelerate is a *default* trait, so it is enabled here too --
+        # the second half of its guard, `canImport(Accelerate)`, is the only
+        # thing keeping this platform on the portable kernel. That is a claim
+        # about a conditional nobody can evaluate by reading it, so it gets run.
+        run: |
+          grep -q "matrix kernel: portable SIMD" linux.log \
+            || { echo "::error::Linux did not fall back to the portable kernel"; exit 1; }

@@ -51,17 +51,24 @@ done
 [[ $status -eq 0 ]] && pass "no Apple closed-source framework imports"
 
 # ---------------------------------------------------------------------------
-# 1a. Accelerate: one file, behind the trait, off by default.
+# 1a. Accelerate: one file, guarded, and never the only kernel.
 # ---------------------------------------------------------------------------
-# The `PresidioAccelerate` trait swaps the hand-written matrix multiply for
-# cblas_sgemm. It is worth having -- ~4.7x on the shapes the model uses -- and
-# it is worth constraining, because with it on macOS no longer runs the same
-# arithmetic as Linux and Android.
+# `PresidioAccelerate` swaps the hand-written matrix multiply for cblas_sgemm.
+# It is a default trait, so on Apple platforms it is what actually runs -- which
+# makes the portable kernel the thing that needs protecting, not the fast one.
+# A default nobody exercises is a default that rots.
 #
-# Three things must stay true, and each has failed silently in some project:
-# the import lives in one file, every import is guarded, and the trait is not
-# enabled by default. Any one of them slipping turns an opt-in into a default
-# nobody chose.
+# Three things must stay true:
+#
+#   1. The import lives in one file. Anywhere else and a target that has no
+#      business knowing about BLAS starts depending on Darwin.
+#   2. Every import is guarded by the trait *and* by canImport. Drop the
+#      canImport and enabling the trait breaks Linux and Android outright,
+#      since a default trait is enabled on every platform.
+#   3. `portableGemmT` is compiled unconditionally. It is the fallback for
+#      every non-Apple platform and the reference the parity tests compare
+#      against; if it ever moved inside an `#else`, the fast path would become
+#      the only path and nothing here would notice.
 ACCEL_FILE=Sources/PresidioNLP/GEMM.swift
 GUARD='#if PresidioAccelerate && canImport(Accelerate)'
 
@@ -71,9 +78,8 @@ if [[ -n "$stray" ]]; then
     fail "Accelerate imported outside ${ACCEL_FILE}:"
     printf '       %s\n' "$stray"
 elif [[ -f "$ACCEL_FILE" ]]; then
-    # Every `import Accelerate` must sit directly under the guard. Checked by
-    # line number rather than by eye: an import that drifted one line out of
-    # its #if would compile on macOS and break the Linux build only.
+    # Checked by line number rather than by eye: an import that drifted one line
+    # out of its #if would still compile on macOS and break everywhere else.
     unguarded=0
     while IFS=: read -r lineno _; do
         [[ -z "$lineno" ]] && continue
@@ -81,12 +87,35 @@ elif [[ -f "$ACCEL_FILE" ]]; then
         [[ "$prev" == "$GUARD" ]] || unguarded=$((unguarded + 1))
     done < <(grep -n "^[[:space:]]*import[[:space:]]\+Accelerate\b" "$ACCEL_FILE" || true)
 
+    # Conditional-compilation depth at the line declaring the portable kernel.
+    # Zero means unconditional; anything else means some build does not have it.
+    portable_depth=$(awk '
+        /^[[:space:]]*#if/    { depth++ }
+        /^[[:space:]]*#endif/ { depth-- }
+        /^func portableGemmT/ { print depth+0; found = 1; exit }
+        END { if (!found) print "missing" }
+    ' "$ACCEL_FILE")
+
     if [[ "$unguarded" -ne 0 ]]; then
         fail "${ACCEL_FILE}: ${unguarded} 'import Accelerate' not directly under '${GUARD}'"
-    elif grep -q "\.default(" Package.swift; then
-        fail "PresidioAccelerate must not be a default trait (found '.default(' in Package.swift)"
+    elif [[ "$portable_depth" == "missing" ]]; then
+        fail "${ACCEL_FILE}: no top-level 'func portableGemmT' -- the fallback kernel is gone"
+    elif [[ "$portable_depth" != "0" ]]; then
+        fail "${ACCEL_FILE}: portableGemmT is inside a #if (depth ${portable_depth}); it must always compile"
     else
-        pass "Accelerate confined to ${ACCEL_FILE}, guarded, and opt-in"
+        pass "Accelerate confined to ${ACCEL_FILE} and guarded; portable kernel always compiled"
+    fi
+fi
+
+# The default trait set decides what an unconfigured consumer gets. Adding to it
+# is a real decision -- it changes behaviour for everyone who said nothing -- so
+# it is spelled out here rather than noticed in a diff.
+if grep -q "\.default(enabledTraits:" Package.swift; then
+    defaults=$(sed -n 's/.*\.default(enabledTraits: \[\(.*\)\]).*/\1/p' Package.swift | tr -d ' "')
+    if [[ "$defaults" != "PresidioAccelerate" ]]; then
+        fail "unexpected default traits: [${defaults}] (expected PresidioAccelerate)"
+    else
+        pass "default traits: PresidioAccelerate"
     fi
 fi
 

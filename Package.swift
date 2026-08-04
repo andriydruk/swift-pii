@@ -7,11 +7,12 @@ import PackageDescription
 // prefix to say what they are compatible with; the package does not, because a
 // package name implies authorship.
 //
-// Portability discipline (see PLAN.md §4): this package must never import an
-// Apple closed-source framework in a default build. macOS is the first
-// supported platform, but the source stays portable so Android/Windows are a
-// port, not a rewrite. The single exception is the opt-in `PresidioAccelerate`
-// trait below, which Tools/check_portability.sh polices rather than trusts.
+// Portability discipline (see PLAN.md §4): this package must never *require* an
+// Apple closed-source framework. macOS is the first supported platform, but the
+// source stays portable so Android/Windows are a port, not a rewrite. The single
+// exception is `PresidioAccelerate` below, which is on by default and always has
+// a compiled-in portable fallback; Tools/check_portability.sh polices that
+// rather than trusting it.
 // Use `import Foundation` — never `FoundationEssentials`, which does not exist
 // on Darwin.
 //
@@ -35,20 +36,29 @@ let package = Package(
         .library(name: "PresidioModelEnglish", targets: ["PresidioModelEnglish"]),
         .executable(name: "swift-pii", targets: ["swift-pii-cli"]),
     ],
-    // Opt-in, and deliberately not a default trait.
+    // On by default, and a trait so it can be turned off.
     //
-    // Enabling it swaps the hand-written SIMD matrix multiply for Accelerate's
-    // cblas_sgemm on Apple platforms: ~4.7x on the shapes this model uses, about
-    // 25-35% off end-to-end inference. Every parity corpus produces identical
-    // *outcomes* either way, but the intermediate floats differ in their last
-    // bits, so with this on macOS no longer runs the same arithmetic as Linux and
-    // Android. That is the whole reason it is a choice rather than the default.
+    // It swaps the hand-written SIMD matrix multiply for Accelerate's
+    // cblas_sgemm: ~4.7x at the shapes this model uses, 2.5x on the whole NLP
+    // stage for paragraph-length documents. A default trait is enabled on every
+    // platform, which is the right shape here -- the code behind it is also
+    // gated on `canImport(Accelerate)`, so off Apple it compiles to the portable
+    // kernel and nothing links.
+    //
+    // The cost is that macOS no longer runs the same arithmetic as Linux and
+    // Android. Measured over every parity corpus the outcomes are identical and
+    // not one argmax flips, while ~93% of the intermediate floats differ in
+    // their last bits. Callers who would rather have one behaviour everywhere
+    // than the speed disable it: `traits: []` on the dependency, or
+    // `--disable-default-traits` when building this package directly.
+    //
     // CI runs the parity suites both ways. See Sources/PresidioNLP/GEMM.swift.
     traits: [
         .trait(
             name: "PresidioAccelerate",
             description: "Use Accelerate's BLAS for model inference on Apple platforms."
-        )
+        ),
+        .default(enabledTraits: ["PresidioAccelerate"]),
     ],
     dependencies: [
         // Only PresidioAnonymizerCrypto depends on this. CryptoKit has no

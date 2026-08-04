@@ -2,24 +2,31 @@
 //
 // Two implementations of one operation:
 //
-//   * `portableGemmT` — hand-written SIMD, no dependencies, identical on every
-//     platform. This is what ships by default, and it is what the parity
-//     numbers in docs/presidio-parity.md were measured with.
+//   * `accelerateGemmT` — Accelerate's `cblas_sgemm`. Roughly 4.7x faster at
+//     the shapes this model actually uses (7.5x in the encoder blocks, 20x on
+//     large batches), which is 2.5x on the whole NLP stage for paragraph-length
+//     documents and less on short ones, because embedding lookups and the
+//     transition system do not speed up. Compiled in when the
+//     `PresidioAccelerate` trait is enabled *and* Accelerate exists — the
+//     trait is on by default, so on Apple platforms this is what runs.
 //
-//   * `accelerateGemmT` — Accelerate's `cblas_sgemm`, compiled in only when the
-//     `PresidioAccelerate` trait is enabled *and* Accelerate exists. Roughly
-//     4.7x faster at the shapes this model actually uses (7.5x in the encoder
-//     blocks, 20x on large batches), which is ~25-35% off end-to-end inference
-//     because embedding lookups and the transition system do not speed up.
+//   * `portableGemmT` — hand-written SIMD, no dependencies. What runs on Linux,
+//     Android and Windows, where `canImport(Accelerate)` is false and the trait
+//     being enabled changes nothing.
 //
-// The trait is opt-in rather than automatic on Apple platforms, for one reason:
-// with it on, macOS runs different arithmetic from Linux and Android. Measured
-// over the full parity corpora the *outcomes* are identical -- 5,513/5,513 tags,
-// 5,513/5,513 lemmas, 2,588/2,592 entities either way, and not one argmax flips
-// -- but ~93% of individual float values differ in their last bits (max delta
-// 3.6e-05). A divergence that ever did appear would be platform-specific and
-// awkward to reproduce, so the default stays the one behaviour everywhere, and
-// CI runs both paths against the same gold corpora.
+// Note which of those two is load-bearing for portability. A default trait is
+// enabled on *every* platform, so `canImport(Accelerate)` is the whole reason
+// the non-Apple build still works, and `portableGemmT` must never end up inside
+// a `#if` -- Tools/check_portability.sh enforces exactly that, and the Linux CI
+// job asserts the fallback actually happens rather than trusting the guard.
+//
+// The trait exists so this can be turned off (`traits: []`, or
+// `--disable-default-traits`). Not for correctness: measured over the full
+// parity corpora the *outcomes* are identical -- 5,513/5,513 tags, 5,513/5,513
+// lemmas, 2,588/2,592 entities either way, and not one argmax flips -- but ~93%
+// of individual float values differ in their last bits (max delta 3.6e-05). If
+// you need macOS and Linux to agree bit for bit rather than answer for answer,
+// that is the switch. CI runs both against the same gold corpora.
 
 #if PresidioAccelerate && canImport(Accelerate)
 import Accelerate
@@ -27,9 +34,11 @@ import Accelerate
 
 /// Which kernel this build was compiled with.
 ///
-/// Public because it is the honest answer to "am I actually getting the fast
-/// path?" -- a trait that silently did nothing would look exactly like a trait
-/// that worked. CI greps for it to prove both paths were exercised.
+/// Public because it is the honest answer to "which one am I actually running?"
+/// -- a guard that silently fell through would look exactly like one that
+/// worked. CI greps for it three times: to prove the Apple default is
+/// Accelerate, that Linux falls back, and that both parity columns really did
+/// compile different kernels.
 public enum MatrixKernel {
 
     /// True when the `PresidioAccelerate` trait is on and Accelerate was found.
@@ -76,8 +85,9 @@ func accelerateGemmT(_ A: UnsafePointer<Float>, _ W: UnsafePointer<Float>,
 
 /// 2x2 register-blocked, eight lanes at a time.
 ///
-/// Always compiled, never conditional: it is the reference the Accelerate path
-/// is checked against, so a build with the trait on still has both to compare.
+/// Always compiled, never conditional. It is the kernel every non-Apple
+/// platform runs, *and* the reference the Accelerate path is checked against —
+/// so even a build that never calls it still has both available to compare.
 func portableGemmT(_ A: UnsafePointer<Float>, _ W: UnsafePointer<Float>, _ C: UnsafeMutablePointer<Float>,
                    _ T: Int, _ K: Int, _ N: Int) {
     let K8 = K & ~7

@@ -356,11 +356,12 @@ an identical span), never corrupted offsets.
 
 ### Two matrix kernels, one set of outcomes
 
-The matrix multiply has a second implementation behind the opt-in
-`PresidioAccelerate` trait: Accelerate's `cblas_sgemm` instead of the
-hand-written SIMD kernel. BLAS blocks and reduces in a completely different
-order, so this is a natural experiment on how much the arithmetic actually
-matters here.
+The matrix multiply has two implementations, and which one runs depends on the
+platform: Accelerate's `cblas_sgemm` where it exists, the hand-written SIMD
+kernel everywhere else. BLAS blocks and reduces in a completely different order,
+so this is a natural experiment on how much the arithmetic actually matters
+here — and, since both are shipped, one this project has to answer rather than
+speculate about.
 
 Over the full corpora, it does not matter at all:
 
@@ -379,13 +380,21 @@ delta of 3.6e-05 at the shapes this model uses.
 Two things follow. The remaining NER gap is not a borderline-`argmax`-from-
 summation-order effect, or a different summation order would have moved it. And
 the margins in this network are wide enough that last-bit differences do not
-reach the output — which is why the trait is offered at all, and why it is still
-opt-in: "no divergence on this corpus" is not "never diverges", and a divergence
-that only appeared on macOS would be an unpleasant thing to debug.
+reach the output — which is what makes Accelerate the default on Apple platforms
+rather than something to opt into.
 
-CI runs the parity suites under both kernels, and asserts from the test output
+It is still a trait (`PresidioAccelerate`, on by default, `traits: []` to
+disable), for one case only: needing macOS and Linux to produce bit-identical
+intermediates, not merely identical answers. "No divergence on this corpus" is
+not "never diverges", and anyone with a cross-platform golden-output test has a
+legitimate reason to want the same kernel everywhere.
+
+CI runs the parity suites under both kernels and asserts from the test output
 which kernel each job compiled — a trait that silently did nothing would
-otherwise look exactly like a trait that worked.
+otherwise look exactly like a trait that worked. The Linux canary separately
+asserts that a default build there lands on the portable kernel, since a default
+trait is enabled on every platform and `canImport(Accelerate)` is the only thing
+standing between that and a broken Android build.
 
 Worth stating plainly: an earlier prototype measured 0 FP / 0 FN, but that was
 with **spaCy supplying the tokens and norms** and the `tok2vec` component
