@@ -72,7 +72,7 @@ public final class SpacyNER: @unchecked Sendable {
         }
 
         self.tokenizer = try tokenizer ?? SpacyTokenizer.english()
-        self.model = NERModel(dir: modelDirectory)
+        self.model = try NERModel(dir: modelDirectory)
         guard !self.model.actMove.isEmpty else {
             throw NERError.modelIncomplete("no transition actions loaded from ner/moves")
         }

@@ -25,4 +25,15 @@ enum SpacySymbols {
 
     @inline(__always)
     static func id(for text: String) -> UInt64? { table[text] }
+
+    /// Reverse lookup. The edit-tree lemmatizer stores substitution strings as
+    /// string-store ids, and the reserved symbols are the ones that are *not*
+    /// hashes, so they cannot be recovered by hashing candidates.
+    private static let byID: [UInt64: String] = {
+        var out: [UInt64: String] = [:]
+        for (text, id) in table { out[id] = text }
+        return out
+    }()
+
+    static func text(for id: UInt64) -> String? { byID[id] }
 }

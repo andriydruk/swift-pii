@@ -62,6 +62,7 @@ public final class SpacyTokenizer: @unchecked Sendable {
 
     public enum LoadError: Error, CustomStringConvertible {
         case resourceMissing
+        case unsupportedLanguage(String)
         case badPattern(String, Error)
 
         public var description: String {
@@ -71,6 +72,15 @@ public final class SpacyTokenizer: @unchecked Sendable {
                     en_tokenizer.json not found. Regenerate with:
                       python3 Tools/extract_tokenizer.py --python <venv> \
                     --out Sources/PresidioNLP/Resources/en_tokenizer.json
+                    """
+            case .unsupportedLanguage(let language):
+                return """
+                    no bundled tokenizer rules for '\(language)'. Bundled: \
+                    \(SpacyTokenizer.bundledLanguages.joined(separator: ", ")). \
+                    Add one with:
+                      python3 Tools/extract_tokenizer.py --python <venv> \
+                    --lang \(language) \
+                    --out Sources/PresidioNLP/Resources/\(language)_tokenizer.json
                     """
             case .badPattern(let name, let error):
                 return "tokenizer pattern '\(name)' failed to compile: \(error)"
@@ -90,9 +100,31 @@ public final class SpacyTokenizer: @unchecked Sendable {
 
     public var spacyVersion: String { rules.spacyVersion }
 
+    /// Languages with bundled tokenizer rules.
+    ///
+    /// Rules are data, so adding a language is an extraction rather than a code
+    /// change — but only for languages spaCy tokenizes by rule. Japanese and
+    /// Chinese are segmented by SudachiPy and pkuseg, which are models, not
+    /// tables, and cannot be bundled this way at all.
+    public static let bundledLanguages = ["de", "en"]
+
     public static func english() throws -> SpacyTokenizer {
+        try forLanguage("en")
+    }
+
+    /// German, whose rules differ from English mostly in the infix pattern —
+    /// 22,324 characters against 15,520 — and in having a third as many
+    /// tokenizer exceptions.
+    public static func german() throws -> SpacyTokenizer {
+        try forLanguage("de")
+    }
+
+    public static func forLanguage(_ language: String) throws -> SpacyTokenizer {
+        guard bundledLanguages.contains(language) else {
+            throw LoadError.unsupportedLanguage(language)
+        }
         guard let url = Bundle.module.url(
-            forResource: "en_tokenizer", withExtension: "json"
+            forResource: "\(language)_tokenizer", withExtension: "json"
         ) else { throw LoadError.resourceMissing }
         let rules = try JSONDecoder().decode(
             Rules.self, from: Data(contentsOf: url)

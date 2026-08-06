@@ -195,6 +195,32 @@ jobs:
           grep -qF "${{ matrix.kernel.marker }}" ner.log \
             || { echo "::error::expected '${{ matrix.kernel.marker }}'"; exit 1; }
 
+      - name: Fetch de_core_news_sm 3.7.0
+        run: |
+          curl -sSL -o de.whl \
+            https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.7.0/de_core_news_sm-3.7.0-py3-none-any.whl
+          unzip -q de.whl -d demodel
+          echo "SPACY_DE_MODEL_DIR=$PWD/demodel/de_core_news_sm/de_core_news_sm-3.7.0" >> "$GITHUB_ENV"
+
+      - name: German parity
+        # German is the second language taken end to end, and every layer of it
+        # differs from English somewhere: its own tokenizer rules, 52 STTS tags
+        # instead of 50 PTB ones, 18 NER transition classes instead of 74, and a
+        # *neural* edit-tree lemmatizer where English has rules. Only the last of
+        # those needed new code; the rest needed the English constants removed.
+        run: |
+          set -o pipefail
+          swift test -c release ${{ matrix.kernel.flags }} \
+            --filter "GermanTokenizerTests|GermanNERTests|GermanTaggerTests|GermanLemmaTests|GermanEngineTests" \
+            2>&1 | tee german.log
+
+      - name: Assert the German suites actually ran
+        run: |
+          for suite in "German tokenizer" "German NER parity" "German tagger" "German lemmas"; do
+            grep -q "$suite" german.log \
+              || { echo "::error::'$suite' did not run"; exit 1; }
+          done
+
       - name: Assert the suite actually ran
         # A --filter that matches nothing exits 0. Without this, deleting the
         # suite or mistyping the filter would look like a pass -- which is

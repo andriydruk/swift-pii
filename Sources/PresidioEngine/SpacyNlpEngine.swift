@@ -48,30 +48,52 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
     ///     text) and end-to-end `analyze` goes from 2.7 to 3.9 ms, about 45%.
     ///     Construction is unaffected. Pass `LookupLemmatizer()` explicitly to
     ///     trade the exactness back for the speed.
+    /// - Parameter language: which language's tokenizer rules to use, and which
+    ///   lemmatizer the model is expected to carry. It must be the language the
+    ///   model was trained for: tokenizing German with English rules is a quiet
+    ///   failure, since most sentences survive it and only the exceptions —
+    ///   `z.B.`, `Dr.` — come out wrong, shifting every offset after them.
     public init(
         modelDirectory: String,
         configuration: NerModelConfiguration = NerModelConfiguration(),
         lemmatizer: (any Lemmatizing)? = nil,
-        supportedLanguages: [String] = ["en"]
+        language: String = "en",
+        supportedLanguages: [String]? = nil
     ) throws {
-        self.ner = try SpacyNER(modelDirectory: modelDirectory)
+        let tokenizer = try SpacyTokenizer.forLanguage(language)
+        self.ner = try SpacyNER(modelDirectory: modelDirectory, tokenizer: tokenizer)
         self.configuration = configuration
-        self.supportedLanguages = supportedLanguages
+        self.supportedLanguages = supportedLanguages ?? [language]
 
         if let lemmatizer {
             self.lemmatizer = lemmatizer
             self.lemmatizerKind = "\(type(of: lemmatizer)) (caller-supplied)"
             self.fallbackReason = nil
-        } else if let rule = try? SpacyRuleLemmatizer(modelDirectory: modelDirectory) {
+        } else if language == "en",
+                  let rule = try? SpacyRuleLemmatizer(modelDirectory: modelDirectory) {
+            // Gated on the language, not merely attempted. `SpacyRuleLemmatizer`
+            // combines the model's tagger with the bundled **English** rule
+            // tables, and it cannot tell that it has been handed a German model
+            // — it loads, it runs, and it returns confident English-rule lemmas
+            // for German words. Trying it first and falling through on failure
+            // is exactly what produced that, and it is invisible without a
+            // German corpus to check against.
             self.lemmatizer = rule
             self.lemmatizerKind = "spaCy rule-mode (exact)"
+            self.fallbackReason = nil
+        } else if let editTree = try? SpacyEditTreeLemmatizer(modelDirectory: modelDirectory) {
+            // German and most other `*_core_news_sm` pipelines: a trained
+            // classifier over edit trees, which is a different component
+            // entirely rather than a variant of the rule one.
+            self.lemmatizer = editTree
+            self.lemmatizerKind = "spaCy edit-tree (exact)"
             self.fallbackReason = nil
         } else {
             self.lemmatizer = LookupLemmatizer()
             self.lemmatizerKind = "lookup table (approximate)"
             self.fallbackReason =
-                "\(modelDirectory) has no usable tagger, so rule-mode "
-                + "lemmatization is unavailable"
+                "\(modelDirectory) carries neither a rule lemmatizer nor a "
+                + "trainable one, so lemmas are approximated from a table"
         }
     }
 
@@ -118,11 +140,42 @@ public final class TokenizerOnlyNlpEngine: NlpEngineProviding, @unchecked Sendab
 
     public let supportedLanguages: [String]
 
+    /// What the tokenizer is approximating, if anything.
+    public var warnings: [String] {
+        guard let approximated else { return [] }
+        return [
+            "No tokenizer rules are bundled for '\(approximated)', so English "
+            + "rules are being used. Token boundaries decide the context window, "
+            + "so scores near language-specific abbreviations may differ from "
+            + "Presidio. Add rules with Tools/extract_tokenizer.py --lang "
+            + "\(approximated)."
+        ]
+    }
+
+    private let approximated: String?
+
+    /// - Parameter supportedLanguages: the first entry also picks the tokenizer
+    ///   rules, so a German engine tokenizes German.
+    ///
+    ///   A language with no bundled rules falls back to English ones and says so
+    ///   through `warnings`, rather than refusing. That is the opposite of
+    ///   `SpacyNlpEngine`'s choice, deliberately: there, wrong token boundaries
+    ///   feed a model and corrupt entity offsets, so it is worth stopping for.
+    ///   Here there is no model — tokenization only decides the ±5-token context
+    ///   window — and refusing would take away the Spanish and Italian
+    ///   recognizers entirely to avoid a scoring approximation.
     public init(
         lemmatizer: any Lemmatizing = LookupLemmatizer(),
         supportedLanguages: [String] = ["en"]
     ) throws {
-        self.tokenizer = try SpacyTokenizer.english()
+        let language = supportedLanguages.first ?? "en"
+        if let rules = try? SpacyTokenizer.forLanguage(language) {
+            self.tokenizer = rules
+            self.approximated = nil
+        } else {
+            self.tokenizer = try SpacyTokenizer.english()
+            self.approximated = language
+        }
         self.lemmatizer = lemmatizer
         self.supportedLanguages = supportedLanguages
     }
@@ -178,5 +231,30 @@ public struct SpacyRuleLemmatizer: Lemmatizing {
 
     public func lemmas(for tokens: [Token], text: String) -> [String] {
         chain.lemmas(for: tokens, text: text)
+    }
+}
+
+/// spaCy's trainable lemmatizer, wired into the engine.
+///
+/// The counterpart to `SpacyRuleLemmatizer` for pipelines that have no rule
+/// lemmatizer at all — German's, and most `*_core_news_sm` models. Exact over
+/// the 699-token German corpus.
+///
+/// The two are not interchangeable and the engine does not guess: it tries the
+/// rule one, then this, and says which it got through `lemmatizerKind`.
+public struct SpacyEditTreeLemmatizer: Lemmatizing {
+
+    private let model: EditTreeLemmatizer
+
+    public init(modelDirectory: String) throws {
+        self.model = try EditTreeLemmatizer(directory: modelDirectory)
+    }
+
+    /// Without surrounding tokens there is no prediction, so this degrades to
+    /// lowercasing. `lemmas(for:text:)` is the real entry point.
+    public func lemma(for token: String) -> String { token.lowercased() }
+
+    public func lemmas(for tokens: [Token], text: String) -> [String] {
+        model.lemmas(for: tokens, text: text)
     }
 }

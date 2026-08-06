@@ -43,21 +43,54 @@ public enum LexicalTables {
         }
     }
 
-    private static let payload: Payload? = {
-        guard let url = Bundle.module.url(forResource: "en_lexical", withExtension: "json"),
-              let bytes = try? Data(contentsOf: url),
-              let decoded = try? JSONDecoder().decode(Payload.self, from: bytes)
-        else { return nil }
-        return decoded
+    /// Languages with a bundled stop-word list.
+    ///
+    /// Adding one is an extraction, not a code change:
+    /// `Tools/extract_nlp_tables.py --lang xx`.
+    public static let bundledLanguages = ["de", "en"]
+
+    private static func load(_ language: String) -> Set<String> {
+        guard let url = Bundle.module.url(
+            forResource: "\(language)_lexical", withExtension: "json"
+        ),
+        let bytes = try? Data(contentsOf: url),
+        let decoded = try? JSONDecoder().decode(Payload.self, from: bytes)
+        else { return [] }
+        return Set(decoded.stopWords)
+    }
+
+    private static let tables: [String: Set<String>] = {
+        var out: [String: Set<String>] = [:]
+        for language in bundledLanguages {
+            let words = load(language)
+            if !words.isEmpty { out[language] = words }
+        }
+        return out
     }()
 
-    public static let englishStopWords: Set<String> = Set(payload?.stopWords ?? [])
+    public static let englishStopWords: Set<String> = tables["en"] ?? []
+
+    /// German's 543 stop words, against English's 326.
+    public static let germanStopWords: Set<String> = tables["de"] ?? []
 
     public static var isLoaded: Bool { !englishStopWords.isEmpty }
 
+    /// Whether a word is a stop word *in that language*.
+    ///
+    /// This used to answer `false` for everything but English, which is the
+    /// quiet kind of wrong: `NlpArtifacts.set_keywords` drops stop words before
+    /// context matching, so a German engine treated "der" and "und" as evidence
+    /// that a candidate nearby was really PII. A language with no bundled list
+    /// still answers `false`, but now that is a statement about that language
+    /// rather than about every language that is not English.
     public static func isStopWord(_ word: String, language: String) -> Bool {
-        guard language == "en" else { return false }
-        return englishStopWords.contains(word.lowercased())
+        tables[language]?.contains(word.lowercased()) ?? false
+    }
+
+    /// Whether this language's stop words are bundled at all — so a caller can
+    /// tell "not a stop word" from "we have no idea".
+    public static func hasStopWords(for language: String) -> Bool {
+        tables[language] != nil
     }
 }
 

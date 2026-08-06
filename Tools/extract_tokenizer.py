@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract spaCy's English tokenizer rules and NORM tables.
+"""Extract a spaCy language's tokenizer rules and NORM tables.
 
 The tokenizer is rule-based and entirely data-driven: four regexes plus a
 special-case table. That makes it portable, unlike the statistical components.
@@ -18,9 +18,15 @@ empirically against spaCy rather than from documentation:
      em-dash to hyphen).
   4. Otherwise the lowercase form.
 
+Language is a parameter, not a constant. The rules differ per language --
+German splits on different infixes and has its own exception table -- but the
+*shape* of the data is identical, so one extractor and one Swift reader serve
+every rule-tokenized language. (Japanese and Chinese are not rule-tokenized at
+all; they need SudachiPy and pkuseg respectively, and are out of reach here.)
+
 Usage:
     python3 Tools/extract_tokenizer.py --python <venv python with spacy> \\
-        --out Sources/PresidioNLP/Resources/en_tokenizer.json
+        --lang de --out Sources/PresidioNLP/Resources/de_tokenizer.json
 """
 
 from __future__ import annotations
@@ -33,13 +39,23 @@ import sys
 
 # Runs inside the target interpreter, which is the only one that has spaCy.
 CHILD = r'''
-import gzip, json, os, sys
+import gzip, importlib, json, os, sys
 import spacy
 from spacy.lang.norm_exceptions import BASE_NORMS
-from spacy.lang.en.tokenizer_exceptions import TOKENIZER_EXCEPTIONS
 from spacy.symbols import NORM, ORTH
 
-nlp = spacy.blank("en")
+lang = sys.argv[1]
+
+# Not every language defines tokenizer_exceptions; an absent module means the
+# language simply has none, which is different from failing to read it.
+try:
+    TOKENIZER_EXCEPTIONS = importlib.import_module(
+        f"spacy.lang.{lang}.tokenizer_exceptions"
+    ).TOKENIZER_EXCEPTIONS
+except (ImportError, AttributeError):
+    TOKENIZER_EXCEPTIONS = {}
+
+nlp = spacy.blank(lang)
 tok = nlp.tokenizer
 
 def pattern(matcher):
@@ -60,7 +76,7 @@ lexeme_norm = {}
 try:
     import spacy_lookups_data
     path = os.path.join(os.path.dirname(spacy_lookups_data.__file__),
-                        "data", "en_lexeme_norm.json.gz")
+                        "data", f"{lang}_lexeme_norm.json.gz")
     with gzip.open(path, "rt", encoding="utf8") as fh:
         lexeme_norm = json.load(fh)
 except Exception as exc:  # noqa: BLE001
@@ -68,6 +84,7 @@ except Exception as exc:  # noqa: BLE001
 
 json.dump({
     "spacy_version": spacy.__version__,
+    "language": lang,
     "prefix": pattern(tok.prefix_search),
     "suffix": pattern(tok.suffix_search),
     "infix": pattern(tok.infix_finditer),
@@ -83,11 +100,12 @@ json.dump({
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--python", required=True, help="interpreter that has spacy")
+    ap.add_argument("--lang", default="en", help="spaCy language code, e.g. en or de")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
     proc = subprocess.run(
-        [args.python, "-c", CHILD], capture_output=True, text=True
+        [args.python, "-c", CHILD, args.lang], capture_output=True, text=True
     )
     if proc.returncode != 0:
         print(proc.stderr, file=sys.stderr)
@@ -105,7 +123,7 @@ def main() -> int:
         fh.write("\n")
 
     print(f"wrote {args.out} ({os.path.getsize(args.out) / 1024:.0f} KB)")
-    print(f"  spaCy         {payload['spacy_version']}")
+    print(f"  spaCy         {payload['spacy_version']}  language {payload['language']}")
     for key in ("prefix", "suffix", "infix", "url"):
         value = payload.get(key)
         print(f"  {key:13s} {len(value) if value else 'None'} chars")

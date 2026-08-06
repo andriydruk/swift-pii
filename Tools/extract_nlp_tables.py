@@ -5,7 +5,7 @@
 both of which are spaCy vocabulary attributes rather than anything Presidio
 defines. Two facts, both verified against the loaded model rather than assumed:
 
-- `is_stop` is membership in `spacy.lang.en.stop_words.STOP_WORDS`, matched
+- `is_stop` is membership in `spacy.lang.<lang>.stop_words.STOP_WORDS`, matched
   case-insensitively. All 326 entries were confirmed to round-trip through
   `nlp.vocab[w].is_stop`.
 - `is_punct` is "every character is in Unicode category P*". Checked against
@@ -16,9 +16,15 @@ defines. Two facts, both verified against the loaded model rather than assumed:
 Only the stopword list is emitted; the punctuation rule is a rule, so it is
 implemented directly rather than tabulated.
 
+The language is a parameter. Stop words are the half of context scoring nobody
+notices until they are missing: `LexicalTables.isStopWord` answered `false` for
+every language but English, so a German context word that happens to be a stop
+word was silently counted as evidence.
+
 Usage:
     python3 Tools/extract_nlp_tables.py --python <venv python> \\
-        --out Sources/PresidioEngine/Resources/en_lexical.json
+        --lang de --model de_core_news_sm \\
+        --out Sources/PresidioEngine/Resources/de_lexical.json
 """
 
 from __future__ import annotations
@@ -30,11 +36,13 @@ import subprocess
 import sys
 
 CHILD = r'''
-import json, sys, unicodedata
+import importlib, json, sys, unicodedata
 import spacy
-from spacy.lang.en.stop_words import STOP_WORDS
 
-nlp = spacy.load(sys.argv[1])
+model, lang = sys.argv[1], sys.argv[2]
+STOP_WORDS = importlib.import_module(f"spacy.lang.{lang}.stop_words").STOP_WORDS
+
+nlp = spacy.load(model)
 
 # Confirm the two rules rather than trusting them.
 unflagged = [w for w in STOP_WORDS if not nlp.vocab[w].is_stop]
@@ -50,7 +58,8 @@ case_mismatch = [
 
 json.dump({
     "spacy_version": spacy.__version__,
-    "model": sys.argv[1],
+    "model": model,
+    "language": lang,
     "stop_words": sorted(STOP_WORDS),
     "checks": {
         "stopwords_not_flagged": sorted(unflagged),
@@ -65,11 +74,13 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--python", required=True)
     ap.add_argument("--model", default="en_core_web_lg")
+    ap.add_argument("--lang", default="en", help="spaCy language code")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
     proc = subprocess.run(
-        [args.python, "-c", CHILD, args.model], capture_output=True, text=True
+        [args.python, "-c", CHILD, args.model, args.lang],
+        capture_output=True, text=True
     )
     if proc.returncode != 0:
         print(proc.stderr, file=sys.stderr)

@@ -70,7 +70,11 @@ struct DefaultLemmatizerTests {
         }
         #expect(engine.lemmatizerKind.contains("approximate"))
         #expect(engine.warnings.count == 1)
-        #expect(engine.warnings[0].contains("no usable tagger"))
+        // The wording widened when German arrived: a model can now miss the
+        // rule lemmatizer *and* the trainable one, and "no usable tagger" named
+        // only the first of those.
+        #expect(engine.warnings[0].contains("neither a rule lemmatizer nor a trainable one"),
+                "\(engine.warnings[0])")
     }
 
     @Test("the warning reaches AnalyzerEngine.configurationWarnings")

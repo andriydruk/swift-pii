@@ -333,6 +333,58 @@ explicit because this was wrong until recently: those ten declare no
 "English" left every non-English engine with only its country-specific
 recognizers. A Spanish engine found NIFs and no e-mail addresses.
 
+### German, end to end
+
+German is the second language taken all the way through, and it is the template
+for the rest. Every layer was verified against spaCy's own output:
+
+| | |
+|---|---|
+| Tokenizer (699 tokens, 89 texts) | **699/699**, 0 NORM divergences |
+| Fine-grained tags (STTS) | **699/699** |
+| Lemmas | **699/699** |
+| NER entities | **66/66 recall**, 65/66 precision |
+
+```swift
+let nlp = try SpacyNlpEngine(modelDirectory: germanModel, language: "de")
+var registry = try RecognizerRegistry.loadPredefined(languages: ["de"])
+registry.add(SpacyRecognizer(supportedLanguage: "de"))
+
+let engine = try AnalyzerEngine(
+    registry: registry, nlpEngine: nlp, supportedLanguages: ["de"]
+)
+try engine.analyze(
+    text: "Dr. Anna Müller arbeitet bei der Siemens AG in München.",
+    language: "de"
+)
+// PERSON Anna Müller · ORGANIZATION Siemens AG · LOCATION München
+```
+
+Weights are not bundled for German — point `modelDirectory` at an unpacked
+`de_core_news_sm`. The German national-identifier recognizers ship disabled, as
+they do upstream; add them with `configuration: nil` as shown earlier.
+
+Almost none of this needed German-specific code. What it needed was English
+constants *removed*: the NER loader hard-coded 74 transition classes, so any
+other model crashed in the loader, and the tokenizer and stop-word tables were
+`en_`-prefixed resources rather than a language parameter.
+
+The one genuinely new component is the lemmatizer. English lemmatizes by rule —
+suffix tables keyed by coarse POS — and German does not: it uses a trained
+classifier over **edit trees**, a different pipeline component that happens to
+share the name. A lookup table stands in for it at only 67% accuracy, and
+sometimes confidently wrongly (it maps "er" to "ich"), so
+[`EditTreeLemmatizer`](Sources/PresidioNLP/EditTreeLemmatizer.swift) ports the
+real one. It reuses the tagger's forward pass unchanged — the classifier is the
+same architecture, differing only in what its 1,311 output classes mean.
+
+The one deliberate asymmetry: a **model** for a language with no bundled
+tokenizer rules is refused, because wrong token boundaries corrupt the entity
+offsets the model produces. A **tokenizer-only** engine falls back to English
+rules and says so through `warnings`, because there the only cost is context
+scoring, and refusing would take away the Spanish and Italian recognizers to
+avoid an approximation.
+
 ### What is English-only
 
 Pattern and checksum detection is language-agnostic — a German tax ID validates
@@ -346,9 +398,11 @@ the same way whatever language surrounds it. The **linguistic** layer is not:
   `DATE_TIME` and no `NRP` from the model in German, Spanish, French, Italian or
   Portuguese. Japanese and Chinese go further and need an external tokenizer
   (SudachiPy, pkuseg) that has no Swift equivalent at all.
-- **Stop words and lemmas.** Both tables are English. For another language,
-  context scoring still works by substring match on the lowercased token, but
-  stop-word filtering and inflection handling do not.
+- **Stop words and lemmas.** Bundled for English and German (326 and 543 stop
+  words). For a third language, context scoring still works by substring match
+  on the lowercased token, but stop-word filtering and inflection handling do
+  not — `LexicalTables.hasStopWords(for:)` tells you which case you are in
+  rather than leaving "not a stop word" to mean both things.
 - **Context words.** Most recognizers list English context words. A handful
   carry Spanish, Italian and Polish ones.
 

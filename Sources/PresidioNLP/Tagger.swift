@@ -59,22 +59,41 @@ public final class TaggerModel: @unchecked Sendable {
         }
     }
 
-    /// - Parameter directory: an unpacked spaCy model directory.
-    public init(directory: String) throws {
+    /// - Parameters:
+    ///   - directory: an unpacked spaCy model directory.
+    ///   - component: which `spacy.Tagger.v2` component to read. The tagger is
+    ///     the obvious one, but German's `lemmatizer` is the *same architecture*
+    ///     — a softmax over the shared tok2vec — differing only in what its
+    ///     classes mean: 1,311 edit-tree ids instead of 52 tags. Parameterizing
+    ///     this is the whole reason `EditTreeLemmatizer` needs no forward pass
+    ///     of its own.
+    public init(directory: String, component: String = "tagger") throws {
         let tokPath = directory + "/tok2vec/model"
-        let tagPath = directory + "/tagger/model"
-        let cfgPath = directory + "/tagger/cfg"
+        let tagPath = directory + "/\(component)/model"
+        let cfgPath = directory + "/\(component)/cfg"
         for path in [tokPath, tagPath, cfgPath] where
             !FileManager.default.fileExists(atPath: path) {
             throw LoadError.missing(path)
         }
 
         // --- labels -------------------------------------------------------
+        // The tagger's labels are strings; the lemmatizer's are integer tree
+        // ids. Both are just names for softmax columns here.
         guard let cfg = try? JSONSerialization.jsonObject(
                 with: Data(readFile(cfgPath))
-              ) as? [String: Any],
-              let labels = cfg["labels"] as? [String], !labels.isEmpty
-        else { throw LoadError.malformed("tagger/cfg has no labels") }
+              ) as? [String: Any]
+        else { throw LoadError.malformed("\(component)/cfg is not JSON") }
+        let labels: [String]
+        if let strings = cfg["labels"] as? [String] {
+            labels = strings
+        } else if let numbers = cfg["labels"] as? [Int] {
+            labels = numbers.map(String.init)
+        } else {
+            labels = []
+        }
+        guard !labels.isEmpty else {
+            throw LoadError.malformed("\(component)/cfg has no labels")
+        }
         self.labels = labels
 
         // --- shared tok2vec ----------------------------------------------
@@ -218,6 +237,14 @@ public final class TaggerModel: @unchecked Sendable {
 
     /// Predict a tag for every token.
     public func tags(for tokens: [Token], text: String) -> [String] {
+        predictions(for: tokens, text: text).map { labels[$0] }
+    }
+
+    /// The argmax softmax column per token, before it is named.
+    ///
+    /// `tags(for:text:)` turns these into tag strings; the lemmatizer turns the
+    /// same numbers into edit-tree ids.
+    public func predictions(for tokens: [Token], text: String) -> [Int] {
         guard !tokens.isEmpty else { return [] }
         let count = tokens.count
         let scalars = Array(text.unicodeScalars)
@@ -319,7 +346,7 @@ public final class TaggerModel: @unchecked Sendable {
         // Only the argmax is needed, so the exponential is skipped: softmax is
         // monotonic in its input, so the largest logit is the predicted tag.
         let classes = labels.count
-        var out: [String] = []
+        var out: [Int] = []
         out.reserveCapacity(count)
         for t in 0..<count {
             var bestIndex = 0
@@ -332,7 +359,7 @@ public final class TaggerModel: @unchecked Sendable {
                 }
                 if sum > bestScore { bestScore = sum; bestIndex = c }
             }
-            out.append(labels[bestIndex])
+            out.append(bestIndex)
         }
         return out
     }

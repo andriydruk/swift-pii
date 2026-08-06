@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 import PresidioNLP
 import PresidioAnalyzer
@@ -102,14 +103,107 @@ struct LanguageTests {
         #expect(types.contains("ES_NIF"), "\(found)")
     }
 
-    /// What is genuinely English-only, so the limits are stated rather than
-    /// discovered.
-    @Test("the NLP layer is English")
-    func nlpLayerIsEnglish() {
+    /// What the NLP layer knows per language, and where it stops.
+    ///
+    /// Stop words are now bundled for German as well as English, and the lists
+    /// are genuinely separate — "the" is not a German stop word, and asking
+    /// about a language with no bundled list still answers `false`, but
+    /// `hasStopWords(for:)` distinguishes that from a real answer.
+    @Test("stop words are per language, and their absence is visible")
+    func stopWordsPerLanguage() {
         #expect(LexicalTables.isStopWord("the", language: "en"))
-        #expect(!LexicalTables.isStopWord("der", language: "de"),
-                "no German stop words are bundled")
-        #expect(!LexicalTables.isStopWord("the", language: "de"),
-                "the table is not consulted for other languages at all")
+        #expect(LexicalTables.isStopWord("der", language: "de"))
+        #expect(LexicalTables.isStopWord("und", language: "de"))
+        #expect(!LexicalTables.isStopWord("the", language: "de"))
+        #expect(!LexicalTables.isStopWord("der", language: "en"))
+        #expect(LexicalTables.germanStopWords.count == 543)
+
+        #expect(LexicalTables.hasStopWords(for: "de"))
+        #expect(!LexicalTables.hasStopWords(for: "fr"),
+                "French has none bundled; that is a gap, not a claim about French")
+        #expect(!LexicalTables.isStopWord("le", language: "fr"))
     }
+}
+
+/// German end to end: the whole stack in one language.
+///
+/// The layers were each verified against spaCy separately — tokenizer 699/699,
+/// tagger 699/699, lemmas 699/699, NER 66/66 recall — and this is where they
+/// have to agree simultaneously, with the recognizers and the context enhancer
+/// on top.
+@Suite("German end to end", .enabled(if: germanEngineModelDirectory() != nil))
+struct GermanEngineTests {
+
+    /// A German engine assembled the way a caller actually would.
+    ///
+    /// Two sources, because upstream splits them: the *default* registry for
+    /// German supplies the ten language-agnostic recognizers (e-mail, IP, IBAN,
+    /// phone...), while the 13 German national-identifier recognizers ship
+    /// `enabled: false` and have to be asked for. Loading only the catalogue
+    /// would give the second group and lose the first.
+    static func engine() throws -> AnalyzerEngine {
+        var registry = try RecognizerRegistry.loadPredefined(languages: ["de"])
+        let catalogue = try RecognizerRegistry.loadPredefined(
+            languages: ["de"], configuration: nil
+        )
+        for recognizer in catalogue.recognizers { registry.add(recognizer) }
+
+        let nlp = try SpacyNlpEngine(
+            modelDirectory: germanEngineModelDirectory()!, language: "de"
+        )
+        registry.add(SpacyRecognizer(supportedLanguage: "de"))
+        return try AnalyzerEngine(
+            registry: registry, nlpEngine: nlp, supportedLanguages: ["de"]
+        )
+    }
+
+    @Test("the German pipeline reports exact lemmas, not an approximation")
+    func usesEditTreeLemmatizer() throws {
+        let nlp = try SpacyNlpEngine(
+            modelDirectory: germanEngineModelDirectory()!, language: "de"
+        )
+        #expect(nlp.lemmatizerKind == "spaCy edit-tree (exact)", "\(nlp.lemmatizerKind)")
+        #expect(nlp.warnings.isEmpty, "\(nlp.warnings)")
+    }
+
+    @Test("names, places and identifiers are found in one German text")
+    func endToEnd() throws {
+        let engine = try Self.engine()
+        let found = try engine.analyze(
+            text: "Dr. Anna Müller arbeitet bei der Siemens AG in München. "
+                + "Ihre Steuer-ID lautet 65929970489 und ihre E-Mail "
+                + "anna.mueller@example.de.",
+            language: "de"
+        )
+        let types = Set(found.map(\.entityType))
+        #expect(types.contains("PERSON"), "\(found)")
+        #expect(types.contains("LOCATION"), "\(found)")
+        #expect(types.contains("DE_TAX_ID"), "\(found)")
+        #expect(types.contains("EMAIL_ADDRESS"), "\(found)")
+    }
+
+    /// German stop words now exist, so the context enhancer can tell an
+    /// evidence word from a function word.
+    ///
+    /// `keywords` is what context matching actually consults — lemmas with stop
+    /// words and punctuation removed. Before German stop words were bundled,
+    /// `isStopWord` answered `false` for every German word, so "die" and "und"
+    /// arrived here as evidence.
+    @Test("German stop words are filtered out of the context keywords")
+    func stopWordsInArtifacts() throws {
+        let nlp = try SpacyNlpEngine(
+            modelDirectory: germanEngineModelDirectory()!, language: "de"
+        )
+        let artifacts = nlp.process(
+            text: "Die Steuer-ID lautet 65929970489.", language: "de"
+        )
+        #expect(!artifacts.keywords.contains("die"), "\(artifacts.keywords)")
+        #expect(!artifacts.keywords.contains("."), "\(artifacts.keywords)")
+        #expect(artifacts.keywords.contains { $0.lowercased().contains("steuer") },
+                "\(artifacts.keywords)")
+    }
+}
+
+func germanEngineModelDirectory() -> String? {
+    ProcessInfo.processInfo.environment["SPACY_DE_MODEL_DIR"]
 }

@@ -45,7 +45,15 @@ func readFile(_ path: String) -> [UInt8] {
 indirect enum MP {
     case nilv, bool(Bool), int(Int64), uint(UInt64), str(String), bin(ArraySlice<UInt8>)
     case arr([MP]), map([(MP, MP)])
-    var asInt: Int? { if case .int(let v) = self { return Int(v) }; if case .uint(let v) = self { return Int(v) }; return nil }
+    var asInt: Int? { if case .int(let v) = self { return Int(v) }; if case .uint(let v) = self { return Int(exactly: v) }; return nil }
+    /// Unsigned, for values that genuinely use the top bit: spaCy's string-store
+    /// hashes are 64-bit, so more than half of them do not fit in `Int` and
+    /// `asInt` would trap converting them.
+    var asUInt: UInt64? {
+        if case .uint(let v) = self { return v }
+        if case .int(let v) = self { return v >= 0 ? UInt64(v) : UInt64(bitPattern: Int64(v)) }
+        return nil
+    }
     var asStr: String? { if case .str(let s) = self { return s }; return nil }
     var asArr: [MP]? { if case .arr(let a) = self { return a }; return nil }
     var asBin: ArraySlice<UInt8>? { if case .bin(let b) = self { return b }; return nil }
@@ -199,19 +207,29 @@ final class NERModel: @unchecked Sendable {
     var encW: [[Float]] = []; var encB: [[Float]] = []
     var encG: [[Float]] = []; var encLB: [[Float]] = []
     // parser
-    var linW: [Float] = []; var linB: [Float] = []          // (64,96)
-    var paW: [Float] = []; var paB: [Float] = []; var paPad: [Float] = []   // (3,64,2,64),(64,2),(1,3,64,2)
-    var upW: [Float] = []; var upB: [Float] = []            // (74,64)
+    var linW: [Float] = []; var linB: [Float] = []          // (hidden, width)
+    var paW: [Float] = []; var paB: [Float] = []; var paPad: [Float] = []   // (nF,nO,nP,nO),(nO,nP),(1,nF,nO,nP)
+    var upW: [Float] = []; var upB: [Float] = []            // (nClasses, hidden)
+    // Dimensions are read from the weights, not assumed. These defaults are
+    // en_core_web_sm's, and the class count in particular is *not* a constant
+    // across models: English has 74 transition classes over 18 entity labels,
+    // German has 18 over 4. Hard-coding 74 here meant every non-English model
+    // crashed in the loader.
     var nO = 64, nP = 2, nF = 3, nClasses = 74
     var actMove: [Int] = []; var actLabel: [String] = []
 
-    init(dir: String) {
-        var r = MPReader(readFile(dir + "/ner/model"))
+    init(dir: String) throws {
+        let bytes = readFile(dir + "/ner/model")
+        guard !bytes.isEmpty else {
+            throw NERError.modelIncomplete("ner/model is empty or unreadable")
+        }
+        var r = MPReader(bytes)
         let root = r.value()
-        let nodes = root.m("nodes")!.asArr!
-        let params = root.m("params")!.asArr!
-        let attrs = root.m("attrs")!.asArr!
-        func name(_ i: Int) -> String { nodes[i].m("name")!.asStr! }
+        guard let nodes = root.m("nodes")?.asArr,
+              let params = root.m("params")?.asArr,
+              let attrs = root.m("attrs")?.asArr
+        else { throw NERError.modelIncomplete("ner/model is not a thinc model") }
+        func name(_ i: Int) -> String { nodes[i].m("name")?.asStr ?? "" }
         func p(_ i: Int, _ k: String) -> Tensor? { params[i].m(k).map(mpTensor) }
         func attrInt(_ i: Int, _ k: String) -> Int? {
             guard let b = attrs[i].m(k)?.asBin else { return nil }
@@ -224,34 +242,94 @@ final class NERModel: @unchecked Sendable {
         var paIdx = -1
         for i in 0..<nodes.count {
             switch name(i) {
-            case "hashembed": hes.append((i, p(i, "E")!, UInt32(attrInt(i, "seed")!)))
-            case "maxout": maxouts.append((i, p(i, "W")!, p(i, "b")!))
-            case "layernorm": lns.append((i, p(i, "G")!, p(i, "b")!))
-            case "linear": linears.append((i, p(i, "W")!, p(i, "b")!))
+            case "hashembed":
+                guard let table = p(i, "E"), let seed = attrInt(i, "seed") else {
+                    throw NERError.modelIncomplete("hashembed node \(i) is incomplete")
+                }
+                hes.append((i, table, UInt32(seed)))
+            case "maxout":
+                guard let w = p(i, "W"), let b = p(i, "b") else {
+                    throw NERError.modelIncomplete("maxout node \(i) is incomplete")
+                }
+                maxouts.append((i, w, b))
+            case "layernorm":
+                guard let g = p(i, "G"), let b = p(i, "b") else {
+                    throw NERError.modelIncomplete("layernorm node \(i) is incomplete")
+                }
+                lns.append((i, g, b))
+            case "linear":
+                guard let w = p(i, "W"), let b = p(i, "b") else {
+                    throw NERError.modelIncomplete("linear node \(i) is incomplete")
+                }
+                linears.append((i, w, b))
             case "precomputable_affine": paIdx = i
-            case "static_vectors": let t = p(i, "W")!; svW = t.data; svM = t.shape[1]
+            case "static_vectors":
+                guard let t = p(i, "W") else {
+                    throw NERError.modelIncomplete("static_vectors node \(i) is incomplete")
+                }
+                svW = t.data; svM = t.shape[1]
             default: break
             }
         }
         hes.sort { $0.0 < $1.0 }; maxouts.sort { $0.0 < $1.0 }; lns.sort { $0.0 < $1.0 }
         for h in hes { embE.append(h.1.data); embRows.append(h.1.shape[0]); embSeed.append(h.2) }
-        let embMo = maxouts.first { $0.1.shape[2] != 288 }!
-        let encMos = maxouts.filter { $0.1.shape[2] == 288 }
-        let embLn = lns.min { abs($0.0 - embMo.0) < abs($1.0 - embMo.0) }!
+
+        // The encoder maxouts consume a 3-token window (3 * width); the
+        // embedding one consumes the concatenated attribute vectors. Comparing
+        // against `3 * width` rather than the literal 288 is the same test, and
+        // survives a model with a different width.
+        let windowInputs = 3 * width
+        guard let embMo = maxouts.first(where: { $0.1.shape[2] != windowInputs }),
+              let embLn = lns.min(by: { abs($0.0 - embMo.0) < abs($1.0 - embMo.0) })
+        else { throw NERError.modelIncomplete("no embedding maxout in ner/model") }
+        let encMos = maxouts.filter { $0.1.shape[2] == windowInputs }
         let encLns = lns.filter { $0.0 != embLn.0 }
+        guard encMos.count == encLns.count, !encMos.isEmpty else {
+            throw NERError.modelIncomplete(
+                "\(encMos.count) encoder blocks but \(encLns.count) layer norms"
+            )
+        }
         moW = embMo.1.data; moB = embMo.2.data; moNI = embMo.1.shape[2]
         lnG = embLn.1.data; lnB = embLn.2.data
         for (i, m) in encMos.enumerated() { encW.append(m.1.data); encB.append(m.2.data)
             encG.append(encLns[i].1.data); encLB.append(encLns[i].2.data) }
-        let lt = linears.first { $0.1.shape == [64, 96] }!
-        linW = lt.1.data; linB = lt.2.data
-        let up = linears.first { $0.1.shape[0] == 74 }!
-        upW = up.1.data; upB = up.2.data
-        nClasses = up.1.shape[0]
-        let pa = mpTensor(params[paIdx].m("W")!)
-        paW = pa.data; paB = mpTensor(params[paIdx].m("b")!).data
-        paPad = mpTensor(params[paIdx].m("pad")!).data
-        nF = pa.shape[0]; nO = pa.shape[1]; nP = pa.shape[2]
+
+        // Two linears: the hidden layer [hidden, width] and the upper layer
+        // [nClasses, hidden]. Told apart by that relationship rather than by
+        // their literal English shapes -- the hidden width is shared across the
+        // `sm` models but the class count is not, and matching on `74` is what
+        // made a German model trap here instead of loading.
+        guard linears.count >= 2 else {
+            throw NERError.modelIncomplete(
+                "expected 2 linear layers in the parser, found \(linears.count)"
+            )
+        }
+        var hidden = linears[0], upper = linears[1]
+        if upper.1.shape.count < 2 || upper.1.shape[1] != hidden.1.shape[0] {
+            swap(&hidden, &upper)
+        }
+        guard upper.1.shape.count == 2, hidden.1.shape.count == 2,
+              upper.1.shape[1] == hidden.1.shape[0]
+        else {
+            throw NERError.modelIncomplete(
+                "parser linears do not compose: \(hidden.1.shape) then \(upper.1.shape)"
+            )
+        }
+        linW = hidden.1.data; linB = hidden.2.data
+        upW = upper.1.data; upB = upper.2.data
+        nClasses = upper.1.shape[0]
+
+        guard paIdx >= 0, let paW0 = params[paIdx].m("W").map(mpTensor),
+              let paB0 = params[paIdx].m("b").map(mpTensor),
+              let paPad0 = params[paIdx].m("pad").map(mpTensor)
+        else { throw NERError.modelIncomplete("no precomputable_affine in ner/model") }
+        paW = paW0.data; paB = paB0.data; paPad = paPad0.data
+        nF = paW0.shape[0]; nO = paW0.shape[1]; nP = paW0.shape[2]
+        guard nO == hidden.1.shape[0] else {
+            throw NERError.modelIncomplete(
+                "hidden width \(hidden.1.shape[0]) disagrees with the affine's \(nO)"
+            )
+        }
         loadMoves(dir + "/ner/moves")
         loadNorms(dir + "/vocab/lookups.bin")
         loadSymbols("symbols.tsv")
