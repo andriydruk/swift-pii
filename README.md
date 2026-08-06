@@ -333,17 +333,27 @@ explicit because this was wrong until recently: those ten declare no
 "English" left every non-English engine with only its country-specific
 recognizers. A Spanish engine found NIFs and no e-mail addresses.
 
-### German, end to end
+### German, Spanish and Italian, end to end
 
-German is the second language taken all the way through, and it is the template
-for the rest. Every layer was verified against spaCy's own output:
+Three languages are taken all the way through, each verified layer by layer
+against spaCy's own output on a corpus built for it:
 
-| | |
-|---|---|
-| Tokenizer (699 tokens, 89 texts) | **699/699**, 0 NORM divergences |
-| Fine-grained tags (STTS) | **699/699** |
-| Lemmas | **699/699** |
-| NER entities | **66/66 recall**, 65/66 precision |
+| | German | Spanish | Italian |
+|---|---|---|---|
+| Tokens, offsets, NORMs | **699/699** | **560/560** | **446/446** |
+| Fine-grained tags | **699/699** | *no tagger* | **446/446** |
+| Lemmas | **699/699** | *see below* | **446/446** |
+| NER entities (recall) | **66/66** | **65/65** | **47/47** |
+| NER precision | 65/66 | **65/65** | **47/47** |
+
+Spanish is thinner for structural reasons, not unfinished ones.
+`es_core_news_sm` ships **no tagger** — its POS comes from a morphologizer this
+port does not read — and it lemmatizes with `SpanishLemmatizer`, 428 lines of
+hand-written Python with a method per part of speech, rather than the edit trees
+German and Italian share. Neither affects entity spans or identifier detection;
+what degrades is context scoring, which matches supporting words by lemma. Both
+absences are asserted by `SpanishGapTests`, so the gap fails loudly if someone
+later assumes it closed.
 
 ```swift
 let nlp = try SpacyNlpEngine(modelDirectory: germanModel, language: "de")
@@ -360,14 +370,19 @@ try engine.analyze(
 // PERSON Anna Müller · ORGANIZATION Siemens AG · LOCATION München
 ```
 
-Weights are not bundled for German — point `modelDirectory` at an unpacked
-`de_core_news_sm`. The German national-identifier recognizers ship disabled, as
-they do upstream; add them with `configuration: nil` as shown earlier.
+Weights are not bundled for these three — point `modelDirectory` at an unpacked
+`de_core_news_sm`, `es_core_news_sm` or `it_core_news_sm`. The German
+national-identifier recognizers ship disabled, as they do upstream; add them
+with `configuration: nil` as shown earlier. Spanish's and Italian's are enabled
+already.
 
-Almost none of this needed German-specific code. What it needed was English
+Almost none of this needed language-specific code. What it needed was English
 constants *removed*: the NER loader hard-coded 74 transition classes, so any
 other model crashed in the loader, and the tokenizer and stop-word tables were
-`en_`-prefixed resources rather than a language parameter.
+`en_`-prefixed resources rather than a language parameter. Once German was done,
+Italian was exact on the first run and Spanish needed nothing but its tables —
+which is the real evidence that what was ported is the *pipeline* rather than
+one language's version of it.
 
 The one genuinely new component is the lemmatizer. English lemmatizes by rule —
 suffix tables keyed by coarse POS — and German does not: it uses a trained
@@ -390,25 +405,21 @@ avoid an approximation.
 Pattern and checksum detection is language-agnostic — a German tax ID validates
 the same way whatever language surrounds it. The **linguistic** layer is not:
 
-- **The bundled model.** `PERSON`, `LOCATION` and `ORGANIZATION` come from
-  `en_core_web_sm`. For other languages you would need the corresponding spaCy
-  model, and this port reads only spaCy's English tokenizer rules — so a
-  non-English model would tokenize incorrectly. Note also that the non-English
-  `*_core_news_sm` models carry **4 NER labels**, not English's 18: no
+- **Only bundled weights are English.** `en_core_web_sm` ships in the package;
+  German, Spanish and Italian work fully but you supply the model directory.
+- **Tokenizer rules and stop words** are bundled for **en, de, es, it**. A fifth
+  language needs two extractions and no code — but only if spaCy tokenizes it by
+  rule. Japanese and Chinese do not: they segment with SudachiPy and pkuseg,
+  which are models rather than tables, and nothing here can stand in for them.
+- **Fewer entity types outside English.** The `*_core_news_sm` models carry
+  **4 NER labels** against English's 18 — `PER`, `LOC`, `ORG`, `MISC`. So no
   `DATE_TIME` and no `NRP` from the model in German, Spanish, French, Italian or
-  Portuguese. Japanese and Chinese go further and need an external tokenizer
-  (SudachiPy, pkuseg) that has no Swift equivalent at all.
-- **Stop words and lemmas.** Bundled for English and German (326 and 543 stop
-  words). For a third language, context scoring still works by substring match
-  on the lowercased token, but stop-word filtering and inflection handling do
-  not — `LexicalTables.hasStopWords(for:)` tells you which case you are in
-  rather than leaving "not a stop word" to mean both things.
+  Portuguese, whatever the tokenizer does.
 - **Context words.** Most recognizers list English context words. A handful
   carry Spanish, Italian and Polish ones.
 
-So for non-English text: **identifier detection works well; name detection does
-not**. If you need names in another language, that is the spaCy model plus
-per-language tokenizer rules — neither is ported.
+`LexicalTables.hasStopWords(for:)` tells you which case a language is in, rather
+than leaving "not a stop word" to mean both "no" and "no idea".
 
 ## Many documents at once
 

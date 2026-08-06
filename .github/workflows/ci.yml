@@ -195,26 +195,41 @@ jobs:
           grep -qF "${{ matrix.kernel.marker }}" ner.log \
             || { echo "::error::expected '${{ matrix.kernel.marker }}'"; exit 1; }
 
-      - name: Fetch de_core_news_sm 3.7.0
+      - name: Fetch the de, es and it models (3.7.0)
+        # One step rather than three, and a loop rather than three copies: the
+        # only thing that varies is the language code. Each corpus is pinned to
+        # 3.7.0 -- a different patch release has different weights and reads as
+        # a catastrophic regression when it is only version skew.
         run: |
-          curl -sSL -o de.whl \
-            https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.7.0/de_core_news_sm-3.7.0-py3-none-any.whl
-          unzip -q de.whl -d demodel
-          echo "SPACY_DE_MODEL_DIR=$PWD/demodel/de_core_news_sm/de_core_news_sm-3.7.0" >> "$GITHUB_ENV"
+          for lang in de es it; do
+            model="${lang}_core_news_sm-3.7.0"
+            curl -sSL -o "$lang.whl" \
+              "https://github.com/explosion/spacy-models/releases/download/${model}/${model}-py3-none-any.whl"
+            unzip -q "$lang.whl" -d "${lang}model"
+            upper=$(echo "$lang" | tr '[:lower:]' '[:upper:]')
+            echo "SPACY_${upper}_MODEL_DIR=$PWD/${lang}model/${lang}_core_news_sm/${model}" \
+              >> "$GITHUB_ENV"
+          done
 
-      - name: German parity
-        # German is the second language taken end to end, and every layer of it
-        # differs from English somewhere: its own tokenizer rules, 52 STTS tags
-        # instead of 50 PTB ones, 18 NER transition classes instead of 74, and a
-        # *neural* edit-tree lemmatizer where English has rules. Only the last of
-        # those needed new code; the rest needed the English constants removed.
+      - name: German, Spanish and Italian parity
+        # Three languages, each differing from English somewhere: their own
+        # tokenizer rules, their own tag sets, 18 NER transition classes instead
+        # of 74, and -- for German and Italian -- a *neural* edit-tree
+        # lemmatizer where English has rules. Only that lemmatizer needed new
+        # code; the rest needed the English constants taken out.
+        #
+        # Spanish is deliberately thinner: `es_core_news_sm` has no tagger at
+        # all (POS comes from a morphologizer this port does not read) and uses
+        # a bespoke `SpanishLemmatizer` rather than edit trees. `SpanishGapTests`
+        # asserts both absences, so the gap fails loudly if someone assumes it
+        # closed.
         run: |
           set -o pipefail
           swift test -c release ${{ matrix.kernel.flags }} \
-            --filter "GermanTokenizerTests|GermanNERTests|GermanTaggerTests|GermanLemmaTests|GermanEngineTests" \
-            2>&1 | tee german.log
+            --filter "German|Spanish|Italian" \
+            2>&1 | tee languages.log
 
-      - name: Assert the German suites actually ran
+      - name: Assert the per-language suites actually ran
         # Greps for the *measurements*, not the suite names. swift-testing
         # prints `Suite "spaCy German tagger parity" skipped.` when the model
         # directory is unset -- which contains the suite name, so a name grep
@@ -231,8 +246,14 @@ jobs:
             "German tokenizer: " \
             "German tagger: " \
             "German lemmas: " \
-            "German NER parity: "; do
-            grep -qF "$line" german.log \
+            "German NER parity: " \
+            "Spanish tokenizer: " \
+            "Spanish NER parity: " \
+            "Italian tokenizer: " \
+            "Italian tagger: " \
+            "Italian lemmas: " \
+            "Italian NER parity: "; do
+            grep -qF "$line" languages.log \
               || { echo "::error::no measurement emitted for '$line'"; exit 1; }
           done
 

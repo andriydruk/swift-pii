@@ -122,6 +122,52 @@ struct LanguageTests {
         #expect(!LexicalTables.hasStopWords(for: "fr"),
                 "French has none bundled; that is a gap, not a claim about French")
         #expect(!LexicalTables.isStopWord("le", language: "fr"))
+
+        // Spanish and Italian, added alongside their tokenizers.
+        #expect(LexicalTables.isStopWord("el", language: "es"))
+        #expect(LexicalTables.isStopWord("però", language: "it"))
+        #expect(!LexicalTables.isStopWord("el", language: "it"))
+        #expect(LexicalTables.spanishStopWords.count == 521)
+        #expect(LexicalTables.italianStopWords.count == 624)
+    }
+
+    /// Italian, whose 5 catalogue recognizers are the largest *enabled*
+    /// non-English set — unlike Germany's, upstream ships them turned on.
+    @Test("an Italian engine finds Italian and universal identifiers")
+    func italianEndToEnd() throws {
+        let registry = try RecognizerRegistry.loadPredefined(languages: ["it"])
+        let engine = try AnalyzerEngine(
+            registry: registry,
+            nlpEngine: try TokenizerOnlyNlpEngine(supportedLanguages: ["it"]),
+            supportedLanguages: ["it"]
+        )
+        let found = try engine.analyze(
+            text: "Il codice fiscale è RSSMRA85M01H501Z, "
+                + "scrivimi a anna.russo@esempio.it.",
+            language: "it"
+        )
+        let types = Set(found.map(\.entityType))
+        #expect(types.contains("IT_FISCAL_CODE"), "\(found)")
+        #expect(types.contains("EMAIL_ADDRESS"), "\(found)")
+    }
+
+    /// Each language must tokenize with *its own* rules.
+    ///
+    /// Cheap to get wrong and invisible when wrong: an engine that silently
+    /// fell back to English would still find every pattern-based entity, and
+    /// only context scoring — which depends on token boundaries — would quietly
+    /// degrade.
+    @Test("an engine uses the tokenizer for the language it was built for",
+          arguments: ["de", "es", "it"])
+    func engineUsesItsOwnTokenizer(language: String) throws {
+        let engine = try TokenizerOnlyNlpEngine(supportedLanguages: [language])
+        let english = try TokenizerOnlyNlpEngine(supportedLanguages: ["en"])
+        let probe = ["de": "Das gilt z.B. für Verträge.",
+                     "es": "¿Quién? Esto se aplica p.ej. hoy.",
+                     "it": "L'azienda dell'ingegnere è un'impresa."][language]!
+        let mine = engine.process(text: probe, language: language).tokens
+        let theirs = english.process(text: probe, language: "en").tokens
+        #expect(mine != theirs, "\(language) tokenized identically to English: \(mine)")
     }
 }
 

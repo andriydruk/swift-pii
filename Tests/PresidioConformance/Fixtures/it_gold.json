@@ -1,0 +1,4202 @@
+{
+ "model": "it_core_news_sm-3.7.0",
+ "spacy_version": "3.7.5",
+ "cases": [
+  {
+   "text": "Il Dott. Marco Rossi riceve il martedì presso l'ospedale di Milano.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "Dott",
+     "offset": 3,
+     "norm": "dott",
+     "tag": "S",
+     "pos": "PROPN",
+     "lemma": "dott"
+    },
+    {
+     "text": ".",
+     "offset": 7,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Marco",
+     "offset": 9,
+     "norm": "marco",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Marco"
+    },
+    {
+     "text": "Rossi",
+     "offset": 15,
+     "norm": "rossi",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Rossi"
+    },
+    {
+     "text": "riceve",
+     "offset": 21,
+     "norm": "riceve",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "ricevere"
+    },
+    {
+     "text": "il",
+     "offset": 28,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "martedì",
+     "offset": 31,
+     "norm": "martedì",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "martedì"
+    },
+    {
+     "text": "presso",
+     "offset": 39,
+     "norm": "presso",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "presso"
+    },
+    {
+     "text": "l'",
+     "offset": 46,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "ospedale",
+     "offset": 48,
+     "norm": "ospedale",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "ospedale"
+    },
+    {
+     "text": "di",
+     "offset": 57,
+     "norm": "di",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "di"
+    },
+    {
+     "text": "Milano",
+     "offset": 60,
+     "norm": "milano",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Milano"
+    },
+    {
+     "text": ".",
+     "offset": 66,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 3,
+     "end": 7,
+     "text": "Dott"
+    },
+    {
+     "label": "PER",
+     "start": 9,
+     "end": 20,
+     "text": "Marco Rossi"
+    },
+    {
+     "label": "LOC",
+     "start": 60,
+     "end": 66,
+     "text": "Milano"
+    }
+   ]
+  },
+  {
+   "text": "La Sig.ra Bianchi ha firmato il contratto il 3 marzo 2021.",
+   "tokens": [
+    {
+     "text": "La",
+     "offset": 0,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "Sig.ra",
+     "offset": 3,
+     "norm": "sig.ra",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Sig.ra"
+    },
+    {
+     "text": "Bianchi",
+     "offset": 10,
+     "norm": "bianchi",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Bianchi"
+    },
+    {
+     "text": "ha",
+     "offset": 18,
+     "norm": "ha",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "avere"
+    },
+    {
+     "text": "firmato",
+     "offset": 21,
+     "norm": "firmato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "firmare"
+    },
+    {
+     "text": "il",
+     "offset": 29,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "contratto",
+     "offset": 32,
+     "norm": "contratto",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "contratto"
+    },
+    {
+     "text": "il",
+     "offset": 42,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "3",
+     "offset": 45,
+     "norm": "3",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": "marzo",
+     "offset": 47,
+     "norm": "marzo",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "marzo"
+    },
+    {
+     "text": "2021",
+     "offset": 53,
+     "norm": "2021",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "2021"
+    },
+    {
+     "text": ".",
+     "offset": 57,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 3,
+     "end": 17,
+     "text": "Sig.ra Bianchi"
+    }
+   ]
+  },
+  {
+   "text": "Il Prof. Giuseppe De Luca insegna all'Università di Bologna.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "Prof",
+     "offset": 3,
+     "norm": "prof",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Prof"
+    },
+    {
+     "text": ".",
+     "offset": 7,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Giuseppe",
+     "offset": 9,
+     "norm": "giuseppe",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Giuseppe"
+    },
+    {
+     "text": "De",
+     "offset": 18,
+     "norm": "de",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "De"
+    },
+    {
+     "text": "Luca",
+     "offset": 21,
+     "norm": "luca",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Luca"
+    },
+    {
+     "text": "insegna",
+     "offset": 26,
+     "norm": "insegna",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "insegnare"
+    },
+    {
+     "text": "all'",
+     "offset": 34,
+     "norm": "all'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "a il"
+    },
+    {
+     "text": "Università",
+     "offset": 38,
+     "norm": "università",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "università"
+    },
+    {
+     "text": "di",
+     "offset": 49,
+     "norm": "di",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "di"
+    },
+    {
+     "text": "Bologna",
+     "offset": 52,
+     "norm": "bologna",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Bologna"
+    },
+    {
+     "text": ".",
+     "offset": 59,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 3,
+     "end": 7,
+     "text": "Prof"
+    },
+    {
+     "label": "PER",
+     "start": 9,
+     "end": 25,
+     "text": "Giuseppe De Luca"
+    },
+    {
+     "label": "LOC",
+     "start": 38,
+     "end": 59,
+     "text": "Università di Bologna"
+    }
+   ]
+  },
+  {
+   "text": "Il paziente, Sig. Luca Ferrari, è nato il 14/02/1978 a Napoli.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "paziente",
+     "offset": 3,
+     "norm": "paziente",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "paziente"
+    },
+    {
+     "text": ",",
+     "offset": 11,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "Sig",
+     "offset": 13,
+     "norm": "sig",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Sig"
+    },
+    {
+     "text": ".",
+     "offset": 16,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Luca",
+     "offset": 18,
+     "norm": "luca",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Luca"
+    },
+    {
+     "text": "Ferrari",
+     "offset": 23,
+     "norm": "ferrari",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Ferrari"
+    },
+    {
+     "text": ",",
+     "offset": 30,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "è",
+     "offset": 32,
+     "norm": "è",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "nato",
+     "offset": 34,
+     "norm": "nato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "nascere"
+    },
+    {
+     "text": "il",
+     "offset": 39,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "14/02/1978",
+     "offset": 42,
+     "norm": "14/02/1978",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "14/02/1978"
+    },
+    {
+     "text": "a",
+     "offset": 53,
+     "norm": "a",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "Napoli",
+     "offset": 55,
+     "norm": "napoli",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Napoli"
+    },
+    {
+     "text": ".",
+     "offset": 61,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 13,
+     "end": 16,
+     "text": "Sig"
+    },
+    {
+     "label": "PER",
+     "start": 18,
+     "end": 30,
+     "text": "Luca Ferrari"
+    },
+    {
+     "label": "LOC",
+     "start": 55,
+     "end": 61,
+     "text": "Napoli"
+    }
+   ]
+  },
+  {
+   "text": "Gentile Dott.ssa Conti, la ringrazio per la Sua comunicazione.",
+   "tokens": [
+    {
+     "text": "Gentile",
+     "offset": 0,
+     "norm": "gentile",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "Gentile"
+    },
+    {
+     "text": "Dott.ssa",
+     "offset": 8,
+     "norm": "dott.ssa",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Dott.ssa"
+    },
+    {
+     "text": "Conti",
+     "offset": 17,
+     "norm": "conti",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Conti"
+    },
+    {
+     "text": ",",
+     "offset": 22,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "la",
+     "offset": 24,
+     "norm": "la",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "la"
+    },
+    {
+     "text": "ringrazio",
+     "offset": 27,
+     "norm": "ringrazio",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "ringraziare"
+    },
+    {
+     "text": "per",
+     "offset": 37,
+     "norm": "per",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "per"
+    },
+    {
+     "text": "la",
+     "offset": 41,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "Sua",
+     "offset": 44,
+     "norm": "sua",
+     "tag": "AP",
+     "pos": "DET",
+     "lemma": "suo"
+    },
+    {
+     "text": "comunicazione",
+     "offset": 48,
+     "norm": "comunicazione",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "comunicazione"
+    },
+    {
+     "text": ".",
+     "offset": 61,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 22,
+     "text": "Gentile Dott.ssa Conti"
+    },
+    {
+     "label": "LOC",
+     "start": 44,
+     "end": 61,
+     "text": "Sua comunicazione"
+    }
+   ]
+  },
+  {
+   "text": "Enel S.p.A. e Intesa Sanpaolo hanno firmato l'accordo a Roma.",
+   "tokens": [
+    {
+     "text": "Enel",
+     "offset": 0,
+     "norm": "enel",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Enel"
+    },
+    {
+     "text": "S.p",
+     "offset": 5,
+     "norm": "s.p",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "S.p"
+    },
+    {
+     "text": ".",
+     "offset": 8,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "A.",
+     "offset": 9,
+     "norm": "a.",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "A."
+    },
+    {
+     "text": "e",
+     "offset": 12,
+     "norm": "e",
+     "tag": "CC",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "Intesa",
+     "offset": 14,
+     "norm": "intesa",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Intesa"
+    },
+    {
+     "text": "Sanpaolo",
+     "offset": 21,
+     "norm": "sanpaolo",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Sanpaolo"
+    },
+    {
+     "text": "hanno",
+     "offset": 30,
+     "norm": "hanno",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "avere"
+    },
+    {
+     "text": "firmato",
+     "offset": 36,
+     "norm": "firmato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "firmare"
+    },
+    {
+     "text": "l'",
+     "offset": 44,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "accordo",
+     "offset": 46,
+     "norm": "accordo",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "accordo"
+    },
+    {
+     "text": "a",
+     "offset": 54,
+     "norm": "a",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "Roma",
+     "offset": 56,
+     "norm": "roma",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Roma"
+    },
+    {
+     "text": ".",
+     "offset": 60,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 14,
+     "end": 29,
+     "text": "Intesa Sanpaolo"
+    },
+    {
+     "label": "LOC",
+     "start": 56,
+     "end": 60,
+     "text": "Roma"
+    }
+   ]
+  },
+  {
+   "text": "La Ferrari ha sede a Maranello, in provincia di Modena.",
+   "tokens": [
+    {
+     "text": "La",
+     "offset": 0,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "Ferrari",
+     "offset": 3,
+     "norm": "ferrari",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Ferrari"
+    },
+    {
+     "text": "ha",
+     "offset": 11,
+     "norm": "ha",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "avere"
+    },
+    {
+     "text": "sede",
+     "offset": 14,
+     "norm": "sede",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "sede"
+    },
+    {
+     "text": "a",
+     "offset": 19,
+     "norm": "a",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "Maranello",
+     "offset": 21,
+     "norm": "maranello",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Maranello"
+    },
+    {
+     "text": ",",
+     "offset": 30,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "in",
+     "offset": 32,
+     "norm": "in",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "in"
+    },
+    {
+     "text": "provincia",
+     "offset": 35,
+     "norm": "provincia",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "provincia"
+    },
+    {
+     "text": "di",
+     "offset": 45,
+     "norm": "di",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "di"
+    },
+    {
+     "text": "Modena",
+     "offset": 48,
+     "norm": "modena",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Modena"
+    },
+    {
+     "text": ".",
+     "offset": 54,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 3,
+     "end": 10,
+     "text": "Ferrari"
+    },
+    {
+     "label": "LOC",
+     "start": 21,
+     "end": 30,
+     "text": "Maranello"
+    },
+    {
+     "label": "LOC",
+     "start": 35,
+     "end": 54,
+     "text": "provincia di Modena"
+    }
+   ]
+  },
+  {
+   "text": "La società Costruzioni Verdi S.r.l. ha presentato il bilancio.",
+   "tokens": [
+    {
+     "text": "La",
+     "offset": 0,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "società",
+     "offset": 3,
+     "norm": "società",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "società"
+    },
+    {
+     "text": "Costruzioni",
+     "offset": 11,
+     "norm": "costruzioni",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "Costruzioni"
+    },
+    {
+     "text": "Verdi",
+     "offset": 23,
+     "norm": "verdi",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Verdi"
+    },
+    {
+     "text": "S.r.l",
+     "offset": 29,
+     "norm": "s.r.l",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "S.r.l"
+    },
+    {
+     "text": ".",
+     "offset": 34,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "ha",
+     "offset": 36,
+     "norm": "ha",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "avere"
+    },
+    {
+     "text": "presentato",
+     "offset": 39,
+     "norm": "presentato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "presentare"
+    },
+    {
+     "text": "il",
+     "offset": 50,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "bilancio",
+     "offset": 53,
+     "norm": "bilancio",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "bilancio"
+    },
+    {
+     "text": ".",
+     "offset": 61,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 11,
+     "end": 34,
+     "text": "Costruzioni Verdi S.r.l"
+    }
+   ]
+  },
+  {
+   "text": "Il Ministero dell'Economia ha pubblicato il decreto.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "Ministero",
+     "offset": 3,
+     "norm": "ministero",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "ministero"
+    },
+    {
+     "text": "dell'",
+     "offset": 13,
+     "norm": "dell'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "di il"
+    },
+    {
+     "text": "Economia",
+     "offset": 18,
+     "norm": "economia",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Economia"
+    },
+    {
+     "text": "ha",
+     "offset": 27,
+     "norm": "ha",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "avere"
+    },
+    {
+     "text": "pubblicato",
+     "offset": 30,
+     "norm": "pubblicato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "pubblicare"
+    },
+    {
+     "text": "il",
+     "offset": 41,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "decreto",
+     "offset": 44,
+     "norm": "decreto",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "decreto"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 3,
+     "end": 26,
+     "text": "Ministero dell'Economia"
+    }
+   ]
+  },
+  {
+   "text": "È andato da Torino a Palermo passando per Firenze.",
+   "tokens": [
+    {
+     "text": "È",
+     "offset": 0,
+     "norm": "è",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "andato",
+     "offset": 2,
+     "norm": "andato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "andare"
+    },
+    {
+     "text": "da",
+     "offset": 9,
+     "norm": "da",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "da"
+    },
+    {
+     "text": "Torino",
+     "offset": 12,
+     "norm": "torino",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Torino"
+    },
+    {
+     "text": "a",
+     "offset": 19,
+     "norm": "a",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "Palermo",
+     "offset": 21,
+     "norm": "palermo",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Palermo"
+    },
+    {
+     "text": "passando",
+     "offset": 29,
+     "norm": "passando",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "passare"
+    },
+    {
+     "text": "per",
+     "offset": 38,
+     "norm": "per",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "per"
+    },
+    {
+     "text": "Firenze",
+     "offset": 42,
+     "norm": "firenze",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Firenze"
+    },
+    {
+     "text": ".",
+     "offset": 49,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 12,
+     "end": 18,
+     "text": "Torino"
+    },
+    {
+     "label": "LOC",
+     "start": 21,
+     "end": 28,
+     "text": "Palermo"
+    },
+    {
+     "label": "LOC",
+     "start": 42,
+     "end": 49,
+     "text": "Firenze"
+    }
+   ]
+  },
+  {
+   "text": "La sede legale è a Reggio nell'Emilia.",
+   "tokens": [
+    {
+     "text": "La",
+     "offset": 0,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "sede",
+     "offset": 3,
+     "norm": "sede",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "sede"
+    },
+    {
+     "text": "legale",
+     "offset": 8,
+     "norm": "legale",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "legale"
+    },
+    {
+     "text": "è",
+     "offset": 15,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "a",
+     "offset": 17,
+     "norm": "a",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "Reggio",
+     "offset": 19,
+     "norm": "reggio",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Reggio"
+    },
+    {
+     "text": "nell'",
+     "offset": 26,
+     "norm": "nell'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "in il"
+    },
+    {
+     "text": "Emilia",
+     "offset": 31,
+     "norm": "emilia",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Emilia"
+    },
+    {
+     "text": ".",
+     "offset": 37,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 19,
+     "end": 37,
+     "text": "Reggio nell'Emilia"
+    }
+   ]
+  },
+  {
+   "text": "Il Monte Bianco si trova al confine tra Italia e Francia.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "Monte",
+     "offset": 3,
+     "norm": "monte",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "monte"
+    },
+    {
+     "text": "Bianco",
+     "offset": 9,
+     "norm": "bianco",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Bianco"
+    },
+    {
+     "text": "si",
+     "offset": 16,
+     "norm": "si",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "si"
+    },
+    {
+     "text": "trova",
+     "offset": 19,
+     "norm": "trova",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "trovare"
+    },
+    {
+     "text": "al",
+     "offset": 25,
+     "norm": "al",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "a il"
+    },
+    {
+     "text": "confine",
+     "offset": 28,
+     "norm": "confine",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "confine"
+    },
+    {
+     "text": "tra",
+     "offset": 36,
+     "norm": "tra",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "tra"
+    },
+    {
+     "text": "Italia",
+     "offset": 40,
+     "norm": "italia",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Italia"
+    },
+    {
+     "text": "e",
+     "offset": 47,
+     "norm": "e",
+     "tag": "CC",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "Francia",
+     "offset": 49,
+     "norm": "francia",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Francia"
+    },
+    {
+     "text": ".",
+     "offset": 56,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 3,
+     "end": 15,
+     "text": "Monte Bianco"
+    },
+    {
+     "label": "LOC",
+     "start": 40,
+     "end": 46,
+     "text": "Italia"
+    },
+    {
+     "label": "LOC",
+     "start": 49,
+     "end": 56,
+     "text": "Francia"
+    }
+   ]
+  },
+  {
+   "text": "Può scrivermi a anna.russo@esempio.it oppure chiamare il +39 06 1234567.",
+   "tokens": [
+    {
+     "text": "Può",
+     "offset": 0,
+     "norm": "può",
+     "tag": "VM",
+     "pos": "AUX",
+     "lemma": "potere"
+    },
+    {
+     "text": "scrivermi",
+     "offset": 4,
+     "norm": "scrivermi",
+     "tag": "V_PC",
+     "pos": "VERB",
+     "lemma": "scrivere mi"
+    },
+    {
+     "text": "a",
+     "offset": 14,
+     "norm": "a",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "anna.russo@esempio.it",
+     "offset": 16,
+     "norm": "anna.russo@esempio.it",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "anna.russo@esempio.it"
+    },
+    {
+     "text": "oppure",
+     "offset": 38,
+     "norm": "oppure",
+     "tag": "CC",
+     "pos": "CCONJ",
+     "lemma": "oppure"
+    },
+    {
+     "text": "chiamare",
+     "offset": 45,
+     "norm": "chiamare",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "chiamare"
+    },
+    {
+     "text": "il",
+     "offset": 54,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "+39",
+     "offset": 57,
+     "norm": "+39",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "+39"
+    },
+    {
+     "text": "06",
+     "offset": 61,
+     "norm": "06",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "06"
+    },
+    {
+     "text": "1234567",
+     "offset": 64,
+     "norm": "1234567",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "1234567"
+    },
+    {
+     "text": ".",
+     "offset": 71,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Il mio numero è 02 12345678, il cellulare 320 1234567.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "mio",
+     "offset": 3,
+     "norm": "mio",
+     "tag": "AP",
+     "pos": "DET",
+     "lemma": "mio"
+    },
+    {
+     "text": "numero",
+     "offset": 7,
+     "norm": "numero",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "numero"
+    },
+    {
+     "text": "è",
+     "offset": 14,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "02",
+     "offset": 16,
+     "norm": "02",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "02"
+    },
+    {
+     "text": "12345678",
+     "offset": 19,
+     "norm": "12345678",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "12345678"
+    },
+    {
+     "text": ",",
+     "offset": 27,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "il",
+     "offset": 29,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "cellulare",
+     "offset": 32,
+     "norm": "cellulare",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "cellulare"
+    },
+    {
+     "text": "320",
+     "offset": 42,
+     "norm": "320",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "320"
+    },
+    {
+     "text": "1234567",
+     "offset": 46,
+     "norm": "1234567",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "1234567"
+    },
+    {
+     "text": ".",
+     "offset": 53,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Il server risponde su 192.168.0.14 e la documentazione è su https://esempio.it/aiuto.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "server",
+     "offset": 3,
+     "norm": "server",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "server"
+    },
+    {
+     "text": "risponde",
+     "offset": 10,
+     "norm": "risponde",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "rispondere"
+    },
+    {
+     "text": "su",
+     "offset": 19,
+     "norm": "su",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "su"
+    },
+    {
+     "text": "192.168.0.14",
+     "offset": 22,
+     "norm": "192.168.0.14",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "192.168.0.14"
+    },
+    {
+     "text": "e",
+     "offset": 35,
+     "norm": "e",
+     "tag": "CC",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "la",
+     "offset": 37,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "documentazione",
+     "offset": 40,
+     "norm": "documentazione",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "documentazione"
+    },
+    {
+     "text": "è",
+     "offset": 55,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "su",
+     "offset": 57,
+     "norm": "su",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "su"
+    },
+    {
+     "text": "https://esempio.it/aiuto",
+     "offset": 60,
+     "norm": "https://esempio.it/aiuto",
+     "tag": "SP",
+     "pos": "SYM",
+     "lemma": "https://esempio.it/aiuto"
+    },
+    {
+     "text": ".",
+     "offset": 84,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Il suo codice fiscale è RSSMRA85M01H501Z.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "suo",
+     "offset": 3,
+     "norm": "suo",
+     "tag": "AP",
+     "pos": "DET",
+     "lemma": "suo"
+    },
+    {
+     "text": "codice",
+     "offset": 7,
+     "norm": "codice",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "codice"
+    },
+    {
+     "text": "fiscale",
+     "offset": 14,
+     "norm": "fiscale",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "fiscale"
+    },
+    {
+     "text": "è",
+     "offset": 22,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "RSSMRA85M01H501Z.",
+     "offset": 24,
+     "norm": "rssmra85m01h501z.",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "RSSMRA85M01H501Z."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 24,
+     "end": 41,
+     "text": "RSSMRA85M01H501Z."
+    }
+   ]
+  },
+  {
+   "text": "Effettui il bonifico su IT60 X054 2811 1010 0000 0123 456.",
+   "tokens": [
+    {
+     "text": "Effettui",
+     "offset": 0,
+     "norm": "effettui",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Effettui"
+    },
+    {
+     "text": "il",
+     "offset": 9,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "bonifico",
+     "offset": 12,
+     "norm": "bonifico",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "bonifico"
+    },
+    {
+     "text": "su",
+     "offset": 21,
+     "norm": "su",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "su"
+    },
+    {
+     "text": "IT60",
+     "offset": 24,
+     "norm": "it60",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "IT60"
+    },
+    {
+     "text": "X054",
+     "offset": 29,
+     "norm": "x054",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "X054"
+    },
+    {
+     "text": "2811",
+     "offset": 34,
+     "norm": "2811",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "2811"
+    },
+    {
+     "text": "1010",
+     "offset": 39,
+     "norm": "1010",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "1010"
+    },
+    {
+     "text": "0000",
+     "offset": 44,
+     "norm": "0000",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "0000"
+    },
+    {
+     "text": "0123",
+     "offset": 49,
+     "norm": "0123",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "0123"
+    },
+    {
+     "text": "456",
+     "offset": 54,
+     "norm": "456",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "456"
+    },
+    {
+     "text": ".",
+     "offset": 57,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 24,
+     "end": 33,
+     "text": "IT60 X054"
+    }
+   ]
+  },
+  {
+   "text": "Il termine è scaduto il 31/12/2023 alle 23:59.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "termine",
+     "offset": 3,
+     "norm": "termine",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "termine"
+    },
+    {
+     "text": "è",
+     "offset": 11,
+     "norm": "è",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "scaduto",
+     "offset": 13,
+     "norm": "scaduto",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "scadere"
+    },
+    {
+     "text": "il",
+     "offset": 21,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "31/12/2023",
+     "offset": 24,
+     "norm": "31/12/2023",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "31/12/2023"
+    },
+    {
+     "text": "alle",
+     "offset": 35,
+     "norm": "alle",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "a il"
+    },
+    {
+     "text": "23:59",
+     "offset": 40,
+     "norm": "23:59",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "23:59"
+    },
+    {
+     "text": ".",
+     "offset": 45,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "L'importo di 1.234,56 EUR è stato accreditato il 5 giugno.",
+   "tokens": [
+    {
+     "text": "L'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "importo",
+     "offset": 2,
+     "norm": "importo",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "importo"
+    },
+    {
+     "text": "di",
+     "offset": 10,
+     "norm": "di",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "di"
+    },
+    {
+     "text": "1.234,56",
+     "offset": 13,
+     "norm": "1.234,56",
+     "tag": "S",
+     "pos": "PROPN",
+     "lemma": "1.234,56"
+    },
+    {
+     "text": "EUR",
+     "offset": 22,
+     "norm": "eur",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "EUR"
+    },
+    {
+     "text": "è",
+     "offset": 26,
+     "norm": "è",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "stato",
+     "offset": 28,
+     "norm": "stato",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "accreditato",
+     "offset": 34,
+     "norm": "accreditato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "accreditare"
+    },
+    {
+     "text": "il",
+     "offset": 46,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "5",
+     "offset": 49,
+     "norm": "5",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "5"
+    },
+    {
+     "text": "giugno",
+     "offset": 51,
+     "norm": "giugno",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "giugno"
+    },
+    {
+     "text": ".",
+     "offset": 57,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Nel terzo trimestre le vendite sono salite del 12,5 per cento.",
+   "tokens": [
+    {
+     "text": "Nel",
+     "offset": 0,
+     "norm": "nel",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "in il"
+    },
+    {
+     "text": "terzo",
+     "offset": 4,
+     "norm": "terzo",
+     "tag": "NO",
+     "pos": "ADJ",
+     "lemma": "terzo"
+    },
+    {
+     "text": "trimestre",
+     "offset": 10,
+     "norm": "trimestre",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "trimestre"
+    },
+    {
+     "text": "le",
+     "offset": 20,
+     "norm": "le",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "vendite",
+     "offset": 23,
+     "norm": "vendite",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "vendita"
+    },
+    {
+     "text": "sono",
+     "offset": 31,
+     "norm": "sono",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "salite",
+     "offset": 36,
+     "norm": "salite",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "salire"
+    },
+    {
+     "text": "del",
+     "offset": 43,
+     "norm": "del",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "di il"
+    },
+    {
+     "text": "12,5",
+     "offset": 47,
+     "norm": "12,5",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "12,5"
+    },
+    {
+     "text": "per",
+     "offset": 52,
+     "norm": "per",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "per"
+    },
+    {
+     "text": "cento",
+     "offset": 56,
+     "norm": "cento",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "cento"
+    },
+    {
+     "text": ".",
+     "offset": 61,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "La riunione si terrà dalle 9.30 alle 17.00.",
+   "tokens": [
+    {
+     "text": "La",
+     "offset": 0,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "riunione",
+     "offset": 3,
+     "norm": "riunione",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "riunione"
+    },
+    {
+     "text": "si",
+     "offset": 12,
+     "norm": "si",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "si"
+    },
+    {
+     "text": "terrà",
+     "offset": 15,
+     "norm": "terrà",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "terrà"
+    },
+    {
+     "text": "dalle",
+     "offset": 21,
+     "norm": "dalle",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "da il"
+    },
+    {
+     "text": "9.30",
+     "offset": 27,
+     "norm": "9.30",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "9.30"
+    },
+    {
+     "text": "alle",
+     "offset": 32,
+     "norm": "alle",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "a il"
+    },
+    {
+     "text": "17.00",
+     "offset": 37,
+     "norm": "17.00",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "17.00"
+    },
+    {
+     "text": ".",
+     "offset": 42,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Questo vale ad es. per i contratti anteriori al 2020.",
+   "tokens": [
+    {
+     "text": "Questo",
+     "offset": 0,
+     "norm": "questo",
+     "tag": "PD",
+     "pos": "PRON",
+     "lemma": "questo"
+    },
+    {
+     "text": "vale",
+     "offset": 7,
+     "norm": "vale",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "valere"
+    },
+    {
+     "text": "ad",
+     "offset": 12,
+     "norm": "ad",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "es",
+     "offset": 15,
+     "norm": "es",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "es"
+    },
+    {
+     "text": ".",
+     "offset": 17,
+     "norm": ".",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "per",
+     "offset": 19,
+     "norm": "per",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "per"
+    },
+    {
+     "text": "i",
+     "offset": 23,
+     "norm": "i",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "contratti",
+     "offset": 25,
+     "norm": "contratti",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "contratto"
+    },
+    {
+     "text": "anteriori",
+     "offset": 35,
+     "norm": "anteriori",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "anteriore"
+    },
+    {
+     "text": "al",
+     "offset": 45,
+     "norm": "al",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "a il"
+    },
+    {
+     "text": "2020",
+     "offset": 48,
+     "norm": "2020",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "2020"
+    },
+    {
+     "text": ".",
+     "offset": 52,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Porti la carta d'identità, la tessera, ecc. all'appuntamento.",
+   "tokens": [
+    {
+     "text": "Porti",
+     "offset": 0,
+     "norm": "porti",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "Porti"
+    },
+    {
+     "text": "la",
+     "offset": 6,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "carta",
+     "offset": 9,
+     "norm": "carta",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "carta"
+    },
+    {
+     "text": "d'",
+     "offset": 15,
+     "norm": "d'",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "di"
+    },
+    {
+     "text": "identità",
+     "offset": 17,
+     "norm": "identità",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "identità"
+    },
+    {
+     "text": ",",
+     "offset": 25,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "la",
+     "offset": 27,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "tessera",
+     "offset": 30,
+     "norm": "tessera",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "tessera"
+    },
+    {
+     "text": ",",
+     "offset": 37,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "ecc.",
+     "offset": 39,
+     "norm": "ecc.",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "ecc."
+    },
+    {
+     "text": "all'",
+     "offset": 44,
+     "norm": "all'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "a il"
+    },
+    {
+     "text": "appuntamento",
+     "offset": 48,
+     "norm": "appuntamento",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "appuntamento"
+    },
+    {
+     "text": ".",
+     "offset": 60,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "L'indirizzo è via Roma, n. 12, 20121 Milano.",
+   "tokens": [
+    {
+     "text": "L'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "indirizzo",
+     "offset": 2,
+     "norm": "indirizzo",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "indirizzo"
+    },
+    {
+     "text": "è",
+     "offset": 12,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "via",
+     "offset": 14,
+     "norm": "via",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "via"
+    },
+    {
+     "text": "Roma",
+     "offset": 18,
+     "norm": "roma",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Roma"
+    },
+    {
+     "text": ",",
+     "offset": 22,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "n.",
+     "offset": 24,
+     "norm": "n.",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "numero"
+    },
+    {
+     "text": "12",
+     "offset": 27,
+     "norm": "12",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": ",",
+     "offset": 29,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "20121",
+     "offset": 31,
+     "norm": "20121",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "20121"
+    },
+    {
+     "text": "Milano",
+     "offset": 37,
+     "norm": "milano",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Milano"
+    },
+    {
+     "text": ".",
+     "offset": 43,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 18,
+     "end": 22,
+     "text": "Roma"
+    },
+    {
+     "label": "LOC",
+     "start": 37,
+     "end": 43,
+     "text": "Milano"
+    }
+   ]
+  },
+  {
+   "text": "Cfr. l'art. 12 del Regolamento, comma 3.",
+   "tokens": [
+    {
+     "text": "Cfr",
+     "offset": 0,
+     "norm": "cfr",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "cfr"
+    },
+    {
+     "text": ".",
+     "offset": 3,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "l'",
+     "offset": 5,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "art.",
+     "offset": 7,
+     "norm": "art.",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "articolo"
+    },
+    {
+     "text": "12",
+     "offset": 12,
+     "norm": "12",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": "del",
+     "offset": 15,
+     "norm": "del",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "di il"
+    },
+    {
+     "text": "Regolamento",
+     "offset": 19,
+     "norm": "regolamento",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "regolamento"
+    },
+    {
+     "text": ",",
+     "offset": 30,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "comma",
+     "offset": 32,
+     "norm": "comma",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "comma"
+    },
+    {
+     "text": "3",
+     "offset": 38,
+     "norm": "3",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": ".",
+     "offset": 39,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 19,
+     "end": 30,
+     "text": "Regolamento"
+    }
+   ]
+  },
+  {
+   "text": "Circa tre giorni lavorativi dopo il pagamento.",
+   "tokens": [
+    {
+     "text": "Circa",
+     "offset": 0,
+     "norm": "circa",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "circa"
+    },
+    {
+     "text": "tre",
+     "offset": 6,
+     "norm": "tre",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "tre"
+    },
+    {
+     "text": "giorni",
+     "offset": 10,
+     "norm": "giorni",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "giorno"
+    },
+    {
+     "text": "lavorativi",
+     "offset": 17,
+     "norm": "lavorativi",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "lavorativo"
+    },
+    {
+     "text": "dopo",
+     "offset": 28,
+     "norm": "dopo",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "dopo"
+    },
+    {
+     "text": "il",
+     "offset": 33,
+     "norm": "il",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "pagamento",
+     "offset": 36,
+     "norm": "pagamento",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "pagamento"
+    },
+    {
+     "text": ".",
+     "offset": 45,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "L'azienda dell'ingegnere è un'impresa nuova.",
+   "tokens": [
+    {
+     "text": "L'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "azienda",
+     "offset": 2,
+     "norm": "azienda",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "azienda"
+    },
+    {
+     "text": "dell'",
+     "offset": 10,
+     "norm": "dell'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "di il"
+    },
+    {
+     "text": "ingegnere",
+     "offset": 15,
+     "norm": "ingegnere",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "ingegnere"
+    },
+    {
+     "text": "è",
+     "offset": 25,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "un'",
+     "offset": 27,
+     "norm": "un'",
+     "tag": "RI",
+     "pos": "DET",
+     "lemma": "uno"
+    },
+    {
+     "text": "impresa",
+     "offset": 30,
+     "norm": "impresa",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "impresa"
+    },
+    {
+     "text": "nuova",
+     "offset": 38,
+     "norm": "nuova",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "nuovo"
+    },
+    {
+     "text": ".",
+     "offset": 43,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Un'altra volta gliel'ho detto chiaramente.",
+   "tokens": [
+    {
+     "text": "Un'",
+     "offset": 0,
+     "norm": "un'",
+     "tag": "RI",
+     "pos": "DET",
+     "lemma": "uno"
+    },
+    {
+     "text": "altra",
+     "offset": 3,
+     "norm": "altra",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "altro"
+    },
+    {
+     "text": "volta",
+     "offset": 9,
+     "norm": "volta",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "volta"
+    },
+    {
+     "text": "gliel'",
+     "offset": 15,
+     "norm": "gliel'",
+     "tag": "PC_PC",
+     "pos": "PRON",
+     "lemma": "gliel'"
+    },
+    {
+     "text": "ho",
+     "offset": 21,
+     "norm": "ho",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "avere"
+    },
+    {
+     "text": "detto",
+     "offset": 24,
+     "norm": "detto",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "dire"
+    },
+    {
+     "text": "chiaramente",
+     "offset": 30,
+     "norm": "chiaramente",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "chiaramente"
+    },
+    {
+     "text": ".",
+     "offset": 41,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Nell'ambito dell'accordo, l'80% è già stato versato.",
+   "tokens": [
+    {
+     "text": "Nell'",
+     "offset": 0,
+     "norm": "nell'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "in il"
+    },
+    {
+     "text": "ambito",
+     "offset": 5,
+     "norm": "ambito",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "ambito"
+    },
+    {
+     "text": "dell'",
+     "offset": 12,
+     "norm": "dell'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "di il"
+    },
+    {
+     "text": "accordo",
+     "offset": 17,
+     "norm": "accordo",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "accordo"
+    },
+    {
+     "text": ",",
+     "offset": 24,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "l'",
+     "offset": 26,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "80",
+     "offset": 28,
+     "norm": "80",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "80"
+    },
+    {
+     "text": "%",
+     "offset": 30,
+     "norm": "%",
+     "tag": "SYM",
+     "pos": "SYM",
+     "lemma": "%"
+    },
+    {
+     "text": "è",
+     "offset": 32,
+     "norm": "è",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "già",
+     "offset": 34,
+     "norm": "già",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "già"
+    },
+    {
+     "text": "stato",
+     "offset": 38,
+     "norm": "stato",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "versato",
+     "offset": 44,
+     "norm": "versato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "versare"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Dopo l'incontro all'aeroporto, se n'è andato.",
+   "tokens": [
+    {
+     "text": "Dopo",
+     "offset": 0,
+     "norm": "dopo",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "dopo"
+    },
+    {
+     "text": "l'",
+     "offset": 5,
+     "norm": "l'",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "incontro",
+     "offset": 7,
+     "norm": "incontro",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "incontro"
+    },
+    {
+     "text": "all'",
+     "offset": 16,
+     "norm": "all'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "a il"
+    },
+    {
+     "text": "aeroporto",
+     "offset": 20,
+     "norm": "aeroporto",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "aeroporto"
+    },
+    {
+     "text": ",",
+     "offset": 29,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "se",
+     "offset": 31,
+     "norm": "se",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "se"
+    },
+    {
+     "text": "n'",
+     "offset": 34,
+     "norm": "n'",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "ne"
+    },
+    {
+     "text": "è",
+     "offset": 36,
+     "norm": "è",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "andato",
+     "offset": 38,
+     "norm": "andato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "andare"
+    },
+    {
+     "text": ".",
+     "offset": 44,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Perché non è più così semplice?",
+   "tokens": [
+    {
+     "text": "Perché",
+     "offset": 0,
+     "norm": "perché",
+     "tag": "CS",
+     "pos": "SCONJ",
+     "lemma": "perché"
+    },
+    {
+     "text": "non",
+     "offset": 7,
+     "norm": "non",
+     "tag": "BN",
+     "pos": "ADV",
+     "lemma": "non"
+    },
+    {
+     "text": "è",
+     "offset": 11,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "più",
+     "offset": 13,
+     "norm": "più",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "più"
+    },
+    {
+     "text": "così",
+     "offset": 17,
+     "norm": "così",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "così"
+    },
+    {
+     "text": "semplice",
+     "offset": 22,
+     "norm": "semplice",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "semplice"
+    },
+    {
+     "text": "?",
+     "offset": 30,
+     "norm": "?",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Sì, però ne parliamo dopo.",
+   "tokens": [
+    {
+     "text": "Sì",
+     "offset": 0,
+     "norm": "sì",
+     "tag": "I",
+     "pos": "INTJ",
+     "lemma": "sì"
+    },
+    {
+     "text": ",",
+     "offset": 2,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "però",
+     "offset": 4,
+     "norm": "però",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "però"
+    },
+    {
+     "text": "ne",
+     "offset": 9,
+     "norm": "ne",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "ne"
+    },
+    {
+     "text": "parliamo",
+     "offset": 12,
+     "norm": "parliamo",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "parlare"
+    },
+    {
+     "text": "dopo",
+     "offset": 21,
+     "norm": "dopo",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "dopo"
+    },
+    {
+     "text": ".",
+     "offset": 25,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Qual è la città più vicina?",
+   "tokens": [
+    {
+     "text": "Qual",
+     "offset": 0,
+     "norm": "qual",
+     "tag": "PQ",
+     "pos": "PRON",
+     "lemma": "Qual"
+    },
+    {
+     "text": "è",
+     "offset": 5,
+     "norm": "è",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "essere"
+    },
+    {
+     "text": "la",
+     "offset": 7,
+     "norm": "la",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "il"
+    },
+    {
+     "text": "città",
+     "offset": 10,
+     "norm": "città",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "città"
+    },
+    {
+     "text": "più",
+     "offset": 16,
+     "norm": "più",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "più"
+    },
+    {
+     "text": "vicina",
+     "offset": 20,
+     "norm": "vicina",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "vicino"
+    },
+    {
+     "text": "?",
+     "offset": 26,
+     "norm": "?",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 4,
+     "text": "Qual"
+    }
+   ]
+  },
+  {
+   "text": "words,heads,deps,pos,chunk_offsets",
+   "tokens": [
+    {
+     "text": "words",
+     "offset": 0,
+     "norm": "words",
+     "tag": "SP",
+     "pos": "NOUN",
+     "lemma": "Words"
+    },
+    {
+     "text": ",",
+     "offset": 5,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "heads",
+     "offset": 6,
+     "norm": "heads",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Heads"
+    },
+    {
+     "text": ",",
+     "offset": 11,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "deps",
+     "offset": 12,
+     "norm": "deps",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Deps"
+    },
+    {
+     "text": ",",
+     "offset": 16,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "pos",
+     "offset": 17,
+     "norm": "pos",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "pos"
+    },
+    {
+     "text": ",",
+     "offset": 20,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "chunk_offsets",
+     "offset": 21,
+     "norm": "chunk_offsets",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "chunk_offsets"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 5,
+     "text": "words"
+    },
+    {
+     "label": "LOC",
+     "start": 6,
+     "end": 11,
+     "text": "heads"
+    },
+    {
+     "label": "MISC",
+     "start": 21,
+     "end": 34,
+     "text": "chunk_offsets"
+    }
+   ]
+  },
+  {
+   "text": "Test that noun_chunks raises Value Error for 'it' language if Doc is not parsed.",
+   "tokens": [
+    {
+     "text": "Test",
+     "offset": 0,
+     "norm": "test",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Test"
+    },
+    {
+     "text": "that",
+     "offset": 5,
+     "norm": "that",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "that"
+    },
+    {
+     "text": "noun_chunks",
+     "offset": 10,
+     "norm": "noun_chunks",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "noun_chunks"
+    },
+    {
+     "text": "raises",
+     "offset": 22,
+     "norm": "raises",
+     "tag": "S",
+     "pos": "VERB",
+     "lemma": "raises"
+    },
+    {
+     "text": "Value",
+     "offset": 29,
+     "norm": "value",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Value"
+    },
+    {
+     "text": "Error",
+     "offset": 35,
+     "norm": "error",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Error"
+    },
+    {
+     "text": "for",
+     "offset": 41,
+     "norm": "for",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "for"
+    },
+    {
+     "text": "'",
+     "offset": 45,
+     "norm": "'",
+     "tag": "FB",
+     "pos": "PUNCT",
+     "lemma": "'"
+    },
+    {
+     "text": "it",
+     "offset": 46,
+     "norm": "it",
+     "tag": "S",
+     "pos": "DET",
+     "lemma": "it"
+    },
+    {
+     "text": "'",
+     "offset": 48,
+     "norm": "'",
+     "tag": "S",
+     "pos": "PROPN",
+     "lemma": "'"
+    },
+    {
+     "text": "language",
+     "offset": 50,
+     "norm": "language",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "language"
+    },
+    {
+     "text": "if",
+     "offset": 59,
+     "norm": "if",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "if"
+    },
+    {
+     "text": "Doc",
+     "offset": 62,
+     "norm": "doc",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Doc"
+    },
+    {
+     "text": "is",
+     "offset": 66,
+     "norm": "is",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "is"
+    },
+    {
+     "text": "not",
+     "offset": 69,
+     "norm": "not",
+     "tag": "SW",
+     "pos": "X",
+     "lemma": "not"
+    },
+    {
+     "text": "parsed",
+     "offset": 73,
+     "norm": "parsed",
+     "tag": "V",
+     "pos": "ADJ",
+     "lemma": "parsed"
+    },
+    {
+     "text": ".",
+     "offset": 79,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 58,
+     "text": "Test that noun_chunks raises Value Error for 'it' language"
+    },
+    {
+     "label": "MISC",
+     "start": 62,
+     "end": 65,
+     "text": "Doc"
+    }
+   ]
+  },
+  {
+   "text": "Sei andato a Oxford",
+   "tokens": [
+    {
+     "text": "Sei",
+     "offset": 0,
+     "norm": "sei",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "sei"
+    },
+    {
+     "text": "andato",
+     "offset": 4,
+     "norm": "andato",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "andare"
+    },
+    {
+     "text": "a",
+     "offset": 11,
+     "norm": "a",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "Oxford",
+     "offset": 13,
+     "norm": "oxford",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Oxford"
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 13,
+     "end": 19,
+     "text": "Oxford"
+    }
+   ]
+  },
+  {
+   "text": "det:poss",
+   "tokens": [
+    {
+     "text": "det",
+     "offset": 0,
+     "norm": "det",
+     "tag": "S",
+     "pos": "VERB",
+     "lemma": "det"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "FC",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "poss",
+     "offset": 4,
+     "norm": "poss",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "poss"
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 4,
+     "end": 8,
+     "text": "poss"
+    }
+   ]
+  },
+  {
+   "text": "acl:relcl",
+   "tokens": [
+    {
+     "text": "acl",
+     "offset": 0,
+     "norm": "acl",
+     "tag": "V_PC",
+     "pos": "PRON",
+     "lemma": "acl"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "FC",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "relcl",
+     "offset": 4,
+     "norm": "relcl",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "relcl"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 3,
+     "text": "acl"
+    },
+    {
+     "label": "MISC",
+     "start": 4,
+     "end": 9,
+     "text": "relcl"
+    }
+   ]
+  },
+  {
+   "text": "flat:name",
+   "tokens": [
+    {
+     "text": "flat",
+     "offset": 0,
+     "norm": "flat",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "flat"
+    },
+    {
+     "text": ":",
+     "offset": 4,
+     "norm": ":",
+     "tag": "FC",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "name",
+     "offset": 5,
+     "norm": "name",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "nama"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "nsubj:pass",
+   "tokens": [
+    {
+     "text": "nsubj",
+     "offset": 0,
+     "norm": "nsubj",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "nsubj"
+    },
+    {
+     "text": ":",
+     "offset": 5,
+     "norm": ":",
+     "tag": "FC",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "pass",
+     "offset": 6,
+     "norm": "pass",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "pass"
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 5,
+     "text": "nsubj"
+    }
+   ]
+  },
+  {
+   "text": "aux:pass",
+   "tokens": [
+    {
+     "text": "aux",
+     "offset": 0,
+     "norm": "aux",
+     "tag": "SW",
+     "pos": "X",
+     "lemma": "aux"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "FC",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "pass",
+     "offset": 4,
+     "norm": "pass",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "pass"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 3,
+     "text": "aux"
+    }
+   ]
+  },
+  {
+   "text": "obl:agent",
+   "tokens": [
+    {
+     "text": "obl",
+     "offset": 0,
+     "norm": "obl",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "obl"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "FC",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "agent",
+     "offset": 4,
+     "norm": "agent",
+     "tag": "SP",
+     "pos": "NOUN",
+     "lemma": "agent"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 3,
+     "text": "obl"
+    }
+   ]
+  },
+  {
+   "text": "Test that the contractions are split into two tokens",
+   "tokens": [
+    {
+     "text": "Test",
+     "offset": 0,
+     "norm": "test",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Test"
+    },
+    {
+     "text": "that",
+     "offset": 5,
+     "norm": "that",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "that"
+    },
+    {
+     "text": "the",
+     "offset": 10,
+     "norm": "the",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "the"
+    },
+    {
+     "text": "contractions",
+     "offset": 14,
+     "norm": "contractions",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "contractions"
+    },
+    {
+     "text": "are",
+     "offset": 27,
+     "norm": "are",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "are"
+    },
+    {
+     "text": "split",
+     "offset": 31,
+     "norm": "split",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "split"
+    },
+    {
+     "text": "into",
+     "offset": 37,
+     "norm": "into",
+     "tag": "B",
+     "pos": "NOUN",
+     "lemma": "into"
+    },
+    {
+     "text": "two",
+     "offset": 42,
+     "norm": "two",
+     "tag": "N",
+     "pos": "NUM",
+     "lemma": "two"
+    },
+    {
+     "text": "tokens",
+     "offset": 46,
+     "norm": "tokens",
+     "tag": "PR",
+     "pos": "NOUN",
+     "lemma": "tokens"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 26,
+     "text": "Test that the contractions"
+    }
+   ]
+  },
+  {
+   "text": "text,expected_tokens",
+   "tokens": [
+    {
+     "text": "text",
+     "offset": 0,
+     "norm": "text",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "text"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "FF",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "expected_tokens",
+     "offset": 5,
+     "norm": "expected_tokens",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "expected_tokens"
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 5,
+     "end": 20,
+     "text": "expected_tokens"
+    }
+   ]
+  },
+  {
+   "text": "l'ha",
+   "tokens": [
+    {
+     "text": "l'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "lo"
+    },
+    {
+     "text": "ha",
+     "offset": 2,
+     "norm": "ha",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "avere"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "quest'uomo",
+   "tokens": [
+    {
+     "text": "quest'",
+     "offset": 0,
+     "norm": "quest'",
+     "tag": "DD",
+     "pos": "DET",
+     "lemma": "questo"
+    },
+    {
+     "text": "uomo",
+     "offset": 6,
+     "norm": "uomo",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "uomo"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "l'ho",
+   "tokens": [
+    {
+     "text": "l'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "lo"
+    },
+    {
+     "text": "ho",
+     "offset": 2,
+     "norm": "ho",
+     "tag": "VA",
+     "pos": "AUX",
+     "lemma": "avere"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "un'amica",
+   "tokens": [
+    {
+     "text": "un'",
+     "offset": 0,
+     "norm": "un'",
+     "tag": "RI",
+     "pos": "DET",
+     "lemma": "uno"
+    },
+    {
+     "text": "amica",
+     "offset": 3,
+     "norm": "amica",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "amico"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "dell'olio",
+   "tokens": [
+    {
+     "text": "dell'",
+     "offset": 0,
+     "norm": "dell'",
+     "tag": "E_RD",
+     "pos": "ADP",
+     "lemma": "di il"
+    },
+    {
+     "text": "olio",
+     "offset": 5,
+     "norm": "olio",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "olio"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "s'arrende",
+   "tokens": [
+    {
+     "text": "s'",
+     "offset": 0,
+     "norm": "s'",
+     "tag": "PC",
+     "pos": "PRON",
+     "lemma": "si"
+    },
+    {
+     "text": "arrende",
+     "offset": 2,
+     "norm": "arrende",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "arrendere"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "m'ascolti",
+   "tokens": [
+    {
+     "text": "m'",
+     "offset": 0,
+     "norm": "m'",
+     "tag": "PC",
+     "pos": "AUX",
+     "lemma": "mi"
+    },
+    {
+     "text": "ascolti",
+     "offset": 2,
+     "norm": "ascolti",
+     "tag": "A",
+     "pos": "ADJ",
+     "lemma": "ascolto"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Test that the abbreviation of poco is kept as one word.",
+   "tokens": [
+    {
+     "text": "Test",
+     "offset": 0,
+     "norm": "test",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Test"
+    },
+    {
+     "text": "that",
+     "offset": 5,
+     "norm": "that",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "that"
+    },
+    {
+     "text": "the",
+     "offset": 10,
+     "norm": "the",
+     "tag": "RD",
+     "pos": "DET",
+     "lemma": "the"
+    },
+    {
+     "text": "abbreviation",
+     "offset": 14,
+     "norm": "abbreviation",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "abbreviation"
+    },
+    {
+     "text": "of",
+     "offset": 27,
+     "norm": "of",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "of"
+    },
+    {
+     "text": "poco",
+     "offset": 30,
+     "norm": "poco",
+     "tag": "B",
+     "pos": "ADV",
+     "lemma": "poco"
+    },
+    {
+     "text": "is",
+     "offset": 35,
+     "norm": "is",
+     "tag": "V",
+     "pos": "VERB",
+     "lemma": "isre"
+    },
+    {
+     "text": "kept",
+     "offset": 38,
+     "norm": "kept",
+     "tag": "SP",
+     "pos": "PROPN",
+     "lemma": "Kept"
+    },
+    {
+     "text": "as",
+     "offset": 43,
+     "norm": "as",
+     "tag": "SW",
+     "pos": "X",
+     "lemma": "as"
+    },
+    {
+     "text": "one",
+     "offset": 46,
+     "norm": "one",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "one"
+    },
+    {
+     "text": "word",
+     "offset": 50,
+     "norm": "word",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "word"
+    },
+    {
+     "text": ".",
+     "offset": 54,
+     "norm": ".",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 29,
+     "text": "Test that the abbreviation of"
+    }
+   ]
+  },
+  {
+   "text": "Vuoi un po' di zucchero?",
+   "tokens": [
+    {
+     "text": "Vuoi",
+     "offset": 0,
+     "norm": "vuoi",
+     "tag": "V",
+     "pos": "AUX",
+     "lemma": "Vuoi"
+    },
+    {
+     "text": "un",
+     "offset": 5,
+     "norm": "un",
+     "tag": "RI",
+     "pos": "DET",
+     "lemma": "uno"
+    },
+    {
+     "text": "po'",
+     "offset": 8,
+     "norm": "po'",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "poco"
+    },
+    {
+     "text": "di",
+     "offset": 12,
+     "norm": "di",
+     "tag": "E",
+     "pos": "ADP",
+     "lemma": "di"
+    },
+    {
+     "text": "zucchero",
+     "offset": 15,
+     "norm": "zucchero",
+     "tag": "S",
+     "pos": "NOUN",
+     "lemma": "zucchero"
+    },
+    {
+     "text": "?",
+     "offset": 23,
+     "norm": "?",
+     "tag": "FS",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  }
+ ]
+}

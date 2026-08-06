@@ -106,7 +106,7 @@ public final class SpacyTokenizer: @unchecked Sendable {
     /// change — but only for languages spaCy tokenizes by rule. Japanese and
     /// Chinese are segmented by SudachiPy and pkuseg, which are models, not
     /// tables, and cannot be bundled this way at all.
-    public static let bundledLanguages = ["de", "en"]
+    public static let bundledLanguages = ["de", "en", "es", "it"]
 
     public static func english() throws -> SpacyTokenizer {
         try forLanguage("en")
@@ -117,6 +117,18 @@ public final class SpacyTokenizer: @unchecked Sendable {
     /// tokenizer exceptions.
     public static func german() throws -> SpacyTokenizer {
         try forLanguage("de")
+    }
+
+    /// Spanish. Fewest exceptions of the four (282), but the infix pattern has
+    /// to cope with inverted punctuation opening a clause mid-sentence.
+    public static func spanish() throws -> SpacyTokenizer {
+        try forLanguage("es")
+    }
+
+    /// Italian, where the interesting work is elision: `dell'`, `un'`, `n'`
+    /// all split, and the apostrophe stays with the *first* piece.
+    public static func italian() throws -> SpacyTokenizer {
+        try forLanguage("it")
     }
 
     public static func forLanguage(_ language: String) throws -> SpacyTokenizer {

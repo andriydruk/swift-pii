@@ -1,65 +1,20 @@
 import Testing
 import Foundation
-import PresidioConformance
 @testable import PresidioNLP
 
-/// Where to find an unpacked `de_core_news_sm`.
-///
-/// Free function rather than a static, for the same reason as the English one:
-/// a `.enabled(if:)` condition referencing the type it is attached to is a
-/// circular macro reference.
-///
-/// It must be **3.7.0**, the version `de_gold.json` was built from. A different
-/// patch release has different weights, and the resulting mismatch reads as a
-/// catastrophic regression when it is only a version skew.
-func germanModelDirectory() -> String? {
-    ProcessInfo.processInfo.environment["SPACY_DE_MODEL_DIR"]
-}
-
-struct GermanGold: Decodable {
-    struct Case: Decodable {
-        struct Token: Decodable {
-            let text: String
-            let offset: Int
-            let norm: String
-            let tag: String
-            let pos: String
-            let lemma: String
-        }
-        struct Entity: Decodable {
-            let label: String
-            let start: Int
-            let end: Int
-            let text: String
-        }
-        let text: String
-        let tokens: [Token]
-        let entities: [Entity]
-    }
-    let model: String
-    let spacyVersion: String
-    let cases: [Case]
-
-    enum CodingKeys: String, CodingKey {
-        case model
-        case spacyVersion = "spacy_version"
-        case cases
-    }
-
-    static let shared: GermanGold = {
-        // swiftlint:disable:next force_try
-        try! JSONDecoder().decode(GermanGold.self, from: Corpus.data(named: "de_gold"))
-    }()
-}
+/// Free function rather than a static: a `.enabled(if:)` condition referencing
+/// the type it is attached to is a circular macro reference.
+func germanModelDirectory() -> String? { modelDirectory("de") }
 
 /// The German tokenizer, which needs no model weights at all.
 ///
-/// This suite is deliberately not gated on a model directory: tokenization is
-/// pure data, so it must run everywhere the package builds. That matters more
-/// than it sounds — the English NER suite was gated for months and therefore
-/// ran nowhere, and gating what does not need gating is how that happens.
+/// Deliberately *not* gated on a model directory: tokenization is pure data, so
+/// it must run everywhere the package builds. That matters more than it sounds
+/// — the English NER suite was gated for months and therefore ran nowhere, and
+/// gating what does not need gating is how that happens.
 @Suite("spaCy German tokenizer parity")
 struct GermanTokenizerTests {
+    static let gold = LanguageGold.load("de")
 
     @Test("the German rules load and differ from the English ones")
     func rulesLoad() throws {
@@ -67,8 +22,8 @@ struct GermanTokenizerTests {
         let english = try SpacyTokenizer.english()
         #expect(german.spacyVersion.isEmpty == false)
         // Same shape, different data. If these ever became equal, the German
-        // resource would have silently fallen back to English and every
-        // parity number below would still look fine.
+        // resource would have silently fallen back to English and every parity
+        // number below would still look fine.
         #expect(german.tokenize("Das gilt z.B. für Verträge.").map(\.text)
                 != english.tokenize("Das gilt z.B. für Verträge.").map(\.text))
     }
@@ -82,52 +37,22 @@ struct GermanTokenizerTests {
 
     @Test("tokens, offsets and NORMs match spaCy across the corpus")
     func matchesSpacy() throws {
-        let tokenizer = try SpacyTokenizer.german()
-        var tokensChecked = 0
-        var textMismatches: [String] = []
-        var normMismatches: [String] = []
-
-        for testCase in GermanGold.shared.cases {
-            let got = tokenizer.tokenize(testCase.text)
-            let want = testCase.tokens
-
-            let gotTexts = got.map { "\($0.offset):\($0.text)" }
-            let wantTexts = want.map { "\($0.offset):\($0.text)" }
-            if gotTexts != wantTexts {
-                if textMismatches.count < 8 {
-                    textMismatches.append("""
-                        \(testCase.text.prefix(70).debugDescription)
-                          spacy \(wantTexts)
-                          swift \(gotTexts)
-                        """)
-                }
-                continue
-            }
-            tokensChecked += want.count
-            for (index, token) in got.enumerated() where token.norm != want[index].norm {
-                if normMismatches.count < 8 {
-                    normMismatches.append(
-                        "\(token.text): spacy \(want[index].norm) swift \(token.norm)"
-                    )
-                }
-            }
-        }
-
-        print("German tokenizer: \(tokensChecked) tokens over "
-              + "\(GermanGold.shared.cases.count) texts, "
-              + "\(textMismatches.count) misaligned, "
-              + "\(normMismatches.count) NORM divergences")
-
-        #expect(textMismatches.isEmpty, "\(textMismatches.joined(separator: "\n"))")
-        #expect(normMismatches.isEmpty, "\(normMismatches.joined(separator: "\n"))")
-        #expect(tokensChecked >= 600, "corpus too small: \(tokensChecked) tokens")
+        let (alignment, norms) = LanguageParity.tokens(
+            Self.gold, try SpacyTokenizer.german()
+        )
+        print("German tokenizer: \(norms.total) tokens over \(alignment.total) texts, "
+              + "\(alignment.total - alignment.matched) misaligned, "
+              + "\(norms.total - norms.matched) NORM divergences")
+        #expect(alignment.isExact, "\(alignment.detail)")
+        #expect(norms.isExact, "\(norms.detail)")
+        #expect(norms.total >= 600, "corpus too small: \(norms.total) tokens")
     }
 }
 
-/// German NER, on the same terms as the English suite: raw text in, character
-/// spans out, compared against spaCy's own output.
+/// German NER: raw text in, character spans out, against spaCy's own output.
 @Suite("spaCy German NER parity", .enabled(if: germanModelDirectory() != nil))
 struct GermanNERTests {
+    static let gold = LanguageGold.load("de")
 
     @Test("the German model loads")
     func modelLoads() throws {
@@ -142,75 +67,38 @@ struct GermanNERTests {
 
     @Test("entities match spaCy")
     func entitiesMatchSpacy() throws {
-        let ner = try SpacyNER(
+        let report = LanguageParity.entities(Self.gold, try SpacyNER(
             modelDirectory: germanModelDirectory()!,
             tokenizer: try SpacyTokenizer.german()
-        )
-        var matched = 0, expected = 0, produced = 0
-        var report: [String] = []
-
-        for testCase in GermanGold.shared.cases {
-            let got = Set(ner.entities(in: testCase.text).map {
-                "\($0.start),\($0.end),\($0.label)"
-            })
-            let want = Set(testCase.entities.map { "\($0.start),\($0.end),\($0.label)" })
-            matched += got.intersection(want).count
-            expected += want.count
-            produced += got.count
-            if got != want, report.count < 10 {
-                report.append("""
-                    \(testCase.text.prefix(70).debugDescription)
-                      spacy \(want.sorted())
-                      swift \(got.sorted())
-                    """)
-            }
-        }
-
-        let recall = Double(matched) / Double(expected)
-        let precision = Double(matched) / Double(produced)
-        print("German NER parity: matched \(matched)/\(expected) "
-              + "recall \(recall) precision \(precision)")
-        if !report.isEmpty { print(report.joined(separator: "\n")) }
-
-        #expect(expected >= 60, "corpus too small: \(expected) entities")
+        ))
+        print("German NER parity: \(report.summary)")
+        if !report.samples.isEmpty { print(report.detail) }
+        #expect(report.expected >= 60, "corpus too small: \(report.expected) entities")
         // Ratchet, like the English suite. Tightened as the port improves;
         // never loosened without a written reason.
-        #expect(recall >= 0.98, "recall \(recall), was 1.0")
-        #expect(precision >= 0.98, "precision \(precision), was 1.0")
+        #expect(report.recall >= 0.98, "recall \(report.recall), was 1.0")
+        #expect(report.precision >= 0.98, "precision \(report.precision), was 0.985")
     }
 }
 
 /// The German tagger, which shares its architecture with the English one but
-/// not its label set: 52 STTS tags against English's 50 Penn Treebank ones.
+/// not its label set: 55 STTS tags against English's 50 Penn Treebank ones.
 @Suite("spaCy German tagger parity", .enabled(if: germanModelDirectory() != nil))
 struct GermanTaggerTests {
+    static let gold = LanguageGold.load("de")
 
     @Test("fine-grained tags match spaCy")
     func tagsMatchSpacy() throws {
         let tagger = try TaggerModel(directory: germanModelDirectory()!)
-        let tokenizer = try SpacyTokenizer.german()
-        var matched = 0, total = 0
-        var report: [String] = []
-
-        for testCase in GermanGold.shared.cases {
-            let tokens = tokenizer.tokenize(testCase.text)
-            guard tokens.count == testCase.tokens.count else { continue }
-            let got = tagger.tags(for: tokens, text: testCase.text)
-            for (index, tag) in got.enumerated() {
-                total += 1
-                if tag == testCase.tokens[index].tag {
-                    matched += 1
-                } else if report.count < 10 {
-                    report.append("\(tokens[index].text): spacy "
-                                  + "\(testCase.tokens[index].tag) swift \(tag)")
-                }
-            }
-        }
-
-        print("German tagger: \(matched)/\(total) tags")
-        if !report.isEmpty { print(report.joined(separator: "\n")) }
-        #expect(total >= 600, "corpus too small: \(total)")
-        #expect(matched == total)
+        let report = LanguageParity.perToken(
+            Self.gold, try SpacyTokenizer.german(),
+            expected: \.tag,
+            produced: { tagger.tags(for: $0, text: $1) }
+        )
+        print("German tagger: \(report.summary) tags")
+        if !report.samples.isEmpty { print(report.detail) }
+        #expect(report.total >= 600, "corpus too small: \(report.total)")
+        #expect(report.isExact)
     }
 }
 
@@ -218,6 +106,7 @@ struct GermanTaggerTests {
 /// from rules — a different component from English's, ported separately.
 @Suite("spaCy German lemma parity", .enabled(if: germanModelDirectory() != nil))
 struct GermanLemmaTests {
+    static let gold = LanguageGold.load("de")
 
     @Test("the edit trees load")
     func treesLoad() throws {
@@ -230,28 +119,14 @@ struct GermanLemmaTests {
     @Test("lemmas match spaCy")
     func lemmasMatchSpacy() throws {
         let lemmatizer = try EditTreeLemmatizer(directory: germanModelDirectory()!)
-        let tokenizer = try SpacyTokenizer.german()
-        var matched = 0, total = 0
-        var report: [String] = []
-
-        for testCase in GermanGold.shared.cases {
-            let tokens = tokenizer.tokenize(testCase.text)
-            guard tokens.count == testCase.tokens.count else { continue }
-            let got = lemmatizer.lemmas(for: tokens, text: testCase.text)
-            for (index, lemma) in got.enumerated() {
-                total += 1
-                if lemma == testCase.tokens[index].lemma {
-                    matched += 1
-                } else if report.count < 12 {
-                    report.append("\(tokens[index].text): spacy "
-                                  + "\(testCase.tokens[index].lemma) swift \(lemma)")
-                }
-            }
-        }
-
-        print("German lemmas: \(matched)/\(total)")
-        if !report.isEmpty { print(report.joined(separator: "\n")) }
-        #expect(total >= 600, "corpus too small: \(total)")
-        #expect(matched == total)
+        let report = LanguageParity.perToken(
+            Self.gold, try SpacyTokenizer.german(),
+            expected: \.lemma,
+            produced: { lemmatizer.lemmas(for: $0, text: $1) }
+        )
+        print("German lemmas: \(report.summary)")
+        if !report.samples.isEmpty { print(report.detail) }
+        #expect(report.total >= 600, "corpus too small: \(report.total)")
+        #expect(report.isExact)
     }
 }

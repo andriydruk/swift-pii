@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the German differential corpora from `de_core_news_sm`.
+"""Generate a language's differential corpus from its `*_core_news_sm` model.
 
 Same method as the English ones: give spaCy the raw text, record what it
 produced, and let the Swift side try to reproduce it from the same input. What
@@ -8,24 +8,24 @@ lemmas, and entity spans.
 
 The corpus has two halves, for two different reasons.
 
-**Harvested from spaCy's own German test suite.** Those files are where the
-tokenizer's edge cases already live -- guillemets, `»Was ist mit mir
-geschehen?«`, 40-character compounds, hyphenated Kraftfahrzeug-
-Haftpflichtversicherung -- and the people who wrote them knew which cases were
-sharp. Extracted by AST rather than regex so it survives reformatting.
+**Harvested from spaCy's own tests for that language.** Those files are where
+the tokenizer's edge cases already live -- German guillemets and 40-character
+compounds, Spanish inverted question marks, Italian elisions like `dell'` --
+and the people who wrote them knew which cases were sharp. Extracted by AST
+rather than regex so it survives reformatting.
 
-**Written for this port.** German prose containing the things a PII pipeline
-actually meets: names with titles, cities, companies with legal forms, dates in
-German order, ordinals, currency with comma decimals, abbreviations that end in
-a period without ending a sentence. The tokenizer treats `z.B.` and `Dr.` as
-exceptions, and getting that wrong shifts every offset after it.
+**Written for this port.** Prose containing what a PII pipeline actually meets:
+names with titles, cities, companies with legal forms, dates in the local order,
+currency with comma decimals, and abbreviations that end in a period without
+ending a sentence. Those abbreviations are tokenizer exceptions, and getting one
+wrong shifts every offset after it.
 
 The text is an *input*, not an assertion: it does not need to be interesting
-German, it needs to be German that both implementations see identically.
+prose, it needs to be prose that both implementations see identically.
 
-    python3 Tools/german_reference.py \\
-        --python <venv python with spacy + de_core_news_sm> \\
-        --out Tests/PresidioConformance/Fixtures/de_gold.json
+    python3 Tools/language_reference.py \\
+        --python <venv python with spacy + the model> \\
+        --lang de --out Tests/PresidioConformance/Fixtures/de_gold.json
 """
 
 from __future__ import annotations
@@ -41,7 +41,7 @@ import sys
 # Kept here rather than in a data file so that regenerating the corpus is one
 # command, and so the reason each group exists can be written next to it.
 
-PROSE = [
+PROSE = {"de": [
     # Names, titles, and the abbreviation-period problem.
     "Dr. Anna Müller arbeitet seit 2019 bei der Siemens AG in München.",
     "Herr Schmidt und Frau Dr. Weber haben den Vertrag am 3. März unterschrieben.",
@@ -94,7 +94,97 @@ PROSE = [
     "Er sagte: Das ist erledigt.",
     "(Siehe Anhang.) Weitere Angaben folgen.",
     "E-Mail, Telefon o. Ä. sind anzugeben.",
-]
+],
+
+"es": [
+    # Names and the titles that end in a period without ending a sentence.
+    "El Dr. Juan Pérez atiende los martes en el Hospital La Paz.",
+    "La Sra. García firmó el contrato el 3 de marzo de 2021.",
+    "D. Alberto Ruiz-Gallardón presentó el informe en Madrid.",
+    "La paciente, Dña. María Fernández, nació el 14/02/1978 en Sevilla.",
+    "Atentamente, Lic. Rodríguez, Departamento de Recursos Humanos.",
+    # Organisations and legal forms.
+    "Telefónica S.A. y el Banco Santander firmaron el acuerdo en Barcelona.",
+    "Inditex, con sede en Arteixo, factura más que sus competidores.",
+    "La empresa Construcciones Álvarez S.L. presentó su concurso de acreedores.",
+    "El Ministerio de Hacienda publicó la resolución en el BOE.",
+    # Places.
+    "Viajó de Bilbao a Valencia pasando por Zaragoza.",
+    "La sede está en A Coruña, aunque el registro figura en Las Palmas.",
+    "El Camino de Santiago termina en Santiago de Compostela.",
+    # Contact details.
+    "Puede escribirme a ana.lopez@ejemplo.es o llamar al +34 612 345 678.",
+    "Mi teléfono es el 91 123 45 67 y el móvil el 600 112 233.",
+    "El servidor responde en 192.168.0.14 y la documentación está en https://ejemplo.es/ayuda.",
+    "Su NIF es 20899533P y el NIE de su esposa X1234567L.",
+    "Transfiera el importe a ES91 2100 0418 4502 0005 1332.",
+    # Dates, numbers, currency.
+    "El plazo terminó el 31/12/2023 a las 23:59 horas.",
+    "El importe de 1.234,56 EUR se abonó el 5 de junio.",
+    "En el tercer trimestre las ventas subieron un 12,5 por ciento.",
+    "La reunión será de 9.30 a 17.00.",
+    # Abbreviations, which is where Spanish tokenizer exceptions live.
+    "Esto se aplica p.ej. a los contratos anteriores a 2020.",
+    "Traiga su DNI, la tarjeta, etc. a la cita.",
+    "La dirección es c/ Mayor, núm. 12, 28013 Madrid.",
+    "Vid. el art. 12 del Reglamento, apdo. 3.",
+    "Aprox. tres días hábiles después del pago.",
+    # Inverted punctuation, accents, ñ, elisions.
+    "¿Quién tomó esa decisión?",
+    "¡No estaba acordado!, dijo el jefe de área.",
+    "El niño añadió que mañana traería la señal.",
+    "¿Cómo? ¿Cuándo? Nadie lo sabía.",
+    "Sí, aunque aún faltan más datos.",
+    # Clitics and contractions, which the lemmatizer cares about.
+    "Dáselo al director cuando venga.",
+    "Vamos al cine del centro.",
+    "Quiero decírtelo antes de que se entere.",
+],
+
+"it": [
+    # Names and titles.
+    "Il Dott. Marco Rossi riceve il martedì presso l'ospedale di Milano.",
+    "La Sig.ra Bianchi ha firmato il contratto il 3 marzo 2021.",
+    "Il Prof. Giuseppe De Luca insegna all'Università di Bologna.",
+    "Il paziente, Sig. Luca Ferrari, è nato il 14/02/1978 a Napoli.",
+    "Gentile Dott.ssa Conti, la ringrazio per la Sua comunicazione.",
+    # Organisations.
+    "Enel S.p.A. e Intesa Sanpaolo hanno firmato l'accordo a Roma.",
+    "La Ferrari ha sede a Maranello, in provincia di Modena.",
+    "La società Costruzioni Verdi S.r.l. ha presentato il bilancio.",
+    "Il Ministero dell'Economia ha pubblicato il decreto.",
+    # Places.
+    "È andato da Torino a Palermo passando per Firenze.",
+    "La sede legale è a Reggio nell'Emilia.",
+    "Il Monte Bianco si trova al confine tra Italia e Francia.",
+    # Contact details.
+    "Può scrivermi a anna.russo@esempio.it oppure chiamare il +39 06 1234567.",
+    "Il mio numero è 02 12345678, il cellulare 320 1234567.",
+    "Il server risponde su 192.168.0.14 e la documentazione è su https://esempio.it/aiuto.",
+    "Il suo codice fiscale è RSSMRA85M01H501Z.",
+    "Effettui il bonifico su IT60 X054 2811 1010 0000 0123 456.",
+    # Dates, numbers, currency.
+    "Il termine è scaduto il 31/12/2023 alle 23:59.",
+    "L'importo di 1.234,56 EUR è stato accreditato il 5 giugno.",
+    "Nel terzo trimestre le vendite sono salite del 12,5 per cento.",
+    "La riunione si terrà dalle 9.30 alle 17.00.",
+    # Abbreviations.
+    "Questo vale ad es. per i contratti anteriori al 2020.",
+    "Porti la carta d'identità, la tessera, ecc. all'appuntamento.",
+    "L'indirizzo è via Roma, n. 12, 20121 Milano.",
+    "Cfr. l'art. 12 del Regolamento, comma 3.",
+    "Circa tre giorni lavorativi dopo il pagamento.",
+    # Elisions and apostrophes, which drive Italian tokenization.
+    "L'azienda dell'ingegnere è un'impresa nuova.",
+    "Un'altra volta gliel'ho detto chiaramente.",
+    "Nell'ambito dell'accordo, l'80% è già stato versato.",
+    "Dopo l'incontro all'aeroporto, se n'è andato.",
+    # Accents and elided verbs.
+    "Perché non è più così semplice?",
+    "Sì, però ne parliamo dopo.",
+    "Qual è la città più vicina?",
+],
+}
 
 
 CHILD = r"""
@@ -132,20 +222,20 @@ json.dump({
 """
 
 
-def harvest_spacy_tests(python: str) -> list[str]:
-    """Pull every string literal out of spaCy's German language tests.
+def harvest_spacy_tests(python: str, lang: str) -> list[str]:
+    """Pull every string literal out of spaCy's tests for one language.
 
     By AST, so a reformat or a new parametrize case is picked up without
     touching this script. Literals that are obviously not German text -- import
     fragments, single characters, fixture names -- are dropped by length.
     """
     finder = (
-        "import os, spacy.tests.lang.de as m; "
+        f"import os, spacy.tests.lang.{lang} as m; "
         "print(os.path.dirname(m.__file__))"
     )
     proc = subprocess.run([python, "-c", finder], capture_output=True, text=True)
     if proc.returncode != 0:
-        print("WARN: spaCy German tests not found; skipping harvest", file=sys.stderr)
+        print(f"WARN: spaCy {lang} tests not found; skipping harvest", file=sys.stderr)
         return []
 
     directory = proc.stdout.strip()
@@ -173,21 +263,24 @@ def harvest_spacy_tests(python: str) -> list[str]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--python", required=True, help="interpreter with spacy + the model")
-    ap.add_argument("--model", default="de_core_news_sm")
+    ap.add_argument("--lang", required=True, choices=sorted(PROSE), help="language code")
+    ap.add_argument("--model", default=None, help="defaults to <lang>_core_news_sm")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
-    harvested = harvest_spacy_tests(args.python)
+    model = args.model or f"{args.lang}_core_news_sm"
+    prose = PROSE[args.lang]
+    harvested = harvest_spacy_tests(args.python, args.lang)
     # Deduplicate while keeping order, so the corpus is stable across runs.
     seen: set[str] = set()
     texts: list[str] = []
-    for text in PROSE + harvested:
+    for text in prose + harvested:
         if text not in seen:
             seen.add(text)
             texts.append(text)
 
     proc = subprocess.run(
-        [args.python, "-c", CHILD, json.dumps(texts), args.model],
+        [args.python, "-c", CHILD, json.dumps(texts), model],
         capture_output=True, text=True,
     )
     if proc.returncode != 0:
@@ -204,7 +297,7 @@ def main() -> int:
     print(f"wrote {args.out} ({os.path.getsize(args.out) / 1024:.0f} KB)")
     print(f"  model      {payload['model']} (spaCy {payload['spacy_version']})")
     print(f"  texts      {len(payload['cases'])} "
-          f"({len(PROSE)} written, {len(texts) - len(PROSE)} harvested)")
+          f"({len(prose)} written, {len(texts) - len(prose)} harvested)")
     print(f"  tokens     {tokens}")
     print(f"  entities   {entities}")
     return 0

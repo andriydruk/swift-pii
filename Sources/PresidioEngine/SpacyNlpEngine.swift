@@ -162,8 +162,10 @@ public final class TokenizerOnlyNlpEngine: NlpEngineProviding, @unchecked Sendab
     ///   `SpacyNlpEngine`'s choice, deliberately: there, wrong token boundaries
     ///   feed a model and corrupt entity offsets, so it is worth stopping for.
     ///   Here there is no model — tokenization only decides the ±5-token context
-    ///   window — and refusing would take away the Spanish and Italian
-    ///   recognizers entirely to avoid a scoring approximation.
+    ///   window — and refusing would take away, say, the Polish or Korean
+    ///   recognizers entirely to avoid a scoring approximation. (German,
+    ///   Spanish and Italian have their own rules bundled, so they never take
+    ///   this path.)
     public init(
         lemmatizer: any Lemmatizing = LookupLemmatizer(),
         supportedLanguages: [String] = ["en"]

@@ -47,7 +47,7 @@ public enum LexicalTables {
     ///
     /// Adding one is an extraction, not a code change:
     /// `Tools/extract_nlp_tables.py --lang xx`.
-    public static let bundledLanguages = ["de", "en"]
+    public static let bundledLanguages = ["de", "en", "es", "it"]
 
     private static func load(_ language: String) -> Set<String> {
         guard let url = Bundle.module.url(
@@ -72,6 +72,9 @@ public enum LexicalTables {
 
     /// German's 543 stop words, against English's 326.
     public static let germanStopWords: Set<String> = tables["de"] ?? []
+    /// Spanish: 521. Italian: 624.
+    public static let spanishStopWords: Set<String> = tables["es"] ?? []
+    public static let italianStopWords: Set<String> = tables["it"] ?? []
 
     public static var isLoaded: Bool { !englishStopWords.isEmpty }
 
