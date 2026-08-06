@@ -215,10 +215,25 @@ jobs:
             2>&1 | tee german.log
 
       - name: Assert the German suites actually ran
+        # Greps for the *measurements*, not the suite names. swift-testing
+        # prints `Suite "spaCy German tagger parity" skipped.` when the model
+        # directory is unset -- which contains the suite name, so a name grep
+        # passes on a skipped suite and reports success for a job that measured
+        # nothing. That is how the English NER suite once ran nowhere for
+        # months, and the first version of this step reproduced the bug exactly.
+        #
+        # The counts themselves are not pinned here -- the suites already assert
+        # them, and duplicating the numbers in CI would just mean a growing
+        # corpus breaks the build in two places. The colon is the discriminator:
+        # only the print statement emits it, so it cannot match a skip.
         run: |
-          for suite in "German tokenizer" "German NER parity" "German tagger" "German lemmas"; do
-            grep -q "$suite" german.log \
-              || { echo "::error::'$suite' did not run"; exit 1; }
+          for line in \
+            "German tokenizer: " \
+            "German tagger: " \
+            "German lemmas: " \
+            "German NER parity: "; do
+            grep -qF "$line" german.log \
+              || { echo "::error::no measurement emitted for '$line'"; exit 1; }
           done
 
       - name: Assert the suite actually ran
