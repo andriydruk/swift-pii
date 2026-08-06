@@ -226,7 +226,12 @@ REGCONF=Sources/PresidioEngine/Resources/registry_config.json
 if [[ ! -f "$REGCONF" ]]; then
     fail "missing registry config: $REGCONF (run Tools/extract_registry_config.py)"
 else
-    enabled=$(python3 -c "import json; d=json.load(open('$REGCONF')); print(sum(1 for e in d['recognizers'] if e['enabled'] and any(l['language']=='en' for l in e['languages'])))" 2>/dev/null || echo 0)
+    # `languages: null` means the entry declared none, which upstream reads as
+    # "every requested language" -- so those entries count for English too.
+    # Reading null as English-only is precisely the bug that hid 11 recognizers
+    # from every non-English registry, and a lint that repeated the mistake
+    # would have confirmed it instead of catching it.
+    enabled=$(python3 -c "import json; d=json.load(open('$REGCONF')); print(sum(1 for e in d['recognizers'] if e['enabled'] and (e['languages'] is None or any(l['language']=='en' for l in e['languages']))))" 2>/dev/null || echo 0)
     if [[ "$enabled" -ne 17 ]]; then
         fail "registry config enables ${enabled} English recognizers (expected 17)"
     else

@@ -307,6 +307,32 @@ try engine.analyze(text: "Die Steuer-ID lautet 65929970489.", language: "de")
 // DE_TAX_ID 1.0
 ```
 
+### Every language gets the universal recognizers
+
+Ten recognizers belong to no country — e-mail, IP, URL, IBAN, phone, crypto
+wallet, date, MAC address, UUID, medical licence — and asking for *any*
+language gets all ten, with no configuration:
+
+```swift
+let registry = try RecognizerRegistry.loadPredefined(languages: ["es"])
+// 13: the ten above, plus CreditCard, EsNif and EsNie
+```
+
+| language asked for | recognizers |
+|---|---:|
+| English | 17 |
+| Italian | 16 |
+| Spanish | 13 |
+| German, French, Russian, Ukrainian, Portuguese, Japanese, Chinese | 10 |
+
+These numbers are asserted against upstream's own loader
+([`Tools/registry_reference.py`](Tools/registry_reference.py)) for all ten
+languages, on every push — not read off its documentation. It is worth being
+explicit because this was wrong until recently: those ten declare no
+`supported_languages` in Presidio's config, and reading a missing key as
+"English" left every non-English engine with only its country-specific
+recognizers. A Spanish engine found NIFs and no e-mail addresses.
+
 ### What is English-only
 
 Pattern and checksum detection is language-agnostic — a German tax ID validates
@@ -315,7 +341,11 @@ the same way whatever language surrounds it. The **linguistic** layer is not:
 - **The bundled model.** `PERSON`, `LOCATION` and `ORGANIZATION` come from
   `en_core_web_sm`. For other languages you would need the corresponding spaCy
   model, and this port reads only spaCy's English tokenizer rules — so a
-  non-English model would tokenize incorrectly.
+  non-English model would tokenize incorrectly. Note also that the non-English
+  `*_core_news_sm` models carry **4 NER labels**, not English's 18: no
+  `DATE_TIME` and no `NRP` from the model in German, Spanish, French, Italian or
+  Portuguese. Japanese and Chinese go further and need an external tokenizer
+  (SudachiPy, pkuseg) that has no Swift equivalent at all.
 - **Stop words and lemmas.** Both tables are English. For another language,
   context scoring still works by substring match on the lowercased token, but
   stop-word filtering and inflection handling do not.

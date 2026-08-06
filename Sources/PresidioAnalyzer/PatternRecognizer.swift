@@ -210,6 +210,20 @@ public extension PatternRecognizer {
             logic: logic, flags: flags, strategy: strategy, language: language
         )
     }
+
+    /// A copy that answers to a different language.
+    ///
+    /// Upstream instantiates one recognizer object *per language* — the same
+    /// patterns, tagged differently — which is why `CreditCardRecognizer`
+    /// appears four times in a registry configured for en, es, it and pl. The
+    /// language is a property of the instantiation, not of the pattern data,
+    /// so it belongs here rather than in the catalogue.
+    func withLanguage(_ language: String) -> PatternRecognizer {
+        PatternRecognizer(
+            name: name, entity: entity, patterns: patterns, context: context,
+            logic: logic, flags: flags, strategy: strategy, language: language
+        )
+    }
 }
 
 public extension PatternRecognizer {

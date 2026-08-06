@@ -34,7 +34,13 @@ public struct RegistryConfiguration: Sendable, Decodable {
         public let className: String
         public let type: String
         public let enabled: Bool
-        public let languages: [LanguageEntry]
+        /// `nil` means the entry declared no `supported_languages` **at all**,
+        /// which upstream reads as "every language the registry was asked for"
+        /// — not as English. Eleven of the default entries are in this state,
+        /// and they are the ones that make e-mail, IP, URL, IBAN and phone work
+        /// in a language nobody listed them under. Collapsing `nil` to `["en"]`
+        /// is exactly the bug this type now prevents.
+        public let languages: [LanguageEntry]?
         public let countryCode: String?
         public let scoreThresholds: [String: Double]
 
@@ -51,7 +57,7 @@ public struct RegistryConfiguration: Sendable, Decodable {
             className: String,
             type: String = "predefined",
             enabled: Bool = true,
-            languages: [LanguageEntry],
+            languages: [LanguageEntry]?,
             countryCode: String? = nil,
             scoreThresholds: [String: Double] = [:]
         ) {
@@ -96,23 +102,47 @@ public struct RegistryConfiguration: Sendable, Decodable {
         return decoded
     }()
 
-    /// Class names enabled for a language, in configuration order.
+    /// One instantiation instruction per (recognizer, language) pair.
     ///
-    /// Order is preserved rather than sorted: it is the order upstream
-    /// instantiates recognizers in, and although the engine normalizes its
-    /// output ordering, it still decides which of two identical results is
-    /// kept by `remove_duplicates`.
+    /// Port of `RecognizerListLoader._get_recognizer_languages` composed with
+    /// the `supported_languages` filter that follows it. Upstream builds a
+    /// **separate recognizer object per language**, and this is the step that
+    /// decides which: an entry that names its languages gets one per named
+    /// language, an entry that names none gets one per *requested* language.
+    ///
+    /// Order follows the configuration, not the alphabet. It is the order
+    /// upstream instantiates in, and although the engine normalizes its output
+    /// ordering, it still decides which of two identical results survives
+    /// `remove_duplicates`.
+    public func instantiations(languages: [String]) -> [(entry: Entry, language: String, context: [String]?)] {
+        var out: [(entry: Entry, language: String, context: [String]?)] = []
+        for entry in recognizers where entry.enabled {
+            guard let declared = entry.languages else {
+                // No declaration: upstream builds it for every language asked
+                // for. This is what makes EmailRecognizer a Spanish recognizer
+                // when someone asks for Spanish.
+                for language in languages {
+                    out.append((entry, language, nil))
+                }
+                continue
+            }
+            for lang in declared where languages.contains(lang.language) {
+                out.append((entry, lang.language, lang.context))
+            }
+        }
+        return out
+    }
+
+    /// Class names enabled for a language, in configuration order.
     public func enabledClassNames(language: String) -> [String] {
-        recognizers.filter { entry in
-            entry.enabled && entry.languages.contains { $0.language == language }
-        }.map(\.className)
+        instantiations(languages: [language]).map(\.entry.className)
     }
 
     /// The context override for a recognizer in a language, if the config
     /// declares one.
     public func contextOverride(className: String, language: String) -> [String]? {
         for entry in recognizers where entry.className == className {
-            for lang in entry.languages where lang.language == language {
+            for lang in entry.languages ?? [] where lang.language == language {
                 if let context = lang.context { return context }
             }
         }

@@ -991,12 +991,7 @@
    "class_name": "CryptoRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1007,12 +1002,7 @@
    "class_name": "DateRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1023,12 +1013,7 @@
    "class_name": "EmailRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1039,12 +1024,7 @@
    "class_name": "IbanRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1055,12 +1035,7 @@
    "class_name": "IpRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1071,12 +1046,7 @@
    "class_name": "MedicalLicenseRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": "us",
    "score_thresholds": {},
    "supported_entity": null,
@@ -1087,12 +1057,7 @@
    "class_name": "MacAddressRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1103,12 +1068,7 @@
    "class_name": "UuidRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1119,12 +1079,7 @@
    "class_name": "PhoneRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1135,12 +1090,7 @@
    "class_name": "UrlRecognizer",
    "type": "predefined",
    "enabled": true,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": null,
    "score_thresholds": {},
    "supported_entity": null,
@@ -1151,12 +1101,7 @@
    "class_name": "InVoterRecognizer",
    "type": "predefined",
    "enabled": false,
-   "languages": [
-    {
-     "language": "en",
-     "context": null
-    }
-   ],
+   "languages": null,
    "country_code": "in",
    "score_thresholds": {},
    "supported_entity": null,

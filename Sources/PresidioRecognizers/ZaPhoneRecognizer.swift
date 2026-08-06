@@ -36,42 +36,48 @@ public struct ZaPhoneNumberRecognizer: EntityRecognizing {
     ]
 
     public let name: String
-    public var id: String { "\(name)#custom" }
+    /// Language-qualified for the same reason as `PhoneRecognizer.id`.
+    public var id: String { "\(name)#custom#\(supportedLanguage)" }
     public let entity: String
     public var supportedEntities: [String] { [entity] }
     public let context: [String]
     public let target: Classification
     public let leniency: PhoneLeniency
+    public let supportedLanguage: String
 
     public init(
         name: String,
         entity: String,
         target: Classification,
         leniency: PhoneLeniency = .valid,
-        context: [String] = ZaPhoneNumberRecognizer.defaultContext
+        context: [String] = ZaPhoneNumberRecognizer.defaultContext,
+        supportedLanguage: String = "en"
     ) {
         self.name = name
         self.entity = entity
         self.target = target
         self.leniency = leniency
         self.context = context
+        self.supportedLanguage = supportedLanguage
     }
 
     public static func mobile(
-        entity: String = "ZA_MOBILE_NUMBER", leniency: PhoneLeniency = .valid
+        entity: String = "ZA_MOBILE_NUMBER", leniency: PhoneLeniency = .valid,
+        supportedLanguage: String = "en"
     ) -> ZaPhoneNumberRecognizer {
         ZaPhoneNumberRecognizer(
             name: "ZaMobileNumberRecognizer", entity: entity,
-            target: .mobile, leniency: leniency
+            target: .mobile, leniency: leniency, supportedLanguage: supportedLanguage
         )
     }
 
     public static func telephone(
-        entity: String = "ZA_TELEPHONE_NUMBER", leniency: PhoneLeniency = .valid
+        entity: String = "ZA_TELEPHONE_NUMBER", leniency: PhoneLeniency = .valid,
+        supportedLanguage: String = "en"
     ) -> ZaPhoneNumberRecognizer {
         ZaPhoneNumberRecognizer(
             name: "ZaTelephoneNumberRecognizer", entity: entity,
-            target: .telephone, leniency: leniency
+            target: .telephone, leniency: leniency, supportedLanguage: supportedLanguage
         )
     }
 

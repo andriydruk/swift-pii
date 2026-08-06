@@ -98,6 +98,44 @@ jobs:
               print(f"::notice::upstream gained {f - c} cases; refresh the corpus")
           PY
 
+      - name: Re-derive the per-language registry oracle
+        # `registry_gold.json` records which recognizers upstream loads for each
+        # targeted language, and it is the only thing standing between us and
+        # the bug it was written for: an entry that declares no
+        # `supported_languages` must be built for *every* requested language.
+        # A stale oracle would keep asserting yesterday's answer, so it is
+        # re-derived from upstream's own loader on every push.
+        run: |
+          python3 -m venv /tmp/oracle-venv
+          /tmp/oracle-venv/bin/pip -q install ./.upstream-presidio/presidio-analyzer
+          python3 Tools/registry_reference.py \
+            --python /tmp/oracle-venv/bin/python \
+            --out /tmp/registry_regenerated.json
+
+      - name: Compare the registry oracle against the committed one
+        run: |
+          python3 - <<'PY'
+          import json, sys
+
+          committed = json.load(open("Tests/PresidioConformance/Fixtures/registry_gold.json"))
+          fresh = json.load(open("/tmp/registry_regenerated.json"))
+
+          failed = False
+          for language in sorted(set(committed["languages"]) | set(fresh["languages"])):
+              was = {r["name"] for r in committed["languages"].get(language, [])}
+              now = {r["name"] for r in fresh["languages"].get(language, [])}
+              if was == now:
+                  continue
+              # Upstream changing which recognizers a language gets is news
+              # either way -- a gain means we are under-reporting PII in that
+              # language, a loss means we are over-reporting.
+              print(f"::error::{language}: upstream now loads "
+                    f"+{sorted(now - was)} -{sorted(was - now)}", file=sys.stderr)
+              failed = True
+
+          sys.exit(1 if failed else 0)
+          PY
+
   # The NER suite is gated on SPACY_MODEL_DIR, so for a long time it ran
   # nowhere: not locally by default, and never in CI. Parity was a number in
   # the README that nothing checked. It needs the exact model the gold corpus

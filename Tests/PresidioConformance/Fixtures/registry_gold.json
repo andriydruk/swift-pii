@@ -1,0 +1,953 @@
+{
+ "languages": {
+  "de": [
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "de",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "de",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "de",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "de",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "de",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "de",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "de",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "de",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "de",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "de",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "en": [
+   {
+    "class": "CreditCardRecognizer",
+    "entities": [
+     "CREDIT_CARD"
+    ],
+    "language": "en",
+    "name": "CreditCardRecognizer"
+   },
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "en",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "en",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "en",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "en",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "en",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "en",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "en",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "NhsRecognizer",
+    "entities": [
+     "UK_NHS"
+    ],
+    "language": "en",
+    "name": "NhsRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "en",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "en",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UsBankRecognizer",
+    "entities": [
+     "US_BANK_NUMBER"
+    ],
+    "language": "en",
+    "name": "UsBankRecognizer"
+   },
+   {
+    "class": "UsItinRecognizer",
+    "entities": [
+     "US_ITIN"
+    ],
+    "language": "en",
+    "name": "UsItinRecognizer"
+   },
+   {
+    "class": "UsLicenseRecognizer",
+    "entities": [
+     "US_DRIVER_LICENSE"
+    ],
+    "language": "en",
+    "name": "UsLicenseRecognizer"
+   },
+   {
+    "class": "UsPassportRecognizer",
+    "entities": [
+     "US_PASSPORT"
+    ],
+    "language": "en",
+    "name": "UsPassportRecognizer"
+   },
+   {
+    "class": "UsSsnRecognizer",
+    "entities": [
+     "US_SSN"
+    ],
+    "language": "en",
+    "name": "UsSsnRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "en",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "es": [
+   {
+    "class": "CreditCardRecognizer",
+    "entities": [
+     "CREDIT_CARD"
+    ],
+    "language": "es",
+    "name": "CreditCardRecognizer"
+   },
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "es",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "es",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "es",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "EsNieRecognizer",
+    "entities": [
+     "ES_NIE"
+    ],
+    "language": "es",
+    "name": "EsNieRecognizer"
+   },
+   {
+    "class": "EsNifRecognizer",
+    "entities": [
+     "ES_NIF"
+    ],
+    "language": "es",
+    "name": "EsNifRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "es",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "es",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "es",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "es",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "es",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "es",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "es",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "fr": [
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "fr",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "fr",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "fr",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "fr",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "fr",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "fr",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "fr",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "fr",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "fr",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "fr",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "it": [
+   {
+    "class": "CreditCardRecognizer",
+    "entities": [
+     "CREDIT_CARD"
+    ],
+    "language": "it",
+    "name": "CreditCardRecognizer"
+   },
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "it",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "it",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "it",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "it",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "it",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "ItDriverLicenseRecognizer",
+    "entities": [
+     "IT_DRIVER_LICENSE"
+    ],
+    "language": "it",
+    "name": "ItDriverLicenseRecognizer"
+   },
+   {
+    "class": "ItFiscalCodeRecognizer",
+    "entities": [
+     "IT_FISCAL_CODE"
+    ],
+    "language": "it",
+    "name": "ItFiscalCodeRecognizer"
+   },
+   {
+    "class": "ItIdentityCardRecognizer",
+    "entities": [
+     "IT_IDENTITY_CARD"
+    ],
+    "language": "it",
+    "name": "ItIdentityCardRecognizer"
+   },
+   {
+    "class": "ItPassportRecognizer",
+    "entities": [
+     "IT_PASSPORT"
+    ],
+    "language": "it",
+    "name": "ItPassportRecognizer"
+   },
+   {
+    "class": "ItVatCodeRecognizer",
+    "entities": [
+     "IT_VAT_CODE"
+    ],
+    "language": "it",
+    "name": "ItVatCodeRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "it",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "it",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "it",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "it",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "it",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "ja": [
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "ja",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "ja",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "ja",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "ja",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "ja",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "ja",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "ja",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "ja",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "ja",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "ja",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "pt": [
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "pt",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "pt",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "pt",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "pt",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "pt",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "pt",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "pt",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "pt",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "pt",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "pt",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "ru": [
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "ru",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "ru",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "ru",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "ru",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "ru",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "ru",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "ru",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "ru",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "ru",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "ru",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "uk": [
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "uk",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "uk",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "uk",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "uk",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "uk",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "uk",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "uk",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "uk",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "uk",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "uk",
+    "name": "UuidRecognizer"
+   }
+  ],
+  "zh": [
+   {
+    "class": "CryptoRecognizer",
+    "entities": [
+     "CRYPTO"
+    ],
+    "language": "zh",
+    "name": "CryptoRecognizer"
+   },
+   {
+    "class": "DateRecognizer",
+    "entities": [
+     "DATE_TIME"
+    ],
+    "language": "zh",
+    "name": "DateRecognizer"
+   },
+   {
+    "class": "EmailRecognizer",
+    "entities": [
+     "EMAIL_ADDRESS"
+    ],
+    "language": "zh",
+    "name": "EmailRecognizer"
+   },
+   {
+    "class": "IbanRecognizer",
+    "entities": [
+     "IBAN_CODE"
+    ],
+    "language": "zh",
+    "name": "IbanRecognizer"
+   },
+   {
+    "class": "IpRecognizer",
+    "entities": [
+     "IP_ADDRESS"
+    ],
+    "language": "zh",
+    "name": "IpRecognizer"
+   },
+   {
+    "class": "MacAddressRecognizer",
+    "entities": [
+     "MAC_ADDRESS"
+    ],
+    "language": "zh",
+    "name": "MacAddressRecognizer"
+   },
+   {
+    "class": "MedicalLicenseRecognizer",
+    "entities": [
+     "MEDICAL_LICENSE"
+    ],
+    "language": "zh",
+    "name": "MedicalLicenseRecognizer"
+   },
+   {
+    "class": "PhoneRecognizer",
+    "entities": [
+     "PHONE_NUMBER"
+    ],
+    "language": "zh",
+    "name": "PhoneRecognizer"
+   },
+   {
+    "class": "UrlRecognizer",
+    "entities": [
+     "URL"
+    ],
+    "language": "zh",
+    "name": "UrlRecognizer"
+   },
+   {
+    "class": "UuidRecognizer",
+    "entities": [
+     "UUID"
+    ],
+    "language": "zh",
+    "name": "UuidRecognizer"
+   }
+  ]
+ },
+ "presidio_version": "unknown"
+}

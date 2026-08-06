@@ -247,9 +247,14 @@ public enum YAMLConfiguration {
     /// `supported_languages` is either a list of codes or a list of mappings
     /// carrying a per-language context override; `supported_language` (singular)
     /// is the custom-recognizer spelling.
+    ///
+    /// Returns `nil` when the entry declares neither, which is **not** the same
+    /// as `["en"]`: upstream builds such a recognizer once per requested
+    /// language. Reading a missing key as English is what kept e-mail, IP, URL,
+    /// IBAN and phone out of every non-English registry.
     private static func languageEntries(
         _ entry: [String: Any]
-    ) -> [RegistryConfiguration.LanguageEntry] {
+    ) -> [RegistryConfiguration.LanguageEntry]? {
         if let raw = entry["supported_languages"] as? [Any] {
             let entries = raw.compactMap { element -> RegistryConfiguration.LanguageEntry? in
                 if let code = element as? String {
@@ -264,7 +269,7 @@ public enum YAMLConfiguration {
             }
             if !entries.isEmpty { return entries }
         }
-        let single = entry["supported_language"] as? String ?? "en"
+        guard let single = entry["supported_language"] as? String else { return nil }
         return [RegistryConfiguration.LanguageEntry(language: single, context: nil)]
     }
 

@@ -53,42 +53,72 @@ public struct RecognizerRegistry: Sendable {
         languages: [String] = ["en"],
         configuration: RegistryConfiguration? = RegistryConfiguration.default
     ) throws -> RecognizerRegistry {
+        let definitions = try Catalog.definitions()
         var built: [any EntityRecognizing] = []
 
-        let enabled: Set<String>? = configuration.map { config in
-            Set(languages.flatMap { config.enabledClassNames(language: $0) })
-        }
-        func isEnabled(_ className: String) -> Bool {
-            enabled?.contains(className) ?? true
+        /// Build one recognizer for one language.
+        ///
+        /// The catalogue definition supplies the patterns; the *language* comes
+        /// from the caller, not from the definition. A definition's own
+        /// `language` field records which upstream file it was harvested from,
+        /// which is not the same question as which languages it is loaded for —
+        /// `CreditCardRecognizer` lives in an English file and is configured
+        /// for en, es, it and pl.
+        func build(
+            className: String, language: String, context: [String]?
+        ) -> (any EntityRecognizing)? {
+            if let definition = definitions.first(where: { $0.class == className }) {
+                // The unqualified lookup returns the default variant, which is
+                // the right one outside a fixture-specific conformance run.
+                let logic = ValidatorRegistry.logic(for: className)
+                guard var recognizer = Catalog.makeRecognizer(definition, logic: logic)
+                else { return nil }
+                recognizer = recognizer.withLanguage(language)
+                // A config may override the class's context words per language.
+                if let context = context ?? configuration?.contextOverride(
+                    className: className, language: language
+                ) {
+                    recognizer = recognizer.withContext(context)
+                }
+                // ...and its regex flags, globally. See PatternRecognizer.withFlags.
+                if let bits = configuration?.globalRegexFlags {
+                    recognizer = recognizer.withFlags(RegexFlags(pythonFlags: bits))
+                }
+                return recognizer
+            }
+            return CustomRecognizerRegistry.make(className, language: language)
         }
 
-        for definition in try Catalog.definitions() {
-            guard languages.contains(definition.language),
-                  isEnabled(definition.class)
-            else { continue }
-            // The unqualified lookup returns the default variant, which is the
-            // right one outside a fixture-specific conformance run.
-            let logic = ValidatorRegistry.logic(for: definition.class)
-            guard var recognizer = Catalog.makeRecognizer(definition, logic: logic)
-            else { continue }
-            // A config may override the class's context words per language.
-            if let override = configuration?.contextOverride(
-                className: definition.class, language: definition.language
-            ) {
-                recognizer = recognizer.withContext(override)
+        guard let configuration else {
+            // No configuration: load the whole catalogue for the requested
+            // languages. Each definition keeps its own language here, because
+            // without a config there is nothing that says otherwise — and the
+            // hand-written recognizers are filtered the same way rather than
+            // being appended to every language indiscriminately, which is how
+            // `ja` and `zh` used to come back with three Swift recognizers
+            // written for English text.
+            for definition in definitions where languages.contains(definition.language) {
+                let logic = ValidatorRegistry.logic(for: definition.class)
+                if let recognizer = Catalog.makeRecognizer(definition, logic: logic) {
+                    built.append(recognizer)
+                }
             }
-            // ...and its regex flags, globally. See PatternRecognizer.withFlags.
-            if let bits = configuration?.globalRegexFlags {
-                recognizer = recognizer.withFlags(RegexFlags(pythonFlags: bits))
-            }
-            built.append(recognizer)
-        }
-
-        for className in CustomRecognizerRegistry.implemented.sorted()
-        where isEnabled(className) {
-            if let recognizer = CustomRecognizerRegistry.make(className) {
+            for className in CustomRecognizerRegistry.implemented.sorted() {
+                guard let recognizer = CustomRecognizerRegistry.make(className),
+                      languages.contains(recognizer.supportedLanguage)
+                else { continue }
                 built.append(recognizer)
             }
+            return RecognizerRegistry(recognizers: built, supportedLanguages: languages)
+        }
+
+        for instruction in configuration.instantiations(languages: languages) {
+            guard let recognizer = build(
+                className: instruction.entry.className,
+                language: instruction.language,
+                context: instruction.context
+            ) else { continue }
+            built.append(recognizer)
         }
         return RecognizerRegistry(recognizers: built, supportedLanguages: languages)
     }

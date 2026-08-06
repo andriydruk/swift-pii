@@ -60,15 +60,26 @@ def main() -> int:
         name = raw.get("name")
         # `supported_languages` is either a list of language codes or a list of
         # mappings carrying a per-language context override.
-        languages = []
-        for entry in raw.get("supported_languages", ["en"]):
-            if isinstance(entry, str):
-                languages.append({"language": entry, "context": None})
-            else:
-                languages.append({
-                    "language": entry.get("language"),
-                    "context": entry.get("context"),
-                })
+        #
+        # A *missing* key is not the same as `["en"]`, and reading it that way
+        # is how every language-agnostic recognizer went missing from every
+        # non-English engine. Upstream's `_get_recognizer_languages` builds one
+        # recognizer per **requested** language when the key is absent, which is
+        # what makes e-mail, IP, URL, IBAN, phone and the rest work in Spanish
+        # without being listed under it. Eleven entries rely on this. `null`
+        # preserves the distinction for the reader on the Swift side.
+        raw_languages = raw.get("supported_languages")
+        languages = None
+        if raw_languages is not None:
+            languages = []
+            for entry in raw_languages:
+                if isinstance(entry, str):
+                    languages.append({"language": entry, "context": None})
+                else:
+                    languages.append({
+                        "language": entry.get("language"),
+                        "context": entry.get("context"),
+                    })
 
         entries.append({
             "name": name,
@@ -102,7 +113,8 @@ def main() -> int:
     enabled = [e for e in entries if e["enabled"]]
     en_enabled = [
         e for e in enabled
-        if any(lang["language"] == "en" for lang in e["languages"])
+        if e["languages"] is None
+        or any(lang["language"] == "en" for lang in e["languages"])
     ]
     print(f"wrote {args.out} ({os.path.getsize(args.out) / 1024:.0f} KB)")
     print(f"  {len(entries)} entries, {len(enabled)} enabled, {len(en_enabled)} for 'en'")

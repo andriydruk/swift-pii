@@ -31,15 +31,17 @@ struct YAMLConfigurationTests {
             #expect(yamlEntry.type == jsonEntry.type, "\(yamlEntry.name)")
             #expect(yamlEntry.countryCode == jsonEntry.countryCode, "\(yamlEntry.name)")
             #expect(yamlEntry.scoreThresholds == jsonEntry.scoreThresholds, "\(yamlEntry.name)")
-            #expect(
-                yamlEntry.languages.map(\.language) == jsonEntry.languages.map(\.language),
-                "\(yamlEntry.name)"
-            )
-            #expect(
-                yamlEntry.languages.map { $0.context ?? [] }
-                    == jsonEntry.languages.map { $0.context ?? [] },
-                "\(yamlEntry.name) context override"
-            )
+            // `nil` languages and `["en"]` languages must not compare equal:
+            // the first means "every requested language", and conflating them
+            // is the bug both readers used to share. Mapping through an
+            // optional keeps the distinction visible to the expectation.
+            let yamlLanguages: [String]? = yamlEntry.languages?.map(\.language)
+            let jsonLanguages: [String]? = jsonEntry.languages?.map(\.language)
+            #expect(yamlLanguages == jsonLanguages, "\(yamlEntry.name)")
+
+            let yamlContext: [[String]]? = yamlEntry.languages?.map { $0.context ?? [] }
+            let jsonContext: [[String]]? = jsonEntry.languages?.map { $0.context ?? [] }
+            #expect(yamlContext == jsonContext, "\(yamlEntry.name) context override")
         }
     }
 
