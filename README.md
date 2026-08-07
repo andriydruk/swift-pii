@@ -382,8 +382,23 @@ try engine.analyze(
 // PERSON Anna Müller · ORGANIZATION Siemens AG · LOCATION München
 ```
 
-Weights are not bundled for these — point `modelDirectory` at the unpacked
-`*_core_news_sm` for the language. The German
+Weights for these seven are **not bundled** — only English ships with the
+package. Download the model once and pass its path:
+
+```bash
+curl -sSL -o de.whl https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.7.0/de_core_news_sm-3.7.0-py3-none-any.whl
+unzip -q de.whl -d de   # de/de_core_news_sm/de_core_news_sm-3.7.0
+```
+
+A Swift package is fetched by cloning its repository, so weights committed here
+would be downloaded by everyone — including the majority of callers who never
+load a model at all. English is bundled because it is what `PIIDetector()` uses
+with no arguments; the rest are a path.
+
+Their licences differ, and four of the seven are not MIT — Italian in particular
+is **NonCommercial**. See
+[Licence and commercial use](#licence-and-commercial-use) before building on
+one. The German
 national-identifier recognizers ship disabled, as they do upstream; add them
 with `configuration: nil` as shown earlier. Spanish's and Italian's are enabled
 already.
@@ -737,7 +752,8 @@ files rather than a substitute for them — the authoritative list is
 |---|---|---|
 | This library | MIT | keep the copyright notice |
 | Presidio patterns, context words, test expectations | MIT | keep the notice |
-| spaCy model `en_core_web_sm` | MIT | keep the notice |
+| spaCy model `en_core_web_sm` (bundled) | MIT | keep the notice |
+| spaCy models for the other seven languages (**not** bundled) | varies — see below | varies |
 | spaCy tokenizer rules | MIT | keep the notice |
 | libphonenumber metadata | Apache 2.0 | keep the notice |
 | Yams / libyaml | MIT | keep the notice |
@@ -748,6 +764,48 @@ files rather than a substitute for them — the authoritative list is
 
 In practice: ship the contents of `NOTICE` with your product — the usual
 "acknowledgements" or "open-source licences" screen — and you are done.
+
+### Language models are not all MIT
+
+Only English ships with the package. Every other language works identically, but
+you supply the weights — and their licences differ enough that it is worth
+checking before you build on one.
+
+| model | licence | notes |
+|---|---|---|
+| `en_core_web_sm` | MIT | **bundled** |
+| `de_core_news_sm` | MIT | |
+| `ru_core_news_sm` | MIT | |
+| `uk_core_news_sm` | MIT | |
+| `es_core_news_sm` | **GPL 3.0** | strong copyleft |
+| `fr_core_news_sm` | **LGPL-LR** | copyleft for linguistic resources |
+| `pt_core_news_sm` | **CC BY-SA 4.0** | ShareAlike |
+| `it_core_news_sm` | **CC BY-NC-SA 3.0** | **NonCommercial — no commercial use** |
+
+The Italian one deserves a second look before you build on it: CC BY-NC-SA 3.0
+forbids commercial use, so a commercial product cannot ship Italian name
+detection on that model at all. None of this touches the library, the
+recognizers, the tokenizer rules or the stop-word tables — those come from
+spaCy's *language modules*, which are MIT, and are bundled.
+
+Why none of the other seven are bundled, including the three MIT ones: a Swift
+package is fetched by cloning its repository, so weights in the repo are
+downloaded by everyone — including the majority of callers who never load a
+model, because pattern and checksum detection needs none. Four of the seven
+could not be bundled regardless, so "you supply the model" is one rule instead
+of two. English is the exception because it is what `PIIDetector()` uses with no
+arguments.
+
+Getting one is a download and a path:
+
+```bash
+curl -sSL -o de.whl https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.7.0/de_core_news_sm-3.7.0-py3-none-any.whl
+unzip -q de.whl -d de && echo de/de_core_news_sm/de_core_news_sm-3.7.0
+```
+
+```swift
+let nlp = try SpacyNlpEngine(modelDirectory: thatPath, language: "de")
+```
 
 ### The two worth reading properly
 

@@ -120,14 +120,34 @@ spaCy model en_core_web_sm 3.7.1 — MIT
 Copyright (c) ExplosionAI GmbH
 https://github.com/explosion/spacy-models
 
-**Bundled** in the PresidioModelEnglish product, redistributed unmodified except
-that components this package never runs (the dependency parser, the sentence
-recognizer, the lemmatizer lookups, which are extracted separately) are removed.
+**Bundled**, redistributed unmodified except that components this package never
+runs are removed (the dependency parser, the sentence recognizer, and spaCy's
+vocab/strings.json, whose ids are recomputed rather than read).
+
+  Sources/PresidioModelEnglish/Resources/model/
+
 Its LICENSES_SOURCES records OntoNotes 5 as "commercial (licensed by
 Explosion)" — an obligation discharged upstream that does not propagate to users
 of the weights.
 
-  Sources/PresidioModelEnglish/Resources/model/
+--------------------------------------------------------------------------------
+spaCy models for de, es, fr, it, pt, ru, uk — SUPPORTED, NOT BUNDLED
+
+These seven work exactly as English does, but their weights are not
+redistributed here: you pass a path to your own copy, and the model's licence is
+yours to satisfy. Three are MIT and four are not, which is worth knowing before
+you build on one:
+
+  de_core_news_sm  MIT
+  ru_core_news_sm  MIT
+  uk_core_news_sm  MIT
+  es_core_news_sm  GNU GPL 3.0
+  fr_core_news_sm  LGPL-LR (Lesser GPL for Linguistic Resources)
+  pt_core_news_sm  CC BY-SA 4.0
+  it_core_news_sm  CC BY-NC-SA 3.0 — NonCommercial: no commercial use at all
+
+The tokenizer rules and stop-word tables extracted from spaCy's *language
+modules* (not its models) are MIT and are bundled; see the spaCy entry above.
 
 Both of the model's own licence files travel with it unmodified:
 
