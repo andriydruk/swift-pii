@@ -1,0 +1,4595 @@
+{
+ "model": "ru_core_news_sm-3.7.0",
+ "spacy_version": "3.7.5",
+ "cases": [
+  {
+   "text": "Д-р Анна Петровна Смирнова принимает по вторникам в больнице №5.",
+   "tokens": [
+    {
+     "text": "Д",
+     "offset": 0,
+     "norm": "д",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "д"
+    },
+    {
+     "text": "-",
+     "offset": 1,
+     "norm": "-",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "-"
+    },
+    {
+     "text": "р",
+     "offset": 2,
+     "norm": "р",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "р"
+    },
+    {
+     "text": "Анна",
+     "offset": 4,
+     "norm": "анна",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "анна"
+    },
+    {
+     "text": "Петровна",
+     "offset": 9,
+     "norm": "петровна",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "петрович"
+    },
+    {
+     "text": "Смирнова",
+     "offset": 18,
+     "norm": "смирнова",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "смирнов"
+    },
+    {
+     "text": "принимает",
+     "offset": 27,
+     "norm": "принимает",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "принимать"
+    },
+    {
+     "text": "по",
+     "offset": 37,
+     "norm": "по",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "по"
+    },
+    {
+     "text": "вторникам",
+     "offset": 40,
+     "norm": "вторникам",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "вторник"
+    },
+    {
+     "text": "в",
+     "offset": 50,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "больнице",
+     "offset": 52,
+     "norm": "больнице",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "больница"
+    },
+    {
+     "text": "№",
+     "offset": 61,
+     "norm": "№",
+     "tag": "SYM",
+     "pos": "SYM",
+     "lemma": "№"
+    },
+    {
+     "text": "5",
+     "offset": 62,
+     "norm": "5",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "5"
+    },
+    {
+     "text": ".",
+     "offset": 63,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 4,
+     "end": 26,
+     "text": "Анна Петровна Смирнова"
+    }
+   ]
+  },
+  {
+   "text": "Иван Сергеевич Кузнецов подписал договор 3 марта 2021 года.",
+   "tokens": [
+    {
+     "text": "Иван",
+     "offset": 0,
+     "norm": "иван",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "иван"
+    },
+    {
+     "text": "Сергеевич",
+     "offset": 5,
+     "norm": "сергеевич",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "сергеевич"
+    },
+    {
+     "text": "Кузнецов",
+     "offset": 15,
+     "norm": "кузнецов",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "кузнецов"
+    },
+    {
+     "text": "подписал",
+     "offset": 24,
+     "norm": "подписал",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "подписать"
+    },
+    {
+     "text": "договор",
+     "offset": 33,
+     "norm": "договор",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "договор"
+    },
+    {
+     "text": "3",
+     "offset": 41,
+     "norm": "3",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "3"
+    },
+    {
+     "text": "марта",
+     "offset": 43,
+     "norm": "марта",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "март"
+    },
+    {
+     "text": "2021",
+     "offset": 49,
+     "norm": "2021",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "2021"
+    },
+    {
+     "text": "года",
+     "offset": 54,
+     "norm": "года",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "год"
+    },
+    {
+     "text": ".",
+     "offset": 58,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 23,
+     "text": "Иван Сергеевич Кузнецов"
+    }
+   ]
+  },
+  {
+   "text": "Проф. Владимир Ильич Ковалёв читает лекции в МГУ.",
+   "tokens": [
+    {
+     "text": "Проф",
+     "offset": 0,
+     "norm": "проф",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "проф"
+    },
+    {
+     "text": ".",
+     "offset": 4,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Владимир",
+     "offset": 6,
+     "norm": "владимир",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "владимир"
+    },
+    {
+     "text": "Ильич",
+     "offset": 15,
+     "norm": "ильич",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ильич"
+    },
+    {
+     "text": "Ковалёв",
+     "offset": 21,
+     "norm": "ковалёв",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ковалёв"
+    },
+    {
+     "text": "читает",
+     "offset": 29,
+     "norm": "читает",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "читать"
+    },
+    {
+     "text": "лекции",
+     "offset": 36,
+     "norm": "лекции",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "лекция"
+    },
+    {
+     "text": "в",
+     "offset": 43,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "МГУ",
+     "offset": 45,
+     "norm": "мгу",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "мгу"
+    },
+    {
+     "text": ".",
+     "offset": 48,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 6,
+     "end": 28,
+     "text": "Владимир Ильич Ковалёв"
+    },
+    {
+     "label": "ORG",
+     "start": 45,
+     "end": 48,
+     "text": "МГУ"
+    }
+   ]
+  },
+  {
+   "text": "Пациент, Алексей Николаевич Морозов, родился 14.02.1978 в Новосибирске.",
+   "tokens": [
+    {
+     "text": "Пациент",
+     "offset": 0,
+     "norm": "пациент",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "пациент"
+    },
+    {
+     "text": ",",
+     "offset": 7,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "Алексей",
+     "offset": 9,
+     "norm": "алексей",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "алексей"
+    },
+    {
+     "text": "Николаевич",
+     "offset": 17,
+     "norm": "николаевич",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "николаевич"
+    },
+    {
+     "text": "Морозов",
+     "offset": 28,
+     "norm": "морозов",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "морозов"
+    },
+    {
+     "text": ",",
+     "offset": 35,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "родился",
+     "offset": 37,
+     "norm": "родился",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "родиться"
+    },
+    {
+     "text": "14.02.1978",
+     "offset": 45,
+     "norm": "14.02.1978",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "14.02.1978"
+    },
+    {
+     "text": "в",
+     "offset": 56,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Новосибирске",
+     "offset": 58,
+     "norm": "новосибирске",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "новосибирск"
+    },
+    {
+     "text": ".",
+     "offset": 70,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 9,
+     "end": 35,
+     "text": "Алексей Николаевич Морозов"
+    },
+    {
+     "label": "LOC",
+     "start": 58,
+     "end": 70,
+     "text": "Новосибирске"
+    }
+   ]
+  },
+  {
+   "text": "Уважаемая Мария Ивановна, благодарю Вас за письмо от 12 мая.",
+   "tokens": [
+    {
+     "text": "Уважаемая",
+     "offset": 0,
+     "norm": "уважаемая",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "уважаемая"
+    },
+    {
+     "text": "Мария",
+     "offset": 10,
+     "norm": "мария",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "мария"
+    },
+    {
+     "text": "Ивановна",
+     "offset": 16,
+     "norm": "ивановна",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "иванович"
+    },
+    {
+     "text": ",",
+     "offset": 24,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "благодарю",
+     "offset": 26,
+     "norm": "благодарю",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "благодарить"
+    },
+    {
+     "text": "Вас",
+     "offset": 36,
+     "norm": "вас",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "вас"
+    },
+    {
+     "text": "за",
+     "offset": 40,
+     "norm": "за",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "за"
+    },
+    {
+     "text": "письмо",
+     "offset": 43,
+     "norm": "письмо",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "письмо"
+    },
+    {
+     "text": "от",
+     "offset": 50,
+     "norm": "от",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "от"
+    },
+    {
+     "text": "12",
+     "offset": 53,
+     "norm": "12",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "12"
+    },
+    {
+     "text": "мая",
+     "offset": 56,
+     "norm": "мая",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "май"
+    },
+    {
+     "text": ".",
+     "offset": 59,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 10,
+     "end": 24,
+     "text": "Мария Ивановна"
+    }
+   ]
+  },
+  {
+   "text": "ПАО «Газпром» и ОАО «РЖД» подписали соглашение в Москве.",
+   "tokens": [
+    {
+     "text": "ПАО",
+     "offset": 0,
+     "norm": "пао",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "пао"
+    },
+    {
+     "text": "«",
+     "offset": 4,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "Газпром",
+     "offset": 5,
+     "norm": "газпром",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "газпром"
+    },
+    {
+     "text": "»",
+     "offset": 12,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "и",
+     "offset": 14,
+     "norm": "и",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "и"
+    },
+    {
+     "text": "ОАО",
+     "offset": 16,
+     "norm": "оао",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "оао"
+    },
+    {
+     "text": "«",
+     "offset": 20,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "РЖД",
+     "offset": 21,
+     "norm": "ржд",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ржд"
+    },
+    {
+     "text": "»",
+     "offset": 24,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "подписали",
+     "offset": 26,
+     "norm": "подписали",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "подписать"
+    },
+    {
+     "text": "соглашение",
+     "offset": 36,
+     "norm": "соглашение",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "соглашение"
+    },
+    {
+     "text": "в",
+     "offset": 47,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Москве",
+     "offset": 49,
+     "norm": "москве",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "москва"
+    },
+    {
+     "text": ".",
+     "offset": 55,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 13,
+     "text": "ПАО «Газпром»"
+    },
+    {
+     "label": "ORG",
+     "start": 16,
+     "end": 25,
+     "text": "ОАО «РЖД»"
+    },
+    {
+     "label": "LOC",
+     "start": 49,
+     "end": 55,
+     "text": "Москве"
+    }
+   ]
+  },
+  {
+   "text": "Компания ООО «Ромашка» зарегистрирована в Санкт-Петербурге.",
+   "tokens": [
+    {
+     "text": "Компания",
+     "offset": 0,
+     "norm": "компания",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "компания"
+    },
+    {
+     "text": "ООО",
+     "offset": 9,
+     "norm": "ооо",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ооо"
+    },
+    {
+     "text": "«",
+     "offset": 13,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "Ромашка",
+     "offset": 14,
+     "norm": "ромашка",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ромашка"
+    },
+    {
+     "text": "»",
+     "offset": 21,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "зарегистрирована",
+     "offset": 23,
+     "norm": "зарегистрирована",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "зарегистрировать"
+    },
+    {
+     "text": "в",
+     "offset": 40,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Санкт",
+     "offset": 42,
+     "norm": "санкт",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "санкт"
+    },
+    {
+     "text": "-",
+     "offset": 47,
+     "norm": "-",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "-"
+    },
+    {
+     "text": "Петербурге",
+     "offset": 48,
+     "norm": "петербурге",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "петербург"
+    },
+    {
+     "text": ".",
+     "offset": 58,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 9,
+     "end": 22,
+     "text": "ООО «Ромашка»"
+    },
+    {
+     "label": "LOC",
+     "start": 42,
+     "end": 58,
+     "text": "Санкт-Петербурге"
+    }
+   ]
+  },
+  {
+   "text": "Яндекс и Сбербанк объявили о совместном проекте.",
+   "tokens": [
+    {
+     "text": "Яндекс",
+     "offset": 0,
+     "norm": "яндекс",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "яндекс"
+    },
+    {
+     "text": "и",
+     "offset": 7,
+     "norm": "и",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "и"
+    },
+    {
+     "text": "Сбербанк",
+     "offset": 9,
+     "norm": "сбербанк",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "сбербанк"
+    },
+    {
+     "text": "объявили",
+     "offset": 18,
+     "norm": "объявили",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "объявить"
+    },
+    {
+     "text": "о",
+     "offset": 27,
+     "norm": "о",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "о"
+    },
+    {
+     "text": "совместном",
+     "offset": 29,
+     "norm": "совместном",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "совместный"
+    },
+    {
+     "text": "проекте",
+     "offset": 40,
+     "norm": "проекте",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "проект"
+    },
+    {
+     "text": ".",
+     "offset": 47,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 6,
+     "text": "Яндекс"
+    },
+    {
+     "label": "ORG",
+     "start": 9,
+     "end": 17,
+     "text": "Сбербанк"
+    }
+   ]
+  },
+  {
+   "text": "Министерство финансов опубликовало постановление.",
+   "tokens": [
+    {
+     "text": "Министерство",
+     "offset": 0,
+     "norm": "министерство",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "министерство"
+    },
+    {
+     "text": "финансов",
+     "offset": 13,
+     "norm": "финансов",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "финансов"
+    },
+    {
+     "text": "опубликовало",
+     "offset": 22,
+     "norm": "опубликовало",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "опубликовать"
+    },
+    {
+     "text": "постановление",
+     "offset": 35,
+     "norm": "постановление",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "постановление"
+    },
+    {
+     "text": ".",
+     "offset": 48,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 21,
+     "text": "Министерство финансов"
+    }
+   ]
+  },
+  {
+   "text": "Из Екатеринбурга в Казань поезд идёт примерно сутки.",
+   "tokens": [
+    {
+     "text": "Из",
+     "offset": 0,
+     "norm": "из",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "Из"
+    },
+    {
+     "text": "Екатеринбурга",
+     "offset": 3,
+     "norm": "екатеринбурга",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "екатеринбург"
+    },
+    {
+     "text": "в",
+     "offset": 17,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Казань",
+     "offset": 19,
+     "norm": "казань",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "казань"
+    },
+    {
+     "text": "поезд",
+     "offset": 26,
+     "norm": "поезд",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "поезд"
+    },
+    {
+     "text": "идёт",
+     "offset": 32,
+     "norm": "идёт",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "идти"
+    },
+    {
+     "text": "примерно",
+     "offset": 37,
+     "norm": "примерно",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "примерно"
+    },
+    {
+     "text": "сутки",
+     "offset": 46,
+     "norm": "сутки",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "сутки"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 3,
+     "end": 16,
+     "text": "Екатеринбурга"
+    },
+    {
+     "label": "LOC",
+     "start": 19,
+     "end": 25,
+     "text": "Казань"
+    }
+   ]
+  },
+  {
+   "text": "Он переехал из Владивостока через Иркутск в Нижний Новгород.",
+   "tokens": [
+    {
+     "text": "Он",
+     "offset": 0,
+     "norm": "он",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "он"
+    },
+    {
+     "text": "переехал",
+     "offset": 3,
+     "norm": "переехал",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "переехать"
+    },
+    {
+     "text": "из",
+     "offset": 12,
+     "norm": "из",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "из"
+    },
+    {
+     "text": "Владивостока",
+     "offset": 15,
+     "norm": "владивостока",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "владивосток"
+    },
+    {
+     "text": "через",
+     "offset": 28,
+     "norm": "через",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "через"
+    },
+    {
+     "text": "Иркутск",
+     "offset": 34,
+     "norm": "иркутск",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "иркутск"
+    },
+    {
+     "text": "в",
+     "offset": 42,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Нижний",
+     "offset": 44,
+     "norm": "нижний",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "нижний"
+    },
+    {
+     "text": "Новгород",
+     "offset": 51,
+     "norm": "новгород",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "новгород"
+    },
+    {
+     "text": ".",
+     "offset": 59,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 15,
+     "end": 27,
+     "text": "Владивостока"
+    },
+    {
+     "label": "LOC",
+     "start": 34,
+     "end": 41,
+     "text": "Иркутск"
+    },
+    {
+     "label": "LOC",
+     "start": 44,
+     "end": 59,
+     "text": "Нижний Новгород"
+    }
+   ]
+  },
+  {
+   "text": "Встреча состоится в Ростове-на-Дону.",
+   "tokens": [
+    {
+     "text": "Встреча",
+     "offset": 0,
+     "norm": "встреча",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "встреча"
+    },
+    {
+     "text": "состоится",
+     "offset": 8,
+     "norm": "состоится",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "состояться"
+    },
+    {
+     "text": "в",
+     "offset": 18,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Ростове",
+     "offset": 20,
+     "norm": "ростове",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ростов"
+    },
+    {
+     "text": "-",
+     "offset": 27,
+     "norm": "-",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "-"
+    },
+    {
+     "text": "на",
+     "offset": 28,
+     "norm": "на",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "на"
+    },
+    {
+     "text": "-",
+     "offset": 30,
+     "norm": "-",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "-"
+    },
+    {
+     "text": "Дону",
+     "offset": 31,
+     "norm": "дону",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "дон"
+    },
+    {
+     "text": ".",
+     "offset": 35,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 20,
+     "end": 35,
+     "text": "Ростове-на-Дону"
+    }
+   ]
+  },
+  {
+   "text": "Напишите мне на anna.smirnova@example.ru или позвоните +7 495 123-45-67.",
+   "tokens": [
+    {
+     "text": "Напишите",
+     "offset": 0,
+     "norm": "напишите",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "написать"
+    },
+    {
+     "text": "мне",
+     "offset": 9,
+     "norm": "мне",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "мне"
+    },
+    {
+     "text": "на",
+     "offset": 13,
+     "norm": "на",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "на"
+    },
+    {
+     "text": "anna.smirnova@example.ru",
+     "offset": 16,
+     "norm": "anna.smirnova@example.ru",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "anna.smirnova@example.ru"
+    },
+    {
+     "text": "или",
+     "offset": 41,
+     "norm": "или",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "или"
+    },
+    {
+     "text": "позвоните",
+     "offset": 45,
+     "norm": "позвоните",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "позвонить"
+    },
+    {
+     "text": "+7",
+     "offset": 55,
+     "norm": "+7",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "+7"
+    },
+    {
+     "text": "495",
+     "offset": 58,
+     "norm": "495",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "495"
+    },
+    {
+     "text": "123",
+     "offset": 62,
+     "norm": "123",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "123"
+    },
+    {
+     "text": "-",
+     "offset": 65,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "45",
+     "offset": 66,
+     "norm": "45",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "45"
+    },
+    {
+     "text": "-",
+     "offset": 68,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "67",
+     "offset": 69,
+     "norm": "67",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "67"
+    },
+    {
+     "text": ".",
+     "offset": 71,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Мой телефон 8 (812) 555-11-22, мобильный 8-900-123-45-67.",
+   "tokens": [
+    {
+     "text": "Мой",
+     "offset": 0,
+     "norm": "мой",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "мой"
+    },
+    {
+     "text": "телефон",
+     "offset": 4,
+     "norm": "телефон",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "телефон"
+    },
+    {
+     "text": "8",
+     "offset": 12,
+     "norm": "8",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "8"
+    },
+    {
+     "text": "(",
+     "offset": 14,
+     "norm": "(",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "("
+    },
+    {
+     "text": "812",
+     "offset": 15,
+     "norm": "812",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "812"
+    },
+    {
+     "text": ")",
+     "offset": 18,
+     "norm": ")",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ")"
+    },
+    {
+     "text": "555",
+     "offset": 20,
+     "norm": "555",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "555"
+    },
+    {
+     "text": "-",
+     "offset": 23,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "11",
+     "offset": 24,
+     "norm": "11",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "11"
+    },
+    {
+     "text": "-",
+     "offset": 26,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "22",
+     "offset": 27,
+     "norm": "22",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "22"
+    },
+    {
+     "text": ",",
+     "offset": 29,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "мобильный",
+     "offset": 31,
+     "norm": "мобильный",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "мобильный"
+    },
+    {
+     "text": "8",
+     "offset": 41,
+     "norm": "8",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "8"
+    },
+    {
+     "text": "-",
+     "offset": 42,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "900",
+     "offset": 43,
+     "norm": "900",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "900"
+    },
+    {
+     "text": "-",
+     "offset": 46,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "123",
+     "offset": 47,
+     "norm": "123",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "123"
+    },
+    {
+     "text": "-",
+     "offset": 50,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "45",
+     "offset": 51,
+     "norm": "45",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "45"
+    },
+    {
+     "text": "-",
+     "offset": 53,
+     "norm": "-",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "-"
+    },
+    {
+     "text": "67",
+     "offset": 54,
+     "norm": "67",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "67"
+    },
+    {
+     "text": ".",
+     "offset": 56,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Сервер доступен по адресу 192.168.0.14, документация — https://example.ru/help.",
+   "tokens": [
+    {
+     "text": "Сервер",
+     "offset": 0,
+     "norm": "сервер",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "сервер"
+    },
+    {
+     "text": "доступен",
+     "offset": 7,
+     "norm": "доступен",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "доступный"
+    },
+    {
+     "text": "по",
+     "offset": 16,
+     "norm": "по",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "по"
+    },
+    {
+     "text": "адресу",
+     "offset": 19,
+     "norm": "адресу",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "адрес"
+    },
+    {
+     "text": "192.168.0.14",
+     "offset": 26,
+     "norm": "192.168.0.14",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "192.168.0.14"
+    },
+    {
+     "text": ",",
+     "offset": 38,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "документация",
+     "offset": 40,
+     "norm": "документация",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "документация"
+    },
+    {
+     "text": "—",
+     "offset": 53,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "https://example.ru/help",
+     "offset": 55,
+     "norm": "https://example.ru/help",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "https://example.ru/help"
+    },
+    {
+     "text": ".",
+     "offset": 78,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Переведите сумму на счёт RU02 0445 2560 0407 0281 0412 3456 7890 1.",
+   "tokens": [
+    {
+     "text": "Переведите",
+     "offset": 0,
+     "norm": "переведите",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "перевести"
+    },
+    {
+     "text": "сумму",
+     "offset": 11,
+     "norm": "сумму",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "сумма"
+    },
+    {
+     "text": "на",
+     "offset": 17,
+     "norm": "на",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "на"
+    },
+    {
+     "text": "счёт",
+     "offset": 20,
+     "norm": "счёт",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "счёт"
+    },
+    {
+     "text": "RU02",
+     "offset": 25,
+     "norm": "ru02",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "ru02"
+    },
+    {
+     "text": "0445",
+     "offset": 30,
+     "norm": "0445",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "0445"
+    },
+    {
+     "text": "2560",
+     "offset": 35,
+     "norm": "2560",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "2560"
+    },
+    {
+     "text": "0407",
+     "offset": 40,
+     "norm": "0407",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "0407"
+    },
+    {
+     "text": "0281",
+     "offset": 45,
+     "norm": "0281",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "0281"
+    },
+    {
+     "text": "0412",
+     "offset": 50,
+     "norm": "0412",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "0412"
+    },
+    {
+     "text": "3456",
+     "offset": 55,
+     "norm": "3456",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3456"
+    },
+    {
+     "text": "7890",
+     "offset": 60,
+     "norm": "7890",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "7890"
+    },
+    {
+     "text": "1",
+     "offset": 65,
+     "norm": "1",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1"
+    },
+    {
+     "text": ".",
+     "offset": 66,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Срок истёк 31.12.2023 в 23:59.",
+   "tokens": [
+    {
+     "text": "Срок",
+     "offset": 0,
+     "norm": "срок",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "срок"
+    },
+    {
+     "text": "истёк",
+     "offset": 5,
+     "norm": "истёк",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "истёк"
+    },
+    {
+     "text": "31.12.2023",
+     "offset": 11,
+     "norm": "31.12.2023",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "31.12.2023"
+    },
+    {
+     "text": "в",
+     "offset": 22,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "23:59",
+     "offset": 24,
+     "norm": "23:59",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "23:59"
+    },
+    {
+     "text": ".",
+     "offset": 29,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Сумма 1 234,56 руб. была зачислена 5 июня.",
+   "tokens": [
+    {
+     "text": "Сумма",
+     "offset": 0,
+     "norm": "сумма",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "сумма"
+    },
+    {
+     "text": "1",
+     "offset": 6,
+     "norm": "1",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1"
+    },
+    {
+     "text": "234,56",
+     "offset": 8,
+     "norm": "234,56",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "234,56"
+    },
+    {
+     "text": "руб.",
+     "offset": 15,
+     "norm": "рубль",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "руб."
+    },
+    {
+     "text": "была",
+     "offset": 20,
+     "norm": "была",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "быть"
+    },
+    {
+     "text": "зачислена",
+     "offset": 25,
+     "norm": "зачислена",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "зачислить"
+    },
+    {
+     "text": "5",
+     "offset": 35,
+     "norm": "5",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "5"
+    },
+    {
+     "text": "июня",
+     "offset": 37,
+     "norm": "июня",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "июнь"
+    },
+    {
+     "text": ".",
+     "offset": 41,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "В третьем квартале продажи выросли на 12,5 процента.",
+   "tokens": [
+    {
+     "text": "В",
+     "offset": 0,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "третьем",
+     "offset": 2,
+     "norm": "третьем",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "третий"
+    },
+    {
+     "text": "квартале",
+     "offset": 10,
+     "norm": "квартале",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "квартал"
+    },
+    {
+     "text": "продажи",
+     "offset": 19,
+     "norm": "продажи",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "продажа"
+    },
+    {
+     "text": "выросли",
+     "offset": 27,
+     "norm": "выросли",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "вырасти"
+    },
+    {
+     "text": "на",
+     "offset": 35,
+     "norm": "на",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "на"
+    },
+    {
+     "text": "12,5",
+     "offset": 38,
+     "norm": "12,5",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12,5"
+    },
+    {
+     "text": "процента",
+     "offset": 43,
+     "norm": "процента",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "процент"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Совещание продлится с 9.30 до 17.00.",
+   "tokens": [
+    {
+     "text": "Совещание",
+     "offset": 0,
+     "norm": "совещание",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "совещание"
+    },
+    {
+     "text": "продлится",
+     "offset": 10,
+     "norm": "продлится",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "продлиться"
+    },
+    {
+     "text": "с",
+     "offset": 20,
+     "norm": "с",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "с"
+    },
+    {
+     "text": "9.30",
+     "offset": 22,
+     "norm": "9.30",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "9.30"
+    },
+    {
+     "text": "до",
+     "offset": 27,
+     "norm": "до",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "до"
+    },
+    {
+     "text": "17.00",
+     "offset": 30,
+     "norm": "17.00",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "17.00"
+    },
+    {
+     "text": ".",
+     "offset": 35,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Это касается напр. договоров, заключённых до 2020 года.",
+   "tokens": [
+    {
+     "text": "Это",
+     "offset": 0,
+     "norm": "это",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "это"
+    },
+    {
+     "text": "касается",
+     "offset": 4,
+     "norm": "касается",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "касаться"
+    },
+    {
+     "text": "напр",
+     "offset": 13,
+     "norm": "напр",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "напр"
+    },
+    {
+     "text": ".",
+     "offset": 17,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "договоров",
+     "offset": 19,
+     "norm": "договоров",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "договор"
+    },
+    {
+     "text": ",",
+     "offset": 28,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "заключённых",
+     "offset": 30,
+     "norm": "заключённых",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "заключить"
+    },
+    {
+     "text": "до",
+     "offset": 42,
+     "norm": "до",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "до"
+    },
+    {
+     "text": "2020",
+     "offset": 45,
+     "norm": "2020",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "2020"
+    },
+    {
+     "text": "года",
+     "offset": 50,
+     "norm": "года",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "год"
+    },
+    {
+     "text": ".",
+     "offset": 54,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Возьмите паспорт, карту и т.д. на приём.",
+   "tokens": [
+    {
+     "text": "Возьмите",
+     "offset": 0,
+     "norm": "возьмите",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "взять"
+    },
+    {
+     "text": "паспорт",
+     "offset": 9,
+     "norm": "паспорт",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "паспорт"
+    },
+    {
+     "text": ",",
+     "offset": 16,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "карту",
+     "offset": 18,
+     "norm": "карту",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "карта"
+    },
+    {
+     "text": "и",
+     "offset": 24,
+     "norm": "и",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "и"
+    },
+    {
+     "text": "т.д.",
+     "offset": 26,
+     "norm": "так далее",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "т.д."
+    },
+    {
+     "text": "на",
+     "offset": 31,
+     "norm": "на",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "на"
+    },
+    {
+     "text": "приём",
+     "offset": 34,
+     "norm": "приём",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "приём"
+    },
+    {
+     "text": ".",
+     "offset": 39,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Адрес: ул. Ленина, д. 12, кв. 3, 190000 Санкт-Петербург.",
+   "tokens": [
+    {
+     "text": "Адрес",
+     "offset": 0,
+     "norm": "адрес",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "адрес"
+    },
+    {
+     "text": ":",
+     "offset": 5,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "ул.",
+     "offset": 7,
+     "norm": "улица",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ул."
+    },
+    {
+     "text": "Ленина",
+     "offset": 11,
+     "norm": "ленина",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ленин"
+    },
+    {
+     "text": ",",
+     "offset": 17,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "д.",
+     "offset": 19,
+     "norm": "дом",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "д."
+    },
+    {
+     "text": "12",
+     "offset": 22,
+     "norm": "12",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": ",",
+     "offset": 24,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "кв.",
+     "offset": 26,
+     "norm": "квартира",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "кв."
+    },
+    {
+     "text": "3",
+     "offset": 30,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": ",",
+     "offset": 31,
+     "norm": ",",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": ","
+    },
+    {
+     "text": "190000",
+     "offset": 33,
+     "norm": "190000",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "190000"
+    },
+    {
+     "text": "Санкт",
+     "offset": 40,
+     "norm": "санкт",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "санкт"
+    },
+    {
+     "text": "-",
+     "offset": 45,
+     "norm": "-",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "-"
+    },
+    {
+     "text": "Петербург",
+     "offset": 46,
+     "norm": "петербург",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "петербург"
+    },
+    {
+     "text": ".",
+     "offset": 55,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 11,
+     "end": 17,
+     "text": "Ленина"
+    },
+    {
+     "label": "LOC",
+     "start": 40,
+     "end": 55,
+     "text": "Санкт-Петербург"
+    }
+   ]
+  },
+  {
+   "text": "См. ст. 12 Регламента, п. 3.",
+   "tokens": [
+    {
+     "text": "См",
+     "offset": 0,
+     "norm": "см",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "см"
+    },
+    {
+     "text": ".",
+     "offset": 2,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "ст.",
+     "offset": 4,
+     "norm": "станция",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ст."
+    },
+    {
+     "text": "12",
+     "offset": 8,
+     "norm": "12",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": "Регламента",
+     "offset": 11,
+     "norm": "регламента",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "регламент"
+    },
+    {
+     "text": ",",
+     "offset": 21,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "п.",
+     "offset": 23,
+     "norm": "поселок",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "п."
+    },
+    {
+     "text": "3",
+     "offset": 26,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": ".",
+     "offset": 27,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Примерно три рабочих дня после оплаты.",
+   "tokens": [
+    {
+     "text": "Примерно",
+     "offset": 0,
+     "norm": "примерно",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "Примерно"
+    },
+    {
+     "text": "три",
+     "offset": 9,
+     "norm": "три",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "три"
+    },
+    {
+     "text": "рабочих",
+     "offset": 13,
+     "norm": "рабочих",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "рабочий"
+    },
+    {
+     "text": "дня",
+     "offset": 21,
+     "norm": "дня",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "день"
+    },
+    {
+     "text": "после",
+     "offset": 25,
+     "norm": "после",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "после"
+    },
+    {
+     "text": "оплаты",
+     "offset": 31,
+     "norm": "оплаты",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "оплата"
+    },
+    {
+     "text": ".",
+     "offset": 37,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "«Кто это решил?» — спросила она.",
+   "tokens": [
+    {
+     "text": "«",
+     "offset": 0,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "Кто",
+     "offset": 1,
+     "norm": "кто",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "кто"
+    },
+    {
+     "text": "это",
+     "offset": 5,
+     "norm": "это",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "это"
+    },
+    {
+     "text": "решил",
+     "offset": 9,
+     "norm": "решил",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "решить"
+    },
+    {
+     "text": "?",
+     "offset": 14,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "»",
+     "offset": 15,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "—",
+     "offset": 17,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "спросила",
+     "offset": 19,
+     "norm": "спросила",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "спросить"
+    },
+    {
+     "text": "она",
+     "offset": 28,
+     "norm": "она",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "она"
+    },
+    {
+     "text": ".",
+     "offset": 31,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "— Это не обсуждалось, — сказал начальник отдела.",
+   "tokens": [
+    {
+     "text": "—",
+     "offset": 0,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "Это",
+     "offset": 2,
+     "norm": "это",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "это"
+    },
+    {
+     "text": "не",
+     "offset": 6,
+     "norm": "не",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "не"
+    },
+    {
+     "text": "обсуждалось",
+     "offset": 9,
+     "norm": "обсуждалось",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "обсуждаться"
+    },
+    {
+     "text": ",",
+     "offset": 20,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "—",
+     "offset": 22,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "сказал",
+     "offset": 24,
+     "norm": "сказал",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "сказать"
+    },
+    {
+     "text": "начальник",
+     "offset": 31,
+     "norm": "начальник",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "начальник"
+    },
+    {
+     "text": "отдела",
+     "offset": 41,
+     "norm": "отдела",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "отдел"
+    },
+    {
+     "text": ".",
+     "offset": 47,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Что? Ничего.",
+   "tokens": [
+    {
+     "text": "Что",
+     "offset": 0,
+     "norm": "что",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "что"
+    },
+    {
+     "text": "?",
+     "offset": 3,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "Ничего",
+     "offset": 5,
+     "norm": "ничего",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "ничто"
+    },
+    {
+     "text": ".",
+     "offset": 11,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Да!!! Правда???",
+   "tokens": [
+    {
+     "text": "Да",
+     "offset": 0,
+     "norm": "да",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "да"
+    },
+    {
+     "text": "!",
+     "offset": 2,
+     "norm": "!",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "!"
+    },
+    {
+     "text": "!",
+     "offset": 3,
+     "norm": "!",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "!"
+    },
+    {
+     "text": "!",
+     "offset": 4,
+     "norm": "!",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "!"
+    },
+    {
+     "text": "Правда",
+     "offset": 6,
+     "norm": "правда",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "правда"
+    },
+    {
+     "text": "?",
+     "offset": 12,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "?",
+     "offset": 13,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "?",
+     "offset": 14,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Всё-таки ещё раз перечитайте объём работ.",
+   "tokens": [
+    {
+     "text": "Всё",
+     "offset": 0,
+     "norm": "всё",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "Всё"
+    },
+    {
+     "text": "-",
+     "offset": 3,
+     "norm": "-",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "-"
+    },
+    {
+     "text": "таки",
+     "offset": 4,
+     "norm": "таки",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "таки"
+    },
+    {
+     "text": "ещё",
+     "offset": 9,
+     "norm": "ещё",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "ещё"
+    },
+    {
+     "text": "раз",
+     "offset": 13,
+     "norm": "раз",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "раз"
+    },
+    {
+     "text": "перечитайте",
+     "offset": 17,
+     "norm": "перечитайте",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "перечитайте"
+    },
+    {
+     "text": "объём",
+     "offset": 29,
+     "norm": "объём",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "объём"
+    },
+    {
+     "text": "работ",
+     "offset": 35,
+     "norm": "работ",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "работа"
+    },
+    {
+     "text": ".",
+     "offset": 40,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Кто-нибудь когда-нибудь это проверял?",
+   "tokens": [
+    {
+     "text": "Кто",
+     "offset": 0,
+     "norm": "кто",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "кто"
+    },
+    {
+     "text": "-",
+     "offset": 3,
+     "norm": "-",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "-"
+    },
+    {
+     "text": "нибудь",
+     "offset": 4,
+     "norm": "нибудь",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "нибудь"
+    },
+    {
+     "text": "когда",
+     "offset": 11,
+     "norm": "когда",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "когда"
+    },
+    {
+     "text": "-",
+     "offset": 16,
+     "norm": "-",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "-"
+    },
+    {
+     "text": "нибудь",
+     "offset": 17,
+     "norm": "нибудь",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "нибудь"
+    },
+    {
+     "text": "это",
+     "offset": 24,
+     "norm": "это",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "это"
+    },
+    {
+     "text": "проверял",
+     "offset": 28,
+     "norm": "проверял",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "проверять"
+    },
+    {
+     "text": "?",
+     "offset": 36,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Северо-западный ветер усилился.",
+   "tokens": [
+    {
+     "text": "Северо",
+     "offset": 0,
+     "norm": "северо",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "северо"
+    },
+    {
+     "text": "-",
+     "offset": 6,
+     "norm": "-",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "-"
+    },
+    {
+     "text": "западный",
+     "offset": 7,
+     "norm": "западный",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "западный"
+    },
+    {
+     "text": "ветер",
+     "offset": 16,
+     "norm": "ветер",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ветер"
+    },
+    {
+     "text": "усилился",
+     "offset": 22,
+     "norm": "усилился",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "усилиться"
+    },
+    {
+     "text": ".",
+     "offset": 30,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "text,norms",
+   "tokens": [
+    {
+     "text": "text",
+     "offset": 0,
+     "norm": "text",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "text"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "norms",
+     "offset": 5,
+     "norm": "norms",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "norms"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 4,
+     "text": "text"
+    },
+    {
+     "label": "ORG",
+     "start": 5,
+     "end": 10,
+     "text": "norms"
+    }
+   ]
+  },
+  {
+   "text": "дек.",
+   "tokens": [
+    {
+     "text": "дек.",
+     "offset": 0,
+     "norm": "декабрь",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "дек."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "ignore::DeprecationWarning",
+   "tokens": [
+    {
+     "text": "ignore::DeprecationWarning",
+     "offset": 0,
+     "norm": "ignore::deprecationwarning",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "ignore::deprecationwarning"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "text,lemmas",
+   "tokens": [
+    {
+     "text": "text",
+     "offset": 0,
+     "norm": "text",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "text"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "lemmas",
+     "offset": 5,
+     "norm": "lemmas",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "lemmas"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 4,
+     "text": "text"
+    },
+    {
+     "label": "ORG",
+     "start": 5,
+     "end": 11,
+     "text": "lemmas"
+    }
+   ]
+  },
+  {
+   "text": "text,pos,morph,lemma",
+   "tokens": [
+    {
+     "text": "text",
+     "offset": 0,
+     "norm": "text",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "text"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "pos",
+     "offset": 5,
+     "norm": "pos",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "pos"
+    },
+    {
+     "text": ",",
+     "offset": 8,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "morph",
+     "offset": 9,
+     "norm": "morph",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "morph"
+    },
+    {
+     "text": ",",
+     "offset": 14,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "lemma",
+     "offset": 15,
+     "norm": "lemma",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "lemma"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 4,
+     "text": "text"
+    },
+    {
+     "label": "ORG",
+     "start": 5,
+     "end": 8,
+     "text": "pos"
+    },
+    {
+     "label": "ORG",
+     "start": 9,
+     "end": 14,
+     "text": "morph"
+    },
+    {
+     "label": "ORG",
+     "start": 15,
+     "end": 20,
+     "text": "lemma"
+    }
+   ]
+  },
+  {
+   "text": "text,morph,lemma",
+   "tokens": [
+    {
+     "text": "text",
+     "offset": 0,
+     "norm": "text",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "text"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "morph",
+     "offset": 5,
+     "norm": "morph",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "morph"
+    },
+    {
+     "text": ",",
+     "offset": 10,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "lemma",
+     "offset": 11,
+     "norm": "lemma",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "lemma"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 4,
+     "text": "text"
+    },
+    {
+     "label": "ORG",
+     "start": 5,
+     "end": 10,
+     "text": "morph"
+    },
+    {
+     "label": "ORG",
+     "start": 11,
+     "end": 16,
+     "text": "lemma"
+    }
+   ]
+  },
+  {
+   "text": "word,lemma",
+   "tokens": [
+    {
+     "text": "word",
+     "offset": 0,
+     "norm": "word",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "word"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "lemma",
+     "offset": 5,
+     "norm": "lemma",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "lemma"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 4,
+     "text": "word"
+    },
+    {
+     "label": "ORG",
+     "start": 5,
+     "end": 10,
+     "text": "lemma"
+    }
+   ]
+  },
+  {
+   "text": "Animacy=Anim|Case=Nom|Gender=Fem|Number=Sing",
+   "tokens": [
+    {
+     "text": "Animacy",
+     "offset": 0,
+     "norm": "animacy",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "animacy"
+    },
+    {
+     "text": "=",
+     "offset": 7,
+     "norm": "=",
+     "tag": "SYM",
+     "pos": "SYM",
+     "lemma": "="
+    },
+    {
+     "text": "Anim|Case",
+     "offset": 8,
+     "norm": "anim|case",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "anim|case"
+    },
+    {
+     "text": "=",
+     "offset": 17,
+     "norm": "=",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "="
+    },
+    {
+     "text": "Nom|Gender",
+     "offset": 18,
+     "norm": "nom|gender",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "nom|gender"
+    },
+    {
+     "text": "=",
+     "offset": 28,
+     "norm": "=",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "="
+    },
+    {
+     "text": "Fem|Number",
+     "offset": 29,
+     "norm": "fem|number",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "fem|number"
+    },
+    {
+     "text": "=",
+     "offset": 39,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Sing",
+     "offset": 40,
+     "norm": "sing",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "sing"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Aspect=Imp|Gender=Fem|Mood=Ind|Number=Sing|Tense=Past|VerbForm=Fin|Voice=Act",
+   "tokens": [
+    {
+     "text": "Aspect",
+     "offset": 0,
+     "norm": "aspect",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "aspect"
+    },
+    {
+     "text": "=",
+     "offset": 6,
+     "norm": "=",
+     "tag": "SYM",
+     "pos": "SYM",
+     "lemma": "="
+    },
+    {
+     "text": "Imp|Gender",
+     "offset": 7,
+     "norm": "imp|gender",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "imp|gender"
+    },
+    {
+     "text": "=",
+     "offset": 17,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Fem|Mood",
+     "offset": 18,
+     "norm": "fem|mood",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "fem|mood"
+    },
+    {
+     "text": "=",
+     "offset": 26,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Ind|Number",
+     "offset": 27,
+     "norm": "ind|number",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "ind|number"
+    },
+    {
+     "text": "=",
+     "offset": 37,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Sing|Tense",
+     "offset": 38,
+     "norm": "sing|tense",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "sing|tense"
+    },
+    {
+     "text": "=",
+     "offset": 48,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Past|VerbForm",
+     "offset": 49,
+     "norm": "past|verbform",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "past|verbform"
+    },
+    {
+     "text": "=",
+     "offset": 62,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Fin|Voice",
+     "offset": 63,
+     "norm": "fin|voice",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "fin|voice"
+    },
+    {
+     "text": "=",
+     "offset": 72,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Act",
+     "offset": 73,
+     "norm": "act",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "act"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Animacy=Anim|Case=Acc|Gender=Fem|Number=Sing",
+   "tokens": [
+    {
+     "text": "Animacy",
+     "offset": 0,
+     "norm": "animacy",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "animacy"
+    },
+    {
+     "text": "=",
+     "offset": 7,
+     "norm": "=",
+     "tag": "SYM",
+     "pos": "SYM",
+     "lemma": "="
+    },
+    {
+     "text": "Anim|Case",
+     "offset": 8,
+     "norm": "anim|case",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "anim|case"
+    },
+    {
+     "text": "=",
+     "offset": 17,
+     "norm": "=",
+     "tag": "SYM",
+     "pos": "SYM",
+     "lemma": "="
+    },
+    {
+     "text": "Acc|Gender",
+     "offset": 18,
+     "norm": "acc|gender",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "acc|gender"
+    },
+    {
+     "text": "=",
+     "offset": 28,
+     "norm": "=",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "="
+    },
+    {
+     "text": "Fem|Number",
+     "offset": 29,
+     "norm": "fem|number",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "fem|number"
+    },
+    {
+     "text": "=",
+     "offset": 39,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Sing",
+     "offset": 40,
+     "norm": "sing",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "sing"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Number=Sing",
+   "tokens": [
+    {
+     "text": "Number",
+     "offset": 0,
+     "norm": "number",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "number"
+    },
+    {
+     "text": "=",
+     "offset": 6,
+     "norm": "=",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "="
+    },
+    {
+     "text": "Sing",
+     "offset": 7,
+     "norm": "sing",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "sing"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 11,
+     "text": "Number=Sing"
+    }
+   ]
+  },
+  {
+   "text": "Number=Plur",
+   "tokens": [
+    {
+     "text": "Number",
+     "offset": 0,
+     "norm": "number",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "number"
+    },
+    {
+     "text": "=",
+     "offset": 6,
+     "norm": "=",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "="
+    },
+    {
+     "text": "Plur",
+     "offset": 7,
+     "norm": "plur",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "plur"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 11,
+     "text": "Number=Plur"
+    }
+   ]
+  },
+  {
+   "text": "Gender=Fem",
+   "tokens": [
+    {
+     "text": "Gender",
+     "offset": 0,
+     "norm": "gender",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "gender"
+    },
+    {
+     "text": "=",
+     "offset": 6,
+     "norm": "=",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "="
+    },
+    {
+     "text": "Fem",
+     "offset": 7,
+     "norm": "fem",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "fem"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 10,
+     "text": "Gender=Fem"
+    }
+   ]
+  },
+  {
+   "text": "Gender=Masc",
+   "tokens": [
+    {
+     "text": "Gender",
+     "offset": 0,
+     "norm": "gender",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "gender"
+    },
+    {
+     "text": "=",
+     "offset": 6,
+     "norm": "=",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "="
+    },
+    {
+     "text": "Masc",
+     "offset": 7,
+     "norm": "masc",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "masc"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Gender=Neut",
+   "tokens": [
+    {
+     "text": "Gender",
+     "offset": 0,
+     "norm": "gender",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "gender"
+    },
+    {
+     "text": "=",
+     "offset": 6,
+     "norm": "=",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "="
+    },
+    {
+     "text": "Neut",
+     "offset": 7,
+     "norm": "neut",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "neut"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 11,
+     "text": "Gender=Neut"
+    }
+   ]
+  },
+  {
+   "text": "какая-то",
+   "tokens": [
+    {
+     "text": "какая",
+     "offset": 0,
+     "norm": "какая",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "какой"
+    },
+    {
+     "text": "-",
+     "offset": 5,
+     "norm": "-",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "-"
+    },
+    {
+     "text": "то",
+     "offset": 6,
+     "norm": "то",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "то"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "какой-то",
+   "tokens": [
+    {
+     "text": "какой",
+     "offset": 0,
+     "norm": "какой",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "какой"
+    },
+    {
+     "text": "-",
+     "offset": 5,
+     "norm": "-",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "-"
+    },
+    {
+     "text": "то",
+     "offset": 6,
+     "norm": "то",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "то"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "punct_open,punct_close",
+   "tokens": [
+    {
+     "text": "punct_open",
+     "offset": 0,
+     "norm": "punct_open",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "punct_open"
+    },
+    {
+     "text": ",",
+     "offset": 10,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "punct_close",
+     "offset": 11,
+     "norm": "punct_close",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "punct_close"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "punct_open2,punct_close2",
+   "tokens": [
+    {
+     "text": "punct_open2,punct_close2",
+     "offset": 0,
+     "norm": "punct_open2,punct_close2",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "punct_open2,punct_close2"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "(Раз, два, три, проверка).",
+   "tokens": [
+    {
+     "text": "(",
+     "offset": 0,
+     "norm": "(",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "("
+    },
+    {
+     "text": "Раз",
+     "offset": 1,
+     "norm": "раз",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "раз"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "два",
+     "offset": 6,
+     "norm": "два",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "два"
+    },
+    {
+     "text": ",",
+     "offset": 9,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "три",
+     "offset": 11,
+     "norm": "три",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "три"
+    },
+    {
+     "text": ",",
+     "offset": 14,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "проверка",
+     "offset": 16,
+     "norm": "проверка",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "проверка"
+    },
+    {
+     "text": ")",
+     "offset": 24,
+     "norm": ")",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ")"
+    },
+    {
+     "text": ".",
+     "offset": 25,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "'Тест",
+   "tokens": [
+    {
+     "text": "'",
+     "offset": 0,
+     "norm": "'",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "'"
+    },
+    {
+     "text": "Тест",
+     "offset": 1,
+     "norm": "тест",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "тест"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Тест''",
+   "tokens": [
+    {
+     "text": "Тест",
+     "offset": 0,
+     "norm": "тест",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "тест"
+    },
+    {
+     "text": "''",
+     "offset": 4,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "''"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Тест.",
+   "tokens": [
+    {
+     "text": "Тест",
+     "offset": 0,
+     "norm": "тест",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "тест"
+    },
+    {
+     "text": ".",
+     "offset": 4,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду́я подда́ть жару́. Самого́ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду́я",
+     "offset": 0,
+     "norm": "рекоменду́я",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "рекоменду́я"
+    },
+    {
+     "text": "подда́ть",
+     "offset": 12,
+     "norm": "подда́ть",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "подда́ть"
+    },
+    {
+     "text": "жару́",
+     "offset": 21,
+     "norm": "жару́",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "жару́"
+    },
+    {
+     "text": ".",
+     "offset": 26,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Самого́",
+     "offset": 28,
+     "norm": "самого́",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "Самого́"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 36,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 36,
+     "end": 45,
+     "text": "Баргамота"
+    }
+   ]
+  },
+  {
+   "text": "РЕКОМЕНДУ́Я ПОДДА́ТЬ ЖАРУ́. САМОГО́ БАРГАМОТА",
+   "tokens": [
+    {
+     "text": "РЕКОМЕНДУ́Я",
+     "offset": 0,
+     "norm": "рекоменду́я",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "РЕКОМЕНДУ́Я"
+    },
+    {
+     "text": "ПОДДА́ТЬ",
+     "offset": 12,
+     "norm": "подда́ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда́ть"
+    },
+    {
+     "text": "ЖАРУ́",
+     "offset": 21,
+     "norm": "жару́",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "жару́"
+    },
+    {
+     "text": ".",
+     "offset": 26,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "САМОГО́",
+     "offset": 28,
+     "norm": "самого́",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "самого́"
+    },
+    {
+     "text": "БАРГАМОТА",
+     "offset": 36,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍.Самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "жару̍"
+    },
+    {
+     "text": ".",
+     "offset": 26,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Самого̍",
+     "offset": 27,
+     "norm": "самого̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 35,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍.'Самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "жару̍"
+    },
+    {
+     "text": ".",
+     "offset": 26,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "'Самого̍",
+     "offset": 27,
+     "norm": "'самого̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "'самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 36,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍,самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "жару̍"
+    },
+    {
+     "text": ",",
+     "offset": 26,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "самого̍",
+     "offset": 27,
+     "norm": "самого̍",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 35,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍:самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "жару̍"
+    },
+    {
+     "text": ":",
+     "offset": 26,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "самого̍",
+     "offset": 27,
+     "norm": "самого̍",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 35,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍. самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "жару̍"
+    },
+    {
+     "text": ".",
+     "offset": 26,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "самого̍",
+     "offset": 28,
+     "norm": "самого̍",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 36,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍, самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "жару̍"
+    },
+    {
+     "text": ",",
+     "offset": 26,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "самого̍",
+     "offset": 28,
+     "norm": "самого̍",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 36,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍: самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "жару̍"
+    },
+    {
+     "text": ":",
+     "offset": 26,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "самого̍",
+     "offset": 28,
+     "norm": "самого̍",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 36,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару̍-самого̍ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару̍",
+     "offset": 21,
+     "norm": "жару̍",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "жару̍"
+    },
+    {
+     "text": "-",
+     "offset": 26,
+     "norm": "-",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "-"
+    },
+    {
+     "text": "самого̍",
+     "offset": 27,
+     "norm": "самого̍",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "самого̍"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 35,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "жару́.самого́",
+   "tokens": [
+    {
+     "text": "жару́.самого́",
+     "offset": 0,
+     "norm": "жару́.самого́",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "жару́.самого́"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "РЕКОМЕНДУ́Я ПОДДА́ТЬ ЖАРУ́.САМОГО́ БАРГАМОТА",
+   "tokens": [
+    {
+     "text": "РЕКОМЕНДУ́Я",
+     "offset": 0,
+     "norm": "рекоменду́я",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "РЕКОМЕНДУ́Я"
+    },
+    {
+     "text": "ПОДДА́ТЬ",
+     "offset": 12,
+     "norm": "подда́ть",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "подда́ть"
+    },
+    {
+     "text": "ЖАРУ́.САМОГО́",
+     "offset": 21,
+     "norm": "жару́.самого́",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "жару́.самого́"
+    },
+    {
+     "text": "БАРГАМОТА",
+     "offset": 35,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "рекоменду̍я подда̍ть жару́.самого́ Баргамота",
+   "tokens": [
+    {
+     "text": "рекоменду̍я",
+     "offset": 0,
+     "norm": "рекоменду̍я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рекоменду̍я"
+    },
+    {
+     "text": "подда̍ть",
+     "offset": 12,
+     "norm": "подда̍ть",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подда̍ть"
+    },
+    {
+     "text": "жару́.самого́",
+     "offset": 21,
+     "norm": "жару́.самого́",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "жару́.самого́"
+    },
+    {
+     "text": "Баргамота",
+     "offset": 35,
+     "norm": "баргамота",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "баргамота"
+    }
+   ],
+   "entities": []
+  }
+ ]
+}

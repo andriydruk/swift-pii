@@ -129,6 +129,12 @@ struct LanguageTests {
         #expect(!LexicalTables.isStopWord("el", language: "it"))
         #expect(LexicalTables.spanishStopWords.count == 521)
         #expect(LexicalTables.italianStopWords.count == 624)
+
+        // Cyrillic: the lists are script-specific as well as language-specific.
+        #expect(LexicalTables.isStopWord("и", language: "ru"))
+        #expect(LexicalTables.isStopWord("та", language: "uk"))
+        #expect(LexicalTables.russianStopWords.count == 768)
+        #expect(LexicalTables.ukrainianStopWords.count == 467)
     }
 
     /// Italian, whose 5 catalogue recognizers are the largest *enabled*
@@ -151,20 +157,43 @@ struct LanguageTests {
         #expect(types.contains("EMAIL_ADDRESS"), "\(found)")
     }
 
-    /// Each language must tokenize with *its own* rules.
+    /// An engine for a bundled language must load *that language's* rules.
     ///
-    /// Cheap to get wrong and invisible when wrong: an engine that silently
-    /// fell back to English would still find every pattern-based entity, and
-    /// only context scoring — which depends on token boundaries — would quietly
-    /// degrade.
-    @Test("an engine uses the tokenizer for the language it was built for",
-          arguments: ["de", "es", "it"])
-    func engineUsesItsOwnTokenizer(language: String) throws {
+    /// Checked through `warnings`, because that is the only signal that
+    /// distinguishes "used its own rules" from "silently fell back to English".
+    /// Comparing tokenizer output cannot do it: Ukrainian and English rules
+    /// happen to agree on every sentence I tried, including the apostrophe
+    /// cases they were supposed to disagree on. A test whose premise holds by
+    /// luck is not a test.
+    @Test("an engine for a bundled language does not fall back",
+          arguments: ["de", "es", "it", "ru", "uk"])
+    func engineUsesItsOwnRules(language: String) throws {
+        let engine = try TokenizerOnlyNlpEngine(supportedLanguages: [language])
+        #expect(engine.warnings.isEmpty, "\(language): \(engine.warnings)")
+    }
+
+    /// ...and a language with no bundled rules says so rather than pretending.
+    @Test("an unbundled language reports the approximation")
+    func unbundledLanguageWarns() throws {
+        let engine = try TokenizerOnlyNlpEngine(supportedLanguages: ["pl"])
+        #expect(engine.warnings.count == 1, "\(engine.warnings)")
+        #expect(engine.warnings.first?.contains("pl") == true, "\(engine.warnings)")
+    }
+
+    /// Where the rules genuinely differ from English, they must show it.
+    ///
+    /// Ukrainian is absent deliberately: its rules and English's produce the
+    /// same tokens on everything tried, so asserting a difference would be
+    /// asserting a coincidence.
+    @Test("bundled rules differ from English where the languages do",
+          arguments: ["de", "es", "it", "ru"])
+    func tokenizationDiffersFromEnglish(language: String) throws {
         let engine = try TokenizerOnlyNlpEngine(supportedLanguages: [language])
         let english = try TokenizerOnlyNlpEngine(supportedLanguages: ["en"])
         let probe = ["de": "Das gilt z.B. für Verträge.",
                      "es": "¿Quién? Esto se aplica p.ej. hoy.",
-                     "it": "L'azienda dell'ingegnere è un'impresa."][language]!
+                     "it": "L'azienda dell'ingegnere è un'impresa.",
+                     "ru": "Это касается напр. договоров и т.д."][language]!
         let mine = engine.process(text: probe, language: language).tokens
         let theirs = english.process(text: probe, language: "en").tokens
         #expect(mine != theirs, "\(language) tokenized identically to English: \(mine)")

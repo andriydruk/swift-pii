@@ -333,27 +333,31 @@ explicit because this was wrong until recently: those ten declare no
 "English" left every non-English engine with only its country-specific
 recognizers. A Spanish engine found NIFs and no e-mail addresses.
 
-### German, Spanish and Italian, end to end
+### Five languages, end to end
 
-Three languages are taken all the way through, each verified layer by layer
-against spaCy's own output on a corpus built for it:
+Each verified layer by layer against spaCy's own output, on a corpus built for
+it:
 
-| | German | Spanish | Italian |
-|---|---|---|---|
-| Tokens, offsets, NORMs | **699/699** | **560/560** | **446/446** |
-| Fine-grained tags | **699/699** | *no tagger* | **446/446** |
-| Lemmas | **699/699** | *see below* | **446/446** |
-| NER entities (recall) | **66/66** | **65/65** | **47/47** |
-| NER precision | 65/66 | **65/65** | **47/47** |
+| | German | Spanish | Italian | Russian | Ukrainian |
+|---|---|---|---|---|---|
+| Tokens, offsets, NORMs | **699/699** | **560/560** | **446/446** | **489/489** | **352/352** |
+| Fine-grained tags | **699/699** | *no tagger* | **446/446** | *no tagger* | *no tagger* |
+| Lemmas | **699/699** | *see below* | **446/446** | *see below* | *see below* |
+| NER recall | **66/66** | **65/65** | **47/47** | **41/41** | **24/24** |
+| NER precision | 65/66 | **65/65** | **47/47** | **41/41** | **24/24** |
 
-Spanish is thinner for structural reasons, not unfinished ones.
-`es_core_news_sm` ships **no tagger** — its POS comes from a morphologizer this
-port does not read — and it lemmatizes with `SpanishLemmatizer`, 428 lines of
-hand-written Python with a method per part of speech, rather than the edit trees
-German and Italian share. Neither affects entity spans or identifier detection;
-what degrades is context scoring, which matches supporting words by lemma. Both
-absences are asserted by `SpanishGapTests`, so the gap fails loudly if someone
-later assumes it closed.
+Three of them are thinner, for structural reasons rather than unfinished work.
+`es_core_news_sm`, `ru_core_news_sm` and `uk_core_news_sm` ship **no tagger** at
+all — their POS comes from a morphologizer this port does not read — and none of
+them lemmatizes with the edit trees German and Italian share. Spanish uses
+`SpanishLemmatizer`, 428 lines of hand-written Python with a method per part of
+speech; Russian and Ukrainian use `pymorphy3`, a full morphological analyser
+backed by a compiled dictionary. Heavily inflected languages are exactly where
+that gap costs most.
+
+None of it affects entity spans or identifier detection; what degrades is
+context scoring, which matches supporting words by lemma. Every absence is
+asserted by a gap test, so it fails loudly if someone later assumes it closed.
 
 ```swift
 let nlp = try SpacyNlpEngine(modelDirectory: germanModel, language: "de")
@@ -370,8 +374,9 @@ try engine.analyze(
 // PERSON Anna Müller · ORGANIZATION Siemens AG · LOCATION München
 ```
 
-Weights are not bundled for these three — point `modelDirectory` at an unpacked
-`de_core_news_sm`, `es_core_news_sm` or `it_core_news_sm`. The German
+Weights are not bundled for these — point `modelDirectory` at an unpacked
+`de_core_news_sm`, `es_core_news_sm`, `it_core_news_sm`, `ru_core_news_sm` or
+`uk_core_news_sm`. The German
 national-identifier recognizers ship disabled, as they do upstream; add them
 with `configuration: nil` as shown earlier. Spanish's and Italian's are enabled
 already.
@@ -407,9 +412,9 @@ the same way whatever language surrounds it. The **linguistic** layer is not:
 
 - **Only bundled weights are English.** `en_core_web_sm` ships in the package;
   German, Spanish and Italian work fully but you supply the model directory.
-- **Tokenizer rules and stop words** are bundled for **en, de, es, it**. A fifth
-  language needs two extractions and no code — but only if spaCy tokenizes it by
-  rule. Japanese and Chinese do not: they segment with SudachiPy and pkuseg,
+- **Tokenizer rules and stop words** are bundled for **en, de, es, it, ru, uk**.
+  Another language needs two extractions and no code — but only if spaCy
+  tokenizes it by rule. Japanese and Chinese do not: they segment with SudachiPy and pkuseg,
   which are models rather than tables, and nothing here can stand in for them.
 - **Fewer entity types outside English.** The `*_core_news_sm` models carry
   **4 NER labels** against English's 18 — `PER`, `LOC`, `ORG`, `MISC`. So no

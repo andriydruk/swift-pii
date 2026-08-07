@@ -106,7 +106,7 @@ public final class SpacyTokenizer: @unchecked Sendable {
     /// change — but only for languages spaCy tokenizes by rule. Japanese and
     /// Chinese are segmented by SudachiPy and pkuseg, which are models, not
     /// tables, and cannot be bundled this way at all.
-    public static let bundledLanguages = ["de", "en", "es", "it"]
+    public static let bundledLanguages = ["de", "en", "es", "it", "ru", "uk"]
 
     public static func english() throws -> SpacyTokenizer {
         try forLanguage("en")
@@ -129,6 +129,21 @@ public final class SpacyTokenizer: @unchecked Sendable {
     /// all split, and the apostrophe stays with the *first* piece.
     public static func italian() throws -> SpacyTokenizer {
         try forLanguage("it")
+    }
+
+    /// Russian. The largest exception table of the six (656), and the first
+    /// language here written in a non-Latin script — which exercises the
+    /// generated Unicode tables rather than the ASCII fast paths.
+    public static func russian() throws -> SpacyTokenizer {
+        try forLanguage("ru")
+    }
+
+    /// Ukrainian, whose apostrophe is a *letter-internal* character:
+    /// `п'ять` and `об'єкт` are single tokens. Rules written for Italian or
+    /// English would split them, which is why sharing a tokenizer across
+    /// languages is not an option.
+    public static func ukrainian() throws -> SpacyTokenizer {
+        try forLanguage("uk")
     }
 
     public static func forLanguage(_ language: String) throws -> SpacyTokenizer {

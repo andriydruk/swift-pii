@@ -1,0 +1,3280 @@
+{
+ "model": "uk_core_news_sm-3.7.0",
+ "spacy_version": "3.7.5",
+ "cases": [
+  {
+   "text": "Д-р Оксана Петрівна Коваленко приймає у вівторок у лікарні №5.",
+   "tokens": [
+    {
+     "text": "Д",
+     "offset": 0,
+     "norm": "д",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "д"
+    },
+    {
+     "text": "-",
+     "offset": 1,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "-"
+    },
+    {
+     "text": "р",
+     "offset": 2,
+     "norm": "р",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "р"
+    },
+    {
+     "text": "Оксана",
+     "offset": 4,
+     "norm": "оксана",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "оксана"
+    },
+    {
+     "text": "Петрівна",
+     "offset": 11,
+     "norm": "петрівна",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "петрівна"
+    },
+    {
+     "text": "Коваленко",
+     "offset": 20,
+     "norm": "коваленко",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "коваленко"
+    },
+    {
+     "text": "приймає",
+     "offset": 30,
+     "norm": "приймає",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "приймати"
+    },
+    {
+     "text": "у",
+     "offset": 38,
+     "norm": "у",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "у"
+    },
+    {
+     "text": "вівторок",
+     "offset": 40,
+     "norm": "вівторок",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "вівторок"
+    },
+    {
+     "text": "у",
+     "offset": 49,
+     "norm": "у",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "у"
+    },
+    {
+     "text": "лікарні",
+     "offset": 51,
+     "norm": "лікарні",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "лікарня"
+    },
+    {
+     "text": "№",
+     "offset": 59,
+     "norm": "№",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "№"
+    },
+    {
+     "text": "5",
+     "offset": 60,
+     "norm": "5",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "5"
+    },
+    {
+     "text": ".",
+     "offset": 61,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 4,
+     "end": 29,
+     "text": "Оксана Петрівна Коваленко"
+    }
+   ]
+  },
+  {
+   "text": "Іван Сергійович Шевченко підписав договір 3 березня 2021 року.",
+   "tokens": [
+    {
+     "text": "Іван",
+     "offset": 0,
+     "norm": "іван",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "іван"
+    },
+    {
+     "text": "Сергійович",
+     "offset": 5,
+     "norm": "сергійович",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "сергійович"
+    },
+    {
+     "text": "Шевченко",
+     "offset": 16,
+     "norm": "шевченко",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "шевченко"
+    },
+    {
+     "text": "підписав",
+     "offset": 25,
+     "norm": "підписав",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "підписав"
+    },
+    {
+     "text": "договір",
+     "offset": 34,
+     "norm": "договір",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "договір"
+    },
+    {
+     "text": "3",
+     "offset": 42,
+     "norm": "3",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "3"
+    },
+    {
+     "text": "березня",
+     "offset": 44,
+     "norm": "березня",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "березень"
+    },
+    {
+     "text": "2021",
+     "offset": 52,
+     "norm": "2021",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "2021"
+    },
+    {
+     "text": "року",
+     "offset": 57,
+     "norm": "року",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рок"
+    },
+    {
+     "text": ".",
+     "offset": 61,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 24,
+     "text": "Іван Сергійович Шевченко"
+    }
+   ]
+  },
+  {
+   "text": "Проф. Володимир Ілліч Бондаренко читає лекції в КНУ.",
+   "tokens": [
+    {
+     "text": "Проф",
+     "offset": 0,
+     "norm": "проф",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "проф"
+    },
+    {
+     "text": ".",
+     "offset": 4,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Володимир",
+     "offset": 6,
+     "norm": "володимир",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "володимир"
+    },
+    {
+     "text": "Ілліч",
+     "offset": 16,
+     "norm": "ілліч",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ілліч"
+    },
+    {
+     "text": "Бондаренко",
+     "offset": 22,
+     "norm": "бондаренко",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "бондаренко"
+    },
+    {
+     "text": "читає",
+     "offset": 33,
+     "norm": "читає",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "читати"
+    },
+    {
+     "text": "лекції",
+     "offset": 39,
+     "norm": "лекції",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "лекція"
+    },
+    {
+     "text": "в",
+     "offset": 46,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "КНУ",
+     "offset": 48,
+     "norm": "кну",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "кну"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 6,
+     "end": 32,
+     "text": "Володимир Ілліч Бондаренко"
+    },
+    {
+     "label": "ORG",
+     "start": 48,
+     "end": 51,
+     "text": "КНУ"
+    }
+   ]
+  },
+  {
+   "text": "Пацієнт, Олексій Миколайович Мороз, народився 14.02.1978 у Львові.",
+   "tokens": [
+    {
+     "text": "Пацієнт",
+     "offset": 0,
+     "norm": "пацієнт",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "пацієнт"
+    },
+    {
+     "text": ",",
+     "offset": 7,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "Олексій",
+     "offset": 9,
+     "norm": "олексій",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "олексій"
+    },
+    {
+     "text": "Миколайович",
+     "offset": 17,
+     "norm": "миколайович",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "миколайович"
+    },
+    {
+     "text": "Мороз",
+     "offset": 29,
+     "norm": "мороз",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "мороз"
+    },
+    {
+     "text": ",",
+     "offset": 34,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "народився",
+     "offset": 36,
+     "norm": "народився",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "народитися"
+    },
+    {
+     "text": "14.02.1978",
+     "offset": 46,
+     "norm": "14.02.1978",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "14.02.1978"
+    },
+    {
+     "text": "у",
+     "offset": 57,
+     "norm": "у",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "у"
+    },
+    {
+     "text": "Львові",
+     "offset": 59,
+     "norm": "львові",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "львов"
+    },
+    {
+     "text": ".",
+     "offset": 65,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 9,
+     "end": 34,
+     "text": "Олексій Миколайович Мороз"
+    },
+    {
+     "label": "LOC",
+     "start": 59,
+     "end": 65,
+     "text": "Львові"
+    }
+   ]
+  },
+  {
+   "text": "Шановна Маріє Іванівно, дякую Вам за лист від 12 травня.",
+   "tokens": [
+    {
+     "text": "Шановна",
+     "offset": 0,
+     "norm": "шановна",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "шановний"
+    },
+    {
+     "text": "Маріє",
+     "offset": 8,
+     "norm": "маріє",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "маріє"
+    },
+    {
+     "text": "Іванівно",
+     "offset": 14,
+     "norm": "іванівно",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "іванівна"
+    },
+    {
+     "text": ",",
+     "offset": 22,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "дякую",
+     "offset": 24,
+     "norm": "дякую",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "дякувати"
+    },
+    {
+     "text": "Вам",
+     "offset": 30,
+     "norm": "вам",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "ви"
+    },
+    {
+     "text": "за",
+     "offset": 34,
+     "norm": "за",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "за"
+    },
+    {
+     "text": "лист",
+     "offset": 37,
+     "norm": "лист",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "лист"
+    },
+    {
+     "text": "від",
+     "offset": 42,
+     "norm": "від",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "від"
+    },
+    {
+     "text": "12",
+     "offset": 46,
+     "norm": "12",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "12"
+    },
+    {
+     "text": "травня",
+     "offset": 49,
+     "norm": "травня",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "травень"
+    },
+    {
+     "text": ".",
+     "offset": 55,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 8,
+     "end": 22,
+     "text": "Маріє Іванівно"
+    }
+   ]
+  },
+  {
+   "text": "ПАТ «Укрзалізниця» та АТ «Ощадбанк» підписали угоду в Києві.",
+   "tokens": [
+    {
+     "text": "ПАТ",
+     "offset": 0,
+     "norm": "пат",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "пат"
+    },
+    {
+     "text": "«",
+     "offset": 4,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "Укрзалізниця",
+     "offset": 5,
+     "norm": "укрзалізниця",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "укрзалізниця"
+    },
+    {
+     "text": "»",
+     "offset": 17,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "та",
+     "offset": 19,
+     "norm": "та",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "та"
+    },
+    {
+     "text": "АТ",
+     "offset": 22,
+     "norm": "ат",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ат"
+    },
+    {
+     "text": "«",
+     "offset": 25,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "Ощадбанк",
+     "offset": 26,
+     "norm": "ощадбанк",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ощадбанк"
+    },
+    {
+     "text": "»",
+     "offset": 34,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "підписали",
+     "offset": 36,
+     "norm": "підписали",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "підписати"
+    },
+    {
+     "text": "угоду",
+     "offset": 46,
+     "norm": "угоду",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "угода"
+    },
+    {
+     "text": "в",
+     "offset": 52,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Києві",
+     "offset": 54,
+     "norm": "києві",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "кий"
+    },
+    {
+     "text": ".",
+     "offset": 59,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 5,
+     "end": 17,
+     "text": "Укрзалізниця"
+    },
+    {
+     "label": "ORG",
+     "start": 22,
+     "end": 35,
+     "text": "АТ «Ощадбанк»"
+    },
+    {
+     "label": "LOC",
+     "start": 54,
+     "end": 59,
+     "text": "Києві"
+    }
+   ]
+  },
+  {
+   "text": "Компанія ТОВ «Ромашка» зареєстрована в Одесі.",
+   "tokens": [
+    {
+     "text": "Компанія",
+     "offset": 0,
+     "norm": "компанія",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "компанія"
+    },
+    {
+     "text": "ТОВ",
+     "offset": 9,
+     "norm": "тов",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "тов"
+    },
+    {
+     "text": "«",
+     "offset": 13,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "Ромашка",
+     "offset": 14,
+     "norm": "ромашка",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ромашка"
+    },
+    {
+     "text": "»",
+     "offset": 21,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "зареєстрована",
+     "offset": 23,
+     "norm": "зареєстрована",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "зареєстрований"
+    },
+    {
+     "text": "в",
+     "offset": 37,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Одесі",
+     "offset": 39,
+     "norm": "одесі",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "одеса"
+    },
+    {
+     "text": ".",
+     "offset": 44,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 9,
+     "end": 22,
+     "text": "ТОВ «Ромашка»"
+    },
+    {
+     "label": "LOC",
+     "start": 39,
+     "end": 44,
+     "text": "Одесі"
+    }
+   ]
+  },
+  {
+   "text": "Міністерство фінансів оприлюднило постанову.",
+   "tokens": [
+    {
+     "text": "Міністерство",
+     "offset": 0,
+     "norm": "міністерство",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "міністерство"
+    },
+    {
+     "text": "фінансів",
+     "offset": 13,
+     "norm": "фінансів",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "фінанси"
+    },
+    {
+     "text": "оприлюднило",
+     "offset": 22,
+     "norm": "оприлюднило",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "оприлюднити"
+    },
+    {
+     "text": "постанову",
+     "offset": 34,
+     "norm": "постанову",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "постанова"
+    },
+    {
+     "text": ".",
+     "offset": 43,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 0,
+     "end": 21,
+     "text": "Міністерство фінансів"
+    }
+   ]
+  },
+  {
+   "text": "З Харкова до Дніпра потяг їде близько шести годин.",
+   "tokens": [
+    {
+     "text": "З",
+     "offset": 0,
+     "norm": "з",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "з"
+    },
+    {
+     "text": "Харкова",
+     "offset": 2,
+     "norm": "харкова",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "харків"
+    },
+    {
+     "text": "до",
+     "offset": 10,
+     "norm": "до",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "до"
+    },
+    {
+     "text": "Дніпра",
+     "offset": 13,
+     "norm": "дніпра",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "дніпро"
+    },
+    {
+     "text": "потяг",
+     "offset": 20,
+     "norm": "потяг",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "потяг"
+    },
+    {
+     "text": "їде",
+     "offset": 26,
+     "norm": "їде",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "їхати"
+    },
+    {
+     "text": "близько",
+     "offset": 30,
+     "norm": "близько",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "близько"
+    },
+    {
+     "text": "шести",
+     "offset": 38,
+     "norm": "шести",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "шість"
+    },
+    {
+     "text": "годин",
+     "offset": 44,
+     "norm": "годин",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "година"
+    },
+    {
+     "text": ".",
+     "offset": 49,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 2,
+     "end": 9,
+     "text": "Харкова"
+    },
+    {
+     "label": "LOC",
+     "start": 13,
+     "end": 19,
+     "text": "Дніпра"
+    }
+   ]
+  },
+  {
+   "text": "Він переїхав із Ужгорода через Вінницю до Запоріжжя.",
+   "tokens": [
+    {
+     "text": "Він",
+     "offset": 0,
+     "norm": "він",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "він"
+    },
+    {
+     "text": "переїхав",
+     "offset": 4,
+     "norm": "переїхав",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "переїхати"
+    },
+    {
+     "text": "із",
+     "offset": 13,
+     "norm": "із",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "із"
+    },
+    {
+     "text": "Ужгорода",
+     "offset": 16,
+     "norm": "ужгорода",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "ужгород"
+    },
+    {
+     "text": "через",
+     "offset": 25,
+     "norm": "через",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "через"
+    },
+    {
+     "text": "Вінницю",
+     "offset": 31,
+     "norm": "вінницю",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "вінниця"
+    },
+    {
+     "text": "до",
+     "offset": 39,
+     "norm": "до",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "до"
+    },
+    {
+     "text": "Запоріжжя",
+     "offset": 42,
+     "norm": "запоріжжя",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "запоріжжя"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 16,
+     "end": 24,
+     "text": "Ужгорода"
+    },
+    {
+     "label": "LOC",
+     "start": 31,
+     "end": 38,
+     "text": "Вінницю"
+    },
+    {
+     "label": "LOC",
+     "start": 42,
+     "end": 51,
+     "text": "Запоріжжя"
+    }
+   ]
+  },
+  {
+   "text": "Зустріч відбудеться в Кам'янці-Подільському.",
+   "tokens": [
+    {
+     "text": "Зустріч",
+     "offset": 0,
+     "norm": "зустріч",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "зустріч"
+    },
+    {
+     "text": "відбудеться",
+     "offset": 8,
+     "norm": "відбудеться",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "відбутися"
+    },
+    {
+     "text": "в",
+     "offset": 20,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "Кам'янці",
+     "offset": 22,
+     "norm": "кам'янці",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "кам'янка"
+    },
+    {
+     "text": "-",
+     "offset": 30,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "-"
+    },
+    {
+     "text": "Подільському",
+     "offset": 31,
+     "norm": "подільському",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "подільському"
+    },
+    {
+     "text": ".",
+     "offset": 43,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 22,
+     "end": 30,
+     "text": "Кам'янці"
+    },
+    {
+     "label": "LOC",
+     "start": 31,
+     "end": 43,
+     "text": "Подільському"
+    }
+   ]
+  },
+  {
+   "text": "Напишіть мені на oksana.kovalenko@example.ua або телефонуйте +380 44 123 45 67.",
+   "tokens": [
+    {
+     "text": "Напишіть",
+     "offset": 0,
+     "norm": "напишіть",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "написати"
+    },
+    {
+     "text": "мені",
+     "offset": 9,
+     "norm": "мені",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "я"
+    },
+    {
+     "text": "на",
+     "offset": 14,
+     "norm": "на",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "на"
+    },
+    {
+     "text": "oksana.kovalenko@example.ua",
+     "offset": 17,
+     "norm": "oksana.kovalenko@example.ua",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "oksana.kovalenko@example.ua"
+    },
+    {
+     "text": "або",
+     "offset": 45,
+     "norm": "або",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "або"
+    },
+    {
+     "text": "телефонуйте",
+     "offset": 49,
+     "norm": "телефонуйте",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "телефонувати"
+    },
+    {
+     "text": "+380",
+     "offset": 61,
+     "norm": "+380",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "+380"
+    },
+    {
+     "text": "44",
+     "offset": 66,
+     "norm": "44",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "44"
+    },
+    {
+     "text": "123",
+     "offset": 69,
+     "norm": "123",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "123"
+    },
+    {
+     "text": "45",
+     "offset": 73,
+     "norm": "45",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "45"
+    },
+    {
+     "text": "67",
+     "offset": 76,
+     "norm": "67",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "67"
+    },
+    {
+     "text": ".",
+     "offset": 78,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Мій телефон 044 555 11 22, мобільний 067 123 45 67.",
+   "tokens": [
+    {
+     "text": "Мій",
+     "offset": 0,
+     "norm": "мій",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "мій"
+    },
+    {
+     "text": "телефон",
+     "offset": 4,
+     "norm": "телефон",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "телефон"
+    },
+    {
+     "text": "044",
+     "offset": 12,
+     "norm": "044",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "044"
+    },
+    {
+     "text": "555",
+     "offset": 16,
+     "norm": "555",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "555"
+    },
+    {
+     "text": "11",
+     "offset": 20,
+     "norm": "11",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "11"
+    },
+    {
+     "text": "22",
+     "offset": 23,
+     "norm": "22",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "22"
+    },
+    {
+     "text": ",",
+     "offset": 25,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "мобільний",
+     "offset": 27,
+     "norm": "мобільний",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "мобільний"
+    },
+    {
+     "text": "067",
+     "offset": 37,
+     "norm": "067",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "067"
+    },
+    {
+     "text": "123",
+     "offset": 41,
+     "norm": "123",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "123"
+    },
+    {
+     "text": "45",
+     "offset": 45,
+     "norm": "45",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "45"
+    },
+    {
+     "text": "67",
+     "offset": 48,
+     "norm": "67",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "67"
+    },
+    {
+     "text": ".",
+     "offset": 50,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Сервер доступний за адресою 192.168.0.14, документація — https://example.ua/dopomoga.",
+   "tokens": [
+    {
+     "text": "Сервер",
+     "offset": 0,
+     "norm": "сервер",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "сервер"
+    },
+    {
+     "text": "доступний",
+     "offset": 7,
+     "norm": "доступний",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "доступний"
+    },
+    {
+     "text": "за",
+     "offset": 17,
+     "norm": "за",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "за"
+    },
+    {
+     "text": "адресою",
+     "offset": 20,
+     "norm": "адресою",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "адреса"
+    },
+    {
+     "text": "192.168.0.14",
+     "offset": 28,
+     "norm": "192.168.0.14",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "192.168.0.14"
+    },
+    {
+     "text": ",",
+     "offset": 40,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "документація",
+     "offset": 42,
+     "norm": "документація",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "документація"
+    },
+    {
+     "text": "—",
+     "offset": 55,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "https://example.ua/dopomoga",
+     "offset": 57,
+     "norm": "https://example.ua/dopomoga",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "https://example.ua/dopomoga"
+    },
+    {
+     "text": ".",
+     "offset": 84,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Строк минув 31.12.2023 о 23:59.",
+   "tokens": [
+    {
+     "text": "Строк",
+     "offset": 0,
+     "norm": "строк",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "строк"
+    },
+    {
+     "text": "минув",
+     "offset": 6,
+     "norm": "минув",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "минути"
+    },
+    {
+     "text": "31.12.2023",
+     "offset": 12,
+     "norm": "31.12.2023",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "31.12.2023"
+    },
+    {
+     "text": "о",
+     "offset": 23,
+     "norm": "о",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "о"
+    },
+    {
+     "text": "23:59",
+     "offset": 25,
+     "norm": "23:59",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "23:59"
+    },
+    {
+     "text": ".",
+     "offset": 30,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Сума 1 234,56 грн. була зарахована 5 червня.",
+   "tokens": [
+    {
+     "text": "Сума",
+     "offset": 0,
+     "norm": "сума",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "сума"
+    },
+    {
+     "text": "1",
+     "offset": 5,
+     "norm": "1",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1"
+    },
+    {
+     "text": "234,56",
+     "offset": 7,
+     "norm": "234,56",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "234,56"
+    },
+    {
+     "text": "грн",
+     "offset": 14,
+     "norm": "грн",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "грн"
+    },
+    {
+     "text": ".",
+     "offset": 17,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "була",
+     "offset": 19,
+     "norm": "була",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "була"
+    },
+    {
+     "text": "зарахована",
+     "offset": 24,
+     "norm": "зарахована",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "зарахований"
+    },
+    {
+     "text": "5",
+     "offset": 35,
+     "norm": "5",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "5"
+    },
+    {
+     "text": "червня",
+     "offset": 37,
+     "norm": "червня",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "червень"
+    },
+    {
+     "text": ".",
+     "offset": 43,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "У третьому кварталі продажі зросли на 12,5 відсотка.",
+   "tokens": [
+    {
+     "text": "У",
+     "offset": 0,
+     "norm": "у",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "у"
+    },
+    {
+     "text": "третьому",
+     "offset": 2,
+     "norm": "третьому",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "третій"
+    },
+    {
+     "text": "кварталі",
+     "offset": 11,
+     "norm": "кварталі",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "квартал"
+    },
+    {
+     "text": "продажі",
+     "offset": 20,
+     "norm": "продажі",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "продаж"
+    },
+    {
+     "text": "зросли",
+     "offset": 28,
+     "norm": "зросли",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "зрости"
+    },
+    {
+     "text": "на",
+     "offset": 35,
+     "norm": "на",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "на"
+    },
+    {
+     "text": "12,5",
+     "offset": 38,
+     "norm": "12,5",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12,5"
+    },
+    {
+     "text": "відсотка",
+     "offset": 43,
+     "norm": "відсотка",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "відсоток"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Нарада триватиме з 9.30 до 17.00.",
+   "tokens": [
+    {
+     "text": "Нарада",
+     "offset": 0,
+     "norm": "нарада",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "нарада"
+    },
+    {
+     "text": "триватиме",
+     "offset": 7,
+     "norm": "триватиме",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "тривати"
+    },
+    {
+     "text": "з",
+     "offset": 17,
+     "norm": "з",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "з"
+    },
+    {
+     "text": "9.30",
+     "offset": 19,
+     "norm": "9.30",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "9.30"
+    },
+    {
+     "text": "до",
+     "offset": 24,
+     "norm": "до",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "до"
+    },
+    {
+     "text": "17.00",
+     "offset": 27,
+     "norm": "17.00",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "17.00"
+    },
+    {
+     "text": ".",
+     "offset": 32,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Це стосується напр. договорів, укладених до 2020 року.",
+   "tokens": [
+    {
+     "text": "Це",
+     "offset": 0,
+     "norm": "це",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "це"
+    },
+    {
+     "text": "стосується",
+     "offset": 3,
+     "norm": "стосується",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "стосуватися"
+    },
+    {
+     "text": "напр",
+     "offset": 14,
+     "norm": "напр",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "напр"
+    },
+    {
+     "text": ".",
+     "offset": 18,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "договорів",
+     "offset": 20,
+     "norm": "договорів",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "договір"
+    },
+    {
+     "text": ",",
+     "offset": 29,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "укладених",
+     "offset": 31,
+     "norm": "укладених",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "укладений"
+    },
+    {
+     "text": "до",
+     "offset": 41,
+     "norm": "до",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "до"
+    },
+    {
+     "text": "2020",
+     "offset": 44,
+     "norm": "2020",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "2020"
+    },
+    {
+     "text": "року",
+     "offset": 49,
+     "norm": "року",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "рок"
+    },
+    {
+     "text": ".",
+     "offset": 53,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Візьміть паспорт, картку тощо на прийом.",
+   "tokens": [
+    {
+     "text": "Візьміть",
+     "offset": 0,
+     "norm": "візьміть",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "взяти"
+    },
+    {
+     "text": "паспорт",
+     "offset": 9,
+     "norm": "паспорт",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "паспорт"
+    },
+    {
+     "text": ",",
+     "offset": 16,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "картку",
+     "offset": 18,
+     "norm": "картку",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "картка"
+    },
+    {
+     "text": "тощо",
+     "offset": 25,
+     "norm": "тощо",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "тощо"
+    },
+    {
+     "text": "на",
+     "offset": 30,
+     "norm": "на",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "на"
+    },
+    {
+     "text": "прийом",
+     "offset": 33,
+     "norm": "прийом",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "прийом"
+    },
+    {
+     "text": ".",
+     "offset": 39,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Адреса: вул. Хрещатик, буд. 12, кв. 3, 01001 Київ.",
+   "tokens": [
+    {
+     "text": "Адреса",
+     "offset": 0,
+     "norm": "адреса",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "адреса"
+    },
+    {
+     "text": ":",
+     "offset": 6,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "вул.",
+     "offset": 8,
+     "norm": "вулиця",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "вул."
+    },
+    {
+     "text": "Хрещатик",
+     "offset": 13,
+     "norm": "хрещатик",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "хрещатик"
+    },
+    {
+     "text": ",",
+     "offset": 21,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "буд",
+     "offset": 23,
+     "norm": "буд",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "буд"
+    },
+    {
+     "text": ".",
+     "offset": 26,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "12",
+     "offset": 28,
+     "norm": "12",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": ",",
+     "offset": 30,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "кв",
+     "offset": 32,
+     "norm": "кв",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "кв"
+    },
+    {
+     "text": ".",
+     "offset": 34,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "3",
+     "offset": 36,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": ",",
+     "offset": 37,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "01001",
+     "offset": 39,
+     "norm": "01001",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "01001"
+    },
+    {
+     "text": "Київ",
+     "offset": 45,
+     "norm": "київ",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "київ"
+    },
+    {
+     "text": ".",
+     "offset": 49,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 8,
+     "end": 26,
+     "text": "вул. Хрещатик, буд"
+    },
+    {
+     "label": "LOC",
+     "start": 45,
+     "end": 49,
+     "text": "Київ"
+    }
+   ]
+  },
+  {
+   "text": "Див. ст. 12 Регламенту, п. 3.",
+   "tokens": [
+    {
+     "text": "Див",
+     "offset": 0,
+     "norm": "див",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "див"
+    },
+    {
+     "text": ".",
+     "offset": 3,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "ст.",
+     "offset": 5,
+     "norm": "станція",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ст."
+    },
+    {
+     "text": "12",
+     "offset": 9,
+     "norm": "12",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": "Регламенту",
+     "offset": 12,
+     "norm": "регламенту",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "регламент"
+    },
+    {
+     "text": ",",
+     "offset": 22,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "п.",
+     "offset": 24,
+     "norm": "пан",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "п."
+    },
+    {
+     "text": "3",
+     "offset": 27,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": ".",
+     "offset": 28,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "П'ять об'єктів було з'єднано в одну систему.",
+   "tokens": [
+    {
+     "text": "П'ять",
+     "offset": 0,
+     "norm": "п'ять",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "п'ять"
+    },
+    {
+     "text": "об'єктів",
+     "offset": 6,
+     "norm": "об'єктів",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "об'єкт"
+    },
+    {
+     "text": "було",
+     "offset": 15,
+     "norm": "було",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "бути"
+    },
+    {
+     "text": "з'єднано",
+     "offset": 20,
+     "norm": "з'єднано",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "з'єднати"
+    },
+    {
+     "text": "в",
+     "offset": 29,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "одну",
+     "offset": 31,
+     "norm": "одну",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "один"
+    },
+    {
+     "text": "систему",
+     "offset": 36,
+     "norm": "систему",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "система"
+    },
+    {
+     "text": ".",
+     "offset": 43,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Прем'єр-міністр виступив із заявою.",
+   "tokens": [
+    {
+     "text": "Прем'єр",
+     "offset": 0,
+     "norm": "прем'єр",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "прем'єр"
+    },
+    {
+     "text": "-",
+     "offset": 7,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "-"
+    },
+    {
+     "text": "міністр",
+     "offset": 8,
+     "norm": "міністр",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "міністр"
+    },
+    {
+     "text": "виступив",
+     "offset": 16,
+     "norm": "виступив",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "виступити"
+    },
+    {
+     "text": "із",
+     "offset": 25,
+     "norm": "із",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "із"
+    },
+    {
+     "text": "заявою",
+     "offset": 28,
+     "norm": "заявою",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "заява"
+    },
+    {
+     "text": ".",
+     "offset": 34,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Він з'ясував, що м'ясо було зіпсоване.",
+   "tokens": [
+    {
+     "text": "Він",
+     "offset": 0,
+     "norm": "він",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "він"
+    },
+    {
+     "text": "з'ясував",
+     "offset": 4,
+     "norm": "з'ясував",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "з'ясувати"
+    },
+    {
+     "text": ",",
+     "offset": 12,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "що",
+     "offset": 14,
+     "norm": "що",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "що"
+    },
+    {
+     "text": "м'ясо",
+     "offset": 17,
+     "norm": "м'ясо",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "м'ясо"
+    },
+    {
+     "text": "було",
+     "offset": 23,
+     "norm": "було",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "бути"
+    },
+    {
+     "text": "зіпсоване",
+     "offset": 28,
+     "norm": "зіпсоване",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "зіпсований"
+    },
+    {
+     "text": ".",
+     "offset": 37,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "«Хто це вирішив?» — запитала вона.",
+   "tokens": [
+    {
+     "text": "«",
+     "offset": 0,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "Хто",
+     "offset": 1,
+     "norm": "хто",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "хто"
+    },
+    {
+     "text": "це",
+     "offset": 5,
+     "norm": "це",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "це"
+    },
+    {
+     "text": "вирішив",
+     "offset": 8,
+     "norm": "вирішив",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "вирішити"
+    },
+    {
+     "text": "?",
+     "offset": 15,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "»",
+     "offset": 16,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "\""
+    },
+    {
+     "text": "—",
+     "offset": 18,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "запитала",
+     "offset": 20,
+     "norm": "запитала",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "запитати"
+    },
+    {
+     "text": "вона",
+     "offset": 29,
+     "norm": "вона",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "вона"
+    },
+    {
+     "text": ".",
+     "offset": 33,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "— Це не обговорювалося, — сказав начальник відділу.",
+   "tokens": [
+    {
+     "text": "—",
+     "offset": 0,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "Це",
+     "offset": 2,
+     "norm": "це",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "це"
+    },
+    {
+     "text": "не",
+     "offset": 5,
+     "norm": "не",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "не"
+    },
+    {
+     "text": "обговорювалося",
+     "offset": 8,
+     "norm": "обговорювалося",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "обговорюватися"
+    },
+    {
+     "text": ",",
+     "offset": 22,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "—",
+     "offset": 24,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "сказав",
+     "offset": 26,
+     "norm": "сказав",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "сказати"
+    },
+    {
+     "text": "начальник",
+     "offset": 33,
+     "norm": "начальник",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "начальник"
+    },
+    {
+     "text": "відділу",
+     "offset": 43,
+     "norm": "відділу",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "відділ"
+    },
+    {
+     "text": ".",
+     "offset": 50,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Що? Нічого.",
+   "tokens": [
+    {
+     "text": "Що",
+     "offset": 0,
+     "norm": "що",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "що"
+    },
+    {
+     "text": "?",
+     "offset": 2,
+     "norm": "?",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "?"
+    },
+    {
+     "text": "Нічого",
+     "offset": 4,
+     "norm": "нічого",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "ніщо"
+    },
+    {
+     "text": ".",
+     "offset": 10,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Її ім'я є в списку, ґанок відремонтували торік.",
+   "tokens": [
+    {
+     "text": "Її",
+     "offset": 0,
+     "norm": "її",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "її"
+    },
+    {
+     "text": "ім'я",
+     "offset": 3,
+     "norm": "ім'я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ім'я"
+    },
+    {
+     "text": "є",
+     "offset": 8,
+     "norm": "є",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "бути"
+    },
+    {
+     "text": "в",
+     "offset": 10,
+     "norm": "в",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "в"
+    },
+    {
+     "text": "списку",
+     "offset": 12,
+     "norm": "списку",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "список"
+    },
+    {
+     "text": ",",
+     "offset": 18,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "ґанок",
+     "offset": 20,
+     "norm": "ґанок",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ґанок"
+    },
+    {
+     "text": "відремонтували",
+     "offset": 26,
+     "norm": "відремонтували",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "відремонтувати"
+    },
+    {
+     "text": "торік",
+     "offset": 41,
+     "norm": "торік",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "торік"
+    },
+    {
+     "text": ".",
+     "offset": 46,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Будь-хто коли-небудь це перевіряв?",
+   "tokens": [
+    {
+     "text": "Будь",
+     "offset": 0,
+     "norm": "будь",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "бути"
+    },
+    {
+     "text": "-",
+     "offset": 4,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "-"
+    },
+    {
+     "text": "хто",
+     "offset": 5,
+     "norm": "хто",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "хто"
+    },
+    {
+     "text": "коли",
+     "offset": 9,
+     "norm": "коли",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "коли"
+    },
+    {
+     "text": "-",
+     "offset": 13,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "-"
+    },
+    {
+     "text": "небудь",
+     "offset": 14,
+     "norm": "небудь",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "небути"
+    },
+    {
+     "text": "це",
+     "offset": 21,
+     "norm": "це",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "це"
+    },
+    {
+     "text": "перевіряв",
+     "offset": 24,
+     "norm": "перевіряв",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "перевіряти"
+    },
+    {
+     "text": "?",
+     "offset": 33,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Північно-західний вітер посилився.",
+   "tokens": [
+    {
+     "text": "Північно",
+     "offset": 0,
+     "norm": "північно",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "північно"
+    },
+    {
+     "text": "-",
+     "offset": 8,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "-"
+    },
+    {
+     "text": "західний",
+     "offset": 9,
+     "norm": "західний",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "західний"
+    },
+    {
+     "text": "вітер",
+     "offset": 18,
+     "norm": "вітер",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "вітер"
+    },
+    {
+     "text": "посилився",
+     "offset": 24,
+     "norm": "посилився",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "посилитися"
+    },
+    {
+     "text": ".",
+     "offset": 33,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "ignore::DeprecationWarning",
+   "tokens": [
+    {
+     "text": "ignore::DeprecationWarning",
+     "offset": 0,
+     "norm": "ignore::deprecationwarning",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "ignore::deprecationwarning"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Check that the default uk lemmatizer runs.",
+   "tokens": [
+    {
+     "text": "Check",
+     "offset": 0,
+     "norm": "check",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "check"
+    },
+    {
+     "text": "that",
+     "offset": 6,
+     "norm": "that",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "that"
+    },
+    {
+     "text": "the",
+     "offset": 11,
+     "norm": "the",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "the"
+    },
+    {
+     "text": "default",
+     "offset": 15,
+     "norm": "default",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "default"
+    },
+    {
+     "text": "uk",
+     "offset": 23,
+     "norm": "uk",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "uk"
+    },
+    {
+     "text": "lemmatizer",
+     "offset": 26,
+     "norm": "lemmatizer",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "lemmatizer"
+    },
+    {
+     "text": "runs",
+     "offset": 37,
+     "norm": "runs",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "runs"
+    },
+    {
+     "text": ".",
+     "offset": 41,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "word,lemma",
+   "tokens": [
+    {
+     "text": "word",
+     "offset": 0,
+     "norm": "word",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "word"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "lemma",
+     "offset": 5,
+     "norm": "lemma",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "lemma"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "punct_open,punct_close",
+   "tokens": [
+    {
+     "text": "punct_open",
+     "offset": 0,
+     "norm": "punct_open",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "punct_open"
+    },
+    {
+     "text": ",",
+     "offset": 10,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "punct_close",
+     "offset": 11,
+     "norm": "punct_close",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "punct_close"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 11,
+     "end": 22,
+     "text": "punct_close"
+    }
+   ]
+  },
+  {
+   "text": "punct_open2,punct_close2",
+   "tokens": [
+    {
+     "text": "punct_open2,punct_close2",
+     "offset": 0,
+     "norm": "punct_open2,punct_close2",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "punct_open2,punct_close2"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "(Раз, два, три, проверка).",
+   "tokens": [
+    {
+     "text": "(",
+     "offset": 0,
+     "norm": "(",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "("
+    },
+    {
+     "text": "Раз",
+     "offset": 1,
+     "norm": "раз",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "раз"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "два",
+     "offset": 6,
+     "norm": "два",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "два"
+    },
+    {
+     "text": ",",
+     "offset": 9,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "три",
+     "offset": 11,
+     "norm": "три",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "три"
+    },
+    {
+     "text": ",",
+     "offset": 14,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "проверка",
+     "offset": 16,
+     "norm": "проверка",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "проверка"
+    },
+    {
+     "text": ")",
+     "offset": 24,
+     "norm": ")",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ")"
+    },
+    {
+     "text": ".",
+     "offset": 25,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Хлібі́в не було́. Хлібі́в не було́.",
+   "tokens": [
+    {
+     "text": "Хлібі́в",
+     "offset": 0,
+     "norm": "хлібі́в",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "хлібі́в"
+    },
+    {
+     "text": "не",
+     "offset": 8,
+     "norm": "не",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "не"
+    },
+    {
+     "text": "було́",
+     "offset": 11,
+     "norm": "було́",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "було́"
+    },
+    {
+     "text": ".",
+     "offset": 16,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Хлібі́в",
+     "offset": 18,
+     "norm": "хлібі́в",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "хлібі́в"
+    },
+    {
+     "text": "не",
+     "offset": 26,
+     "norm": "не",
+     "tag": "PART",
+     "pos": "PART",
+     "lemma": "не"
+    },
+    {
+     "text": "було́",
+     "offset": 29,
+     "norm": "було́",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "було́"
+    },
+    {
+     "text": ".",
+     "offset": 34,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "З'єднання",
+   "tokens": [
+    {
+     "text": "З'єднання",
+     "offset": 0,
+     "norm": "з'єднання",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "з'єднання"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "'Тест",
+   "tokens": [
+    {
+     "text": "'",
+     "offset": 0,
+     "norm": "'",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "'"
+    },
+    {
+     "text": "Тест",
+     "offset": 1,
+     "norm": "тест",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "тест"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Тест''",
+   "tokens": [
+    {
+     "text": "Тест",
+     "offset": 0,
+     "norm": "тест",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "тест"
+    },
+    {
+     "text": "''",
+     "offset": 4,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "''"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Привет.",
+   "tokens": [
+    {
+     "text": "Привет",
+     "offset": 0,
+     "norm": "привет",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "привет"
+    },
+    {
+     "text": ".",
+     "offset": 6,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Привіт.",
+   "tokens": [
+    {
+     "text": "Привіт",
+     "offset": 0,
+     "norm": "привіт",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "привіт"
+    },
+    {
+     "text": ".",
+     "offset": 6,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Ґелґотати.",
+   "tokens": [
+    {
+     "text": "Ґелґотати",
+     "offset": 0,
+     "norm": "ґелґотати",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "ґелґотати"
+    },
+    {
+     "text": ".",
+     "offset": 9,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "З'єднання.",
+   "tokens": [
+    {
+     "text": "З'єднання",
+     "offset": 0,
+     "norm": "з'єднання",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "з'єднання"
+    },
+    {
+     "text": ".",
+     "offset": 9,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Єдність.",
+   "tokens": [
+    {
+     "text": "Єдність",
+     "offset": 0,
+     "norm": "єдність",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "єдність"
+    },
+    {
+     "text": ".",
+     "offset": 7,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "їхні.",
+   "tokens": [
+    {
+     "text": "їхні",
+     "offset": 0,
+     "norm": "їхні",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "їхній"
+    },
+    {
+     "text": ".",
+     "offset": 4,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "text,norms,lemmas",
+   "tokens": [
+    {
+     "text": "text",
+     "offset": 0,
+     "norm": "text",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "text"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "norms",
+     "offset": 5,
+     "norm": "norms",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "norms"
+    },
+    {
+     "text": ",",
+     "offset": 10,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "lemmas",
+     "offset": 11,
+     "norm": "lemmas",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "lemmas"
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 5,
+     "end": 10,
+     "text": "norms"
+    }
+   ]
+  },
+  {
+   "text": "проф.",
+   "tokens": [
+    {
+     "text": "проф.",
+     "offset": 0,
+     "norm": "професор",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "проф."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "ім'я",
+   "tokens": [
+    {
+     "text": "ім'я",
+     "offset": 0,
+     "norm": "ім'я",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ім'я"
+    }
+   ],
+   "entities": []
+  }
+ ]
+}

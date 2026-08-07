@@ -173,21 +173,77 @@ func murmurHash64A(_ bytes: [UInt8], _ seed: UInt64 = 1) -> UInt64 {
 }
 
 // ============================ lexical attributes ============================
+//
+// All three iterate **Unicode scalars**, not Swift `Character`s, because that is
+// what Python does and these feed the model as features.
+//
+// The two agree on ASCII and diverge the moment a combining mark appears. In
+// `рекоменду́я` the acute is its own codepoint, so spaCy sees eleven characters
+// and shapes it `xxxx́x`, while a `Character` loop sees ten grapheme clusters
+// and shapes it `xxxxx`. Likewise `suffix_` is the last three *codepoints*,
+// `у́я`, where `String.suffix(3)` returns three clusters, `ду́я`. Different
+// features, different embedding rows, different predictions -- which showed up
+// as thirteen spurious Russian entities on spaCy's own stress-mark tests and
+// would equally affect accented text in any language.
+
+/// Python's `str.isalpha()` for one scalar: the five letter categories, and
+/// *not* `Other_Alphabetic` — which Swift's `properties.isAlphabetic` includes,
+/// and which covers exactly the combining marks this needs to treat as
+/// non-letters.
+@inline(__always) func pyIsAlpha(_ scalar: Unicode.Scalar) -> Bool {
+    switch scalar.properties.generalCategory {
+    case .uppercaseLetter, .lowercaseLetter, .titlecaseLetter,
+         .modifierLetter, .otherLetter:
+        return true
+    default:
+        return false
+    }
+}
+
+/// Python's `str.isdigit()`: decimal digits plus `Numeric_Type=Digit`, which is
+/// how `²` counts as a digit and `½` does not.
+@inline(__always) func pyIsDigit(_ scalar: Unicode.Scalar) -> Bool {
+    switch scalar.properties.numericType {
+    case .decimal, .digit: return true
+    default: return false
+    }
+}
+
+@inline(__always) func pyIsUpper(_ scalar: Unicode.Scalar) -> Bool {
+    scalar.properties.generalCategory == .uppercaseLetter
+}
+
+/// Port of spaCy's `word_shape`.
 func wordShape(_ s: String) -> String {
-    if s.count >= 100 { return "LONG" }
-    var out = ""; var last: Character = "\0"; var seq = 0; var started = false
-    for ch in s {
-        let sc: Character
-        if ch.isLetter { sc = ch.isUppercase ? "X" : "x" }
-        else if ch.isNumber { sc = "d" }
-        else { sc = ch }
+    let scalars = s.unicodeScalars
+    if scalars.count >= 100 { return "LONG" }
+    var out = String.UnicodeScalarView()
+    var last: Unicode.Scalar = "\0"
+    var seq = 0
+    var started = false
+    for scalar in scalars {
+        let sc: Unicode.Scalar
+        if pyIsAlpha(scalar) { sc = pyIsUpper(scalar) ? "X" : "x" }
+        else if pyIsDigit(scalar) { sc = "d" }
+        else { sc = scalar }
         if started && sc == last { seq += 1 } else { seq = 0; last = sc; started = true }
         if seq < 4 { out.append(sc) }
     }
-    return out
+    return String(out)
 }
-func lexPrefix(_ s: String) -> String { String(s.first!) }
-func lexSuffix(_ s: String) -> String { s.count <= 3 ? s : String(s.suffix(3)) }
+
+/// `token.prefix_`: the first codepoint.
+func lexPrefix(_ s: String) -> String {
+    guard let first = s.unicodeScalars.first else { return "" }
+    return String(String.UnicodeScalarView([first]))
+}
+
+/// `token.suffix_`: the last three codepoints.
+func lexSuffix(_ s: String) -> String {
+    let scalars = s.unicodeScalars
+    if scalars.count <= 3 { return s }
+    return String(String.UnicodeScalarView(scalars.suffix(3)))
+}
 
 // The matrix multiply lives in GEMM.swift, which is where the optional
 // Accelerate path is selected.
