@@ -1,0 +1,5752 @@
+{
+ "model": "fr_core_news_sm-3.7.0",
+ "spacy_version": "3.7.5",
+ "cases": [
+  {
+   "text": "Le Dr Jean Dupont reçoit le mardi à l'hôpital Saint-Louis.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "Dr",
+     "offset": 3,
+     "norm": "dr",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "dr"
+    },
+    {
+     "text": "Jean",
+     "offset": 6,
+     "norm": "jean",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Jean"
+    },
+    {
+     "text": "Dupont",
+     "offset": 11,
+     "norm": "dupont",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "dupont"
+    },
+    {
+     "text": "reçoit",
+     "offset": 18,
+     "norm": "reçoit",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "recevoir"
+    },
+    {
+     "text": "le",
+     "offset": 25,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "mardi",
+     "offset": 28,
+     "norm": "mardi",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "mardi"
+    },
+    {
+     "text": "à",
+     "offset": 34,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "l'",
+     "offset": 36,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "hôpital",
+     "offset": 38,
+     "norm": "hôpital",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "hôpital"
+    },
+    {
+     "text": "Saint-Louis",
+     "offset": 46,
+     "norm": "saint-louis",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Saint-Louis"
+    },
+    {
+     "text": ".",
+     "offset": 57,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 3,
+     "end": 17,
+     "text": "Dr Jean Dupont"
+    },
+    {
+     "label": "LOC",
+     "start": 38,
+     "end": 57,
+     "text": "hôpital Saint-Louis"
+    }
+   ]
+  },
+  {
+   "text": "Mme Marie Lefèvre a signé le contrat le 3 mars 2021.",
+   "tokens": [
+    {
+     "text": "Mme",
+     "offset": 0,
+     "norm": "mme",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "mme"
+    },
+    {
+     "text": "Marie",
+     "offset": 4,
+     "norm": "marie",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Marie"
+    },
+    {
+     "text": "Lefèvre",
+     "offset": 10,
+     "norm": "lefèvre",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Lefèvre"
+    },
+    {
+     "text": "a",
+     "offset": 18,
+     "norm": "a",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "signé",
+     "offset": 20,
+     "norm": "signé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "signer"
+    },
+    {
+     "text": "le",
+     "offset": 26,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "contrat",
+     "offset": 29,
+     "norm": "contrat",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "contrat"
+    },
+    {
+     "text": "le",
+     "offset": 37,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "3",
+     "offset": 40,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": "mars",
+     "offset": 42,
+     "norm": "mars",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "mars"
+    },
+    {
+     "text": "2021",
+     "offset": 47,
+     "norm": "2021",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "2021"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 17,
+     "text": "Mme Marie Lefèvre"
+    }
+   ]
+  },
+  {
+   "text": "M. Pierre-Yves Le Gall enseigne à l'université de Lyon.",
+   "tokens": [
+    {
+     "text": "M.",
+     "offset": 0,
+     "norm": "m.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "m."
+    },
+    {
+     "text": "Pierre-Yves",
+     "offset": 3,
+     "norm": "pierre-yves",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Pierre-Yves"
+    },
+    {
+     "text": "Le",
+     "offset": 15,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "Gall",
+     "offset": 18,
+     "norm": "gall",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "gall"
+    },
+    {
+     "text": "enseigne",
+     "offset": 23,
+     "norm": "enseigne",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "enseign"
+    },
+    {
+     "text": "à",
+     "offset": 32,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "l'",
+     "offset": 34,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "université",
+     "offset": 36,
+     "norm": "université",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "université"
+    },
+    {
+     "text": "de",
+     "offset": 47,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Lyon",
+     "offset": 50,
+     "norm": "lyon",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Lyon"
+    },
+    {
+     "text": ".",
+     "offset": 54,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 36,
+     "end": 54,
+     "text": "université de Lyon"
+    }
+   ]
+  },
+  {
+   "text": "Le patient, M. Luc Moreau, est né le 14/02/1978 à Bordeaux.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "patient",
+     "offset": 3,
+     "norm": "patient",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "patient"
+    },
+    {
+     "text": ",",
+     "offset": 10,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "M.",
+     "offset": 12,
+     "norm": "m.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "m."
+    },
+    {
+     "text": "Luc",
+     "offset": 15,
+     "norm": "luc",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Luc"
+    },
+    {
+     "text": "Moreau",
+     "offset": 19,
+     "norm": "moreau",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Moreau"
+    },
+    {
+     "text": ",",
+     "offset": 25,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "est",
+     "offset": 27,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "né",
+     "offset": 31,
+     "norm": "né",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "naître"
+    },
+    {
+     "text": "le",
+     "offset": 34,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "14/02/1978",
+     "offset": 37,
+     "norm": "14/02/1978",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "14/02/1978"
+    },
+    {
+     "text": "à",
+     "offset": 48,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "Bordeaux",
+     "offset": 50,
+     "norm": "bordeaux",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Bordeaux"
+    },
+    {
+     "text": ".",
+     "offset": 58,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 12,
+     "end": 14,
+     "text": "M."
+    },
+    {
+     "label": "PER",
+     "start": 15,
+     "end": 25,
+     "text": "Luc Moreau"
+    },
+    {
+     "label": "LOC",
+     "start": 50,
+     "end": 58,
+     "text": "Bordeaux"
+    }
+   ]
+  },
+  {
+   "text": "Madame la Directrice, je vous remercie de votre courrier du 12 mai.",
+   "tokens": [
+    {
+     "text": "Madame",
+     "offset": 0,
+     "norm": "madame",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "monsieur"
+    },
+    {
+     "text": "la",
+     "offset": 7,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "Directrice",
+     "offset": 10,
+     "norm": "directrice",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "directrice"
+    },
+    {
+     "text": ",",
+     "offset": 20,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "je",
+     "offset": 22,
+     "norm": "je",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "vous",
+     "offset": 25,
+     "norm": "vous",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "vous"
+    },
+    {
+     "text": "remercie",
+     "offset": 30,
+     "norm": "remercie",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "remercier"
+    },
+    {
+     "text": "de",
+     "offset": 39,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "votre",
+     "offset": 42,
+     "norm": "votre",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "votre"
+    },
+    {
+     "text": "courrier",
+     "offset": 48,
+     "norm": "courrier",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "courrier"
+    },
+    {
+     "text": "du",
+     "offset": 57,
+     "norm": "du",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "12",
+     "offset": 60,
+     "norm": "12",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": "mai",
+     "offset": 63,
+     "norm": "mai",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "mai"
+    },
+    {
+     "text": ".",
+     "offset": 66,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 20,
+     "text": "Madame la Directrice"
+    }
+   ]
+  },
+  {
+   "text": "La société Renault SA et BNP Paribas ont signé l'accord à Paris.",
+   "tokens": [
+    {
+     "text": "La",
+     "offset": 0,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "société",
+     "offset": 3,
+     "norm": "société",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "société"
+    },
+    {
+     "text": "Renault",
+     "offset": 11,
+     "norm": "renault",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Renault"
+    },
+    {
+     "text": "SA",
+     "offset": 19,
+     "norm": "sa",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "son"
+    },
+    {
+     "text": "et",
+     "offset": 22,
+     "norm": "et",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "et"
+    },
+    {
+     "text": "BNP",
+     "offset": 25,
+     "norm": "bnp",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "BNP"
+    },
+    {
+     "text": "Paribas",
+     "offset": 29,
+     "norm": "paribas",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Paribas"
+    },
+    {
+     "text": "ont",
+     "offset": 37,
+     "norm": "ont",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "signé",
+     "offset": 41,
+     "norm": "signé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "signer"
+    },
+    {
+     "text": "l'",
+     "offset": 47,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "accord",
+     "offset": 49,
+     "norm": "accord",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "accord"
+    },
+    {
+     "text": "à",
+     "offset": 56,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "Paris",
+     "offset": 58,
+     "norm": "paris",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Paris"
+    },
+    {
+     "text": ".",
+     "offset": 63,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 11,
+     "end": 21,
+     "text": "Renault SA"
+    },
+    {
+     "label": "ORG",
+     "start": 25,
+     "end": 36,
+     "text": "BNP Paribas"
+    },
+    {
+     "label": "LOC",
+     "start": 58,
+     "end": 63,
+     "text": "Paris"
+    }
+   ]
+  },
+  {
+   "text": "L'entreprise Dupont & Fils SARL a son siège à Nantes.",
+   "tokens": [
+    {
+     "text": "L'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "entreprise",
+     "offset": 2,
+     "norm": "entreprise",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "entreprise"
+    },
+    {
+     "text": "Dupont",
+     "offset": 13,
+     "norm": "dupont",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Dupont"
+    },
+    {
+     "text": "&",
+     "offset": 20,
+     "norm": "&",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "et"
+    },
+    {
+     "text": "Fils",
+     "offset": 22,
+     "norm": "fils",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "fils"
+    },
+    {
+     "text": "SARL",
+     "offset": 27,
+     "norm": "sarl",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "SARL"
+    },
+    {
+     "text": "a",
+     "offset": 32,
+     "norm": "a",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "avoir"
+    },
+    {
+     "text": "son",
+     "offset": 34,
+     "norm": "son",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "son"
+    },
+    {
+     "text": "siège",
+     "offset": 38,
+     "norm": "siège",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "siège"
+    },
+    {
+     "text": "à",
+     "offset": 44,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "Nantes",
+     "offset": 46,
+     "norm": "nantes",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Nantes"
+    },
+    {
+     "text": ".",
+     "offset": 52,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 13,
+     "end": 31,
+     "text": "Dupont & Fils SARL"
+    },
+    {
+     "label": "LOC",
+     "start": 46,
+     "end": 52,
+     "text": "Nantes"
+    }
+   ]
+  },
+  {
+   "text": "Le ministère de l'Économie a publié le décret.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "ministère",
+     "offset": 3,
+     "norm": "ministère",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ministère"
+    },
+    {
+     "text": "de",
+     "offset": 13,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "l'",
+     "offset": 16,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "Économie",
+     "offset": 18,
+     "norm": "économie",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "économie"
+    },
+    {
+     "text": "a",
+     "offset": 27,
+     "norm": "a",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "publié",
+     "offset": 29,
+     "norm": "publié",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "publier"
+    },
+    {
+     "text": "le",
+     "offset": 36,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "décret",
+     "offset": 39,
+     "norm": "décret",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "décret"
+    },
+    {
+     "text": ".",
+     "offset": 45,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 3,
+     "end": 26,
+     "text": "ministère de l'Économie"
+    }
+   ]
+  },
+  {
+   "text": "Il est allé de Strasbourg à Marseille en passant par Dijon.",
+   "tokens": [
+    {
+     "text": "Il",
+     "offset": 0,
+     "norm": "il",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "il"
+    },
+    {
+     "text": "est",
+     "offset": 3,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "allé",
+     "offset": 7,
+     "norm": "allé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "aller"
+    },
+    {
+     "text": "de",
+     "offset": 12,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Strasbourg",
+     "offset": 15,
+     "norm": "strasbourg",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Strasbourg"
+    },
+    {
+     "text": "à",
+     "offset": 26,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "Marseille",
+     "offset": 28,
+     "norm": "marseille",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Marseille"
+    },
+    {
+     "text": "en",
+     "offset": 38,
+     "norm": "en",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "en"
+    },
+    {
+     "text": "passant",
+     "offset": 41,
+     "norm": "passant",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "passer"
+    },
+    {
+     "text": "par",
+     "offset": 49,
+     "norm": "par",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "par"
+    },
+    {
+     "text": "Dijon",
+     "offset": 53,
+     "norm": "dijon",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Dijon"
+    },
+    {
+     "text": ".",
+     "offset": 58,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 15,
+     "end": 25,
+     "text": "Strasbourg"
+    },
+    {
+     "label": "LOC",
+     "start": 28,
+     "end": 37,
+     "text": "Marseille"
+    },
+    {
+     "label": "LOC",
+     "start": 53,
+     "end": 58,
+     "text": "Dijon"
+    }
+   ]
+  },
+  {
+   "text": "Le siège social est à Aix-en-Provence.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "siège",
+     "offset": 3,
+     "norm": "siège",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "siège"
+    },
+    {
+     "text": "social",
+     "offset": 9,
+     "norm": "social",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "social"
+    },
+    {
+     "text": "est",
+     "offset": 16,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "à",
+     "offset": 20,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "Aix-en-Provence",
+     "offset": 22,
+     "norm": "aix-en-provence",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Aix-en-Provence"
+    },
+    {
+     "text": ".",
+     "offset": 37,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 22,
+     "end": 37,
+     "text": "Aix-en-Provence"
+    }
+   ]
+  },
+  {
+   "text": "Le mont Blanc se situe à la frontière franco-italienne.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "mont",
+     "offset": 3,
+     "norm": "mont",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "mont"
+    },
+    {
+     "text": "Blanc",
+     "offset": 8,
+     "norm": "blanc",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "blanc"
+    },
+    {
+     "text": "se",
+     "offset": 14,
+     "norm": "se",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "se"
+    },
+    {
+     "text": "situe",
+     "offset": 17,
+     "norm": "situe",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "situer"
+    },
+    {
+     "text": "à",
+     "offset": 23,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "la",
+     "offset": 25,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "frontière",
+     "offset": 28,
+     "norm": "frontière",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "frontière"
+    },
+    {
+     "text": "franco-italienne",
+     "offset": 38,
+     "norm": "franco-italienne",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "franco-italien"
+    },
+    {
+     "text": ".",
+     "offset": 54,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 3,
+     "end": 13,
+     "text": "mont Blanc"
+    }
+   ]
+  },
+  {
+   "text": "Vous pouvez m'écrire à anne.martin@exemple.fr ou appeler le +33 1 42 68 53 00.",
+   "tokens": [
+    {
+     "text": "Vous",
+     "offset": 0,
+     "norm": "vous",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "vous"
+    },
+    {
+     "text": "pouvez",
+     "offset": 5,
+     "norm": "pouvez",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "pouvoir"
+    },
+    {
+     "text": "m'",
+     "offset": 12,
+     "norm": "m'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "me"
+    },
+    {
+     "text": "écrire",
+     "offset": 14,
+     "norm": "écrire",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "écrire"
+    },
+    {
+     "text": "à",
+     "offset": 21,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "anne.martin@exemple.fr",
+     "offset": 23,
+     "norm": "anne.martin@exemple.fr",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "anne.martin@exemple.fr"
+    },
+    {
+     "text": "ou",
+     "offset": 46,
+     "norm": "ou",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "ou"
+    },
+    {
+     "text": "appeler",
+     "offset": 49,
+     "norm": "appeler",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "appeler"
+    },
+    {
+     "text": "le",
+     "offset": 57,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "+33",
+     "offset": 60,
+     "norm": "+33",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "+33"
+    },
+    {
+     "text": "1",
+     "offset": 64,
+     "norm": "1",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "1"
+    },
+    {
+     "text": "42",
+     "offset": 66,
+     "norm": "42",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "42"
+    },
+    {
+     "text": "68",
+     "offset": 69,
+     "norm": "68",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "68"
+    },
+    {
+     "text": "53",
+     "offset": 72,
+     "norm": "53",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "53"
+    },
+    {
+     "text": "00",
+     "offset": 75,
+     "norm": "00",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "00"
+    },
+    {
+     "text": ".",
+     "offset": 77,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Mon numéro est le 01 42 68 53 00, le portable 06 12 34 56 78.",
+   "tokens": [
+    {
+     "text": "Mon",
+     "offset": 0,
+     "norm": "mon",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "mon"
+    },
+    {
+     "text": "numéro",
+     "offset": 4,
+     "norm": "numéro",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "numéro"
+    },
+    {
+     "text": "est",
+     "offset": 11,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "le",
+     "offset": 15,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "01",
+     "offset": 18,
+     "norm": "01",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "01"
+    },
+    {
+     "text": "42",
+     "offset": 21,
+     "norm": "42",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "42"
+    },
+    {
+     "text": "68",
+     "offset": 24,
+     "norm": "68",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "68"
+    },
+    {
+     "text": "53",
+     "offset": 27,
+     "norm": "53",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "53"
+    },
+    {
+     "text": "00",
+     "offset": 30,
+     "norm": "00",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "00"
+    },
+    {
+     "text": ",",
+     "offset": 32,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "le",
+     "offset": 34,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "portable",
+     "offset": 37,
+     "norm": "portable",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "portable"
+    },
+    {
+     "text": "06",
+     "offset": 46,
+     "norm": "06",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "06"
+    },
+    {
+     "text": "12",
+     "offset": 49,
+     "norm": "12",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "12"
+    },
+    {
+     "text": "34",
+     "offset": 52,
+     "norm": "34",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "34"
+    },
+    {
+     "text": "56",
+     "offset": 55,
+     "norm": "56",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "56"
+    },
+    {
+     "text": "78",
+     "offset": 58,
+     "norm": "78",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "78"
+    },
+    {
+     "text": ".",
+     "offset": 60,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Le serveur répond sur 192.168.0.14 et la documentation est sur https://exemple.fr/aide.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "serveur",
+     "offset": 3,
+     "norm": "serveur",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "serveur"
+    },
+    {
+     "text": "répond",
+     "offset": 11,
+     "norm": "répond",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "répondre"
+    },
+    {
+     "text": "sur",
+     "offset": 18,
+     "norm": "sur",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "sur"
+    },
+    {
+     "text": "192.168.0.14",
+     "offset": 22,
+     "norm": "192.168.0.14",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "192.168.0.14"
+    },
+    {
+     "text": "et",
+     "offset": 35,
+     "norm": "et",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "et"
+    },
+    {
+     "text": "la",
+     "offset": 38,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "documentation",
+     "offset": 41,
+     "norm": "documentation",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "documentation"
+    },
+    {
+     "text": "est",
+     "offset": 55,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "sur",
+     "offset": 59,
+     "norm": "sur",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "sur"
+    },
+    {
+     "text": "https://exemple.fr/aide",
+     "offset": 63,
+     "norm": "https://exemple.fr/aide",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "https://exemple.fr/aide"
+    },
+    {
+     "text": ".",
+     "offset": 86,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 63,
+     "end": 86,
+     "text": "https://exemple.fr/aide"
+    }
+   ]
+  },
+  {
+   "text": "Effectuez le virement sur FR14 2004 1010 0505 0001 3M02 606.",
+   "tokens": [
+    {
+     "text": "Effectuez",
+     "offset": 0,
+     "norm": "effectuez",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "effectuer"
+    },
+    {
+     "text": "le",
+     "offset": 10,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "virement",
+     "offset": 13,
+     "norm": "virement",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "virement"
+    },
+    {
+     "text": "sur",
+     "offset": 22,
+     "norm": "sur",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "sur"
+    },
+    {
+     "text": "FR14",
+     "offset": 26,
+     "norm": "fr14",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "FR14"
+    },
+    {
+     "text": "2004",
+     "offset": 31,
+     "norm": "2004",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "2004"
+    },
+    {
+     "text": "1010",
+     "offset": 36,
+     "norm": "1010",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1010"
+    },
+    {
+     "text": "0505",
+     "offset": 41,
+     "norm": "0505",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "0505"
+    },
+    {
+     "text": "0001",
+     "offset": 46,
+     "norm": "0001",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "0001"
+    },
+    {
+     "text": "3M02",
+     "offset": 51,
+     "norm": "3m02",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "3m02"
+    },
+    {
+     "text": "606",
+     "offset": 56,
+     "norm": "606",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "606"
+    },
+    {
+     "text": ".",
+     "offset": 59,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 26,
+     "end": 30,
+     "text": "FR14"
+    }
+   ]
+  },
+  {
+   "text": "Le délai a expiré le 31/12/2023 à 23h59.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "délai",
+     "offset": 3,
+     "norm": "délai",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "délai"
+    },
+    {
+     "text": "a",
+     "offset": 9,
+     "norm": "a",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "expiré",
+     "offset": 11,
+     "norm": "expiré",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "expirer"
+    },
+    {
+     "text": "le",
+     "offset": 18,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "31/12/2023",
+     "offset": 21,
+     "norm": "31/12/2023",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "31/12/2023"
+    },
+    {
+     "text": "à",
+     "offset": 32,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "23h59",
+     "offset": 34,
+     "norm": "23h59",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "23h59"
+    },
+    {
+     "text": ".",
+     "offset": 39,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Le montant de 1 234,56 EUR a été crédité le 5 juin.",
+   "tokens": [
+    {
+     "text": "Le",
+     "offset": 0,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "montant",
+     "offset": 3,
+     "norm": "montant",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "montant"
+    },
+    {
+     "text": "de",
+     "offset": 11,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "1",
+     "offset": 14,
+     "norm": "1",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1"
+    },
+    {
+     "text": "234,56",
+     "offset": 16,
+     "norm": "234,56",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "234,56"
+    },
+    {
+     "text": "EUR",
+     "offset": 23,
+     "norm": "eur",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "eur"
+    },
+    {
+     "text": "a",
+     "offset": 27,
+     "norm": "a",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "été",
+     "offset": 29,
+     "norm": "été",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "crédité",
+     "offset": 33,
+     "norm": "crédité",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "créditer"
+    },
+    {
+     "text": "le",
+     "offset": 41,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "5",
+     "offset": 44,
+     "norm": "5",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "5"
+    },
+    {
+     "text": "juin",
+     "offset": 46,
+     "norm": "juin",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "juin"
+    },
+    {
+     "text": ".",
+     "offset": 50,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 23,
+     "end": 26,
+     "text": "EUR"
+    }
+   ]
+  },
+  {
+   "text": "Au troisième trimestre, les ventes ont augmenté de 12,5 pour cent.",
+   "tokens": [
+    {
+     "text": "Au",
+     "offset": 0,
+     "norm": "au",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "au"
+    },
+    {
+     "text": "troisième",
+     "offset": 3,
+     "norm": "troisième",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "troisième"
+    },
+    {
+     "text": "trimestre",
+     "offset": 13,
+     "norm": "trimestre",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "trimestre"
+    },
+    {
+     "text": ",",
+     "offset": 22,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "les",
+     "offset": 24,
+     "norm": "les",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "ventes",
+     "offset": 28,
+     "norm": "ventes",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "vente"
+    },
+    {
+     "text": "ont",
+     "offset": 35,
+     "norm": "ont",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "augmenté",
+     "offset": 39,
+     "norm": "augmenté",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "augmenter"
+    },
+    {
+     "text": "de",
+     "offset": 48,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "12,5",
+     "offset": 51,
+     "norm": "12,5",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "12,5"
+    },
+    {
+     "text": "pour",
+     "offset": 56,
+     "norm": "pour",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "pour"
+    },
+    {
+     "text": "cent",
+     "offset": 61,
+     "norm": "cent",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "cent"
+    },
+    {
+     "text": ".",
+     "offset": 65,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "La réunion se tiendra de 9h30 à 17h00.",
+   "tokens": [
+    {
+     "text": "La",
+     "offset": 0,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "réunion",
+     "offset": 3,
+     "norm": "réunion",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "réunion"
+    },
+    {
+     "text": "se",
+     "offset": 11,
+     "norm": "se",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "se"
+    },
+    {
+     "text": "tiendra",
+     "offset": 14,
+     "norm": "tiendra",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "tenir"
+    },
+    {
+     "text": "de",
+     "offset": 22,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "9h30",
+     "offset": 25,
+     "norm": "9h30",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "9h30"
+    },
+    {
+     "text": "à",
+     "offset": 30,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "17h00",
+     "offset": 32,
+     "norm": "17h00",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "17h00"
+    },
+    {
+     "text": ".",
+     "offset": 37,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Cela vaut p. ex. pour les contrats antérieurs à 2020.",
+   "tokens": [
+    {
+     "text": "Cela",
+     "offset": 0,
+     "norm": "cela",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "celer"
+    },
+    {
+     "text": "vaut",
+     "offset": 5,
+     "norm": "vaut",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "valoir"
+    },
+    {
+     "text": "p.",
+     "offset": 10,
+     "norm": "p.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "p."
+    },
+    {
+     "text": "ex",
+     "offset": 13,
+     "norm": "ex",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "ex"
+    },
+    {
+     "text": ".",
+     "offset": 15,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "pour",
+     "offset": 17,
+     "norm": "pour",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "pour"
+    },
+    {
+     "text": "les",
+     "offset": 22,
+     "norm": "les",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "contrats",
+     "offset": 26,
+     "norm": "contrats",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "contrat"
+    },
+    {
+     "text": "antérieurs",
+     "offset": 35,
+     "norm": "antérieurs",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "antérieur"
+    },
+    {
+     "text": "à",
+     "offset": 46,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "2020",
+     "offset": 48,
+     "norm": "2020",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "2020"
+    },
+    {
+     "text": ".",
+     "offset": 52,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Apportez votre carte d'identité, la carte vitale, etc. au rendez-vous.",
+   "tokens": [
+    {
+     "text": "Apportez",
+     "offset": 0,
+     "norm": "apportez",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "apporter"
+    },
+    {
+     "text": "votre",
+     "offset": 9,
+     "norm": "votre",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "votre"
+    },
+    {
+     "text": "carte",
+     "offset": 15,
+     "norm": "carte",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "carte"
+    },
+    {
+     "text": "d'",
+     "offset": 21,
+     "norm": "d'",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "identité",
+     "offset": 23,
+     "norm": "identité",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "identité"
+    },
+    {
+     "text": ",",
+     "offset": 31,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "la",
+     "offset": 33,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "carte",
+     "offset": 36,
+     "norm": "carte",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "carte"
+    },
+    {
+     "text": "vitale",
+     "offset": 42,
+     "norm": "vitale",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "vital"
+    },
+    {
+     "text": ",",
+     "offset": 48,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "etc.",
+     "offset": 50,
+     "norm": "etc.",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "etc."
+    },
+    {
+     "text": "au",
+     "offset": 55,
+     "norm": "au",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "au"
+    },
+    {
+     "text": "rendez-vous",
+     "offset": 58,
+     "norm": "rendez-vous",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "rendez-vous"
+    },
+    {
+     "text": ".",
+     "offset": 69,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 8,
+     "text": "Apportez"
+    }
+   ]
+  },
+  {
+   "text": "L'adresse est 12, rue de la République, 75011 Paris.",
+   "tokens": [
+    {
+     "text": "L'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "adresse",
+     "offset": 2,
+     "norm": "adresse",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "adresse"
+    },
+    {
+     "text": "est",
+     "offset": 10,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "12",
+     "offset": 14,
+     "norm": "12",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "12"
+    },
+    {
+     "text": ",",
+     "offset": 16,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "rue",
+     "offset": 18,
+     "norm": "rue",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "rue"
+    },
+    {
+     "text": "de",
+     "offset": 22,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "la",
+     "offset": 25,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "République",
+     "offset": 28,
+     "norm": "république",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "république"
+    },
+    {
+     "text": ",",
+     "offset": 38,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "75011",
+     "offset": 40,
+     "norm": "75011",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "75011"
+    },
+    {
+     "text": "Paris",
+     "offset": 46,
+     "norm": "paris",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Paris"
+    },
+    {
+     "text": ".",
+     "offset": 51,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 18,
+     "end": 38,
+     "text": "rue de la République"
+    },
+    {
+     "label": "LOC",
+     "start": 46,
+     "end": 51,
+     "text": "Paris"
+    }
+   ]
+  },
+  {
+   "text": "Cf. l'art. 12 du Règlement, al. 3.",
+   "tokens": [
+    {
+     "text": "Cf",
+     "offset": 0,
+     "norm": "cf",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Cf"
+    },
+    {
+     "text": ".",
+     "offset": 2,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "l'",
+     "offset": 4,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "art",
+     "offset": 6,
+     "norm": "art",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "art"
+    },
+    {
+     "text": ".",
+     "offset": 9,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "12",
+     "offset": 11,
+     "norm": "12",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "12"
+    },
+    {
+     "text": "du",
+     "offset": 14,
+     "norm": "du",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Règlement",
+     "offset": 17,
+     "norm": "règlement",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "règlement"
+    },
+    {
+     "text": ",",
+     "offset": 26,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "al",
+     "offset": 28,
+     "norm": "al",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "al"
+    },
+    {
+     "text": ".",
+     "offset": 30,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "3",
+     "offset": 32,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": ".",
+     "offset": 33,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 17,
+     "end": 26,
+     "text": "Règlement"
+    }
+   ]
+  },
+  {
+   "text": "L'entreprise de l'ingénieur est aujourd'hui fermée.",
+   "tokens": [
+    {
+     "text": "L'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "entreprise",
+     "offset": 2,
+     "norm": "entreprise",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "entreprise"
+    },
+    {
+     "text": "de",
+     "offset": 13,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "l'",
+     "offset": 16,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "ingénieur",
+     "offset": 18,
+     "norm": "ingénieur",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ingénieur"
+    },
+    {
+     "text": "est",
+     "offset": 28,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "aujourd'hui",
+     "offset": 32,
+     "norm": "aujourd'hui",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "aujourd'hui"
+    },
+    {
+     "text": "fermée",
+     "offset": 44,
+     "norm": "fermée",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "fermé"
+    },
+    {
+     "text": ".",
+     "offset": 50,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Qu'est-ce qu'il a dit ? Je n'en sais rien.",
+   "tokens": [
+    {
+     "text": "Qu'",
+     "offset": 0,
+     "norm": "qu'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "que"
+    },
+    {
+     "text": "est",
+     "offset": 3,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "-ce",
+     "offset": 6,
+     "norm": "-ce",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "-ce"
+    },
+    {
+     "text": "qu'",
+     "offset": 10,
+     "norm": "qu'",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "que"
+    },
+    {
+     "text": "il",
+     "offset": 13,
+     "norm": "il",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "il"
+    },
+    {
+     "text": "a",
+     "offset": 16,
+     "norm": "a",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "dit",
+     "offset": 18,
+     "norm": "dit",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "dire"
+    },
+    {
+     "text": "?",
+     "offset": 22,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "Je",
+     "offset": 24,
+     "norm": "je",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "n'",
+     "offset": 27,
+     "norm": "n'",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "ne"
+    },
+    {
+     "text": "en",
+     "offset": 29,
+     "norm": "en",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "en"
+    },
+    {
+     "text": "sais",
+     "offset": 32,
+     "norm": "sais",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "sai"
+    },
+    {
+     "text": "rien",
+     "offset": 37,
+     "norm": "rien",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "rien"
+    },
+    {
+     "text": ".",
+     "offset": 41,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "J'ai vu l'homme dont je t'ai parlé.",
+   "tokens": [
+    {
+     "text": "J'",
+     "offset": 0,
+     "norm": "j'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "ai",
+     "offset": 2,
+     "norm": "ai",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "vu",
+     "offset": 5,
+     "norm": "vu",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "voir"
+    },
+    {
+     "text": "l'",
+     "offset": 8,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "homme",
+     "offset": 10,
+     "norm": "homme",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "homme"
+    },
+    {
+     "text": "dont",
+     "offset": 16,
+     "norm": "dont",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "dont"
+    },
+    {
+     "text": "je",
+     "offset": 21,
+     "norm": "je",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "t'",
+     "offset": 24,
+     "norm": "t'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "te"
+    },
+    {
+     "text": "ai",
+     "offset": 26,
+     "norm": "ai",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "parlé",
+     "offset": 29,
+     "norm": "parlé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "parler"
+    },
+    {
+     "text": ".",
+     "offset": 34,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "C'est-à-dire qu'aucune décision n'a été prise.",
+   "tokens": [
+    {
+     "text": "C'",
+     "offset": 0,
+     "norm": "c'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "ce"
+    },
+    {
+     "text": "est",
+     "offset": 2,
+     "norm": "est",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "est"
+    },
+    {
+     "text": "-",
+     "offset": 5,
+     "norm": "-",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "-"
+    },
+    {
+     "text": "à",
+     "offset": 6,
+     "norm": "à",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "à"
+    },
+    {
+     "text": "-",
+     "offset": 7,
+     "norm": "-",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "-"
+    },
+    {
+     "text": "dire",
+     "offset": 8,
+     "norm": "dire",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "dire"
+    },
+    {
+     "text": "qu'",
+     "offset": 13,
+     "norm": "qu'",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "que"
+    },
+    {
+     "text": "aucune",
+     "offset": 16,
+     "norm": "aucune",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "aucun"
+    },
+    {
+     "text": "décision",
+     "offset": 23,
+     "norm": "décision",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "décision"
+    },
+    {
+     "text": "n'",
+     "offset": 32,
+     "norm": "n'",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "ne"
+    },
+    {
+     "text": "a",
+     "offset": 34,
+     "norm": "a",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "été",
+     "offset": 36,
+     "norm": "été",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "prise",
+     "offset": 40,
+     "norm": "prise",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "prendre"
+    },
+    {
+     "text": ".",
+     "offset": 45,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Peut-être viendra-t-il demain ?",
+   "tokens": [
+    {
+     "text": "Peut",
+     "offset": 0,
+     "norm": "peut",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "pouvoir"
+    },
+    {
+     "text": "-",
+     "offset": 4,
+     "norm": "-",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "-"
+    },
+    {
+     "text": "être",
+     "offset": 5,
+     "norm": "être",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "viendra",
+     "offset": 10,
+     "norm": "viendra",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "venir"
+    },
+    {
+     "text": "-t",
+     "offset": 17,
+     "norm": "-t",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "-t"
+    },
+    {
+     "text": "-il",
+     "offset": 19,
+     "norm": "-il",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "il"
+    },
+    {
+     "text": "demain",
+     "offset": 23,
+     "norm": "demain",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "demain"
+    },
+    {
+     "text": "?",
+     "offset": 30,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Où est-elle allée après-midi ?",
+   "tokens": [
+    {
+     "text": "Où",
+     "offset": 0,
+     "norm": "où",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "où"
+    },
+    {
+     "text": "est-elle",
+     "offset": 3,
+     "norm": "est-elle",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "est-elle"
+    },
+    {
+     "text": "allée",
+     "offset": 12,
+     "norm": "allée",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "aller"
+    },
+    {
+     "text": "après-midi",
+     "offset": 18,
+     "norm": "après-midi",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "après-midi"
+    },
+    {
+     "text": "?",
+     "offset": 29,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Ça va très bien, merci — et vous ?",
+   "tokens": [
+    {
+     "text": "Ça",
+     "offset": 0,
+     "norm": "ça",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "cela"
+    },
+    {
+     "text": "va",
+     "offset": 3,
+     "norm": "va",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "aller"
+    },
+    {
+     "text": "très",
+     "offset": 6,
+     "norm": "très",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "très"
+    },
+    {
+     "text": "bien",
+     "offset": 11,
+     "norm": "bien",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "bien"
+    },
+    {
+     "text": ",",
+     "offset": 15,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "merci",
+     "offset": 17,
+     "norm": "merci",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "merci"
+    },
+    {
+     "text": "—",
+     "offset": 23,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "et",
+     "offset": 25,
+     "norm": "et",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "et"
+    },
+    {
+     "text": "vous",
+     "offset": 28,
+     "norm": "vous",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "vous"
+    },
+    {
+     "text": "?",
+     "offset": 33,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 2,
+     "text": "Ça"
+    }
+   ]
+  },
+  {
+   "text": "« Qui a décidé cela ? », demanda-t-elle.",
+   "tokens": [
+    {
+     "text": "«",
+     "offset": 0,
+     "norm": "\"",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "«"
+    },
+    {
+     "text": "Qui",
+     "offset": 2,
+     "norm": "qui",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "qui"
+    },
+    {
+     "text": "a",
+     "offset": 6,
+     "norm": "a",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    },
+    {
+     "text": "décidé",
+     "offset": 8,
+     "norm": "décidé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "décider"
+    },
+    {
+     "text": "cela",
+     "offset": 15,
+     "norm": "cela",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "celer"
+    },
+    {
+     "text": "?",
+     "offset": 20,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "»",
+     "offset": 22,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "»"
+    },
+    {
+     "text": ",",
+     "offset": 23,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "demanda",
+     "offset": 25,
+     "norm": "demanda",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "demanda"
+    },
+    {
+     "text": "-t",
+     "offset": 32,
+     "norm": "-t",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "-t"
+    },
+    {
+     "text": "-elle",
+     "offset": 34,
+     "norm": "-elle",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "lui"
+    },
+    {
+     "text": ".",
+     "offset": 39,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Je suis allé au mois de janv. aux prud’hommes.",
+   "tokens": [
+    {
+     "text": "Je",
+     "offset": 0,
+     "norm": "je",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "suis",
+     "offset": 3,
+     "norm": "suis",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "allé",
+     "offset": 8,
+     "norm": "allé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "aller"
+    },
+    {
+     "text": "au",
+     "offset": 13,
+     "norm": "au",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "au"
+    },
+    {
+     "text": "mois",
+     "offset": 16,
+     "norm": "mois",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "mois"
+    },
+    {
+     "text": "de",
+     "offset": 21,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "janv.",
+     "offset": 24,
+     "norm": "janv.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "janv."
+    },
+    {
+     "text": "aux",
+     "offset": 30,
+     "norm": "aux",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "prud’hommes",
+     "offset": 34,
+     "norm": "prud’hommes",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "prud’homme"
+    },
+    {
+     "text": ".",
+     "offset": 45,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Cette après-midi, je suis allé dans un restaurant italo-mexicain.",
+   "tokens": [
+    {
+     "text": "Cette",
+     "offset": 0,
+     "norm": "cette",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "ce"
+    },
+    {
+     "text": "après-midi",
+     "offset": 6,
+     "norm": "après-midi",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "après-midi"
+    },
+    {
+     "text": ",",
+     "offset": 16,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "je",
+     "offset": 18,
+     "norm": "je",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "suis",
+     "offset": 21,
+     "norm": "suis",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "allé",
+     "offset": 26,
+     "norm": "allé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "aller"
+    },
+    {
+     "text": "dans",
+     "offset": 31,
+     "norm": "dans",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "dans"
+    },
+    {
+     "text": "un",
+     "offset": 36,
+     "norm": "un",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "restaurant",
+     "offset": 39,
+     "norm": "restaurant",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "restaurant"
+    },
+    {
+     "text": "italo-mexicain",
+     "offset": 50,
+     "norm": "italo-mexicain",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "italo-mexicain"
+    },
+    {
+     "text": ".",
+     "offset": 64,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "N'est-ce pas génial?",
+   "tokens": [
+    {
+     "text": "N'",
+     "offset": 0,
+     "norm": "n'",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "ne"
+    },
+    {
+     "text": "est",
+     "offset": 2,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "-ce",
+     "offset": 5,
+     "norm": "-ce",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "-ce"
+    },
+    {
+     "text": "pas",
+     "offset": 9,
+     "norm": "pas",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "pas"
+    },
+    {
+     "text": "génial",
+     "offset": 13,
+     "norm": "génial",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "génial"
+    },
+    {
+     "text": "?",
+     "offset": 19,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Est-ce pas génial?",
+   "tokens": [
+    {
+     "text": "Est",
+     "offset": 0,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "-ce",
+     "offset": 3,
+     "norm": "-ce",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "-ce"
+    },
+    {
+     "text": "pas",
+     "offset": 7,
+     "norm": "pas",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "pas"
+    },
+    {
+     "text": "génial",
+     "offset": 11,
+     "norm": "génial",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "génial"
+    },
+    {
+     "text": "?",
+     "offset": 17,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Qu'est-ce que tu fais?",
+   "tokens": [
+    {
+     "text": "Qu'",
+     "offset": 0,
+     "norm": "qu'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "que"
+    },
+    {
+     "text": "est",
+     "offset": 3,
+     "norm": "est",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "-ce",
+     "offset": 6,
+     "norm": "-ce",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "-ce"
+    },
+    {
+     "text": "que",
+     "offset": 10,
+     "norm": "que",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "que"
+    },
+    {
+     "text": "tu",
+     "offset": 14,
+     "norm": "tu",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "taire"
+    },
+    {
+     "text": "fais",
+     "offset": 17,
+     "norm": "fais",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "fai"
+    },
+    {
+     "text": "?",
+     "offset": 21,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "aujourd'hui",
+   "tokens": [
+    {
+     "text": "aujourd'hui",
+     "offset": 0,
+     "norm": "aujourd'hui",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "aujourd'hui"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Aujourd'hui",
+   "tokens": [
+    {
+     "text": "Aujourd'hui",
+     "offset": 0,
+     "norm": "aujourd'hui",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "aujourd'hui"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "prud'hommes",
+   "tokens": [
+    {
+     "text": "prud'hommes",
+     "offset": 0,
+     "norm": "prud'hommes",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "prud'homme"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "prud’hommal",
+   "tokens": [
+    {
+     "text": "prud’hommal",
+     "offset": 0,
+     "norm": "prud’hommal",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "prud’hommal"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "audio-numérique",
+   "tokens": [
+    {
+     "text": "audio-numérique",
+     "offset": 0,
+     "norm": "audio-numérique",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "audio-numériqu"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Audio-numérique",
+   "tokens": [
+    {
+     "text": "Audio-numérique",
+     "offset": 0,
+     "norm": "audio-numérique",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "audio-numérique"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "entr'amis",
+   "tokens": [
+    {
+     "text": "entr'amis",
+     "offset": 0,
+     "norm": "entr'amis",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "entr'amis"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "entr'abat",
+   "tokens": [
+    {
+     "text": "entr'abat",
+     "offset": 0,
+     "norm": "entr'abat",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "entr'abat"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "rentr'ouvertes",
+   "tokens": [
+    {
+     "text": "rentr'ouvertes",
+     "offset": 0,
+     "norm": "rentr'ouvertes",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "rentr'ouverte"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "grand'hamien",
+   "tokens": [
+    {
+     "text": "grand'hamien",
+     "offset": 0,
+     "norm": "grand'hamien",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "grand'hamien"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Châteauneuf-la-Forêt",
+   "tokens": [
+    {
+     "text": "Châteauneuf-la-Forêt",
+     "offset": 0,
+     "norm": "châteauneuf-la-forêt",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "châteauneuf-la-forêt"
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 0,
+     "end": 20,
+     "text": "Châteauneuf-la-Forêt"
+    }
+   ]
+  },
+  {
+   "text": "Château-Guibert",
+   "tokens": [
+    {
+     "text": "Château-Guibert",
+     "offset": 0,
+     "norm": "château-guibert",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Château-Guibert"
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 15,
+     "text": "Château-Guibert"
+    }
+   ]
+  },
+  {
+   "text": "refox-trottâmes",
+   "tokens": [
+    {
+     "text": "refox-trottâmes",
+     "offset": 0,
+     "norm": "refox-trottâmes",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "refox-trottâme"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "z'yeutes",
+   "tokens": [
+    {
+     "text": "z'yeutes",
+     "offset": 0,
+     "norm": "z'yeutes",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "z'yeute"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "black-outeront",
+   "tokens": [
+    {
+     "text": "black-outeront",
+     "offset": 0,
+     "norm": "black-outeront",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "black-outer"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "états-unienne",
+   "tokens": [
+    {
+     "text": "états-unienne",
+     "offset": 0,
+     "norm": "états-unienne",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "états-unienn"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "courtes-pattes",
+   "tokens": [
+    {
+     "text": "courtes-pattes",
+     "offset": 0,
+     "norm": "courtes-pattes",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "courtes-patte"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "court-pattes",
+   "tokens": [
+    {
+     "text": "court-pattes",
+     "offset": 0,
+     "norm": "court-pattes",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "court-pattes"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "saut-de-ski",
+   "tokens": [
+    {
+     "text": "saut-de-ski",
+     "offset": 0,
+     "norm": "saut-de-ski",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "saut-de-ski"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Écourt-Saint-Quentin",
+   "tokens": [
+    {
+     "text": "Écourt-Saint-Quentin",
+     "offset": 0,
+     "norm": "écourt-saint-quentin",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Écourt-Saint-Quentin"
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 0,
+     "end": 20,
+     "text": "Écourt-Saint-Quentin"
+    }
+   ]
+  },
+  {
+   "text": "Bout-de-l'Îlien",
+   "tokens": [
+    {
+     "text": "Bout-de-l'Îlien",
+     "offset": 0,
+     "norm": "bout-de-l'îlien",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "bout-de-l'îlien"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "pet-en-l'air",
+   "tokens": [
+    {
+     "text": "pet-en-l'air",
+     "offset": 0,
+     "norm": "pet-en-l'air",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "pet-en-l'air"
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 0,
+     "end": 12,
+     "text": "pet-en-l'air"
+    }
+   ]
+  },
+  {
+   "text": "janv.",
+   "tokens": [
+    {
+     "text": "janv.",
+     "offset": 0,
+     "norm": "janv.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "janv."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "juill.",
+   "tokens": [
+    {
+     "text": "juill.",
+     "offset": 0,
+     "norm": "juill.",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "juill."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "sept.",
+   "tokens": [
+    {
+     "text": "sept.",
+     "offset": 0,
+     "norm": "sept.",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "sept."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "prud’hommes",
+   "tokens": [
+    {
+     "text": "prud’hommes",
+     "offset": 0,
+     "norm": "prud’hommes",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "prud’homme"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "après-midi",
+   "tokens": [
+    {
+     "text": "après-midi",
+     "offset": 0,
+     "norm": "après-midi",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "après-midi"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "italo-mexicain",
+   "tokens": [
+    {
+     "text": "italo-mexicain",
+     "offset": 0,
+     "norm": "italo-mexicain",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "italo-mexicain"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "words,heads,deps,pos,chunk_offsets",
+   "tokens": [
+    {
+     "text": "words",
+     "offset": 0,
+     "norm": "words",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "word"
+    },
+    {
+     "text": ",",
+     "offset": 5,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "heads",
+     "offset": 6,
+     "norm": "heads",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "heads"
+    },
+    {
+     "text": ",",
+     "offset": 11,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "deps",
+     "offset": 12,
+     "norm": "deps",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "dep"
+    },
+    {
+     "text": ",",
+     "offset": 16,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "pos",
+     "offset": 17,
+     "norm": "pos",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "po"
+    },
+    {
+     "text": ",",
+     "offset": 20,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "chunk_offsets",
+     "offset": 21,
+     "norm": "chunk_offsets",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "chunk_offset"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 5,
+     "text": "words"
+    },
+    {
+     "label": "PER",
+     "start": 12,
+     "end": 16,
+     "text": "deps"
+    }
+   ]
+  },
+  {
+   "text": "Test that noun_chunks raises Value Error for 'fr' language if Doc is not parsed.",
+   "tokens": [
+    {
+     "text": "Test",
+     "offset": 0,
+     "norm": "test",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Test"
+    },
+    {
+     "text": "that",
+     "offset": 5,
+     "norm": "that",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "that"
+    },
+    {
+     "text": "noun_chunks",
+     "offset": 10,
+     "norm": "noun_chunks",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "noun_chunks"
+    },
+    {
+     "text": "raises",
+     "offset": 22,
+     "norm": "raises",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "raiser"
+    },
+    {
+     "text": "Value",
+     "offset": 29,
+     "norm": "value",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Value"
+    },
+    {
+     "text": "Error",
+     "offset": 35,
+     "norm": "error",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Error"
+    },
+    {
+     "text": "for",
+     "offset": 41,
+     "norm": "for",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "for"
+    },
+    {
+     "text": "'",
+     "offset": 45,
+     "norm": "'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "'"
+    },
+    {
+     "text": "fr",
+     "offset": 46,
+     "norm": "fr",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "fr"
+    },
+    {
+     "text": "'",
+     "offset": 48,
+     "norm": "'",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "'"
+    },
+    {
+     "text": "language",
+     "offset": 50,
+     "norm": "language",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "language"
+    },
+    {
+     "text": "if",
+     "offset": 59,
+     "norm": "if",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "if"
+    },
+    {
+     "text": "Doc",
+     "offset": 62,
+     "norm": "doc",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Doc"
+    },
+    {
+     "text": "is",
+     "offset": 66,
+     "norm": "is",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "is"
+    },
+    {
+     "text": "not",
+     "offset": 69,
+     "norm": "not",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "not"
+    },
+    {
+     "text": "parsed",
+     "offset": 73,
+     "norm": "parsed",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "parsed"
+    },
+    {
+     "text": ".",
+     "offset": 79,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 29,
+     "end": 34,
+     "text": "Value"
+    },
+    {
+     "label": "MISC",
+     "start": 62,
+     "end": 79,
+     "text": "Doc is not parsed"
+    }
+   ]
+  },
+  {
+   "text": "Je suis allé à l'école",
+   "tokens": [
+    {
+     "text": "Je",
+     "offset": 0,
+     "norm": "je",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "suis",
+     "offset": 3,
+     "norm": "suis",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "être"
+    },
+    {
+     "text": "allé",
+     "offset": 8,
+     "norm": "allé",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "aller"
+    },
+    {
+     "text": "à",
+     "offset": 13,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "l'",
+     "offset": 15,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "école",
+     "offset": 17,
+     "norm": "école",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "école"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "acl:relcl",
+   "tokens": [
+    {
+     "text": "acl",
+     "offset": 0,
+     "norm": "acl",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "acl"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "relcl",
+     "offset": 4,
+     "norm": "relcl",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "relcl"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 4,
+     "end": 9,
+     "text": "relcl"
+    }
+   ]
+  },
+  {
+   "text": "obl:arg",
+   "tokens": [
+    {
+     "text": "obl",
+     "offset": 0,
+     "norm": "obl",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "obl"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "arg",
+     "offset": 4,
+     "norm": "arg",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "arg"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "flat:name",
+   "tokens": [
+    {
+     "text": "flat",
+     "offset": 0,
+     "norm": "flat",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "flat"
+    },
+    {
+     "text": ":",
+     "offset": 4,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "name",
+     "offset": 5,
+     "norm": "name",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "name"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "nsubj:pass",
+   "tokens": [
+    {
+     "text": "nsubj",
+     "offset": 0,
+     "norm": "nsubj",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "nsubj"
+    },
+    {
+     "text": ":",
+     "offset": 5,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "pass",
+     "offset": 6,
+     "norm": "pass",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "pass"
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 0,
+     "end": 5,
+     "text": "nsubj"
+    }
+   ]
+  },
+  {
+   "text": "aux:pass",
+   "tokens": [
+    {
+     "text": "aux",
+     "offset": 0,
+     "norm": "aux",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "pass",
+     "offset": 4,
+     "norm": "pass",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "pass"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "obl:agent",
+   "tokens": [
+    {
+     "text": "obl",
+     "offset": 0,
+     "norm": "obl",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "obl"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "agent",
+     "offset": 4,
+     "norm": "agent",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "agent"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Allow zero-width 'infix' token during the tokenization process.",
+   "tokens": [
+    {
+     "text": "Allow",
+     "offset": 0,
+     "norm": "allow",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "allow"
+    },
+    {
+     "text": "zero",
+     "offset": 6,
+     "norm": "zero",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "zero"
+    },
+    {
+     "text": "-",
+     "offset": 10,
+     "norm": "-",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "-"
+    },
+    {
+     "text": "width",
+     "offset": 11,
+     "norm": "width",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "width"
+    },
+    {
+     "text": "'",
+     "offset": 17,
+     "norm": "'",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "'"
+    },
+    {
+     "text": "infix",
+     "offset": 18,
+     "norm": "infix",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "infi"
+    },
+    {
+     "text": "'",
+     "offset": 23,
+     "norm": "'",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "'"
+    },
+    {
+     "text": "token",
+     "offset": 25,
+     "norm": "token",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "token"
+    },
+    {
+     "text": "during",
+     "offset": 31,
+     "norm": "during",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "during"
+    },
+    {
+     "text": "the",
+     "offset": 38,
+     "norm": "the",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "the"
+    },
+    {
+     "text": "tokenization",
+     "offset": 42,
+     "norm": "tokenization",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "tokenization"
+    },
+    {
+     "text": "process",
+     "offset": 55,
+     "norm": "process",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "proces"
+    },
+    {
+     "text": ".",
+     "offset": 62,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 10,
+     "text": "Allow zero"
+    }
+   ]
+  },
+  {
+   "text": "text,expected_tokens",
+   "tokens": [
+    {
+     "text": "text",
+     "offset": 0,
+     "norm": "text",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "text"
+    },
+    {
+     "text": ",",
+     "offset": 4,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "expected_tokens",
+     "offset": 5,
+     "norm": "expected_tokens",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "expected_token"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "(?<=[{a}]\\')(?=[{a}])",
+   "tokens": [
+    {
+     "text": "(",
+     "offset": 0,
+     "norm": "(",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "("
+    },
+    {
+     "text": "?",
+     "offset": 1,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    },
+    {
+     "text": "<",
+     "offset": 2,
+     "norm": "<",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "<"
+    },
+    {
+     "text": "=[",
+     "offset": 3,
+     "norm": "=[",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "=["
+    },
+    {
+     "text": "{",
+     "offset": 5,
+     "norm": "{",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "{"
+    },
+    {
+     "text": "a}]\\')(?=[{a",
+     "offset": 6,
+     "norm": "a}]\\')(?=[{a",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "a}]\\')(?=[{er"
+    },
+    {
+     "text": "}",
+     "offset": 18,
+     "norm": "}",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "}"
+    },
+    {
+     "text": "]",
+     "offset": 19,
+     "norm": "]",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "]"
+    },
+    {
+     "text": ")",
+     "offset": 20,
+     "norm": ")",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ")"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "l'avion",
+   "tokens": [
+    {
+     "text": "l'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "avion",
+     "offset": 2,
+     "norm": "avion",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "avion"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "j'ai",
+   "tokens": [
+    {
+     "text": "j'",
+     "offset": 0,
+     "norm": "j'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "je"
+    },
+    {
+     "text": "ai",
+     "offset": 2,
+     "norm": "ai",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "avoir"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "L'histoire du TAL commence dans les années 1950, bien que l'on puisse trouver des travaux antérieurs. En 1950, Alan Turing éditait un article célèbre sous le titre « Computing machinery and intelligence » qui propose ce qu'on appelle à présent le test de Turing comme critère d'intelligence. Ce critère dépend de la capacité d'un programme informatique de personnifier un humain dans une conversation écrite en temps réel, de façon suffisamment convaincante que l'interlocuteur humain ne peut distinguer sûrement — sur la base du seul contenu de la conversation — s'il interagit avec un programme ou avec un autre vrai humain.",
+   "tokens": [
+    {
+     "text": "L'",
+     "offset": 0,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "histoire",
+     "offset": 2,
+     "norm": "histoire",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "histoire"
+    },
+    {
+     "text": "du",
+     "offset": 11,
+     "norm": "du",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "TAL",
+     "offset": 14,
+     "norm": "tal",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "TAL"
+    },
+    {
+     "text": "commence",
+     "offset": 18,
+     "norm": "commence",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "commencer"
+    },
+    {
+     "text": "dans",
+     "offset": 27,
+     "norm": "dans",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "dans"
+    },
+    {
+     "text": "les",
+     "offset": 32,
+     "norm": "les",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "années",
+     "offset": 36,
+     "norm": "années",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "année"
+    },
+    {
+     "text": "1950",
+     "offset": 43,
+     "norm": "1950",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1950"
+    },
+    {
+     "text": ",",
+     "offset": 47,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "bien",
+     "offset": 49,
+     "norm": "bien",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "bien"
+    },
+    {
+     "text": "que",
+     "offset": 54,
+     "norm": "que",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "que"
+    },
+    {
+     "text": "l'",
+     "offset": 58,
+     "norm": "l'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "le"
+    },
+    {
+     "text": "on",
+     "offset": 60,
+     "norm": "on",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "on"
+    },
+    {
+     "text": "puisse",
+     "offset": 63,
+     "norm": "puisse",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "pouvoir"
+    },
+    {
+     "text": "trouver",
+     "offset": 70,
+     "norm": "trouver",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "trouver"
+    },
+    {
+     "text": "des",
+     "offset": 78,
+     "norm": "des",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "travaux",
+     "offset": 82,
+     "norm": "travaux",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "travail"
+    },
+    {
+     "text": "antérieurs",
+     "offset": 90,
+     "norm": "antérieurs",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "antérieurs"
+    },
+    {
+     "text": ".",
+     "offset": 100,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "En",
+     "offset": 102,
+     "norm": "en",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "en"
+    },
+    {
+     "text": "1950",
+     "offset": 105,
+     "norm": "1950",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1950"
+    },
+    {
+     "text": ",",
+     "offset": 109,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "Alan",
+     "offset": 111,
+     "norm": "alan",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Alan"
+    },
+    {
+     "text": "Turing",
+     "offset": 116,
+     "norm": "turing",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Turing"
+    },
+    {
+     "text": "éditait",
+     "offset": 123,
+     "norm": "éditait",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "éditer"
+    },
+    {
+     "text": "un",
+     "offset": 131,
+     "norm": "un",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "article",
+     "offset": 134,
+     "norm": "article",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "article"
+    },
+    {
+     "text": "célèbre",
+     "offset": 142,
+     "norm": "célèbre",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "célèbre"
+    },
+    {
+     "text": "sous",
+     "offset": 150,
+     "norm": "sous",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "sou"
+    },
+    {
+     "text": "le",
+     "offset": 155,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "titre",
+     "offset": 158,
+     "norm": "titre",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "titre"
+    },
+    {
+     "text": "«",
+     "offset": 164,
+     "norm": "\"",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "«"
+    },
+    {
+     "text": "Computing",
+     "offset": 166,
+     "norm": "computing",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "computing"
+    },
+    {
+     "text": "machinery",
+     "offset": 176,
+     "norm": "machinery",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "machinery"
+    },
+    {
+     "text": "and",
+     "offset": 186,
+     "norm": "and",
+     "tag": "X",
+     "pos": "X",
+     "lemma": "and"
+    },
+    {
+     "text": "intelligence",
+     "offset": 190,
+     "norm": "intelligence",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "intelligence"
+    },
+    {
+     "text": "»",
+     "offset": 203,
+     "norm": "\"",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "»"
+    },
+    {
+     "text": "qui",
+     "offset": 205,
+     "norm": "qui",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "qui"
+    },
+    {
+     "text": "propose",
+     "offset": 209,
+     "norm": "propose",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "proposer"
+    },
+    {
+     "text": "ce",
+     "offset": 217,
+     "norm": "ce",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "ce"
+    },
+    {
+     "text": "qu'",
+     "offset": 220,
+     "norm": "qu'",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "que"
+    },
+    {
+     "text": "on",
+     "offset": 223,
+     "norm": "on",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "on"
+    },
+    {
+     "text": "appelle",
+     "offset": 226,
+     "norm": "appelle",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "appeler"
+    },
+    {
+     "text": "à",
+     "offset": 234,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "à"
+    },
+    {
+     "text": "présent",
+     "offset": 236,
+     "norm": "présent",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "présent"
+    },
+    {
+     "text": "le",
+     "offset": 244,
+     "norm": "le",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "test",
+     "offset": 247,
+     "norm": "test",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "test"
+    },
+    {
+     "text": "de",
+     "offset": 252,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Turing",
+     "offset": 255,
+     "norm": "turing",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Turing"
+    },
+    {
+     "text": "comme",
+     "offset": 262,
+     "norm": "comme",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "comme"
+    },
+    {
+     "text": "critère",
+     "offset": 268,
+     "norm": "critère",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "critère"
+    },
+    {
+     "text": "d'",
+     "offset": 276,
+     "norm": "d'",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "intelligence",
+     "offset": 278,
+     "norm": "intelligence",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "intelligence"
+    },
+    {
+     "text": ".",
+     "offset": 290,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Ce",
+     "offset": 292,
+     "norm": "ce",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "ce"
+    },
+    {
+     "text": "critère",
+     "offset": 295,
+     "norm": "critère",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "critère"
+    },
+    {
+     "text": "dépend",
+     "offset": 303,
+     "norm": "dépend",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "dépendre"
+    },
+    {
+     "text": "de",
+     "offset": 310,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "la",
+     "offset": 313,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "capacité",
+     "offset": 316,
+     "norm": "capacité",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "capacité"
+    },
+    {
+     "text": "d'",
+     "offset": 325,
+     "norm": "d'",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "un",
+     "offset": 327,
+     "norm": "un",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "programme",
+     "offset": 330,
+     "norm": "programme",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "programme"
+    },
+    {
+     "text": "informatique",
+     "offset": 340,
+     "norm": "informatique",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "informatique"
+    },
+    {
+     "text": "de",
+     "offset": 353,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "personnifier",
+     "offset": 356,
+     "norm": "personnifier",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "personnifier"
+    },
+    {
+     "text": "un",
+     "offset": 369,
+     "norm": "un",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "humain",
+     "offset": 372,
+     "norm": "humain",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "humain"
+    },
+    {
+     "text": "dans",
+     "offset": 379,
+     "norm": "dans",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "dans"
+    },
+    {
+     "text": "une",
+     "offset": 384,
+     "norm": "une",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "conversation",
+     "offset": 388,
+     "norm": "conversation",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "conversation"
+    },
+    {
+     "text": "écrite",
+     "offset": 401,
+     "norm": "écrite",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "écrite"
+    },
+    {
+     "text": "en",
+     "offset": 408,
+     "norm": "en",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "en"
+    },
+    {
+     "text": "temps",
+     "offset": 411,
+     "norm": "temps",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "temps"
+    },
+    {
+     "text": "réel",
+     "offset": 417,
+     "norm": "réel",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "réel"
+    },
+    {
+     "text": ",",
+     "offset": 421,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "de",
+     "offset": 423,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "façon",
+     "offset": 426,
+     "norm": "façon",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "façon"
+    },
+    {
+     "text": "suffisamment",
+     "offset": 432,
+     "norm": "suffisamment",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "suffisamment"
+    },
+    {
+     "text": "convaincante",
+     "offset": 445,
+     "norm": "convaincante",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "convaincant"
+    },
+    {
+     "text": "que",
+     "offset": 458,
+     "norm": "que",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "que"
+    },
+    {
+     "text": "l'",
+     "offset": 462,
+     "norm": "l'",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "interlocuteur",
+     "offset": 464,
+     "norm": "interlocuteur",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "interlocuteur"
+    },
+    {
+     "text": "humain",
+     "offset": 478,
+     "norm": "humain",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "humain"
+    },
+    {
+     "text": "ne",
+     "offset": 485,
+     "norm": "ne",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "ne"
+    },
+    {
+     "text": "peut",
+     "offset": 488,
+     "norm": "peut",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "pouvoir"
+    },
+    {
+     "text": "distinguer",
+     "offset": 493,
+     "norm": "distinguer",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "distinguer"
+    },
+    {
+     "text": "sûrement",
+     "offset": 504,
+     "norm": "sûrement",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "sûrement"
+    },
+    {
+     "text": "—",
+     "offset": 513,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "sur",
+     "offset": 515,
+     "norm": "sur",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "sur"
+    },
+    {
+     "text": "la",
+     "offset": 519,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "base",
+     "offset": 522,
+     "norm": "base",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "base"
+    },
+    {
+     "text": "du",
+     "offset": 527,
+     "norm": "du",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "seul",
+     "offset": 530,
+     "norm": "seul",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "seul"
+    },
+    {
+     "text": "contenu",
+     "offset": 535,
+     "norm": "contenu",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "contenu"
+    },
+    {
+     "text": "de",
+     "offset": 543,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "la",
+     "offset": 546,
+     "norm": "la",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "le"
+    },
+    {
+     "text": "conversation",
+     "offset": 549,
+     "norm": "conversation",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "conversation"
+    },
+    {
+     "text": "—",
+     "offset": 562,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "s'",
+     "offset": 564,
+     "norm": "s'",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "se"
+    },
+    {
+     "text": "il",
+     "offset": 566,
+     "norm": "il",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "il"
+    },
+    {
+     "text": "interagit",
+     "offset": 569,
+     "norm": "interagit",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "interagir"
+    },
+    {
+     "text": "avec",
+     "offset": 579,
+     "norm": "avec",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "avec"
+    },
+    {
+     "text": "un",
+     "offset": 584,
+     "norm": "un",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "programme",
+     "offset": 587,
+     "norm": "programme",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "programme"
+    },
+    {
+     "text": "ou",
+     "offset": 597,
+     "norm": "ou",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "ou"
+    },
+    {
+     "text": "avec",
+     "offset": 600,
+     "norm": "avec",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "avec"
+    },
+    {
+     "text": "un",
+     "offset": 605,
+     "norm": "un",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "un"
+    },
+    {
+     "text": "autre",
+     "offset": 608,
+     "norm": "autre",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "autre"
+    },
+    {
+     "text": "vrai",
+     "offset": 614,
+     "norm": "vrai",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "vrai"
+    },
+    {
+     "text": "humain",
+     "offset": 619,
+     "norm": "humain",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "humain"
+    },
+    {
+     "text": ".",
+     "offset": 625,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 14,
+     "end": 17,
+     "text": "TAL"
+    },
+    {
+     "label": "PER",
+     "start": 111,
+     "end": 122,
+     "text": "Alan Turing"
+    },
+    {
+     "label": "MISC",
+     "start": 166,
+     "end": 202,
+     "text": "Computing machinery and intelligence"
+    },
+    {
+     "label": "PER",
+     "start": 255,
+     "end": 261,
+     "text": "Turing"
+    }
+   ]
+  }
+ ]
+}

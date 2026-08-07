@@ -48,6 +48,10 @@ public final class SpacyTokenizer: @unchecked Sendable {
         let suffix: String
         let infix: String
         let url: String?
+        /// spaCy's `token_match`: if the whole remaining substring matches,
+        /// it becomes one token and no affix or infix splitting applies.
+        /// Only French defines one, and it is 1.45 MB of hyphenated compounds.
+        let tokenMatch: String?
         let specials: [String: [Special]]
         let baseNorms: [String: String]
         let lexemeNorm: [String: String]
@@ -55,6 +59,7 @@ public final class SpacyTokenizer: @unchecked Sendable {
         enum CodingKeys: String, CodingKey {
             case spacyVersion = "spacy_version"
             case prefix, suffix, infix, url, specials
+            case tokenMatch = "token_match"
             case baseNorms = "base_norms"
             case lexemeNorm = "lexeme_norm"
         }
@@ -93,6 +98,7 @@ public final class SpacyTokenizer: @unchecked Sendable {
     private let suffixRegex: PureRegex
     private let infixRegex: PureRegex
     private let urlRegex: PureRegex?
+    private let tokenMatchRegex: PureRegex?
 
     /// Special-case pieces keyed by the raw key, as `(orth, norm)` pairs.
     private let specials: [String: [Token0]]
@@ -106,7 +112,7 @@ public final class SpacyTokenizer: @unchecked Sendable {
     /// change — but only for languages spaCy tokenizes by rule. Japanese and
     /// Chinese are segmented by SudachiPy and pkuseg, which are models, not
     /// tables, and cannot be bundled this way at all.
-    public static let bundledLanguages = ["de", "en", "es", "it", "ru", "uk"]
+    public static let bundledLanguages = ["de", "en", "es", "fr", "it", "pt", "ru", "uk"]
 
     public static func english() throws -> SpacyTokenizer {
         try forLanguage("en")
@@ -131,7 +137,19 @@ public final class SpacyTokenizer: @unchecked Sendable {
         try forLanguage("it")
     }
 
-    /// Russian. The largest exception table of the six (656), and the first
+    /// French, whose elision is more aggressive than Italian's: `l'`, `d'`,
+    /// `qu'`, `n'`, `j'` all split, and `-t-il` hyphenates back on.
+    public static func french() throws -> SpacyTokenizer {
+        try forLanguage("fr")
+    }
+
+    /// Portuguese, where the distinguishing case is the clitic hyphen —
+    /// `diga-me`, `encontrámo-nos`, `dar-lhe-ei`.
+    public static func portuguese() throws -> SpacyTokenizer {
+        try forLanguage("pt")
+    }
+
+    /// Russian. The largest exception table of the eight (656), and the first
     /// language here written in a non-Latin script — which exercises the
     /// generated Unicode tables rather than the ASCII fast paths.
     public static func russian() throws -> SpacyTokenizer {
@@ -174,6 +192,22 @@ public final class SpacyTokenizer: @unchecked Sendable {
         self.suffixRegex = try compile(rules.suffix, "suffix")
         self.infixRegex = try compile(rules.infix, "infix")
         self.urlRegex = try rules.url.map { try compile($0, "url") }
+        // `token_match` is the one pattern that carries inline flags -- French
+        // opens with `(?iu)`. PureRegex does not implement inline flag groups;
+        // it parses them without error and then ignores them, so compiling this
+        // pattern verbatim silently loses case-insensitivity and every
+        // capitalised compound ("Saint-Louis") stops matching while lower-case
+        // ones still do. The flags are therefore lifted out of the pattern and
+        // passed to the constructor, which is where this engine takes them.
+        self.tokenMatchRegex = try rules.tokenMatch.map { raw in
+            let (body, flags) = SpacyTokenizer.splitLeadingInlineFlags(raw)
+            do {
+                return try PureRegex(
+                    body, ignoreCase: flags.ignoreCase,
+                    dotAll: flags.dotAll, multiline: flags.multiline
+                )
+            } catch { throw LoadError.badPattern("token_match", error) }
+        }
         self.specials = rules.specials.mapValues { pieces in
             pieces.map { Token0(orth: $0.orth, norm: $0.norm) }
         }
@@ -308,6 +342,49 @@ public final class SpacyTokenizer: @unchecked Sendable {
         infixRegex.matches(in: text)
     }
 
+    /// Lifts a leading `(?imsux)` group out of a pattern.
+    ///
+    /// Python defaults to Unicode semantics, so `u` is a no-op here; `a`
+    /// (ASCII-only) would genuinely change `\w` and is deliberately *not*
+    /// silently accepted -- no bundled pattern uses it, and quietly ignoring it
+    /// is how a tokenizer starts disagreeing about what a word character is.
+    static func splitLeadingInlineFlags(
+        _ pattern: String
+    ) -> (body: String, flags: (ignoreCase: Bool, dotAll: Bool, multiline: Bool)) {
+        var flags = (ignoreCase: false, dotAll: false, multiline: false)
+        guard pattern.hasPrefix("(?") else { return (pattern, flags) }
+        let scalars = Array(pattern.unicodeScalars)
+        var index = 2
+        var letters: [Unicode.Scalar] = []
+        while index < scalars.count, scalars[index] != ")" {
+            letters.append(scalars[index])
+            index += 1
+        }
+        // Not a flag group (a lookahead, a named group, ...): leave it alone.
+        guard index < scalars.count,
+              letters.allSatisfy({ "aiLmsux".unicodeScalars.contains($0) }),
+              !letters.isEmpty
+        else { return (pattern, flags) }
+
+        for letter in letters {
+            switch letter {
+            case "i": flags.ignoreCase = true
+            case "s": flags.dotAll = true
+            case "m": flags.multiline = true
+            case "u", "L", "x": break   // Unicode is the default; L and x unused
+            default: return (pattern, (false, false, false))  // "a": keep verbatim
+            }
+        }
+        return (String(String.UnicodeScalarView(scalars[(index + 1)...])), flags)
+    }
+
+    /// spaCy's `token_match`: matches the *whole* substring, or not at all.
+    func isTokenMatch(_ text: String) -> Bool {
+        guard let tokenMatchRegex else { return false }
+        let length = text.unicodeScalars.count
+        return tokenMatchRegex.matches(in: text).contains { $0.0 == 0 && $0.1 == length }
+    }
+
     func isURL(_ text: String) -> Bool {
         guard let urlRegex else { return false }
         let length = text.unicodeScalars.count
@@ -329,6 +406,9 @@ public final class SpacyTokenizer: @unchecked Sendable {
         var lastSize = -1
         while !current.isEmpty && current.count != lastSize {
             let whole = String(String.UnicodeScalarView(current))
+            // Order is spaCy's: token_match wins over a special case, and both
+            // stop the affix loop before any prefix or suffix comes off.
+            if isTokenMatch(whole) { break }
             if withSpecials && specials[whole] != nil { break }
             lastSize = current.count
 
@@ -376,7 +456,7 @@ public final class SpacyTokenizer: @unchecked Sendable {
             let whole = String(String.UnicodeScalarView(current))
             if withSpecials, let special = specials[whole] {
                 for piece in special { out.append((piece.orth, piece.norm)) }
-            } else if isURL(whole) {
+            } else if isTokenMatch(whole) || isURL(whole) {
                 out.append((whole, nil))
             } else {
                 let matches = infixRanges(whole)

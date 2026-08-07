@@ -271,6 +271,89 @@ PROSE = {"de": [
     "Будь-хто коли-небудь це перевіряв?",
     "Північно-західний вітер посилився.",
 ],
+
+"fr": [
+    # Names and titles.
+    "Le Dr Jean Dupont reçoit le mardi à l'hôpital Saint-Louis.",
+    "Mme Marie Lefèvre a signé le contrat le 3 mars 2021.",
+    "M. Pierre-Yves Le Gall enseigne à l'université de Lyon.",
+    "Le patient, M. Luc Moreau, est né le 14/02/1978 à Bordeaux.",
+    "Madame la Directrice, je vous remercie de votre courrier du 12 mai.",
+    # Organisations.
+    "La société Renault SA et BNP Paribas ont signé l'accord à Paris.",
+    "L'entreprise Dupont & Fils SARL a son siège à Nantes.",
+    "Le ministère de l'Économie a publié le décret.",
+    # Places.
+    "Il est allé de Strasbourg à Marseille en passant par Dijon.",
+    "Le siège social est à Aix-en-Provence.",
+    "Le mont Blanc se situe à la frontière franco-italienne.",
+    # Contact details.
+    "Vous pouvez m'écrire à anne.martin@exemple.fr ou appeler le +33 1 42 68 53 00.",
+    "Mon numéro est le 01 42 68 53 00, le portable 06 12 34 56 78.",
+    "Le serveur répond sur 192.168.0.14 et la documentation est sur https://exemple.fr/aide.",
+    "Effectuez le virement sur FR14 2004 1010 0505 0001 3M02 606.",
+    # Dates, numbers, currency.
+    "Le délai a expiré le 31/12/2023 à 23h59.",
+    "Le montant de 1 234,56 EUR a été crédité le 5 juin.",
+    "Au troisième trimestre, les ventes ont augmenté de 12,5 pour cent.",
+    "La réunion se tiendra de 9h30 à 17h00.",
+    # Abbreviations.
+    "Cela vaut p. ex. pour les contrats antérieurs à 2020.",
+    "Apportez votre carte d'identité, la carte vitale, etc. au rendez-vous.",
+    "L'adresse est 12, rue de la République, 75011 Paris.",
+    "Cf. l'art. 12 du Règlement, al. 3.",
+    # Elision and the apostrophe, which drives French tokenization.
+    "L'entreprise de l'ingénieur est aujourd'hui fermée.",
+    "Qu'est-ce qu'il a dit ? Je n'en sais rien.",
+    "J'ai vu l'homme dont je t'ai parlé.",
+    "C'est-à-dire qu'aucune décision n'a été prise.",
+    # Hyphenated inversions and accents.
+    "Peut-être viendra-t-il demain ?",
+    "Où est-elle allée après-midi ?",
+    "Ça va très bien, merci — et vous ?",
+    "« Qui a décidé cela ? », demanda-t-elle.",
+],
+
+"pt": [
+    # Names and titles.
+    "O Dr. João Silva atende às terças no hospital de Lisboa.",
+    "A Sra. Maria Santos assinou o contrato em 3 de março de 2021.",
+    "O Prof. António Ferreira leciona na Universidade de Coimbra.",
+    "O paciente, Sr. Luís Oliveira, nasceu em 14/02/1978 no Porto.",
+    "Exma. Sra. Doutora, agradeço a sua carta de 12 de maio.",
+    # Organisations.
+    "A Petrobras e o Banco do Brasil assinaram o acordo em Brasília.",
+    "A empresa Construções Almeida Lda. tem sede em Braga.",
+    "O Ministério da Fazenda publicou a portaria.",
+    # Places.
+    "Foi de Belo Horizonte a Salvador passando por Vitória.",
+    "A sede fica em São Paulo, mas o registo é no Rio de Janeiro.",
+    "Florianópolis e Curitiba ficam no Sul do país.",
+    # Contact details.
+    "Escreva-me para ana.souza@exemplo.com.br ou ligue para +55 11 91234-5678.",
+    "O meu telefone é (11) 3123-4567 e o telemóvel 912 345 678.",
+    "O servidor responde em 192.168.0.14 e a documentação está em https://exemplo.pt/ajuda.",
+    "O CPF dele é 123.456.789-09 e o CNPJ da empresa 11.222.333/0001-81.",
+    # Dates, numbers, currency.
+    "O prazo terminou em 31/12/2023 às 23:59.",
+    "O valor de 1.234,56 EUR foi creditado a 5 de junho.",
+    "No terceiro trimestre as vendas subiram 12,5 por cento.",
+    "A reunião decorrerá das 9.30 às 17.00.",
+    # Abbreviations.
+    "Isto aplica-se p. ex. aos contratos anteriores a 2020.",
+    "Traga o bilhete de identidade, o cartão, etc. à consulta.",
+    "A morada é Rua Augusta, n.º 12, 1100-053 Lisboa.",
+    "Cf. o art. 12.º do Regulamento, n.º 3.",
+    # Clitic hyphens, which are the Portuguese tokenizer's distinguishing case.
+    "Diga-me quando puder, e avise-o também.",
+    "Encontrámo-nos ontem e falámos disso.",
+    "Dar-lhe-ei uma resposta amanhã.",
+    # Contractions, tildes and cedillas.
+    "Vamos ao cinema do centro, à noite.",
+    "As informações estão na secção seguinte.",
+    "Não é assim tão simples, pois não?",
+    "Ele é o irmão mais novo — não o mais velho.",
+],
 }
 
 

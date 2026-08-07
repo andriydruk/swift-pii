@@ -195,13 +195,13 @@ jobs:
           grep -qF "${{ matrix.kernel.marker }}" ner.log \
             || { echo "::error::expected '${{ matrix.kernel.marker }}'"; exit 1; }
 
-      - name: Fetch the de, es, it, ru and uk models (3.7.0)
+      - name: Fetch the de, es, fr, it, pt, ru and uk models (3.7.0)
         # One step rather than three, and a loop rather than three copies: the
         # only thing that varies is the language code. Each corpus is pinned to
         # 3.7.0 -- a different patch release has different weights and reads as
         # a catastrophic regression when it is only version skew.
         run: |
-          for lang in de es it ru uk; do
+          for lang in de es fr it pt ru uk; do
             model="${lang}_core_news_sm-3.7.0"
             curl -sSL -o "$lang.whl" \
               "https://github.com/explosion/spacy-models/releases/download/${model}/${model}-py3-none-any.whl"
@@ -211,7 +211,7 @@ jobs:
               >> "$GITHUB_ENV"
           done
 
-      - name: Non-English parity (de, es, it, ru, uk)
+      - name: Non-English parity (de, es, fr, it, pt, ru, uk)
         # Three languages, each differing from English somewhere: their own
         # tokenizer rules, their own tag sets, 18 NER transition classes instead
         # of 74, and -- for German and Italian -- a *neural* edit-tree
@@ -226,7 +226,7 @@ jobs:
         run: |
           set -o pipefail
           swift test -c release ${{ matrix.kernel.flags }} \
-            --filter "German|Spanish|Italian|Cyrillic|Russian|Ukrainian|CombiningMark" \
+            --filter "German|Spanish|Italian|Cyrillic|Russian|Ukrainian|CombiningMark|French|Portuguese|Romance|InlineFlag" \
             2>&1 | tee languages.log
 
       - name: Assert the per-language suites actually ran
@@ -256,7 +256,12 @@ jobs:
             "Russian tokenizer: " \
             "Russian NER parity: " \
             "Ukrainian tokenizer: " \
-            "Ukrainian NER parity: "; do
+            "Ukrainian NER parity: " \
+            "French tokenizer: " \
+            "French NER parity: " \
+            "Portuguese tokenizer: " \
+            "Portuguese lemmas: " \
+            "Portuguese NER parity: "; do
             grep -qF "$line" languages.log \
               || { echo "::error::no measurement emitted for '$line'"; exit 1; }
           done

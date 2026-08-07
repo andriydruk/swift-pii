@@ -333,29 +333,37 @@ explicit because this was wrong until recently: those ten declare no
 "English" left every non-English engine with only its country-specific
 recognizers. A Spanish engine found NIFs and no e-mail addresses.
 
-### Five languages, end to end
+### Seven languages, end to end
 
 Each verified layer by layer against spaCy's own output, on a corpus built for
 it:
 
-| | German | Spanish | Italian | Russian | Ukrainian |
-|---|---|---|---|---|---|
-| Tokens, offsets, NORMs | **699/699** | **560/560** | **446/446** | **489/489** | **352/352** |
-| Fine-grained tags | **699/699** | *no tagger* | **446/446** | *no tagger* | *no tagger* |
-| Lemmas | **699/699** | *see below* | **446/446** | *see below* | *see below* |
-| NER recall | **66/66** | **65/65** | **47/47** | **41/41** | **24/24** |
-| NER precision | 65/66 | **65/65** | **47/47** | **41/41** | **24/24** |
+| | de | es | fr | it | pt | ru | uk |
+|---|---|---|---|---|---|---|---|
+| Tokens, offsets, NORMs | **699** | **560** | **624** | **446** | **368** | **489** | **352** |
+| Fine-grained tags | **699/699** | — | — | **446/446** | — | — | — |
+| Lemmas | **699/699** | — | — | **446/446** | **368/368** | — | — |
+| NER recall | **66/66** | **65/65** | 40/42 | **47/47** | **36/36** | **41/41** | **24/24** |
+| NER precision | 0.985 | **1.0** | 0.930 | **1.0** | **1.0** | **1.0** | **1.0** |
 
-Three of them are thinner, for structural reasons rather than unfinished work.
-`es_core_news_sm`, `ru_core_news_sm` and `uk_core_news_sm` ship **no tagger** at
-all — their POS comes from a morphologizer this port does not read — and none of
-them lemmatizes with the edit trees German and Italian share. Spanish uses
-`SpanishLemmatizer`, 428 lines of hand-written Python with a method per part of
-speech; Russian and Ukrainian use `pymorphy3`, a full morphological analyser
-backed by a compiled dictionary. Heavily inflected languages are exactly where
-that gap costs most.
+Tokenization is exact in all seven. The dashes are structural, not unfinished:
+only German and Italian ship a **tagger** at all, and only German, Italian and
+Portuguese lemmatize with the edit-tree classifier this port implements. Spanish
+and French use bespoke hand-written lemmatizers; Russian and Ukrainian use
+`pymorphy3`, a full morphological analyser backed by a compiled dictionary.
+Heavily inflected languages are where that gap costs most.
 
-None of it affects entity spans or identifier detection; what degrades is
+Portuguese is the useful proof that the edit-tree lemmatizer never needed a
+tagger — it has no tagger and lemmatizes exactly.
+
+French is the one language whose NER is not exact, and the investigation is
+recorded rather than rounded away: tokenization matches 624/624, the lexical
+features were compared token by token against spaCy and agree, and both matrix
+kernels produce the identical 40/42 — so it is the forward pass, not
+tokenization, features, or accumulation order. The three divergences are
+plausible spans with a wrong boundary, never corrupted offsets.
+
+None of this affects identifier detection; what degrades without lemmas is
 context scoring, which matches supporting words by lemma. Every absence is
 asserted by a gap test, so it fails loudly if someone later assumes it closed.
 
@@ -374,9 +382,8 @@ try engine.analyze(
 // PERSON Anna Müller · ORGANIZATION Siemens AG · LOCATION München
 ```
 
-Weights are not bundled for these — point `modelDirectory` at an unpacked
-`de_core_news_sm`, `es_core_news_sm`, `it_core_news_sm`, `ru_core_news_sm` or
-`uk_core_news_sm`. The German
+Weights are not bundled for these — point `modelDirectory` at the unpacked
+`*_core_news_sm` for the language. The German
 national-identifier recognizers ship disabled, as they do upstream; add them
 with `configuration: nil` as shown earlier. Spanish's and Italian's are enabled
 already.
@@ -412,7 +419,10 @@ the same way whatever language surrounds it. The **linguistic** layer is not:
 
 - **Only bundled weights are English.** `en_core_web_sm` ships in the package;
   German, Spanish and Italian work fully but you supply the model directory.
-- **Tokenizer rules and stop words** are bundled for **en, de, es, it, ru, uk**.
+- **Tokenizer rules and stop words** are bundled for **en, de, es, fr, it, pt,
+  ru, uk**. French's table is 1.7 MB — spaCy's French `token_match` alone is a
+  1.45 MB alternation of hyphenated compounds — and costs ~0.08 s to compile the
+  first time a French tokenizer is built. Every other language is under 110 KB.
   Another language needs two extractions and no code — but only if spaCy
   tokenizes it by rule. Japanese and Chinese do not: they segment with SudachiPy and pkuseg,
   which are models rather than tables, and nothing here can stand in for them.

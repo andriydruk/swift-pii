@@ -1,0 +1,3415 @@
+{
+ "model": "pt_core_news_sm-3.7.0",
+ "spacy_version": "3.7.5",
+ "cases": [
+  {
+   "text": "O Dr. João Silva atende às terças no hospital de Lisboa.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "Dr.",
+     "offset": 2,
+     "norm": "dr.",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Dr."
+    },
+    {
+     "text": "João",
+     "offset": 6,
+     "norm": "joão",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "João"
+    },
+    {
+     "text": "Silva",
+     "offset": 11,
+     "norm": "silva",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Silva"
+    },
+    {
+     "text": "atende",
+     "offset": 17,
+     "norm": "atende",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "atender"
+    },
+    {
+     "text": "às",
+     "offset": 24,
+     "norm": "às",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a o"
+    },
+    {
+     "text": "terças",
+     "offset": 27,
+     "norm": "terças",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "terça"
+    },
+    {
+     "text": "no",
+     "offset": 34,
+     "norm": "no",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em o"
+    },
+    {
+     "text": "hospital",
+     "offset": 37,
+     "norm": "hospital",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "hospital"
+    },
+    {
+     "text": "de",
+     "offset": 46,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Lisboa",
+     "offset": 49,
+     "norm": "lisboa",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Lisboa"
+    },
+    {
+     "text": ".",
+     "offset": 55,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 2,
+     "end": 16,
+     "text": "Dr. João Silva"
+    },
+    {
+     "label": "LOC",
+     "start": 49,
+     "end": 55,
+     "text": "Lisboa"
+    }
+   ]
+  },
+  {
+   "text": "A Sra. Maria Santos assinou o contrato em 3 de março de 2021.",
+   "tokens": [
+    {
+     "text": "A",
+     "offset": 0,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "Sra.",
+     "offset": 2,
+     "norm": "sra.",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Sra."
+    },
+    {
+     "text": "Maria",
+     "offset": 7,
+     "norm": "maria",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Maria"
+    },
+    {
+     "text": "Santos",
+     "offset": 13,
+     "norm": "santos",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Santos"
+    },
+    {
+     "text": "assinou",
+     "offset": 20,
+     "norm": "assinou",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "assinar"
+    },
+    {
+     "text": "o",
+     "offset": 28,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "contrato",
+     "offset": 30,
+     "norm": "contrato",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "contrato"
+    },
+    {
+     "text": "em",
+     "offset": 39,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "3",
+     "offset": 42,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": "de",
+     "offset": 44,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "março",
+     "offset": 47,
+     "norm": "março",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "março"
+    },
+    {
+     "text": "de",
+     "offset": 53,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "2021",
+     "offset": 56,
+     "norm": "2021",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "2021"
+    },
+    {
+     "text": ".",
+     "offset": 60,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 2,
+     "end": 19,
+     "text": "Sra. Maria Santos"
+    }
+   ]
+  },
+  {
+   "text": "O Prof. António Ferreira leciona na Universidade de Coimbra.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "Prof",
+     "offset": 2,
+     "norm": "prof",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Prof"
+    },
+    {
+     "text": ".",
+     "offset": 6,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "António",
+     "offset": 8,
+     "norm": "antónio",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "António"
+    },
+    {
+     "text": "Ferreira",
+     "offset": 16,
+     "norm": "ferreira",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Ferreira"
+    },
+    {
+     "text": "leciona",
+     "offset": 25,
+     "norm": "leciona",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "lecionar"
+    },
+    {
+     "text": "na",
+     "offset": 33,
+     "norm": "na",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em o"
+    },
+    {
+     "text": "Universidade",
+     "offset": 36,
+     "norm": "universidade",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Universidade"
+    },
+    {
+     "text": "de",
+     "offset": 49,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Coimbra",
+     "offset": 52,
+     "norm": "coimbra",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Coimbra"
+    },
+    {
+     "text": ".",
+     "offset": 59,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 2,
+     "end": 6,
+     "text": "Prof"
+    },
+    {
+     "label": "PER",
+     "start": 8,
+     "end": 24,
+     "text": "António Ferreira"
+    },
+    {
+     "label": "LOC",
+     "start": 36,
+     "end": 59,
+     "text": "Universidade de Coimbra"
+    }
+   ]
+  },
+  {
+   "text": "O paciente, Sr. Luís Oliveira, nasceu em 14/02/1978 no Porto.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "paciente",
+     "offset": 2,
+     "norm": "paciente",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "paciente"
+    },
+    {
+     "text": ",",
+     "offset": 10,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "Sr.",
+     "offset": 12,
+     "norm": "sr.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "sr."
+    },
+    {
+     "text": "Luís",
+     "offset": 16,
+     "norm": "luís",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Luís"
+    },
+    {
+     "text": "Oliveira",
+     "offset": 21,
+     "norm": "oliveira",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Oliveira"
+    },
+    {
+     "text": ",",
+     "offset": 29,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "nasceu",
+     "offset": 31,
+     "norm": "nasceu",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "nascer"
+    },
+    {
+     "text": "em",
+     "offset": 38,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "14/02/1978",
+     "offset": 41,
+     "norm": "14/02/1978",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "14/02/1978"
+    },
+    {
+     "text": "no",
+     "offset": 52,
+     "norm": "no",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em o"
+    },
+    {
+     "text": "Porto",
+     "offset": 55,
+     "norm": "porto",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Porto"
+    },
+    {
+     "text": ".",
+     "offset": 60,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 12,
+     "end": 29,
+     "text": "Sr. Luís Oliveira"
+    },
+    {
+     "label": "LOC",
+     "start": 55,
+     "end": 60,
+     "text": "Porto"
+    }
+   ]
+  },
+  {
+   "text": "Exma. Sra. Doutora, agradeço a sua carta de 12 de maio.",
+   "tokens": [
+    {
+     "text": "Exma",
+     "offset": 0,
+     "norm": "exma",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Exma"
+    },
+    {
+     "text": ".",
+     "offset": 4,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "Sra.",
+     "offset": 6,
+     "norm": "sra.",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Sra."
+    },
+    {
+     "text": "Doutora",
+     "offset": 11,
+     "norm": "doutora",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Doutora"
+    },
+    {
+     "text": ",",
+     "offset": 18,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "agradeço",
+     "offset": 20,
+     "norm": "agradeço",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "agradeço"
+    },
+    {
+     "text": "a",
+     "offset": 29,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "sua",
+     "offset": 31,
+     "norm": "sua",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "seu"
+    },
+    {
+     "text": "carta",
+     "offset": 35,
+     "norm": "carta",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "carta"
+    },
+    {
+     "text": "de",
+     "offset": 41,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "12",
+     "offset": 44,
+     "norm": "12",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": "de",
+     "offset": 47,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "maio",
+     "offset": 50,
+     "norm": "maio",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "maio"
+    },
+    {
+     "text": ".",
+     "offset": 54,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 6,
+     "end": 18,
+     "text": "Sra. Doutora"
+    }
+   ]
+  },
+  {
+   "text": "A Petrobras e o Banco do Brasil assinaram o acordo em Brasília.",
+   "tokens": [
+    {
+     "text": "A",
+     "offset": 0,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "Petrobras",
+     "offset": 2,
+     "norm": "petrobras",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Petrobras"
+    },
+    {
+     "text": "e",
+     "offset": 12,
+     "norm": "e",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "o",
+     "offset": 14,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "Banco",
+     "offset": 16,
+     "norm": "banco",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Banco"
+    },
+    {
+     "text": "do",
+     "offset": 22,
+     "norm": "do",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de o"
+    },
+    {
+     "text": "Brasil",
+     "offset": 25,
+     "norm": "brasil",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Brasil"
+    },
+    {
+     "text": "assinaram",
+     "offset": 32,
+     "norm": "assinaram",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "assinar"
+    },
+    {
+     "text": "o",
+     "offset": 42,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "acordo",
+     "offset": 44,
+     "norm": "acordo",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "acordo"
+    },
+    {
+     "text": "em",
+     "offset": 51,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "Brasília",
+     "offset": 54,
+     "norm": "brasília",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Brasília"
+    },
+    {
+     "text": ".",
+     "offset": 62,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "ORG",
+     "start": 2,
+     "end": 11,
+     "text": "Petrobras"
+    },
+    {
+     "label": "ORG",
+     "start": 16,
+     "end": 31,
+     "text": "Banco do Brasil"
+    },
+    {
+     "label": "LOC",
+     "start": 54,
+     "end": 62,
+     "text": "Brasília"
+    }
+   ]
+  },
+  {
+   "text": "A empresa Construções Almeida Lda. tem sede em Braga.",
+   "tokens": [
+    {
+     "text": "A",
+     "offset": 0,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "empresa",
+     "offset": 2,
+     "norm": "empresa",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "empresa"
+    },
+    {
+     "text": "Construções",
+     "offset": 10,
+     "norm": "construções",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Construções"
+    },
+    {
+     "text": "Almeida",
+     "offset": 22,
+     "norm": "almeida",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Almeida"
+    },
+    {
+     "text": "Lda",
+     "offset": 30,
+     "norm": "lda",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Lda"
+    },
+    {
+     "text": ".",
+     "offset": 33,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "tem",
+     "offset": 35,
+     "norm": "tem",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "ter"
+    },
+    {
+     "text": "sede",
+     "offset": 39,
+     "norm": "sede",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "sede"
+    },
+    {
+     "text": "em",
+     "offset": 44,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "Braga",
+     "offset": 47,
+     "norm": "braga",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Braga"
+    },
+    {
+     "text": ".",
+     "offset": 52,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 10,
+     "end": 33,
+     "text": "Construções Almeida Lda"
+    },
+    {
+     "label": "LOC",
+     "start": 47,
+     "end": 52,
+     "text": "Braga"
+    }
+   ]
+  },
+  {
+   "text": "O Ministério da Fazenda publicou a portaria.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "Ministério",
+     "offset": 2,
+     "norm": "ministério",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Ministério"
+    },
+    {
+     "text": "da",
+     "offset": 13,
+     "norm": "da",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de o"
+    },
+    {
+     "text": "Fazenda",
+     "offset": 16,
+     "norm": "fazenda",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Fazenda"
+    },
+    {
+     "text": "publicou",
+     "offset": 24,
+     "norm": "publicou",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "publicar"
+    },
+    {
+     "text": "a",
+     "offset": 33,
+     "norm": "a",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "portaria",
+     "offset": 35,
+     "norm": "portaria",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "portaria"
+    },
+    {
+     "text": ".",
+     "offset": 43,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 2,
+     "end": 23,
+     "text": "Ministério da Fazenda"
+    }
+   ]
+  },
+  {
+   "text": "Foi de Belo Horizonte a Salvador passando por Vitória.",
+   "tokens": [
+    {
+     "text": "Foi",
+     "offset": 0,
+     "norm": "foi",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "ser"
+    },
+    {
+     "text": "de",
+     "offset": 4,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Belo",
+     "offset": 7,
+     "norm": "belo",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Belo"
+    },
+    {
+     "text": "Horizonte",
+     "offset": 12,
+     "norm": "horizonte",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Horizonte"
+    },
+    {
+     "text": "a",
+     "offset": 22,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "Salvador",
+     "offset": 24,
+     "norm": "salvador",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Salvador"
+    },
+    {
+     "text": "passando",
+     "offset": 33,
+     "norm": "passando",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "passar"
+    },
+    {
+     "text": "por",
+     "offset": 42,
+     "norm": "por",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "por"
+    },
+    {
+     "text": "Vitória",
+     "offset": 46,
+     "norm": "vitória",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "vitória"
+    },
+    {
+     "text": ".",
+     "offset": 53,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 7,
+     "end": 21,
+     "text": "Belo Horizonte"
+    },
+    {
+     "label": "LOC",
+     "start": 24,
+     "end": 32,
+     "text": "Salvador"
+    },
+    {
+     "label": "LOC",
+     "start": 46,
+     "end": 53,
+     "text": "Vitória"
+    }
+   ]
+  },
+  {
+   "text": "A sede fica em São Paulo, mas o registo é no Rio de Janeiro.",
+   "tokens": [
+    {
+     "text": "A",
+     "offset": 0,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "sede",
+     "offset": 2,
+     "norm": "sede",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "sede"
+    },
+    {
+     "text": "fica",
+     "offset": 7,
+     "norm": "fica",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "ficar"
+    },
+    {
+     "text": "em",
+     "offset": 12,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "São",
+     "offset": 15,
+     "norm": "são",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "São"
+    },
+    {
+     "text": "Paulo",
+     "offset": 19,
+     "norm": "paulo",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Paulo"
+    },
+    {
+     "text": ",",
+     "offset": 24,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "mas",
+     "offset": 26,
+     "norm": "mas",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "mas"
+    },
+    {
+     "text": "o",
+     "offset": 30,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "registo",
+     "offset": 32,
+     "norm": "registo",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "registo"
+    },
+    {
+     "text": "é",
+     "offset": 40,
+     "norm": "é",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "no",
+     "offset": 42,
+     "norm": "no",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em o"
+    },
+    {
+     "text": "Rio",
+     "offset": 45,
+     "norm": "rio",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Rio"
+    },
+    {
+     "text": "de",
+     "offset": 49,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "Janeiro",
+     "offset": 52,
+     "norm": "janeiro",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Janeiro"
+    },
+    {
+     "text": ".",
+     "offset": 59,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 15,
+     "end": 24,
+     "text": "São Paulo"
+    },
+    {
+     "label": "LOC",
+     "start": 45,
+     "end": 59,
+     "text": "Rio de Janeiro"
+    }
+   ]
+  },
+  {
+   "text": "Florianópolis e Curitiba ficam no Sul do país.",
+   "tokens": [
+    {
+     "text": "Florianópolis",
+     "offset": 0,
+     "norm": "florianópolis",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Florianópolis"
+    },
+    {
+     "text": "e",
+     "offset": 14,
+     "norm": "e",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "Curitiba",
+     "offset": 16,
+     "norm": "curitiba",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Curitiba"
+    },
+    {
+     "text": "ficam",
+     "offset": 25,
+     "norm": "ficam",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "ficar"
+    },
+    {
+     "text": "no",
+     "offset": 31,
+     "norm": "no",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em o"
+    },
+    {
+     "text": "Sul",
+     "offset": 34,
+     "norm": "sul",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "Sul"
+    },
+    {
+     "text": "do",
+     "offset": 38,
+     "norm": "do",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de o"
+    },
+    {
+     "text": "país",
+     "offset": 41,
+     "norm": "país",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "país"
+    },
+    {
+     "text": ".",
+     "offset": 45,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 0,
+     "end": 13,
+     "text": "Florianópolis"
+    },
+    {
+     "label": "LOC",
+     "start": 16,
+     "end": 24,
+     "text": "Curitiba"
+    },
+    {
+     "label": "LOC",
+     "start": 34,
+     "end": 37,
+     "text": "Sul"
+    }
+   ]
+  },
+  {
+   "text": "Escreva-me para ana.souza@exemplo.com.br ou ligue para +55 11 91234-5678.",
+   "tokens": [
+    {
+     "text": "Escreva-me",
+     "offset": 0,
+     "norm": "escreva-me",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "Escreva-me"
+    },
+    {
+     "text": "para",
+     "offset": 11,
+     "norm": "para",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "para"
+    },
+    {
+     "text": "ana.souza@exemplo.com.br",
+     "offset": 16,
+     "norm": "ana.souza@exemplo.com.br",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "ana.souza@exemplo.com.br"
+    },
+    {
+     "text": "ou",
+     "offset": 41,
+     "norm": "ou",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "ou"
+    },
+    {
+     "text": "ligue",
+     "offset": 44,
+     "norm": "ligue",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "ligar"
+    },
+    {
+     "text": "para",
+     "offset": 50,
+     "norm": "para",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "para"
+    },
+    {
+     "text": "+55",
+     "offset": 55,
+     "norm": "+55",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "+55"
+    },
+    {
+     "text": "11",
+     "offset": 59,
+     "norm": "11",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "11"
+    },
+    {
+     "text": "91234-5678",
+     "offset": 62,
+     "norm": "91234-5678",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "91234-5678"
+    },
+    {
+     "text": ".",
+     "offset": 72,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "O meu telefone é (11) 3123-4567 e o telemóvel 912 345 678.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "meu",
+     "offset": 2,
+     "norm": "meu",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "meu"
+    },
+    {
+     "text": "telefone",
+     "offset": 6,
+     "norm": "telefone",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "telefone"
+    },
+    {
+     "text": "é",
+     "offset": 15,
+     "norm": "é",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "(",
+     "offset": 17,
+     "norm": "(",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "("
+    },
+    {
+     "text": "11",
+     "offset": 18,
+     "norm": "11",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "11"
+    },
+    {
+     "text": ")",
+     "offset": 20,
+     "norm": ")",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ")"
+    },
+    {
+     "text": "3123-4567",
+     "offset": 22,
+     "norm": "3123-4567",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3123-4567"
+    },
+    {
+     "text": "e",
+     "offset": 32,
+     "norm": "e",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "o",
+     "offset": 34,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "telemóvel",
+     "offset": 36,
+     "norm": "telemóvel",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "telemóvel"
+    },
+    {
+     "text": "912",
+     "offset": 46,
+     "norm": "912",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "912"
+    },
+    {
+     "text": "345",
+     "offset": 50,
+     "norm": "345",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "345"
+    },
+    {
+     "text": "678",
+     "offset": 54,
+     "norm": "678",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "678"
+    },
+    {
+     "text": ".",
+     "offset": 57,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "O servidor responde em 192.168.0.14 e a documentação está em https://exemplo.pt/ajuda.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "servidor",
+     "offset": 2,
+     "norm": "servidor",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "servidor"
+    },
+    {
+     "text": "responde",
+     "offset": 11,
+     "norm": "responde",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "responder"
+    },
+    {
+     "text": "em",
+     "offset": 20,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "192.168.0.14",
+     "offset": 23,
+     "norm": "192.168.0.14",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "192.168.0.14"
+    },
+    {
+     "text": "e",
+     "offset": 36,
+     "norm": "e",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "a",
+     "offset": 38,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "documentação",
+     "offset": 40,
+     "norm": "documentação",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "documentação"
+    },
+    {
+     "text": "está",
+     "offset": 53,
+     "norm": "está",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "estar"
+    },
+    {
+     "text": "em",
+     "offset": 58,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "https://exemplo.pt/ajuda",
+     "offset": 61,
+     "norm": "https://exemplo.pt/ajuda",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "https://exemplo.pt/ajuda"
+    },
+    {
+     "text": ".",
+     "offset": 85,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "O CPF dele é 123.456.789-09 e o CNPJ da empresa 11.222.333/0001-81.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "CPF",
+     "offset": 2,
+     "norm": "cpf",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "CPF"
+    },
+    {
+     "text": "dele",
+     "offset": 6,
+     "norm": "dele",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "de ele"
+    },
+    {
+     "text": "é",
+     "offset": 11,
+     "norm": "é",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "123.456.",
+     "offset": 13,
+     "norm": "123.456.",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "123.456."
+    },
+    {
+     "text": "789-09",
+     "offset": 21,
+     "norm": "789-09",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "789-09"
+    },
+    {
+     "text": "e",
+     "offset": 28,
+     "norm": "e",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "o",
+     "offset": 30,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "CNPJ",
+     "offset": 32,
+     "norm": "cnpj",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "CNPJ"
+    },
+    {
+     "text": "da",
+     "offset": 37,
+     "norm": "da",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de o"
+    },
+    {
+     "text": "empresa",
+     "offset": 40,
+     "norm": "empresa",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "empresa"
+    },
+    {
+     "text": "11.222.333/",
+     "offset": 48,
+     "norm": "11.222.333/",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "11.222.333/"
+    },
+    {
+     "text": "0001-81",
+     "offset": 59,
+     "norm": "0001-81",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "0001-81"
+    },
+    {
+     "text": ".",
+     "offset": 66,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 2,
+     "end": 5,
+     "text": "CPF"
+    },
+    {
+     "label": "ORG",
+     "start": 32,
+     "end": 36,
+     "text": "CNPJ"
+    }
+   ]
+  },
+  {
+   "text": "O prazo terminou em 31/12/2023 às 23:59.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "prazo",
+     "offset": 2,
+     "norm": "prazo",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "prazo"
+    },
+    {
+     "text": "terminou",
+     "offset": 8,
+     "norm": "terminou",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "terminar"
+    },
+    {
+     "text": "em",
+     "offset": 17,
+     "norm": "em",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em"
+    },
+    {
+     "text": "31/12/2023",
+     "offset": 20,
+     "norm": "31/12/2023",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "31/12/2023"
+    },
+    {
+     "text": "às",
+     "offset": 31,
+     "norm": "às",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a o"
+    },
+    {
+     "text": "23:59",
+     "offset": 34,
+     "norm": "23:59",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "23:59"
+    },
+    {
+     "text": ".",
+     "offset": 39,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "O valor de 1.234,56 EUR foi creditado a 5 de junho.",
+   "tokens": [
+    {
+     "text": "O",
+     "offset": 0,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "valor",
+     "offset": 2,
+     "norm": "valor",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "valor"
+    },
+    {
+     "text": "de",
+     "offset": 8,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "1.234,56",
+     "offset": 11,
+     "norm": "1.234,56",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1.234,56"
+    },
+    {
+     "text": "EUR",
+     "offset": 20,
+     "norm": "eur",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "EUR"
+    },
+    {
+     "text": "foi",
+     "offset": 24,
+     "norm": "foi",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "creditado",
+     "offset": 28,
+     "norm": "creditado",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "creditar"
+    },
+    {
+     "text": "a",
+     "offset": 38,
+     "norm": "a",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "5",
+     "offset": 40,
+     "norm": "5",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "5"
+    },
+    {
+     "text": "de",
+     "offset": 42,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "junho",
+     "offset": 45,
+     "norm": "junho",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "junho"
+    },
+    {
+     "text": ".",
+     "offset": 50,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "No terceiro trimestre as vendas subiram 12,5 por cento.",
+   "tokens": [
+    {
+     "text": "No",
+     "offset": 0,
+     "norm": "no",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em o"
+    },
+    {
+     "text": "terceiro",
+     "offset": 3,
+     "norm": "terceiro",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "terceiro"
+    },
+    {
+     "text": "trimestre",
+     "offset": 12,
+     "norm": "trimestre",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "trimestre"
+    },
+    {
+     "text": "as",
+     "offset": 22,
+     "norm": "as",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "vendas",
+     "offset": 25,
+     "norm": "vendas",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "venda"
+    },
+    {
+     "text": "subiram",
+     "offset": 32,
+     "norm": "subiram",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "subir"
+    },
+    {
+     "text": "12,5",
+     "offset": 40,
+     "norm": "12,5",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12,5"
+    },
+    {
+     "text": "por",
+     "offset": 45,
+     "norm": "por",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "por"
+    },
+    {
+     "text": "cento",
+     "offset": 49,
+     "norm": "cento",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "cento"
+    },
+    {
+     "text": ".",
+     "offset": 54,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "A reunião decorrerá das 9.30 às 17.00.",
+   "tokens": [
+    {
+     "text": "A",
+     "offset": 0,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "reunião",
+     "offset": 2,
+     "norm": "reunião",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "reunião"
+    },
+    {
+     "text": "decorrerá",
+     "offset": 10,
+     "norm": "decorrerá",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "decorrer"
+    },
+    {
+     "text": "das",
+     "offset": 20,
+     "norm": "das",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de o"
+    },
+    {
+     "text": "9.30",
+     "offset": 24,
+     "norm": "9.30",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "9.30"
+    },
+    {
+     "text": "às",
+     "offset": 29,
+     "norm": "às",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a o"
+    },
+    {
+     "text": "17.00",
+     "offset": 32,
+     "norm": "17.00",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "17.00"
+    },
+    {
+     "text": ".",
+     "offset": 37,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Isto aplica-se p. ex. aos contratos anteriores a 2020.",
+   "tokens": [
+    {
+     "text": "Isto",
+     "offset": 0,
+     "norm": "isto",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "isto"
+    },
+    {
+     "text": "aplica-se",
+     "offset": 5,
+     "norm": "aplica-se",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "aplicar se"
+    },
+    {
+     "text": "p.",
+     "offset": 15,
+     "norm": "p.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "p."
+    },
+    {
+     "text": "ex",
+     "offset": 18,
+     "norm": "ex",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "ex"
+    },
+    {
+     "text": ".",
+     "offset": 20,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "aos",
+     "offset": 22,
+     "norm": "aos",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a o"
+    },
+    {
+     "text": "contratos",
+     "offset": 26,
+     "norm": "contratos",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "contrato"
+    },
+    {
+     "text": "anteriores",
+     "offset": 36,
+     "norm": "anteriores",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "anterior"
+    },
+    {
+     "text": "a",
+     "offset": 47,
+     "norm": "a",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a"
+    },
+    {
+     "text": "2020",
+     "offset": 49,
+     "norm": "2020",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "2020"
+    },
+    {
+     "text": ".",
+     "offset": 53,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Traga o bilhete de identidade, o cartão, etc. à consulta.",
+   "tokens": [
+    {
+     "text": "Traga",
+     "offset": 0,
+     "norm": "traga",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "traga"
+    },
+    {
+     "text": "o",
+     "offset": 6,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "bilhete",
+     "offset": 8,
+     "norm": "bilhete",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "bilhete"
+    },
+    {
+     "text": "de",
+     "offset": 16,
+     "norm": "de",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de"
+    },
+    {
+     "text": "identidade",
+     "offset": 19,
+     "norm": "identidade",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "identidade"
+    },
+    {
+     "text": ",",
+     "offset": 29,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "o",
+     "offset": 31,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "cartão",
+     "offset": 33,
+     "norm": "cartão",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "cartão"
+    },
+    {
+     "text": ",",
+     "offset": 39,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "etc.",
+     "offset": 41,
+     "norm": "etc.",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "etc."
+    },
+    {
+     "text": "à",
+     "offset": 46,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a o"
+    },
+    {
+     "text": "consulta",
+     "offset": 48,
+     "norm": "consulta",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "consulta"
+    },
+    {
+     "text": ".",
+     "offset": 56,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "A morada é Rua Augusta, n.º 12, 1100-053 Lisboa.",
+   "tokens": [
+    {
+     "text": "A",
+     "offset": 0,
+     "norm": "a",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "morada",
+     "offset": 2,
+     "norm": "morada",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "morada"
+    },
+    {
+     "text": "é",
+     "offset": 9,
+     "norm": "é",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "Rua",
+     "offset": 11,
+     "norm": "rua",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Rua"
+    },
+    {
+     "text": "Augusta",
+     "offset": 15,
+     "norm": "augusta",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Augusta"
+    },
+    {
+     "text": ",",
+     "offset": 22,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "n.º",
+     "offset": 24,
+     "norm": "n.º",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "n.º"
+    },
+    {
+     "text": "12",
+     "offset": 28,
+     "norm": "12",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "12"
+    },
+    {
+     "text": ",",
+     "offset": 30,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "1100-053",
+     "offset": 32,
+     "norm": "1100-053",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "1100-053"
+    },
+    {
+     "text": "Lisboa",
+     "offset": 41,
+     "norm": "lisboa",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Lisboa"
+    },
+    {
+     "text": ".",
+     "offset": 47,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 11,
+     "end": 22,
+     "text": "Rua Augusta"
+    },
+    {
+     "label": "LOC",
+     "start": 41,
+     "end": 47,
+     "text": "Lisboa"
+    }
+   ]
+  },
+  {
+   "text": "Cf. o art. 12.º do Regulamento, n.º 3.",
+   "tokens": [
+    {
+     "text": "Cf",
+     "offset": 0,
+     "norm": "cf",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "cf"
+    },
+    {
+     "text": ".",
+     "offset": 2,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    },
+    {
+     "text": "o",
+     "offset": 4,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "art.",
+     "offset": 6,
+     "norm": "art.",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "art."
+    },
+    {
+     "text": "12.º",
+     "offset": 11,
+     "norm": "12.º",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "12.º"
+    },
+    {
+     "text": "do",
+     "offset": 16,
+     "norm": "do",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de o"
+    },
+    {
+     "text": "Regulamento",
+     "offset": 19,
+     "norm": "regulamento",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "Regulamento"
+    },
+    {
+     "text": ",",
+     "offset": 30,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "n.º",
+     "offset": 32,
+     "norm": "n.º",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "n.º"
+    },
+    {
+     "text": "3",
+     "offset": 36,
+     "norm": "3",
+     "tag": "NUM",
+     "pos": "NUM",
+     "lemma": "3"
+    },
+    {
+     "text": ".",
+     "offset": 37,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 19,
+     "end": 30,
+     "text": "Regulamento"
+    }
+   ]
+  },
+  {
+   "text": "Diga-me quando puder, e avise-o também.",
+   "tokens": [
+    {
+     "text": "Diga-me",
+     "offset": 0,
+     "norm": "diga-me",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "Diga-me"
+    },
+    {
+     "text": "quando",
+     "offset": 8,
+     "norm": "quando",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "quando"
+    },
+    {
+     "text": "puder",
+     "offset": 15,
+     "norm": "puder",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "puder"
+    },
+    {
+     "text": ",",
+     "offset": 20,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "e",
+     "offset": 22,
+     "norm": "e",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "avise-o",
+     "offset": 24,
+     "norm": "avise-o",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "avise-o"
+    },
+    {
+     "text": "também",
+     "offset": 32,
+     "norm": "também",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "também"
+    },
+    {
+     "text": ".",
+     "offset": 38,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 7,
+     "text": "Diga-me"
+    }
+   ]
+  },
+  {
+   "text": "Encontrámo-nos ontem e falámos disso.",
+   "tokens": [
+    {
+     "text": "Encontrámo-nos",
+     "offset": 0,
+     "norm": "encontrámo-nos",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "encontrámo-no"
+    },
+    {
+     "text": "ontem",
+     "offset": 15,
+     "norm": "ontem",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "ontem"
+    },
+    {
+     "text": "e",
+     "offset": 21,
+     "norm": "e",
+     "tag": "CCONJ",
+     "pos": "CCONJ",
+     "lemma": "e"
+    },
+    {
+     "text": "falámos",
+     "offset": 23,
+     "norm": "falámos",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "falár"
+    },
+    {
+     "text": "disso",
+     "offset": 31,
+     "norm": "disso",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "de isso"
+    },
+    {
+     "text": ".",
+     "offset": 36,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Dar-lhe-ei uma resposta amanhã.",
+   "tokens": [
+    {
+     "text": "Dar-lhe-ei",
+     "offset": 0,
+     "norm": "dar-lhe-ei",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "dar-lhe-ei"
+    },
+    {
+     "text": "uma",
+     "offset": 11,
+     "norm": "uma",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "um"
+    },
+    {
+     "text": "resposta",
+     "offset": 15,
+     "norm": "resposta",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "resposta"
+    },
+    {
+     "text": "amanhã",
+     "offset": 24,
+     "norm": "amanhã",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "amanhã"
+    },
+    {
+     "text": ".",
+     "offset": 30,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Vamos ao cinema do centro, à noite.",
+   "tokens": [
+    {
+     "text": "Vamos",
+     "offset": 0,
+     "norm": "vamos",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ir"
+    },
+    {
+     "text": "ao",
+     "offset": 6,
+     "norm": "ao",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a o"
+    },
+    {
+     "text": "cinema",
+     "offset": 9,
+     "norm": "cinema",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "cinema"
+    },
+    {
+     "text": "do",
+     "offset": 16,
+     "norm": "do",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "de o"
+    },
+    {
+     "text": "centro",
+     "offset": 19,
+     "norm": "centro",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "Centro"
+    },
+    {
+     "text": ",",
+     "offset": 25,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "à",
+     "offset": 27,
+     "norm": "à",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "a o"
+    },
+    {
+     "text": "noite",
+     "offset": 29,
+     "norm": "noite",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "noite"
+    },
+    {
+     "text": ".",
+     "offset": 34,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "As informações estão na secção seguinte.",
+   "tokens": [
+    {
+     "text": "As",
+     "offset": 0,
+     "norm": "as",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "informações",
+     "offset": 3,
+     "norm": "informações",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "informação"
+    },
+    {
+     "text": "estão",
+     "offset": 15,
+     "norm": "estão",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "estar"
+    },
+    {
+     "text": "na",
+     "offset": 21,
+     "norm": "na",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "em o"
+    },
+    {
+     "text": "secção",
+     "offset": 24,
+     "norm": "secção",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "secção"
+    },
+    {
+     "text": "seguinte",
+     "offset": 31,
+     "norm": "seguinte",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "seguinte"
+    },
+    {
+     "text": ".",
+     "offset": 39,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Não é assim tão simples, pois não?",
+   "tokens": [
+    {
+     "text": "Não",
+     "offset": 0,
+     "norm": "não",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "não"
+    },
+    {
+     "text": "é",
+     "offset": 4,
+     "norm": "é",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "assim",
+     "offset": 6,
+     "norm": "assim",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "assim"
+    },
+    {
+     "text": "tão",
+     "offset": 12,
+     "norm": "tão",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "tão"
+    },
+    {
+     "text": "simples",
+     "offset": 16,
+     "norm": "simples",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "simples"
+    },
+    {
+     "text": ",",
+     "offset": 23,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "pois",
+     "offset": 25,
+     "norm": "pois",
+     "tag": "SCONJ",
+     "pos": "SCONJ",
+     "lemma": "pois"
+    },
+    {
+     "text": "não",
+     "offset": 30,
+     "norm": "não",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "não"
+    },
+    {
+     "text": "?",
+     "offset": 33,
+     "norm": "?",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "?"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "Ele é o irmão mais novo — não o mais velho.",
+   "tokens": [
+    {
+     "text": "Ele",
+     "offset": 0,
+     "norm": "ele",
+     "tag": "PRON",
+     "pos": "PRON",
+     "lemma": "ele"
+    },
+    {
+     "text": "é",
+     "offset": 4,
+     "norm": "é",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "o",
+     "offset": 6,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "o"
+    },
+    {
+     "text": "irmão",
+     "offset": 8,
+     "norm": "irmão",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "irmão"
+    },
+    {
+     "text": "mais",
+     "offset": 14,
+     "norm": "mais",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "mais"
+    },
+    {
+     "text": "novo",
+     "offset": 19,
+     "norm": "novo",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "novo"
+    },
+    {
+     "text": "—",
+     "offset": 24,
+     "norm": "-",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "—"
+    },
+    {
+     "text": "não",
+     "offset": 26,
+     "norm": "não",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "não"
+    },
+    {
+     "text": "o",
+     "offset": 30,
+     "norm": "o",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "ele"
+    },
+    {
+     "text": "mais",
+     "offset": 32,
+     "norm": "mais",
+     "tag": "ADV",
+     "pos": "ADV",
+     "lemma": "mais"
+    },
+    {
+     "text": "velho",
+     "offset": 37,
+     "norm": "velho",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "velho"
+    },
+    {
+     "text": ".",
+     "offset": 42,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "words,heads,deps,pos,chunk_offsets",
+   "tokens": [
+    {
+     "text": "words",
+     "offset": 0,
+     "norm": "words",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "words"
+    },
+    {
+     "text": ",",
+     "offset": 5,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "heads",
+     "offset": 6,
+     "norm": "heads",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "head"
+    },
+    {
+     "text": ",",
+     "offset": 11,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "deps",
+     "offset": 12,
+     "norm": "deps",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "deps"
+    },
+    {
+     "text": ",",
+     "offset": 16,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "pos",
+     "offset": 17,
+     "norm": "pos",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "po"
+    },
+    {
+     "text": ",",
+     "offset": 20,
+     "norm": ",",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ","
+    },
+    {
+     "text": "chunk_offsets",
+     "offset": 21,
+     "norm": "chunk_offsets",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "chunk_offsets"
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 5,
+     "text": "words"
+    }
+   ]
+  },
+  {
+   "text": "Test that noun_chunks raises Value Error for 'pt' language if Doc is not parsed.",
+   "tokens": [
+    {
+     "text": "Test",
+     "offset": 0,
+     "norm": "test",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "test"
+    },
+    {
+     "text": "that",
+     "offset": 5,
+     "norm": "that",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "that"
+    },
+    {
+     "text": "noun_chunks",
+     "offset": 10,
+     "norm": "noun_chunks",
+     "tag": "ADP",
+     "pos": "ADP",
+     "lemma": "noun_chunks"
+    },
+    {
+     "text": "raises",
+     "offset": 22,
+     "norm": "raises",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "raises"
+    },
+    {
+     "text": "Value",
+     "offset": 29,
+     "norm": "value",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Value"
+    },
+    {
+     "text": "Error",
+     "offset": 35,
+     "norm": "error",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Error"
+    },
+    {
+     "text": "for",
+     "offset": 41,
+     "norm": "for",
+     "tag": "AUX",
+     "pos": "AUX",
+     "lemma": "ser"
+    },
+    {
+     "text": "'",
+     "offset": 45,
+     "norm": "'",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "'"
+    },
+    {
+     "text": "pt",
+     "offset": 46,
+     "norm": "pt",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "pt"
+    },
+    {
+     "text": "'",
+     "offset": 48,
+     "norm": "'",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "'"
+    },
+    {
+     "text": "language",
+     "offset": 50,
+     "norm": "language",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "language"
+    },
+    {
+     "text": "if",
+     "offset": 59,
+     "norm": "if",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "if"
+    },
+    {
+     "text": "Doc",
+     "offset": 62,
+     "norm": "doc",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Doc"
+    },
+    {
+     "text": "is",
+     "offset": 66,
+     "norm": "is",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "is"
+    },
+    {
+     "text": "not",
+     "offset": 69,
+     "norm": "not",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Not"
+    },
+    {
+     "text": "parsed",
+     "offset": 73,
+     "norm": "parsed",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "parsed"
+    },
+    {
+     "text": ".",
+     "offset": 79,
+     "norm": ".",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": "."
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 0,
+     "end": 4,
+     "text": "Test"
+    },
+    {
+     "label": "MISC",
+     "start": 29,
+     "end": 68,
+     "text": "Value Error for 'pt' language if Doc is"
+    }
+   ]
+  },
+  {
+   "text": "en Oxford este verano",
+   "tokens": [
+    {
+     "text": "en",
+     "offset": 0,
+     "norm": "en",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "en"
+    },
+    {
+     "text": "Oxford",
+     "offset": 3,
+     "norm": "oxford",
+     "tag": "PROPN",
+     "pos": "PROPN",
+     "lemma": "Oxford"
+    },
+    {
+     "text": "este",
+     "offset": 10,
+     "norm": "este",
+     "tag": "DET",
+     "pos": "DET",
+     "lemma": "este"
+    },
+    {
+     "text": "verano",
+     "offset": 15,
+     "norm": "verano",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "verano"
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 3,
+     "end": 9,
+     "text": "Oxford"
+    }
+   ]
+  },
+  {
+   "text": "acl:relcl",
+   "tokens": [
+    {
+     "text": "acl",
+     "offset": 0,
+     "norm": "acl",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "acl"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "relcl",
+     "offset": 4,
+     "norm": "relcl",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "relcl"
+    }
+   ],
+   "entities": [
+    {
+     "label": "MISC",
+     "start": 0,
+     "end": 3,
+     "text": "acl"
+    }
+   ]
+  },
+  {
+   "text": "flat:name",
+   "tokens": [
+    {
+     "text": "flat",
+     "offset": 0,
+     "norm": "flat",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "flat"
+    },
+    {
+     "text": ":",
+     "offset": 4,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "name",
+     "offset": 5,
+     "norm": "name",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "name"
+    }
+   ],
+   "entities": [
+    {
+     "label": "LOC",
+     "start": 5,
+     "end": 9,
+     "text": "name"
+    }
+   ]
+  },
+  {
+   "text": "nsubj:pass",
+   "tokens": [
+    {
+     "text": "nsubj",
+     "offset": 0,
+     "norm": "nsubj",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "nsubj"
+    },
+    {
+     "text": ":",
+     "offset": 5,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "pass",
+     "offset": 6,
+     "norm": "pass",
+     "tag": "ADJ",
+     "pos": "ADJ",
+     "lemma": "pass"
+    }
+   ],
+   "entities": [
+    {
+     "label": "PER",
+     "start": 0,
+     "end": 5,
+     "text": "nsubj"
+    }
+   ]
+  },
+  {
+   "text": "aux:pass",
+   "tokens": [
+    {
+     "text": "aux",
+     "offset": 0,
+     "norm": "aux",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "aux"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "pass",
+     "offset": 4,
+     "norm": "pass",
+     "tag": "VERB",
+     "pos": "VERB",
+     "lemma": "pass"
+    }
+   ],
+   "entities": []
+  },
+  {
+   "text": "obl:agent",
+   "tokens": [
+    {
+     "text": "obl",
+     "offset": 0,
+     "norm": "obl",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "obl"
+    },
+    {
+     "text": ":",
+     "offset": 3,
+     "norm": ":",
+     "tag": "PUNCT",
+     "pos": "PUNCT",
+     "lemma": ":"
+    },
+    {
+     "text": "agent",
+     "offset": 4,
+     "norm": "agent",
+     "tag": "NOUN",
+     "pos": "NOUN",
+     "lemma": "agent"
+    }
+   ],
+   "entities": []
+  }
+ ]
+}

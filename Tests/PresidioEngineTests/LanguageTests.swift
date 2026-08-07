@@ -119,9 +119,11 @@ struct LanguageTests {
         #expect(LexicalTables.germanStopWords.count == 543)
 
         #expect(LexicalTables.hasStopWords(for: "de"))
-        #expect(!LexicalTables.hasStopWords(for: "fr"),
-                "French has none bundled; that is a gap, not a claim about French")
-        #expect(!LexicalTables.isStopWord("le", language: "fr"))
+        // Polish, not French: French had none bundled when this was written and
+        // now does, so the example moved to a language where the gap is real.
+        #expect(!LexicalTables.hasStopWords(for: "pl"),
+                "Polish has none bundled; that is a gap, not a claim about Polish")
+        #expect(!LexicalTables.isStopWord("nie", language: "pl"))
 
         // Spanish and Italian, added alongside their tokenizers.
         #expect(LexicalTables.isStopWord("el", language: "es"))
@@ -135,6 +137,11 @@ struct LanguageTests {
         #expect(LexicalTables.isStopWord("та", language: "uk"))
         #expect(LexicalTables.russianStopWords.count == 768)
         #expect(LexicalTables.ukrainianStopWords.count == 467)
+
+        #expect(LexicalTables.isStopWord("dont", language: "fr"))
+        #expect(LexicalTables.isStopWord("porém", language: "pt"))
+        #expect(LexicalTables.frenchStopWords.count == 507)
+        #expect(LexicalTables.portugueseStopWords.count == 416)
     }
 
     /// Italian, whose 5 catalogue recognizers are the largest *enabled*
@@ -166,7 +173,7 @@ struct LanguageTests {
     /// cases they were supposed to disagree on. A test whose premise holds by
     /// luck is not a test.
     @Test("an engine for a bundled language does not fall back",
-          arguments: ["de", "es", "it", "ru", "uk"])
+          arguments: ["de", "es", "fr", "it", "pt", "ru", "uk"])
     func engineUsesItsOwnRules(language: String) throws {
         let engine = try TokenizerOnlyNlpEngine(supportedLanguages: [language])
         #expect(engine.warnings.isEmpty, "\(language): \(engine.warnings)")
@@ -186,13 +193,15 @@ struct LanguageTests {
     /// same tokens on everything tried, so asserting a difference would be
     /// asserting a coincidence.
     @Test("bundled rules differ from English where the languages do",
-          arguments: ["de", "es", "it", "ru"])
+          arguments: ["de", "es", "fr", "it", "pt", "ru"])
     func tokenizationDiffersFromEnglish(language: String) throws {
         let engine = try TokenizerOnlyNlpEngine(supportedLanguages: [language])
         let english = try TokenizerOnlyNlpEngine(supportedLanguages: ["en"])
         let probe = ["de": "Das gilt z.B. für Verträge.",
                      "es": "¿Quién? Esto se aplica p.ej. hoy.",
                      "it": "L'azienda dell'ingegnere è un'impresa.",
+                     "fr": "L'entreprise de l'ingénieur est à Aix-en-Provence.",
+                     "pt": "Diga-me quando puder, p. ex. amanhã.",
                      "ru": "Это касается напр. договоров и т.д."][language]!
         let mine = engine.process(text: probe, language: language).tokens
         let theirs = english.process(text: probe, language: "en").tokens
