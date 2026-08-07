@@ -56,11 +56,9 @@ struct Program {
 
 struct Compiler {
     var program = Program()
-    private let dotAll: Bool
     private let multiline: Bool
 
-    init(captureCount: Int, dotAll: Bool, multiline: Bool) {
-        self.dotAll = dotAll
+    init(captureCount: Int, multiline: Bool) {
         self.multiline = multiline
         program.captureCount = captureCount
     }
@@ -78,56 +76,61 @@ struct Compiler {
 
     /// Compile `root` into a complete program ending in `.match`.
     ///
-    /// `ignoreCase` is the pattern-level flag, which Presidio sets on every
-    /// pattern. It seeds the compile-time fold and `(?i)` groups widen it
-    /// further; folding at compile time means the VM never checks a flag.
+    /// The pattern-level flags seed the compile-time fold; `(?i:...)` groups
+    /// widen or narrow them lexically. Folding at compile time means the VM
+    /// never checks a flag.
+    ///
+    /// `multiline` is the exception and stays on the VM: `^` and `$` consult it
+    /// at match time. That is why a *scoped* `(?m:...)` is rejected by the
+    /// parser rather than quietly applied to the whole pattern.
     static func compile(
         _ root: Node, captureCount: Int,
         ignoreCase: Bool, dotAll: Bool, multiline: Bool
     ) -> Program {
-        var compiler = Compiler(
-            captureCount: captureCount, dotAll: dotAll, multiline: multiline
-        )
+        var compiler = Compiler(captureCount: captureCount, multiline: multiline)
+        var active: InlineFlags = []
+        if ignoreCase { active.insert(.ignoreCase) }
+        if dotAll { active.insert(.dotAll) }
         // Group 0 brackets the whole match.
         _ = compiler.emit(.save(0))
-        compiler.compileNode(root, ignoreCase: ignoreCase)
+        compiler.compileNode(root, active)
         _ = compiler.emit(.save(1))
         _ = compiler.emit(.match)
         return compiler.program
     }
 
-    private mutating func compileNode(_ node: Node, ignoreCase: Bool) {
+    private mutating func compileNode(_ node: Node, _ active: InlineFlags) {
         switch node {
         case .empty:
             break
 
         case .lit(let scalar):
-            _ = emit(.char(scalar, ignoreCase: ignoreCase))
+            _ = emit(.char(scalar, ignoreCase: active.contains(.ignoreCase)))
 
         case .cls(let characterClass):
             program.classes.append(characterClass)
-            _ = emit(.cls(program.classes.count - 1, ignoreCase: ignoreCase))
+            _ = emit(.cls(program.classes.count - 1, ignoreCase: active.contains(.ignoreCase)))
 
         case .any:
-            _ = emit(.any(dotAll: dotAll))
+            _ = emit(.any(dotAll: active.contains(.dotAll)))
 
         case .concat(let children):
-            for child in children { compileNode(child, ignoreCase: ignoreCase) }
+            for child in children { compileNode(child, active) }
 
         case .alt(let branches):
-            compileAlternation(branches, ignoreCase: ignoreCase)
+            compileAlternation(branches, active)
 
         case .group(let child, let capture):
             guard let capture else {
-                compileNode(child, ignoreCase: ignoreCase)
+                compileNode(child, active)
                 return
             }
             _ = emit(.save(capture * 2))
-            compileNode(child, ignoreCase: ignoreCase)
+            compileNode(child, active)
             _ = emit(.save(capture * 2 + 1))
 
         case .rep(let child, let low, let high, let greedy):
-            compileRepeat(child, low, high, greedy, ignoreCase: ignoreCase)
+            compileRepeat(child, low, high, greedy, active)
 
         case .look(let child, let ahead, let positive, let width):
             // Layout:
@@ -140,7 +143,7 @@ struct Compiler {
             let lookIndex = emit(.look(entry: 0, ahead: ahead, positive: positive, width: width))
             let skip = emit(.jmp(0))
             let bodyStart = program.insts.count
-            compileNode(child, ignoreCase: ignoreCase)
+            compileNode(child, active)
             _ = emit(.match)
             let after = program.insts.count
             program.insts[lookIndex] = .look(
@@ -149,7 +152,7 @@ struct Compiler {
             program.insts[skip] = .jmp(after)
 
         case .backref(let group):
-            _ = emit(.backref(group, ignoreCase: ignoreCase))
+            _ = emit(.backref(group, ignoreCase: active.contains(.ignoreCase)))
 
         case .wordB(let want):
             _ = emit(.wordBoundary(want))
@@ -166,27 +169,29 @@ struct Compiler {
         case .inputEnd:
             _ = emit(.inputEnd)
 
-        case .caseToggle(let child, let ignore):
-            // `(?i)` applies lexically, so fold it into the instructions at
-            // compile time rather than tracking a flag at run time.
-            compileNode(child, ignoreCase: ignore || ignoreCase)
+        case .flags(let child, let set, let clear):
+            // `(?i:...)` applies lexically, so fold it into the instructions at
+            // compile time rather than tracking a flag at run time. Note this
+            // both *sets* and *clears*: `(?-i:...)` inside a case-insensitive
+            // pattern has to narrow, which the old Bool could not express.
+            compileNode(child, active.union(set).subtracting(clear))
         }
     }
 
-    private mutating func compileAlternation(_ branches: [Node], ignoreCase: Bool) {
+    private mutating func compileAlternation(_ branches: [Node], _ active: InlineFlags) {
         guard !branches.isEmpty else { return }
         guard branches.count > 1 else {
-            compileNode(branches[0], ignoreCase: ignoreCase)
+            compileNode(branches[0], active)
             return
         }
         var exitJumps: [Int] = []
         for (index, branch) in branches.enumerated() {
             if index == branches.count - 1 {
-                compileNode(branch, ignoreCase: ignoreCase)
+                compileNode(branch, active)
             } else {
                 let split = emit(.split(0, 0))
                 let bodyStart = program.insts.count
-                compileNode(branch, ignoreCase: ignoreCase)
+                compileNode(branch, active)
                 exitJumps.append(emit(.jmp(0)))
                 program.insts[split] = .split(bodyStart, program.insts.count)
             }
@@ -196,7 +201,7 @@ struct Compiler {
     }
 
     private mutating func compileRepeat(
-        _ child: Node, _ low: Int, _ high: Int, _ greedy: Bool, ignoreCase: Bool
+        _ child: Node, _ low: Int, _ high: Int, _ greedy: Bool, _ active: InlineFlags
     ) {
         // Mandatory iterations. Each carries a progress check because the
         // matcher this replaces failed a zero-width mandatory iteration
@@ -206,7 +211,7 @@ struct Compiler {
         for _ in 0..<max(low, 0) {
             let mark = newMark()
             _ = emit(.setMark(mark))
-            compileNode(child, ignoreCase: ignoreCase)
+            compileNode(child, active)
             _ = emit(.progress(mark))
         }
 
@@ -216,7 +221,7 @@ struct Compiler {
             let loopStart = emit(.setMark(mark))
             let split = emit(.split(0, 0))
             let bodyStart = program.insts.count
-            compileNode(child, ignoreCase: ignoreCase)
+            compileNode(child, active)
             _ = emit(.progress(mark))
             _ = emit(.jmp(loopStart))
             let end = program.insts.count
@@ -234,7 +239,7 @@ struct Compiler {
                 let bodyStart = program.insts.count
                 let mark = newMark()
                 _ = emit(.setMark(mark))
-                compileNode(child, ignoreCase: ignoreCase)
+                compileNode(child, active)
                 _ = emit(.progress(mark))
                 pending.append((split, bodyStart))
             }

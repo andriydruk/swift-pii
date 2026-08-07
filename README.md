@@ -636,6 +636,25 @@ tokens — while ~93% of the intermediate floats differ in their last bits. CI
 runs both kernels against the same gold corpora on every push, because both are
 configurations someone ships.
 
+### Regex features
+
+`PureRegex` implements what Presidio's patterns and spaCy's tokenizer rules
+need: capture groups, alternation, backreferences, lookahead, fixed-width
+lookbehind, lazy and possessive quantifiers, Unicode classes from generated
+tables, and inline flag groups.
+
+**Inline flags** follow Python: `(?i)` applies to the whole pattern wherever it
+appears, `(?i:...)` and `(?-i:...)` are scoped to their group. `i`, `s`, `m` and
+`u` are supported. `a`, `L` and `x` are **rejected with an error** rather than
+ignored — each changes what a pattern means, and a silently dropped flag is a
+pattern that matches the wrong thing forever. Scoped `(?m:...)` is also rejected,
+because `^` and `$` consult multiline at match time and it cannot vary per
+subexpression.
+
+That strictness is not theoretical: the engine used to accept every flag and
+apply none of them, which made French's `(?iu)` tokenizer pattern
+case-sensitive and split `Saint-Louis` while leaving `franco-italienne` whole.
+
 ## Concurrency
 
 Every public type is `Sendable`, and an `AnalyzerEngine` is meant to be built

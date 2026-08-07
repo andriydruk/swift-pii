@@ -1,0 +1,528 @@
+{
+ "python_version": "3.10.7",
+ "cases": [
+  {
+   "pattern": "(?i)abc",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abc",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "ABC",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "AbC",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "xabc",
+     "spans": [
+      [
+       1,
+       4
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "\\b(?i)abc",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abc",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "ABC",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "x abc",
+     "spans": [
+      [
+       2,
+       5
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "a(?i)bc",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abc",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "aBC",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "ABC",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?i)[a-z]+",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "ABC",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "abc",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "AbC",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?i:abc)def",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abcdef",
+     "spans": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    {
+     "text": "ABCdef",
+     "spans": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    {
+     "text": "abcDEF",
+     "spans": []
+    },
+    {
+     "text": "ABCDEF",
+     "spans": []
+    }
+   ]
+  },
+  {
+   "pattern": "abc(?i:def)",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abcdef",
+     "spans": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    {
+     "text": "abcDEF",
+     "spans": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    {
+     "text": "ABCdef",
+     "spans": []
+    }
+   ]
+  },
+  {
+   "pattern": "(?i:a)(?i:b)c",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abc",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "ABc",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "ABC",
+     "spans": []
+    }
+   ]
+  },
+  {
+   "pattern": "(?-i:abc)",
+   "ignore_case": true,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abc",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "ABC",
+     "spans": []
+    }
+   ]
+  },
+  {
+   "pattern": "(?-i:abc)def",
+   "ignore_case": true,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "abcdef",
+     "spans": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    {
+     "text": "abcDEF",
+     "spans": [
+      [
+       0,
+       6
+      ]
+     ]
+    },
+    {
+     "text": "ABCdef",
+     "spans": []
+    }
+   ]
+  },
+  {
+   "pattern": "x(?-i:Y)z",
+   "ignore_case": true,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "xYz",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "XYZ",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "xyz",
+     "spans": []
+    },
+    {
+     "text": "XYz",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?s)a.b",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "a\nb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "axb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?s:a.b)",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "a\nb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "axb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?-s:a.b)",
+   "ignore_case": false,
+   "dot_all": true,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "a\nb",
+     "spans": []
+    },
+    {
+     "text": "axb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "a(?-s:.)b",
+   "ignore_case": false,
+   "dot_all": true,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "a\nb",
+     "spans": []
+    },
+    {
+     "text": "axb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?m)^b",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "a\nb",
+     "spans": [
+      [
+       2,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "b",
+     "spans": [
+      [
+       0,
+       1
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?iu)Saint-Louis",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "Saint-Louis",
+     "spans": [
+      [
+       0,
+       11
+      ]
+     ]
+    },
+    {
+     "text": "saint-louis",
+     "spans": [
+      [
+       0,
+       11
+      ]
+     ]
+    },
+    {
+     "text": "SAINT-LOUIS",
+     "spans": [
+      [
+       0,
+       11
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "pattern": "(?is)a.B",
+   "ignore_case": false,
+   "dot_all": false,
+   "multiline": false,
+   "texts": [
+    {
+     "text": "a\nb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "A\nB",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    },
+    {
+     "text": "axb",
+     "spans": [
+      [
+       0,
+       3
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

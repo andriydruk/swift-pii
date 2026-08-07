@@ -193,21 +193,10 @@ public final class SpacyTokenizer: @unchecked Sendable {
         self.infixRegex = try compile(rules.infix, "infix")
         self.urlRegex = try rules.url.map { try compile($0, "url") }
         // `token_match` is the one pattern that carries inline flags -- French
-        // opens with `(?iu)`. PureRegex does not implement inline flag groups;
-        // it parses them without error and then ignores them, so compiling this
-        // pattern verbatim silently loses case-insensitivity and every
-        // capitalised compound ("Saint-Louis") stops matching while lower-case
-        // ones still do. The flags are therefore lifted out of the pattern and
-        // passed to the constructor, which is where this engine takes them.
-        self.tokenMatchRegex = try rules.tokenMatch.map { raw in
-            let (body, flags) = SpacyTokenizer.splitLeadingInlineFlags(raw)
-            do {
-                return try PureRegex(
-                    body, ignoreCase: flags.ignoreCase,
-                    dotAll: flags.dotAll, multiline: flags.multiline
-                )
-            } catch { throw LoadError.badPattern("token_match", error) }
-        }
+        // opens with `(?iu)`. PureRegex honours those itself now, so this
+        // compiles like any other pattern; it used to need the flags lifted out
+        // by hand because the engine parsed them and then ignored them.
+        self.tokenMatchRegex = try rules.tokenMatch.map { try compile($0, "token_match") }
         self.specials = rules.specials.mapValues { pieces in
             pieces.map { Token0(orth: $0.orth, norm: $0.norm) }
         }
@@ -340,42 +329,6 @@ public final class SpacyTokenizer: @unchecked Sendable {
 
     func infixRanges(_ text: String) -> [(Int, Int)] {
         infixRegex.matches(in: text)
-    }
-
-    /// Lifts a leading `(?imsux)` group out of a pattern.
-    ///
-    /// Python defaults to Unicode semantics, so `u` is a no-op here; `a`
-    /// (ASCII-only) would genuinely change `\w` and is deliberately *not*
-    /// silently accepted -- no bundled pattern uses it, and quietly ignoring it
-    /// is how a tokenizer starts disagreeing about what a word character is.
-    static func splitLeadingInlineFlags(
-        _ pattern: String
-    ) -> (body: String, flags: (ignoreCase: Bool, dotAll: Bool, multiline: Bool)) {
-        var flags = (ignoreCase: false, dotAll: false, multiline: false)
-        guard pattern.hasPrefix("(?") else { return (pattern, flags) }
-        let scalars = Array(pattern.unicodeScalars)
-        var index = 2
-        var letters: [Unicode.Scalar] = []
-        while index < scalars.count, scalars[index] != ")" {
-            letters.append(scalars[index])
-            index += 1
-        }
-        // Not a flag group (a lookahead, a named group, ...): leave it alone.
-        guard index < scalars.count,
-              letters.allSatisfy({ "aiLmsux".unicodeScalars.contains($0) }),
-              !letters.isEmpty
-        else { return (pattern, flags) }
-
-        for letter in letters {
-            switch letter {
-            case "i": flags.ignoreCase = true
-            case "s": flags.dotAll = true
-            case "m": flags.multiline = true
-            case "u", "L", "x": break   // Unicode is the default; L and x unused
-            default: return (pattern, (false, false, false))  // "a": keep verbatim
-            }
-        }
-        return (String(String.UnicodeScalarView(scalars[(index + 1)...])), flags)
     }
 
     /// spaCy's `token_match`: matches the *whole* substring, or not at all.

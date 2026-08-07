@@ -33,7 +33,8 @@ indirect enum Node {
     case backref(Int)
     case wordB(Bool)                       // \b / \B
     case bol, eol, inputStart, inputEnd
-    case caseToggle(Node, ignore: Bool)
+    /// `(?i:...)` and friends: flags scoped to a subexpression.
+    case flags(Node, set: InlineFlags, clear: InlineFlags)
 }
 
 struct CharClass {
@@ -110,6 +111,37 @@ enum Fold {
     }
 }
 
+// MARK: - Inline flags
+
+/// The subset of Python's inline flags this engine can honour.
+///
+/// `u` is accepted and ignored because Unicode is Python 3's default and this
+/// engine has no other mode. `a` (ASCII), `L` (locale) and `x` (verbose) are
+/// *rejected* rather than ignored: each genuinely changes what the pattern
+/// means — `a` redefines `\w`, `\d` and `\s`, `x` changes whether whitespace
+/// is literal — and a silently ignored flag is a pattern that matches the
+/// wrong thing forever. That was not hypothetical: this engine used to ignore
+/// every flag it did not understand, which is how French's `(?iu)` token_match
+/// came to be compiled case-sensitively.
+public struct InlineFlags: OptionSet, Sendable {
+    public let rawValue: Int
+    public init(rawValue: Int) { self.rawValue = rawValue }
+
+    public static let ignoreCase = InlineFlags(rawValue: 1 << 0)
+    public static let dotAll     = InlineFlags(rawValue: 1 << 1)
+    public static let multiline  = InlineFlags(rawValue: 1 << 2)
+
+    static func letter(_ scalar: UInt32) -> InlineFlags? {
+        switch scalar {
+        case UInt32(UInt8(ascii: "i")): return .ignoreCase
+        case UInt32(UInt8(ascii: "s")): return .dotAll
+        case UInt32(UInt8(ascii: "m")): return .multiline
+        case UInt32(UInt8(ascii: "u")): return []      // Unicode: already the default
+        default: return nil
+        }
+    }
+}
+
 // MARK: - Parser
 
 public struct ParseError: Error, CustomStringConvertible {
@@ -121,12 +153,53 @@ struct Parser {
     let p: [UInt32]
     var i = 0
     var ncap = 0
+
+    /// Flags from a *flag-only* group, `(?i)`.
+    ///
+    /// Python applies these to the whole pattern no matter where they appear —
+    /// `\b(?i)abc` is entirely case-insensitive, including the `\b` before the
+    /// group. Presidio's `ItDriverLicenseRecognizer` relies on exactly that.
+    /// (Python 3.11 deprecated the non-leading form and 3.12 errors on it; the
+    /// patterns this port has to read predate that, so it is accepted and
+    /// applied globally rather than rejected.) Collecting them here and merging
+    /// at compile time gets the semantics right without a second pass over the
+    /// pattern.
+    var globalSet: InlineFlags = []
+    var globalClear: InlineFlags = []
+
     init(_ s: String) { p = s.unicodeScalars.map { $0.value } }
 
     mutating func parse() throws -> (Node, Int) {
         let n = try parseAlt()
         if i < p.count { throw ParseError(msg: "trailing ) at \(i)") }
         return (n, ncap)
+    }
+
+    /// Parses the letters of a flag group: `imsu`, or `i-s`, up to `)` or `:`.
+    mutating func parseFlagLetters() throws -> (set: InlineFlags, clear: InlineFlags) {
+        var set: InlineFlags = []
+        var clear: InlineFlags = []
+        var negating = false
+        while i < p.count,
+              p[i] != UInt32(UInt8(ascii: ")")), p[i] != UInt32(UInt8(ascii: ":")) {
+            let c = p[i]
+            if c == UInt32(UInt8(ascii: "-")) {
+                guard !negating else { throw ParseError(msg: "repeated '-' in flag group") }
+                negating = true; i += 1; continue
+            }
+            guard let flag = InlineFlags.letter(c) else {
+                let name = String(UnicodeScalar(c) ?? " ")
+                throw ParseError(msg: "unsupported inline flag '\(name)': "
+                                 + "this engine implements i, s, m and u")
+            }
+            if negating { clear.insert(flag) } else { set.insert(flag) }
+            i += 1
+        }
+        guard i < p.count else { throw ParseError(msg: "unterminated flag group") }
+        guard set.isDisjoint(with: clear) else {
+            throw ParseError(msg: "flag both set and cleared in one group")
+        }
+        return (set, clear)
     }
     mutating func parseAlt() throws -> Node {
         var branches = [try parseConcat()]
@@ -193,18 +266,25 @@ struct Parser {
                     guard let w = fixedWidth(n) else { throw ParseError(msg: "variable-width lookbehind") }
                     return .look(n, ahead: false, positive: pos, width: w)
                 }
-                // inline flags (?i) (?i:...)
-                var ign = false
-                while i < p.count, p[i] != UInt32(UInt8(ascii: ")")), p[i] != UInt32(UInt8(ascii: ":")) {
-                    if p[i] == UInt32(UInt8(ascii: "i")) { ign = true }
-                    i += 1
-                }
+                // Inline flags: `(?i)` global, `(?i:...)` and `(?-i:...)` scoped.
+                let (set, clear) = try parseFlagLetters()
                 if i < p.count, p[i] == UInt32(UInt8(ascii: ":")) {
+                    // `^` and `$` consult multiline at match time, so it cannot
+                    // vary by subexpression here. Rejected rather than applied
+                    // pattern-wide, which would be the wrong answer delivered
+                    // quietly. No bundled pattern uses it.
+                    guard !set.contains(.multiline), !clear.contains(.multiline) else {
+                        throw ParseError(msg: "scoped (?m:...) is not supported; "
+                                         + "multiline can only be set for the whole pattern")
+                    }
                     i += 1; let n = try parseAlt(); try expect(")")
-                    return .caseToggle(n, ignore: ign)
+                    return .flags(n, set: set, clear: clear)
                 }
                 try expect(")")
-                return .caseToggle(.empty, ignore: ign) // global-ish flag; treated as scoped-to-rest by caller
+                // Flag-only form: Python applies it to the entire pattern.
+                globalSet.formUnion(set)
+                globalClear.formUnion(clear)
+                return .empty
             }
             ncap += 1; let idx = ncap
             let n = try parseAlt(); try expect(")")
@@ -332,7 +412,7 @@ func fixedWidth(_ n: Node) -> Int? {
     case .group(let x, _): return fixedWidth(x)
     case .look: return 0
     case .backref: return nil
-    case .caseToggle(let x, _): return fixedWidth(x)
+    case .flags(let x, _, _): return fixedWidth(x)
     }
 }
 
@@ -371,6 +451,20 @@ public final class PureRegex: Sendable {
         var (r, n) = try p.parse()
         r = PureRegex.seal(r)
         (root, ncap) = (r, n)
+
+        // A flag-only group, `(?i)`, applies to the entire pattern in Python —
+        // wherever it appears — so it is merged into the caller's flags rather
+        // than scoped to what follows it. Ignoring these is what made French's
+        // `(?iu)` token_match compile case-sensitively.
+        func resolve(_ flag: InlineFlags, _ base: Bool) -> Bool {
+            if p.globalSet.contains(flag) { return true }
+            if p.globalClear.contains(flag) { return false }
+            return base
+        }
+        let ignoreCase = resolve(.ignoreCase, ignoreCase)
+        let dotAll = resolve(.dotAll, dotAll)
+        let multiline = resolve(.multiline, multiline)
+
         self.ignoreCase = ignoreCase; self.dotAll = dotAll; self.multiline = multiline
         // The AST is retained for the prefilter; matching runs on the program.
         self.program = Compiler.compile(
@@ -396,7 +490,7 @@ public final class PureRegex: Sendable {
         case .rep(let x, let a, let b, let g): return .rep(seal(x), min: a, max: b, greedy: g)
         case .group(let x, let c): return .group(seal(x), capture: c)
         case .look(let x, let a, let p, let w): return .look(seal(x), ahead: a, positive: p, width: w)
-        case .caseToggle(let x, let g): return .caseToggle(seal(x), ignore: g)
+        case .flags(let x, let set, let clear): return .flags(seal(x), set: set, clear: clear)
         default: return n
         }
     }

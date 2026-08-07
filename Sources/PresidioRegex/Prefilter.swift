@@ -58,7 +58,12 @@ extension PureRegex {
         case .cls(let cc): return { cc.matches($0, ignoreCase: ic) }
         case .any, .backref, .empty, .wordB, .bol, .eol, .inputStart, .inputEnd, .look: return nil
         case .group(let x, _): return firstSet(x, ic)
-        case .caseToggle(let x, let g): return firstSet(x, g || ic)
+        case .flags(let x, let set, let clear):
+            // The prefilter only reasons about the first character, so only
+            // the case flag can matter to it; set wins over the outer value,
+            // clear turns it off.
+            return firstSet(x, set.contains(.ignoreCase)
+                            || (ic && !clear.contains(.ignoreCase)))
         case .alt(let xs):
             var fs: [(UInt32) -> Bool] = []
             for x in xs { guard let f = firstSet(x, ic) else { return nil }; fs.append(f) }
@@ -95,7 +100,9 @@ extension PureRegex {
             return cc.ranges.contains { $0.1 >= 128 }
         case .any: return true
         case .group(let x, _): return firstSetMayBeNonASCII(x, ic)
-        case .caseToggle(let x, let g): return firstSetMayBeNonASCII(x, g || ic)
+        case .flags(let x, let set, let clear):
+            return firstSetMayBeNonASCII(x, set.contains(.ignoreCase)
+                                         || (ic && !clear.contains(.ignoreCase)))
         case .alt(let xs): return xs.contains { firstSetMayBeNonASCII($0, ic) }
         case .rep(let x, let lo, _, _):
             return lo >= 1 ? firstSetMayBeNonASCII(x, ic) : true

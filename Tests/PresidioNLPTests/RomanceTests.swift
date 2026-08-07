@@ -163,63 +163,34 @@ struct RomanceGapTests {
     }
 }
 
-/// Inline regex flags, which this engine does not implement.
+/// Inline regex flags, from the tokenizer's side.
 ///
-/// `PureRegex` parses a leading `(?iu)` without complaint and then ignores it.
-/// That is a quiet failure mode, and French found it: its `token_match` opens
-/// with `(?iu)`, so compiled verbatim every capitalised compound stopped
-/// matching while lower-case ones still did — `Saint-Louis` split, `franco-
-/// italienne` did not.
+/// French's `token_match` opens with `(?iu)`, and the engine used to parse that
+/// and then ignore it — so capitalised compounds stopped matching while
+/// lower-case ones still did: `franco-italienne` stayed whole, `Saint-Louis`
+/// split. `PureRegex` honours inline flags now (see `RegexInlineFlagTests` for
+/// the differential against Python), and this is the end-to-end consequence.
 ///
-/// The tokenizer therefore lifts the flags out of the pattern itself. These
-/// tests pin both halves of that, so the day the engine grows real inline-flag
-/// support, the now-redundant lifting fails loudly rather than double-applying.
-///
-/// The 12 recognizer patterns that carry `(?i)` are unaffected for a reason
-/// worth knowing: the registry compiles every pattern with
-/// `global_regex_flags = 26`, which already includes IGNORECASE. They are
-/// correct by redundancy, not by the flag being honoured.
-@Suite("inline regex flags")
-struct InlineFlagTests {
+/// The 12 recognizer patterns carrying `(?i)` were unaffected throughout, but
+/// by redundancy rather than by the flag working: the registry compiles every
+/// pattern with `global_regex_flags = 26`, which already includes IGNORECASE.
+@Suite("French token_match honours its inline flags")
+struct FrenchTokenMatchFlagTests {
 
-    @Test("a leading flag group is lifted out of the pattern")
-    func liftsLeadingFlags() {
-        let (body, flags) = SpacyTokenizer.splitLeadingInlineFlags("(?iu)abc")
-        #expect(body == "abc")
-        #expect(flags.ignoreCase)
-        #expect(!flags.dotAll)
-
-        let (body2, flags2) = SpacyTokenizer.splitLeadingInlineFlags("(?ims)x")
-        #expect(body2 == "x")
-        #expect(flags2.ignoreCase && flags2.dotAll && flags2.multiline)
-    }
-
-    @Test("anything that is not a flag group is left alone")
-    func leavesOtherGroupsAlone() {
-        // A lookahead, a non-capturing group and a named group all start `(?`
-        // and must not be mistaken for flags.
-        for pattern in ["(?=foo)bar", "(?:abc)", "(?P<name>x)", "plain", "(?"] {
-            let (body, flags) = SpacyTokenizer.splitLeadingInlineFlags(pattern)
-            #expect(body == pattern, "\(pattern)")
-            #expect(!flags.ignoreCase && !flags.dotAll && !flags.multiline, "\(pattern)")
-        }
-    }
-
-    @Test("ASCII-only mode is not silently accepted")
-    func asciiFlagIsNotSwallowed() {
-        // `(?a)` changes what \w means. Ignoring it would make the tokenizer
-        // disagree about word characters, so the pattern is kept verbatim
-        // rather than stripped and misapplied.
-        let (body, flags) = SpacyTokenizer.splitLeadingInlineFlags("(?a)\\w+")
-        #expect(body == "(?a)\\w+")
-        #expect(!flags.ignoreCase)
-    }
-
-    @Test("French matches capitalised compounds, which is what the flags buy")
-    func frenchIsCaseInsensitive() throws {
+    @Test("capitalised compounds match, which is what (?iu) buys")
+    func caseInsensitive() throws {
         let tokenizer = try SpacyTokenizer.french()
         #expect(tokenizer.isTokenMatch("Saint-Louis"))
         #expect(tokenizer.isTokenMatch("saint-louis"))
+        #expect(tokenizer.isTokenMatch("SAINT-LOUIS"))
         #expect(!tokenizer.isTokenMatch("Dupont"))
+    }
+
+    @Test("and the tokenizer keeps them whole")
+    func keepsCompoundsWhole() throws {
+        let tokenizer = try SpacyTokenizer.french()
+        #expect(tokenizer.tokenize("Saint-Louis").map(\.text) == ["Saint-Louis"])
+        #expect(tokenizer.tokenize("Aix-en-Provence").map(\.text) == ["Aix-en-Provence"])
+        #expect(tokenizer.tokenize("prud\'hommes").map(\.text) == ["prud\'hommes"])
     }
 }
