@@ -397,7 +397,28 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Test under TSan
-        run: swift test --sanitize=thread --filter ConcurrencyTests
+        run: |
+          swift test --sanitize=thread --filter ConcurrencyTests > tsan.log 2>&1 \
+            || status=$?
+          cat tsan.log
+          exit ${status:-0}
+
+      - name: Assert the model path was actually exercised
+        # `ConcurrencyTests` matches two suites: one over the tokenizer alone,
+        # which is what this job covered before the model was bundled, and one
+        # over the whole model path -- eight `@unchecked Sendable` types whose
+        # thread safety was a paragraph of reasoning in each doc comment until
+        # there was a test.
+        #
+        # That suite is gated on the bundled model resolving out of the resource
+        # bundle, which is a thing that can quietly stop working on a platform.
+        # Greps for the printed measurement, not the suite name: swift-testing
+        # prints the name when it *skips*, so a name grep passes on a skip.
+        run: |
+          grep -q "Model concurrency: SpacyNlpEngine" tsan.log \
+            || { echo "::error::the model concurrency suite did not run"; exit 1; }
+          grep -q "Model concurrency: AnalyzerEngine" tsan.log \
+            || { echo "::error::the engine concurrency suite did not run"; exit 1; }
 
   # Not a supported target yet -- a canary. PresidioCore is stdlib-only, so it
   # should build and pass on Linux from day one. Catching portability drift the

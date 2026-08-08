@@ -61,10 +61,41 @@ collide. CI runs on `ci/**` branches specifically so this kind of check can be
 repeated: a sanitizer job that has only ever seen correct code proves nothing
 about whether it would catch the bug.
 
+## What the job could not reach
+
+The claim below used to read "any future addition of shared mutable state has a
+test that will actually fail". That was true of the tokenizer and false of
+everything behind it.
+
+The job runs on Linux, in a container, with no spaCy model to download — so the
+only engine it could construct was `TokenizerOnlyNlpEngine`. Eight of the ten
+`@unchecked Sendable` types are on the model path (`NERModel`, `Tok2Vec`, the
+tagger, the parser, both lemmatizers, `SpacyNER`, `SpacyNlpEngine`), and none of
+them was ever loaded under the sanitizer. What stood behind those annotations was
+a paragraph of reasoning at each declaration.
+
+Bundling the model removed the obstacle: the weights are a package resource, so
+they are present in that container with no download. A second suite now shares a
+`SpacyNlpEngine` and a model-backed `AnalyzerEngine` across six tasks and runs
+under the sanitizer with the rest.
+
+It inherits the design above — novel text per task, and every result compared
+against a second *concurrent* pass rather than a serially computed one. It has
+**not** been re-verified by deliberately breaking something, because that needs a
+sanitizer this host cannot load and the demonstration above was done on CI
+against a pushed branch. The principle carries over; the demonstration does not,
+and saying otherwise would repeat the mistake this ADR exists to record.
+
+The suite is gated on the model resolving out of its resource bundle, so a
+platform where that stops working skips rather than failing as though it were a
+race — and CI greps for the measurement each test prints, because swift-testing
+prints the suite name when it *skips* and a name grep would pass on one.
+
 ## Consequences
 
 - One engine can be shared across tasks; that is the intended usage.
 - `SpacyTokenizer`, `SpacyNER` and both NLP engine wrappers are `@unchecked
   Sendable` with audited justifications rather than assumed ones.
-- Any future addition of shared mutable state has a test that will actually
-  fail — which was not true before.
+- Shared mutable state added to the tokenizer has a test that will actually fail,
+  demonstrated. Shared mutable state added to the model path now has one too,
+  by construction rather than by demonstration.

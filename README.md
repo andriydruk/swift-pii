@@ -746,7 +746,15 @@ once and shared. Where `@unchecked Sendable` appears it is because the type was
   instance; they are now built eagerly in `init`.
 - `NERModel`'s weights are `var` only because the msgpack decode assigns them
   in a loop. They are written during `init` and read-only afterwards, and
-  inference allocates its scratch per call.
+  inference allocates its scratch per call. The same reasoning covers `Tok2Vec`,
+  the tagger, the parser and both lemmatizers.
+
+Ten types carry the annotation and eight of them are on the model path, so for a
+while that list was the whole guarantee — a paragraph per declaration, checked by
+reading. The race job could not reach any of them, because it predates the model
+being bundled and there were no weights to load. There are now, so a second suite
+shares a `SpacyNlpEngine` and a model-backed `AnalyzerEngine` across tasks and
+runs under the sanitizer with everything else.
 
 ThreadSanitizer cannot load on this project's macOS dev host (Xcode's sanitizer
 dylib fails the platform code-signature policy), so the race check runs as its
@@ -759,6 +767,12 @@ test now gives every task text no other task has seen, and on the same broken
 branch TSan reports `Swift access race` in `SpacyTokenizer.emit`. A sanitizer
 job that has only ever seen correct code is not evidence. See
 [ADR 0002](docs/decisions/0002-concurrency.md).
+
+The model suite inherits that design — novel text per task, and each result
+compared against a second *concurrent* pass rather than a serial one computed up
+front, which would warm every cache and leave the tasks only reading. It has not
+been re-verified by breaking something, because doing that needs a sanitizer this
+host cannot run; what it inherits is the principle, not the demonstration.
 
 ## Diagnostics
 
