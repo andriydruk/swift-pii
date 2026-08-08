@@ -209,10 +209,17 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Fetch en_core_web_sm 3.7.1
+        # Kept under its published filename rather than renamed to `model.whl`.
+        # The Swift suites only need it unzipped, but the corpus step below pip
+        # installs the same file, and pip validates wheel names against PEP 427 --
+        # `model.whl` is rejected outright as "wrong number of parts". One
+        # download, one name, and the version is legible in the path.
         run: |
-          curl -sSL -o model.whl \
-            https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
-          unzip -q model.whl -d model
+          wheel=en_core_web_sm-3.7.1-py3-none-any.whl
+          curl -sSL -o "$wheel" \
+            "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/$wheel"
+          unzip -q "$wheel" -d model
+          echo "MODEL_WHEEL=$PWD/$wheel" >> "$GITHUB_ENV"
           echo "SPACY_MODEL_DIR=$PWD/model/en_core_web_sm/en_core_web_sm-3.7.1" >> "$GITHUB_ENV"
 
       - name: Test
@@ -266,7 +273,7 @@ jobs:
             || { echo "::error::spaCy 3.7.5 has no wheels for this interpreter"; exit 1; }
           # The wheel the fetch step already downloaded. The generators load the
           # model by name, so it has to be installed, not just unzipped.
-          ./.modelvenv/bin/pip install -q model.whl
+          ./.modelvenv/bin/pip install -q "$MODEL_WHEEL"
 
           python3 Tools/extract_attribute_ruler.py \
             --python ./.modelvenv/bin/python \
