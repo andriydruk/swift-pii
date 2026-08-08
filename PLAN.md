@@ -29,7 +29,7 @@ spaCy.
 | **M2** — anonymizer | 3 pw | **done.** Operators, AES-CBC via swift-crypto, span rewriting. |
 | **M3** — tokenizer + NER, composed | 6 pw | **done, and then some.** Tokenizer, NER, tagger, attribute ruler, rule lemmatizer, edit-tree lemmatizer, dependency parser. Eight languages, every stage exact. |
 | **M4** — engine, context, config | 5 pw | **done.** `AnalyzerEngine`, context enhancer, dedup with a documented total order, YAML config, phone matcher with full metadata. |
-| **M5** — hardening | 4 pw | **partly** — see §3. |
+| **M5** — hardening | 4 pw | **done**, bar the optional REST target — see §3. |
 | **M6** — Android, Windows | 6–10 pw | **not started.** A non-blocking Linux canary runs in CI. |
 
 Three things landed that the plan did not ask for, because measurement kept
@@ -82,21 +82,20 @@ name on a *skip*. Every measurement in CI is now grepped for by its printed valu
 
 ## 3. What is left
 
-### M5 — hardening, the remainder
+### M5 — what it turned into
 
-- **Public API review.** The surface grew substantially and unevenly. Recent
-  additions with no review: `DependencyParser` / `DependencyParse`,
-  `ComponentLoadError`, `SentenceBoundaryProviding`,
-  `SpacyLemmatizer.Annotation`, `JSONValue` in the conformance target.
-- **Two known asymmetries** to resolve or document as intended:
-  `SpacyRuleLemmatizer` defaults to skipping the parse while `SpacyNlpEngine`
-  turns it on; `DependencyParse.deps` is pre-attribute-ruler while
-  `SpacyLemmatizer.Annotation.deps` is post.
-- **Error taxonomy.** `ComponentLoadError`, `NERError`, `SpacyTokenizer.LoadError`
-  and several per-target enums coexist without a stated relationship.
-- **Perf pass.** `presidio-bench` now covers the regex sweep, the engine, the NLP
-  stage in five configurations and the composed engine. Nothing has been
-  optimised against those numbers since the shared-tok2vec fix.
+Done: the API review (the README now says which products are surface and which
+are machinery, and why the surface is larger than a PII library's needs to be),
+the error taxonomy (three domains, distinguished by who can act on the failure),
+both layering asymmetries, and a perf pass.
+
+The perf pass is worth recording because it found nothing. The transition loop's
+~2N heap allocations per document looked like the obvious target and hoisting
+them out changed nothing measurable; one step is 6,784 multiply-accumulates
+against two 64-float allocations. The change was reverted and the arithmetic is
+written down in `presidio-bench` so the next person does not spend the afternoon
+on it. The remaining lever in the engine is still `PhoneRecognizer`, at ~72% of
+the pattern-only cost, and it is structural: one scan per configured region.
 
 ### The REST target, and L5
 
