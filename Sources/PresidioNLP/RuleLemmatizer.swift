@@ -457,6 +457,10 @@ public final class SpacyLemmatizer: @unchecked Sendable {
         public let partsOfSpeech: [String]
         public let lemmas: [String]
         /// Dependency labels, or all empty when there is no parse.
+        ///
+        /// These are post-ruler, so they are what spaCy's `token.dep_` reports —
+        /// unlike `DependencyParse.deps`, which is the parser's own label before
+        /// the ruler rewrites whitespace.
         public let deps: [String]
         /// Token indices that begin a sentence; empty without a parse.
         public let sentenceStarts: Set<Int>

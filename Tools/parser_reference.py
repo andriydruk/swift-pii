@@ -7,16 +7,29 @@ extend an entity when the next token starts a sentence, and those boundaries
 come from the parser. So the parser is the last component between this port and
 exact parity, and this is its differential corpus.
 
-The texts are the same 2,000 the NER corpus uses, so a parser regression and an
-NER regression are measured over identical input and can be attributed.
+Recorded per text: `heads` as **absolute token indices**, two sets of
+dependency labels, and `sent_starts` as the token indices that begin a sentence.
 
-Recorded per text: `heads` as **absolute token indices**, `deps`, and
-`sent_starts` as the token indices that begin a sentence. Heads and labels are
-what the parser predicts; `sent_starts` is what NER actually consumes, and it is
-derived from the heads rather than predicted directly -- it is the left edge of
-every subtree whose root is its own head. Recording all three means a divergence
-can be localised to the transitions, the deprojectivisation, or the edge
-computation, instead of just "the boundaries are wrong".
+The texts come from the NER corpus verbatim -- including its adversarial half,
+which `ner_reference.py` owns. Reading them rather than re-deriving them is what
+makes "the same input" literally true, so a parser divergence and an NER
+divergence on one text are attributable to each other.
+
+Heads and labels are what the parser predicts; `sent_starts` is what NER actually
+consumes, and it is derived from the heads rather than predicted directly -- it is
+the left edge of every subtree whose root is its own head. Recording all three
+means a divergence can be localised to the transitions, the deprojectivisation, or
+the edge computation, instead of just "the boundaries are wrong".
+
+**Two label sets**, because there are two answers and conflating them hid a real
+mistake. `parser_deps` is what the parser itself produces; `deps` is what the
+document ends up with after the attribute ruler, which runs *after* the parser and
+rewrites one thing -- a whitespace token that has a dependency becomes `dep`. In a
+document that is nothing but whitespace, that token is its own head, so the parser
+calls it `ROOT` and the ruler calls it `dep`. Comparing a parser against the full
+pipeline's labels reports that as four divergences in 50,744: not a parser bug,
+and not nothing either. It is the layering, and the fixture now says which layer
+it is being asked about.
 
 Token texts and offsets are deliberately *not* recorded. The tokenizer corpus
 already asserts them exhaustively over this same input, and repeating them here
@@ -50,14 +63,20 @@ import spacy
 
 texts = json.load(sys.stdin)
 nlp = spacy.load("en_core_web_sm")
+# The parser's own labels, before the attribute ruler rewrites any of them. The
+# lemmatizer is excluded too because it depends on the ruler's POS.
+unruled = spacy.load("en_core_web_sm", exclude=["attribute_ruler", "lemmatizer"])
 
 cases = []
 for text in texts:
     doc = nlp(text)
+    raw = unruled(text)
+    assert len(doc) == len(raw), text
     cases.append({
         "text": text,
         "heads": [token.head.i for token in doc],
         "deps": [token.dep_ for token in doc],
+        "parser_deps": [token.dep_ for token in raw],
         "sent_starts": [token.i for token in doc if token.is_sent_start],
     })
 
@@ -109,10 +128,15 @@ def main() -> int:
 
     sentences = sum(len(case["sent_starts"]) for case in gold["cases"])
     tokens = sum(len(case["heads"]) for case in gold["cases"])
+    ruled = sum(
+        1 for case in gold["cases"]
+        for a, b in zip(case["deps"], case["parser_deps"]) if a != b
+    )
     print(
         f"{args.out}: {len(gold['cases'])} texts, {tokens} tokens, "
         f"{sentences} sentences, from {gold['model']}"
     )
+    print(f"  {ruled} labels the attribute ruler rewrites after the parser")
     return 0
 
 

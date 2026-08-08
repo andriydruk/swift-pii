@@ -20,6 +20,14 @@ Where upstream has no test, the tool that *generates* one runs the Python and
 records what it did. Every corpus in the repository has a generator in
 [`Tools/`](../Tools); none is hand-maintained.
 
+That last sentence was not true until recently. `ner_gold_sm.json` — the corpus
+the headline NER number is measured against — predated the rest of `Tools/` and
+had no generator, so it was the one fixture that could have gone stale in silence.
+It has one now, and CI re-derives it. Regenerating it with a different spaCy
+*library* version (3.8.14 to 3.7.5, same model 3.7.1) changed nothing on any of
+the 1,850 unique texts, which is the first direct evidence for a claim the README
+has always made: the model version is what matters, not the library's.
+
 | Corpus | cases | agreement |
 |---|---:|---|
 | Recognizers (harvested) | 1,731 | **1,731 (exact)** |
@@ -29,12 +37,13 @@ records what it did. Every corpus in the repository has a generator in
 | Phone matcher (4 leniencies) | 4,032 | 4,031 |
 | Phone parse / validity | 480 | **480 / exact** |
 | Tagger / POS / lemma | 5,513 | **exact / exact / exact** |
-| NER | 2,000 | **exact** |
-| Dependency parse / boundaries | 2,000 | **exact** |
+| NER | 2,028 | **exact** |
+| Dependency parse / boundaries | 2,028 | **exact** |
 | Validators (adversarial) | 2,111 | **exact** |
 | Validators (harvested) | 206 | **exact** |
 | Anonymizer + crypto | 43 | **exact** |
 | Batch analyzer | 9 | **exact** |
+| **Total** | **28,607** | |
 
 ## Scope
 
@@ -276,9 +285,20 @@ Current corpus:
 
 44 upstream tables are still not extracted, and they are **recorded in the
 artifact** under `skipped` with reasons — coverage you can't see is coverage you
-don't have. What remains is almost entirely infrastructure rather than
-recognizer behaviour: registry configuration, NER model configuration, ONNX and
-device selection, and tests for recognizers this port does not ship.
+don't have.
+
+Most of what remains is infrastructure: registry configuration, NER model
+configuration, ONNX and device selection, and tests for recognizers this port does
+not ship. But "almost entirely", which this paragraph used to say, was an
+overstatement that nobody had checked. Reading the list, roughly a third is real
+behaviour: eight tables of `RecognizerResult` comparison, containment and conflict
+semantics (which is what `remove_duplicates` and conflict resolution are built
+on), `sanitize_value` for two recognizers, Aadhaar's palindrome check, ZA mobile
+prefix classification, three deny-list regex-flag tables, and threshold-source
+precedence. Those are shapes the extractor cannot express — a unit test of a value
+type has no text column — rather than behaviour that does not matter. The Swift
+side implements all of them and agrees on every case that was checked by hand;
+what is missing is that the checking is by hand.
 
 The extractor evaluates without executing. Beyond plain literals it folds
 module-level constants, sequence repetition (`[(0.5, 0.8)] * 2`) and
@@ -358,18 +378,26 @@ because it needs the untrimmed **3.7.1** the gold corpus was built from.
 
 ### Parity is exact
 
-Measured end to end over 2,000 texts / 2,592 entities from `en_core_web_sm`:
+Measured end to end over 2,028 texts / 2,915 entities from `en_core_web_sm`:
 
 | | |
 |---|---:|
-| Matched | 2,592 |
+| Matched | 2,915 |
 | Missed | 0 |
 | Spurious | 0 |
 | Recall, precision | 100% |
 
-Every layer is exact and each was measured separately: tokenization (0/2000
-divergences on this very corpus), NORMs (0/2000), the forward pass, and the
+Every layer is exact and each was measured separately: tokenization (0/2,028
+divergences on this very corpus), NORMs (0/2,028), the forward pass, and the
 sentence boundaries the transition system consults.
+
+The corpus has an adversarial half now — 29 texts that are not prose: empty,
+whitespace-only, 2,000 tokens of one word, 500 bare sentence terminators, zero
+width characters, combining marks past a token's suffix window, extraposed
+relative clauses for the deprojectivisation path, and the markup tables where the
+sentence-boundary divergences actually lived. They were written by probing the
+port for crashes; it did not crash, and it agreed with spaCy, which is exactly the
+kind of thing worth pinning before someone optimises the state machine.
 
 It took two wrong explanations to get here, and both are worth recording because
 both were plausible.
@@ -387,8 +415,8 @@ boundaries**: spaCy's `Begin.is_valid` and `In.is_valid` refuse to open or exten
 an entity when the next token starts a sentence, and it takes those boundaries
 from the dependency parser. Running spaCy with `exclude=["parser"]` over the same
 2,000 texts changed exactly those 4. With the parser ported the corpus is exact,
-and the parser itself is measured against spaCy directly: 47,511/47,511 heads,
-47,511/47,511 labels, 2,384/2,384 boundaries.
+and the parser itself is measured against spaCy directly: 50,731/50,731 heads,
+50,731/50,731 labels, 2,414/2,414 boundaries.
 
 ### Two matrix kernels, one set of outcomes
 
@@ -406,11 +434,11 @@ Over the full corpora, it does not matter at all:
 | Fine-grained tags | 5,513/5,513 | 5,513/5,513 |
 | Coarse POS | 5,513/5,513 | 5,513/5,513 |
 | Lemmas | 5,513/5,513 | 5,513/5,513 |
-| NER entities | 2,592/2,592 | 2,592/2,592 |
-| Dependency heads | 47,511/47,511 | 47,511/47,511 |
-| Sentence boundaries | 2,384/2,384 | 2,384/2,384 |
+| NER entities | 2,915/2,915 | 2,915/2,915 |
+| Dependency heads | 50,731/50,731 | 50,731/50,731 |
+| Sentence boundaries | 2,414/2,414 | 2,414/2,414 |
 
-Not one `argmax` flips across 5,513 tagged tokens, 2,592 entities and 47,511
+Not one `argmax` flips across 5,513 tagged tokens, 2,915 entities and 50,731
 parser decisions. Meanwhile ~93% of the individual intermediate floats *do*
 differ, with a maximum absolute delta of 3.6e-05 at the shapes this model uses.
 
@@ -437,10 +465,12 @@ asserts that a default build there lands on the portable kernel, since a default
 trait is enabled on every platform and `canImport(Accelerate)` is the only thing
 standing between that and a broken Android build.
 
-Worth stating plainly: an earlier prototype measured 0 FP / 0 FN, but that was
-with **spaCy supplying the tokens and norms** and the `tok2vec` component
-excluded from the pipeline. Composed end to end against the full pipeline, it is
-98.9%. The pipeline difference alone accounts for only 4 of 2,000 texts.
+Worth stating plainly, because the history reads better than it went: an early
+prototype measured 0 FP / 0 FN, but that was with **spaCy supplying the tokens and
+norms** and the `tok2vec` component excluded. Composed end to end it first
+measured 98.9%, and getting back to exact took three separate findings — the
+reserved symbol table, the sentence boundaries, and the parser that produces
+them. None of them was the explanation offered at the time.
 
 ## Recognizer definitions
 

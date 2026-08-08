@@ -170,8 +170,8 @@ afterwards, and the subtree-edge computation that turns heads into boundaries.
 It listens to the same shared `tok2vec` the tagger uses rather than carrying its
 own, which is why it is 0.3 MB rather than 6.
 
-Measured against spaCy over the same 2,000 texts: **47,511/47,511 heads,
-47,511/47,511 labels, 2,384/2,384 sentence boundaries**, and the same exactness
+Measured against spaCy over the same corpus: **50,731/50,731 heads,
+50,731/50,731 labels, 2,414/2,414 sentence boundaries**, and the same exactness
 in all seven other languages. The heads and labels are exposed because they came
 free:
 
@@ -423,7 +423,7 @@ boundaries this port could not see.
 
 That parser is now ported, so the boundaries are derived here rather than
 supplied. The row above is the direct measurement of it — 3,338 boundaries across
-seven languages, plus 2,384 in the English corpus, with no divergence — and the
+seven languages, plus 2,414 in the English corpus, with no divergence — and the
 NER rows are what it bought. There is nothing left to configure: pass raw text
 and entity spans match spaCy's full pipeline.
 
@@ -708,7 +708,7 @@ Working in this repo directly, that is `swift build --disable-default-traits`
 
 What that buys you is *sameness*, not accuracy. Measured over the full parity
 corpora the **outcomes are already identical** — 5,513/5,513 tags, 5,513/5,513
-lemmas, 2,592/2,592 entities and 47,511/47,511 dependency heads either way, and
+lemmas, 2,915/2,915 entities and 50,731/50,731 dependency heads either way, and
 not one argmax flips — while ~93% of the intermediate floats differ in their last
 bits. The parser is the sharpest version of that test, because its ~2N argmaxes
 are sequential and each one changes the state the next is scored from. CI
@@ -786,7 +786,7 @@ Python and depends on spaCy. The recognizer patterns, context words, score
 constants and entity names are Presidio's; so are the test expectations, which
 are harvested from its own test suite rather than rewritten.
 
-Fidelity is measured, not claimed. Against **16,671 recorded cases** the port
+Fidelity is measured, not claimed. Against **28,607 recorded cases** the port
 agrees exactly on the recognizers, the engine's whole option matrix, the
 tokenizer, the regex substrate, the anonymizer, the tagger, the attribute ruler,
 the lemmatizer, NER and the dependency parse — every stage of the NLP pipeline,

@@ -196,22 +196,58 @@ jobs:
           grep -qF "${{ matrix.kernel.marker }}" ner.log \
             || { echo "::error::expected '${{ matrix.kernel.marker }}'"; exit 1; }
 
-      - name: The attribute ruler regenerates identically
-        # The only bundled table derived from a spaCy *model* rather than from
-        # upstream Presidio, so the corpus job cannot check it -- that job has no
-        # model. It is also the table that makes coarse POS exact, and its schema
-        # carries `index` and rule order, both of which are easy to lose in a
-        # refactor and silent when lost.
+      - name: The model-derived corpora regenerate identically
+        # Three artifacts here come from a spaCy *model* rather than from upstream
+        # Presidio, so the corpus job cannot check them -- that job has no model.
+        # They are also the ones the headline numbers are measured against, which
+        # makes "it regenerates" the only thing standing between a stale fixture
+        # and a parity claim about nothing.
+        #
+        # `attribute_ruler.json` in particular carries `index` and rule order,
+        # both easy to lose in a refactor and silent when lost. The two gold
+        # corpora must also agree on their *texts*, or a parser divergence and an
+        # NER divergence stop being attributable to each other.
+        #
+        # Only srsly and spaCy are needed, not the pinned tool requirements: the
+        # Unicode-table guard those pins protect has nothing to do with these.
         run: |
-          python3 -m venv .rulervenv
-          ./.rulervenv/bin/pip install -q srsly
+          python3 -m venv .modelvenv
+          # `click<8.2` because spaCy 3.7's typer pin imports a name that newer
+          # click removed; without it `import spacy` fails outright.
+          ./.modelvenv/bin/pip install -q srsly 'spacy==3.7.5' 'click<8.2'
+          # The wheel the fetch step already downloaded. The generators load the
+          # model by name, so it has to be installed, not just unzipped.
+          ./.modelvenv/bin/pip install -q model.whl
+
           python3 Tools/extract_attribute_ruler.py \
-            --python ./.rulervenv/bin/python \
+            --python ./.modelvenv/bin/python \
             --model "$SPACY_MODEL_DIR" \
             --out /tmp/attribute_ruler.json
           diff -q /tmp/attribute_ruler.json \
             Sources/PresidioNLP/Resources/attribute_ruler.json \
             || { echo "::error::attribute_ruler.json is stale"; exit 1; }
+
+          python3 Tools/ner_reference.py --python ./.modelvenv/bin/python \
+            --out /tmp/ner_gold_sm.json
+          diff -q /tmp/ner_gold_sm.json \
+            Tests/PresidioConformance/Fixtures/ner_gold_sm.json \
+            || { echo "::error::ner_gold_sm.json is stale"; exit 1; }
+
+          python3 Tools/parser_reference.py --python ./.modelvenv/bin/python \
+            --out /tmp/parser_gold_sm.json
+          diff -q /tmp/parser_gold_sm.json \
+            Tests/PresidioConformance/Fixtures/parser_gold_sm.json \
+            || { echo "::error::parser_gold_sm.json is stale"; exit 1; }
+
+          python3 - <<'PY'
+          import json, sys
+          def texts(path):
+              with open(path) as fh:
+                  return [c["text"] for c in json.load(fh)["cases"]]
+          root = "Tests/PresidioConformance/Fixtures/"
+          if texts(root + "ner_gold_sm.json") != texts(root + "parser_gold_sm.json"):
+              sys.exit("::error::the NER and parser corpora no longer share their texts")
+          PY
 
       - name: Fetch the de, es, fr, it, pt, ru and uk models (3.7.0)
         # One step rather than three, and a loop rather than three copies: the
@@ -306,6 +342,7 @@ jobs:
           for line in \
             "NER parity: matched " \
             "Parser parity: " \
+            "Ruler+parser labels: " \
             "Tagger parity: " \
             "POS   parity: " \
             "Lemma parity: "; do

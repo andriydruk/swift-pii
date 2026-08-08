@@ -26,6 +26,14 @@ public struct DependencyParse: Sendable {
     /// stores it too (a relative head offset of zero).
     public let heads: [Int]
     /// Dependency label per token; `"ROOT"` for roots.
+    ///
+    /// This is the **parser's** label, which is not always spaCy's final one:
+    /// the attribute ruler runs afterwards and rewrites a whitespace token that
+    /// has a dependency to `dep`. In a document that is nothing but whitespace
+    /// that token is its own head, so this says `ROOT` where `token.dep_` says
+    /// `dep` — four tokens in 50,731 on the corpus, and none of them a
+    /// disagreement about the parse. Use `SpacyLemmatizer.Annotation.deps` for
+    /// the label spaCy reports; both are measured against their own gold.
     public let deps: [String]
     /// Token indices that begin a sentence.
     ///

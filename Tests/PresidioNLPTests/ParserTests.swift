@@ -21,11 +21,16 @@ struct ParserTests {
         struct Case: Decodable {
             let text: String
             let heads: [Int]
+            /// Labels after the attribute ruler, which is what a caller reading
+            /// spaCy's `token.dep_` sees.
             let deps: [String]
+            /// Labels the parser itself produced, before the ruler touched them.
+            let parserDeps: [String]
             let sentStarts: [Int]
 
             enum CodingKeys: String, CodingKey {
                 case text, heads, deps
+                case parserDeps = "parser_deps"
                 case sentStarts = "sent_starts"
             }
         }
@@ -88,6 +93,61 @@ struct ParserTests {
         )
     }
 
+    /// The composition: parser, then attribute ruler, against spaCy's final
+    /// `token.dep_`.
+    ///
+    /// This test exists because its absence hid something. `parseMatchesSpacy`
+    /// compared the parser's raw labels against the *full pipeline's*, which are
+    /// not the same thing — the ruler runs after the parser and rewrites a
+    /// whitespace token that has a dependency to `dep`. In a document that is
+    /// nothing but whitespace that token is its own head, so the parser says
+    /// `ROOT` and spaCy ends up with `dep`. Four cases in 50,744 tokens, all of
+    /// them added by the adversarial half of the corpus, and none of them a
+    /// parser bug.
+    ///
+    /// So the two layers are now measured separately and then together. Neither
+    /// alone would have caught it: comparing only raw labels misses whether the
+    /// ruler is wired up, and comparing only final labels blames the parser.
+    @Test("the ruler on top of the parser reproduces spaCy's labels")
+    func rulerOnTopOfParserMatchesSpacy() throws {
+        let directory = spacyModelDirectory()!
+        let chain = try SpacyLemmatizer(modelDirectory: directory)
+        let tokenizer = try SpacyTokenizer.english()
+
+        var agreed = 0, total = 0, rewritten = 0
+        var report: [String] = []
+        for testCase in Self.gold.cases {
+            let tokens = tokenizer.tokenize(testCase.text)
+            guard tokens.count == testCase.deps.count else { continue }
+            let got = chain.annotate(tokens: tokens, text: testCase.text).deps
+            for i in 0..<tokens.count {
+                total += 1
+                if testCase.deps[i] != testCase.parserDeps[i] { rewritten += 1 }
+                if got[i] == testCase.deps[i] {
+                    agreed += 1
+                } else if report.count < 8 {
+                    report.append(
+                        "\(testCase.text.prefix(40).debugDescription) token \(i) "
+                        + "\(tokens[i].text.debugDescription): spacy "
+                        + "\(testCase.deps[i]), swift \(got[i])"
+                    )
+                }
+            }
+        }
+
+        print("Ruler+parser labels: \(agreed)/\(total), \(rewritten) rewritten by the ruler")
+        // If this drops to zero the corpus lost its whitespace-only cases and
+        // the test above it is measuring nothing that the raw comparison did not.
+        #expect(rewritten > 0, "no case exercises the ruler's DEP rewrite")
+        #expect(
+            agreed == total,
+            """
+            labels diverged on \(total - agreed) of \(total)
+            \(report.joined(separator: "\n"))
+            """
+        )
+    }
+
     @Test("heads, labels and sentence starts match spaCy")
     func parseMatchesSpacy() throws {
         let directory = spacyModelDirectory()!
@@ -110,7 +170,11 @@ struct ParserTests {
             tokens += got.heads.count
             for i in 0..<got.heads.count {
                 if got.heads[i] == testCase.heads[i] { headsAgreed += 1 }
-                if got.deps[i] == testCase.deps[i] { depsAgreed += 1 }
+                // `parserDeps`, not `deps`: this is the parser on its own, and
+                // the attribute ruler has not run. Comparing against the full
+                // pipeline's labels reported four divergences that were entirely
+                // this distinction — see `nerAndRulerAgreeOnLabels`.
+                if got.deps[i] == testCase.parserDeps[i] { depsAgreed += 1 }
             }
             let want = Set(testCase.sentStarts)
             startsExpected += want.count
