@@ -230,6 +230,17 @@ jobs:
           grep -qF "${{ matrix.kernel.marker }}" ner.log \
             || { echo "::error::expected '${{ matrix.kernel.marker }}'"; exit 1; }
 
+      # Pinned, because the runner's default `python3` moved to 3.14 and this
+      # dependency set stops at 3.12 -- spaCy 3.7.5, thinc 8.2.x and blis 0.7.x
+      # publish no wheels past cp312. Without the pin pip falls back to building
+      # blis from source and dies in Cython several minutes later, which is a
+      # slow and unreadable way to say "wrong interpreter".
+      - name: Python for the corpus generators
+        id: corpus-python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: The model-derived corpora regenerate identically
         # Three artifacts here come from a spaCy *model* rather than from upstream
         # Presidio, so the corpus job cannot check them -- that job has no model.
@@ -245,10 +256,14 @@ jobs:
         # Only srsly and spaCy are needed, not the pinned tool requirements: the
         # Unicode-table guard those pins protect has nothing to do with these.
         run: |
-          python3 -m venv .modelvenv
-          # `click<8.2` because spaCy 3.7's typer pin imports a name that newer
-          # click removed; without it `import spacy` fails outright.
-          ./.modelvenv/bin/pip install -q srsly 'spacy==3.7.5' 'click<8.2'
+          "${{ steps.corpus-python.outputs.python-path }}" -m venv .modelvenv
+          # `--only-binary=:all:` so an interpreter without wheels fails here,
+          # immediately and legibly, rather than after a source build. And
+          # `click<8.2` because spaCy 3.7's typer pin imports a name newer click
+          # removed; without it `import spacy` fails outright.
+          ./.modelvenv/bin/pip install -q --only-binary=:all: \
+            srsly 'spacy==3.7.5' 'click<8.2' \
+            || { echo "::error::spaCy 3.7.5 has no wheels for this interpreter"; exit 1; }
           # The wheel the fetch step already downloaded. The generators load the
           # model by name, so it has to be installed, not just unzipped.
           ./.modelvenv/bin/pip install -q model.whl
