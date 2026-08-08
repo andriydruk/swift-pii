@@ -177,7 +177,19 @@ public enum Checksums {
 
     // MARK: - Helpers
 
-    public static func isPalindrome(_ text: String) -> Bool {
-        text == String(text.reversed())
+    /// Port of `InAadhaarRecognizer._is_palindrome`.
+    ///
+    /// - Parameter caseInsensitive: upstream's optional second argument, which
+    ///   does slightly more than its name says — it strips spaces as well as
+    ///   lowercasing. The Aadhaar recognizer never passes it, since Aadhaar
+    ///   numbers are digits, so this existed as a one-argument function until
+    ///   the upstream table that exercises both arguments was harvested.
+    public static func isPalindrome(
+        _ text: String, caseInsensitive: Bool = false
+    ) -> Bool {
+        let subject = caseInsensitive
+            ? text.replacing(" ", with: "").lowercased()
+            : text
+        return subject == String(subject.reversed())
     }
 }

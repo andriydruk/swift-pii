@@ -98,6 +98,40 @@ jobs:
               print(f"::notice::upstream gained {f - c} cases; refresh the corpus")
           PY
 
+      - name: The operation corpus regenerates identically
+        # Compared case for case rather than by count, unlike the recognizer
+        # corpus above: this one is small and fully enumerated, and a *changed*
+        # expectation means upstream changed the semantics of `remove_duplicates`
+        # or the conflict resolver -- which is worth a human reading the diff,
+        # not a notice saying the count moved.
+        #
+        # `source` is excluded because it carries the upstream commit, which
+        # differs on every push and would fail this check for no reason. Same
+        # reason the corpus comparison above compares counts.
+        run: |
+          python3 Tools/extract_operation_cases.py \
+            --presidio .upstream-presidio \
+            --out /tmp/operation_cases.json
+          python3 - <<'PY'
+          import json, sys
+
+          def load(path):
+              with open(path) as fh:
+                  payload = json.load(fh)
+              payload.pop("source", None)
+              return payload
+
+          committed = load("Tests/PresidioConformance/Fixtures/operation_cases.json")
+          fresh = load("/tmp/operation_cases.json")
+          if committed == fresh:
+              print(f"operation corpus unchanged: {committed['stats']}")
+              sys.exit(0)
+          print("::error::operation_cases.json is stale", file=sys.stderr)
+          print(f"  committed {committed['stats']}", file=sys.stderr)
+          print(f"  regenerated {fresh['stats']}", file=sys.stderr)
+          sys.exit(1)
+          PY
+
       - name: Re-derive the per-language registry oracle
         # `registry_gold.json` records which recognizers upstream loads for each
         # targeted language, and it is the only thing standing between us and

@@ -194,6 +194,10 @@ public enum Corpus {
         try load("recognizer_cases", as: RecognizerCorpus.self)
     }
 
+    public static func operationCases() throws -> OperationCorpus {
+        try load("operation_cases", as: OperationCorpus.self)
+    }
+
     public static func validatorCases() throws -> ValidatorCorpus {
         try load("validator_cases", as: ValidatorCorpus.self)
     }

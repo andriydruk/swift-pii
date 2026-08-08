@@ -41,9 +41,11 @@ has always made: the model version is what matters, not the library's.
 | Dependency parse / boundaries | 2,028 | **exact** |
 | Validators (adversarial) | 2,111 | **exact** |
 | Validators (harvested) | 206 | **exact** |
+| `RecognizerResult` predicates (harvested) | 37 | **exact** |
+| Static helpers (harvested) | 18 | **exact** |
 | Anonymizer + crypto | 43 | **exact** |
 | Batch analyzer | 9 | **exact** |
-| **Total** | **28,607** | |
+| **Total** | **28,662** | |
 
 ## Scope
 
@@ -283,22 +285,39 @@ Current corpus:
 | `computed_cases.json` | 1 | 9 | 1 |
 | `validator_cases.json` | 22 | 206 | 22 |
 
-44 upstream tables are still not extracted, and they are **recorded in the
+**32** upstream tables are still not extracted, and they are **recorded in the
 artifact** under `skipped` with reasons — coverage you can't see is coverage you
 don't have.
 
-Most of what remains is infrastructure: registry configuration, NER model
-configuration, ONNX and device selection, and tests for recognizers this port does
-not ship. But "almost entirely", which this paragraph used to say, was an
-overstatement that nobody had checked. Reading the list, roughly a third is real
-behaviour: eight tables of `RecognizerResult` comparison, containment and conflict
-semantics (which is what `remove_duplicates` and conflict resolution are built
-on), `sanitize_value` for two recognizers, Aadhaar's palindrome check, ZA mobile
-prefix classification, three deny-list regex-flag tables, and threshold-source
-precedence. Those are shapes the extractor cannot express — a unit test of a value
-type has no text column — rather than behaviour that does not matter. The Swift
-side implements all of them and agrees on every case that was checked by hand;
-what is missing is that the checking is by hand.
+It was 44, and the paragraph here used to describe the remainder as "almost
+entirely infrastructure". That was an overstatement nobody had checked. Reading
+the list, about a third was real behaviour that the extractor could not *express*
+rather than behaviour that did not matter: a unit test of a value type has no text
+column, so it fell out under "unsupported shape" and looked like configuration.
+
+[`Tools/extract_operation_cases.py`](../Tools/extract_operation_cases.py) handles
+that class — a second tool with a second contract, the same split as
+`extract_computed_fixtures.py`. It reads two shapes statically: a boolean
+assertion about two literal-constructed values, and a call whose arguments are
+literals or parameters. That covers 12 of the 44, plus four tests that were never
+counted because they carry no parametrize decorator and so were never tables:
+
+| | cases |
+|---|---:|
+| `RecognizerResult` predicates — contains, equal_indices, has_conflict, ordering, equality, hashing | 37 |
+| `sanitize_value`, Aadhaar palindrome and Verhoeff, ZA prefix classification | 18 |
+
+All 55 agree. The harvest was worth doing anyway: upstream's `_is_palindrome`
+takes an optional second argument that lowercases *and strips spaces*, and the
+port had a one-argument version — behaviourally sufficient for its only caller,
+since Aadhaar numbers are digits, and wrong as a port. Two of the five rows
+exercise the argument that did not exist.
+
+What genuinely remains is infrastructure plus one honest gap: registry and NER
+model configuration, ONNX and device selection, recognizers this port does not
+ship, and eight tables whose subject is a pytest fixture, so the constructor
+arguments live outside the file being read. Those last are reachable — they need
+the fixture resolved, not a new idea.
 
 The extractor evaluates without executing. Beyond plain literals it folds
 module-level constants, sequence repetition (`[(0.5, 0.8)] * 2`) and
