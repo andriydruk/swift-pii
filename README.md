@@ -879,7 +879,8 @@ deliberately not named after it — MIT grants no trademark rights, and a
   catalogue covers, but `PERSON`/`LOCATION` need a model and only the English
   one is ported — see [Other languages](#other-languages).
 - **No image redaction, structured-data support, or REST server.** This is a
-  library, not a service.
+  library, not a service — the server is a decision rather than a to-do, and it
+  is the reason upstream's 52 HTTP e2e tests are not run. See PLAN.md §6.
 - **Windows and Android are unverified.** Nothing Apple-specific is used and
   Linux is green, but neither has been built.
 

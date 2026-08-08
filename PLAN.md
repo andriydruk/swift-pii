@@ -29,7 +29,7 @@ spaCy.
 | **M2** — anonymizer | 3 pw | **done.** Operators, AES-CBC via swift-crypto, span rewriting. |
 | **M3** — tokenizer + NER, composed | 6 pw | **done, and then some.** Tokenizer, NER, tagger, attribute ruler, rule lemmatizer, edit-tree lemmatizer, dependency parser. Eight languages, every stage exact. |
 | **M4** — engine, context, config | 5 pw | **done.** `AnalyzerEngine`, context enhancer, dedup with a documented total order, YAML config, phone matcher with full metadata. |
-| **M5** — hardening | 4 pw | **done**, bar the optional REST target — see §3. |
+| **M5** — hardening | 4 pw | **done.** API review, error taxonomy, concurrency audit, docs, perf pass. |
 | **M6** — Android, Windows | 6–10 pw | **not started.** A non-blocking Linux canary runs in CI. |
 
 Three things landed that the plan did not ask for, because measurement kept
@@ -82,7 +82,10 @@ name on a *skip*. Every measurement in CI is now grepped for by its printed valu
 
 ## 3. What is left
 
-### M5 — what it turned into
+Two things, and one closed item kept for its negative result — those get
+repeated when nobody writes them down.
+
+### M5 — closed
 
 Done: the API review (the README now says which products are surface and which
 are machinery, and why the surface is larger than a PII library's needs to be),
@@ -96,13 +99,6 @@ against two 64-float allocations. The change was reverted and the arithmetic is
 written down in `presidio-bench` so the next person does not spend the afternoon
 on it. The remaining lever in the engine is still `PhoneRecognizer`, at ~72% of
 the pattern-only cost, and it is structural: one scan per configured region.
-
-### The REST target, and L5
-
-Still the highest-leverage unbuilt thing. A Hummingbird target unlocks the 52
-upstream e2e tests at near-zero marginal cost — their base URLs are
-env-overridable, so no upstream code changes. It is the only layer of the original
-five-layer test architecture never built.
 
 ### Harvest: 32 upstream tables
 
@@ -166,6 +162,20 @@ DICOM redaction (needs DCMTK via a C++ bridge; no usable Swift DICOM library
 exists) · image redaction generally (no cross-platform OCR story) ·
 presidio-structured · Stanza · GLiNER · LangExtract/LLM recognizers · Azure remote
 recognizers · the `surrogate_ahds` operator.
+
+**And the REST server.** This document used to carry it as optional M5 work,
+because a Hummingbird target would have unlocked upstream's 52 e2e tests at
+near-zero marginal cost — their base URLs are environment-overridable, so no
+upstream changes were needed. That is a genuine loss and it is being taken
+deliberately: **this is a library, not a service.** A server target would add a
+dependency, a deployment story and a wire contract to maintain, for the benefit of
+a test layer rather than of any caller.
+
+The consequence, stated rather than implied: of the five test layers this plan
+opened with, four are built and **L5 will not be**. Those 52 tests exercise the
+HTTP contract — request shapes, status codes, JSON encoding — over behaviour the
+other four layers already cover directly and in more detail. What is genuinely
+given up is end-to-end coverage of a surface this package does not have.
 
 Two upstream bugs deliberately **not** reproduced: `presidio-cli/presidio_cli/cli.py`
 always exits 0 (useless as a CI gate), and `config.py:103` validates the default

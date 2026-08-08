@@ -57,7 +57,7 @@ has always made: the model version is what matters, not the library's.
 | `presidio-cli` | ported |
 | `presidio-image-redactor` | not ported — needs DICOM and a cross-platform OCR story, neither of which exists in Swift |
 | `presidio-structured` | not ported |
-| REST API servers | not ported |
+| REST API servers | **not ported, and not planned** — this is a library, not a service. It is why upstream's 52 HTTP e2e tests do not run here; see PLAN.md §6. |
 
 **Recognizers: 88 of 99 classes.** The 10 absent are Azure x3, LangExtract x2,
 GLiNER, HuggingFaceNER, MedicalNER, Stanza and Transformers — every one a cloud
