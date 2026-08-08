@@ -103,32 +103,38 @@ struct NERTests {
 
         #expect(expected >= 2000, "gold corpus too small: \(expected) entities")
 
-        // Ratchet, not an equality assertion — end-to-end parity is not exact.
+        // Equality, not a ratchet. This was a ratchet through two wrong
+        // explanations, and the history is worth keeping because both were
+        // plausible and neither was tested.
         //
-        // This comment used to blame float accumulation order. That was a
-        // guess, and it was wrong: 24 of the 28 misses came from the reserved
-        // string-store symbols, whose table was read from a relative
-        // "symbols.tsv" that never existed, so every shape like "X" hashed
-        // instead of resolving to its symbol id. Bundling the table took
-        // recall from 98.92% to 99.85%.
+        // It first blamed float accumulation order. That was a guess: 24 of the
+        // 28 misses came from the reserved string-store symbols, whose table was
+        // read from a relative "symbols.tsv" that never existed, so every shape
+        // like "X" hashed instead of resolving to its symbol id. Bundling the
+        // table took recall from 98.92% to 99.85%.
         //
-        // Current: 2588/2592 matched = 99.85% recall and precision. The
-        // remaining 4 are plausible spans with a different label or extent,
-        // not corrupted offsets — the accumulation-order theory may finally be
-        // right about those, but it has not been demonstrated.
+        // The residual 4 of 2,592 got the same treatment — "plausible spans,
+        // probably arithmetic" — and that was wrong too. They were sentence
+        // boundaries: spaCy will not let an entity cross one, and takes them
+        // from the parser. Running spaCy with `exclude=["parser"]` changed
+        // exactly those 4 texts. With the parser ported, this is 2592/2592 at
+        // 1.0 precision, so there is nothing left to ratchet against.
         let recall = Double(matched) / Double(expected)
         let precision = Double(matched) / Double(produced)
         print("NER parity: matched \(matched)/\(expected) recall \(recall) precision \(precision)")
         #expect(
-            recall >= 0.998,
+            matched == expected,
             """
             recall regressed to \(recall): matched \(matched), spacy \(expected)
             \(report.joined(separator: "\n"))
             """
         )
         #expect(
-            precision >= 0.998,
-            "precision regressed to \(precision): matched \(matched), swift \(produced)"
+            produced == expected,
+            """
+            precision regressed to \(precision): matched \(matched), swift \(produced)
+            \(report.joined(separator: "\n"))
+            """
         )
     }
 

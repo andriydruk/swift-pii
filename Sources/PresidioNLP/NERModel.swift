@@ -386,7 +386,7 @@ final class NERModel: @unchecked Sendable {
                 "hidden width \(hidden.1.shape[0]) disagrees with the affine's \(nO)"
             )
         }
-        loadMoves(dir + "/ner/moves")
+        (actMove, actLabel) = loadTransitionMoves(dir + "/ner/moves")
         loadNorms(dir + "/vocab/lookups.bin")
         loadSymbols("symbols.tsv")
         loadVectors(dir)
@@ -468,40 +468,6 @@ final class NERModel: @unchecked Sendable {
         }
     }
 
-    func loadMoves(_ path: String) {
-        var r = MPReader(readFile(path))
-        let js = r.value().m("moves")!.asStr!
-        // minimal JSON: {"0":{},"1":{"ORG":56516,...},...}
-        var mt = -1
-        var i = js.startIndex
-        var depth = 0
-        var cur = ""
-        var inStr = false, isKey = false
-        var keys: [String] = []
-        while i < js.endIndex {
-            let c = js[i]
-            if inStr {
-                if c == "\"" { inStr = false; if isKey { keys.append(cur) }; cur = "" }
-                else { cur.append(c) }
-            } else if c == "\"" { inStr = true; isKey = true; cur = "" }
-            else if c == "{" { depth += 1; if depth == 2 { mt += 1 } }
-            else if c == "}" { depth -= 1 }
-            else if c == ":" && depth == 2 { /* value follows */ }
-            i = js.index(after: i)
-        }
-        // second pass with explicit structure
-        actMove = []; actLabel = []
-        var d = 0; var key = ""; var reading = false; var mtIdx = -1
-        var pendingKey = ""
-        for c in js {
-            if reading { if c == "\"" { reading = false; key = pendingKey } else { pendingKey.append(c) }; continue }
-            if c == "\"" { reading = true; pendingKey = ""; continue }
-            if c == "{" { d += 1; if d == 2 { mtIdx = Int(key) ?? mtIdx }; continue }
-            if c == "}" { d -= 1; continue }
-            if c == ":" && d == 2 { actMove.append(mtIdx); actLabel.append(key); continue }
-        }
-        _ = keys
-    }
 }
 
 // ============================ forward ============================

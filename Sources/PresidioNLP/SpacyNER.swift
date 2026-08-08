@@ -54,12 +54,25 @@ public final class SpacyNER: @unchecked Sendable {
 
     private let tokenizer: SpacyTokenizer
     private let model: NERModel
+    private let parser: DependencyParser?
 
     /// Loads a model from an unpacked spaCy model directory.
     ///
     /// Weights are not bundled — `en_core_web_sm` is 15 MB and `lg` is 619 MB,
     /// so they are loaded from disk at runtime rather than committed.
-    public init(modelDirectory: String, tokenizer: SpacyTokenizer? = nil) throws {
+    ///
+    /// - Parameter parseSentences: load the dependency parser, when the model
+    ///   ships one, so that entity spans respect sentence boundaries. This is
+    ///   what makes NER match spaCy's full pipeline rather than spaCy with
+    ///   `exclude=["parser"]`, and it is the default for that reason. It costs a
+    ///   second tok2vec pass and roughly 2N scored transitions per document —
+    ///   see the README for the measured figure. Turn it off if throughput
+    ///   matters more than the last 0.2% of texts.
+    public init(
+        modelDirectory: String,
+        tokenizer: SpacyTokenizer? = nil,
+        parseSentences: Bool = true
+    ) throws {
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(
             atPath: modelDirectory, isDirectory: &isDirectory
@@ -76,7 +89,24 @@ public final class SpacyNER: @unchecked Sendable {
         guard !self.model.actMove.isEmpty else {
             throw NERError.modelIncomplete("no transition actions loaded from ner/moves")
         }
+
+        // Presence-checked rather than attempted: `try?` here would turn a
+        // malformed parser into silently absent sentence boundaries, which is
+        // the failure mode this whole component exists to close. A model with
+        // no `parser/` at all is a legitimate configuration and yields nil.
+        if parseSentences,
+           FileManager.default.fileExists(atPath: modelDirectory + "/parser/model") {
+            self.parser = try DependencyParser(directory: modelDirectory)
+        } else {
+            self.parser = nil
+        }
     }
+
+    /// Whether sentence boundaries are being derived from a parser.
+    ///
+    /// False means this behaves as spaCy does with the parser excluded — either
+    /// because the model ships none or because the caller opted out.
+    public var parsesSentences: Bool { parser != nil }
 
     /// Number of transition actions the model was built with. Useful as a
     /// cheap sanity check that a model loaded.
@@ -90,18 +120,24 @@ public final class SpacyNER: @unchecked Sendable {
     }
 
     /// NER over pre-computed tokens, for callers that already tokenized.
+    ///
+    /// Sentence boundaries come from the parser when there is one. Pass them
+    /// explicitly with the overload below to use boundaries from somewhere else.
     public func entities(in text: String, tokens: [Token]) -> [NamedEntity] {
-        entities(in: text, tokens: tokens, sentenceStarts: [])
+        entities(
+            in: text, tokens: tokens,
+            sentenceStarts: parser?.parse(tokens: tokens, text: text).sentenceStarts ?? []
+        )
     }
 
     /// - Parameter sentenceStarts: token indices that begin a sentence.
     ///
     ///   spaCy forbids an entity from spanning a sentence boundary, and takes
-    ///   those boundaries from the dependency parser — a component this port
-    ///   does not implement. Supply them and entity spans match spaCy's full
-    ///   pipeline exactly; omit them and this behaves as spaCy does with the
-    ///   parser excluded. The difference is small but real: 4 of 2,000 English
-    ///   texts, 3 of 79 French ones.
+    ///   those boundaries from the dependency parser. This overload takes them
+    ///   from the caller instead — from another sentence splitter, or from spaCy
+    ///   itself when what is being measured is the rest of the pipeline. An
+    ///   empty set means no boundaries at all, which is spaCy with
+    ///   `exclude=["parser"]`, not "work it out".
     public func entities(
         in text: String, tokens: [Token], sentenceStarts: Set<Int>
     ) -> [NamedEntity] {
@@ -128,5 +164,12 @@ public final class SpacyNER: @unchecked Sendable {
     /// tokenizing twice.
     public func tokenize(_ text: String) -> [Token] {
         tokenizer.tokenize(text)
+    }
+
+    /// The dependency parse, for callers that want the syntax rather than only
+    /// its effect on entity spans. `nil` when there is no parser to run.
+    public func parse(_ text: String, tokens: [Token]? = nil) -> DependencyParse? {
+        guard let parser else { return nil }
+        return parser.parse(tokens: tokens ?? tokenizer.tokenize(text), text: text)
     }
 }

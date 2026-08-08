@@ -226,3 +226,60 @@ func benchmarkRecognizerBreakdown() {
 
 import Foundation
 benchmarkRecognizerBreakdown()
+
+// --- The NLP stage --------------------------------------------------------
+//
+// The model is the other half of the cost, and it moves for different reasons
+// than the recognizers do: it is dominated by one matrix multiply, so it scales
+// with document length rather than with the number of patterns. Reported in
+// three configurations because each is a decision a caller makes.
+//
+// `parseSentences` is the newest of them. It buys exact agreement with spaCy's
+// full pipeline — entities stop at sentence boundaries — and it costs a second
+// tok2vec pass plus roughly 2N scored transitions. This is where that trade gets
+// a number instead of an adjective.
+
+import PresidioModelEnglish
+import PresidioNLP
+
+func benchmarkNLP() {
+    let paragraph = """
+        Dear Dr. Smith, please find the updated records for patient David \
+        Johnson (DOB 12/03/1978). His contact number is (415) 555-0132 and his \
+        e-mail is d.johnson@example.com. Payment was taken from card \
+        4095-2609-9393-4932, settled against IBAN GB82 WEST 1234 5698 7654 32. \
+        The office IP was 192.168.0.14 and the record URL is \
+        https://records.example.com/patients/8891. Please confirm by Friday.
+        """
+    let documents = (0..<200).map { "Record \($0). " + paragraph }
+
+    guard let directory = EnglishModel.directoryIfPresent else {
+        print("")
+        print("NLP: the English model is not bundled in this build")
+        return
+    }
+
+    print("")
+    print("NLP stage over the same 200 documents (bundled \(EnglishModel.version))")
+
+    func time(_ label: String, _ body: (String) -> Int) {
+        _ = body(documents[0])
+        let start = now()
+        var found = 0
+        for document in documents { found += body(document) }
+        let elapsed = now() - start
+        print(String(format: "  %@ %6.1f ms  %5.2f ms/doc  (%d entities)",
+                     label.padding(toLength: 30, withPad: " ", startingAt: 0),
+                     elapsed * 1000, elapsed / Double(documents.count) * 1000, found))
+    }
+
+    guard let parsed = try? SpacyNER(modelDirectory: directory),
+          let unparsed = try? SpacyNER(modelDirectory: directory, parseSentences: false)
+    else { print("  could not load the model"); return }
+
+    time("tokenize only") { parsed.tokenize($0).count }
+    time("tokenize + NER") { unparsed.entities(in: $0).count }
+    time("tokenize + NER + parser") { parsed.entities(in: $0).count }
+}
+
+benchmarkNLP()

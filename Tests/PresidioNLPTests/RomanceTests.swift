@@ -67,42 +67,39 @@ struct FrenchNERTests {
         if !report.samples.isEmpty { print(report.detail) }
         #expect(report.expected >= 35, "corpus too small: \(report.expected) entities")
 
-        // Without sentence boundaries: 40/42 recall, 0.930 precision.
+        // French was the language that made the sentence-boundary gap visible,
+        // because its corpus is dense with sentence fragments harvested from
+        // spaCy's own tests. It sat at 40/42 recall and 0.930 precision for as
+        // long as this port had no parser.
         //
-        // The cause is known and is *not* the forward pass, which is what an
-        // earlier version of this comment claimed. spaCy's `Begin.is_valid` and
-        // `In.is_valid` refuse to open or extend an entity when the next token
-        // starts a sentence, and it takes those boundaries from the dependency
-        // parser — which this port does not implement. All three French
-        // divergences span a boundary; supply the boundaries and it is exact,
-        // which the next test asserts.
+        // The cause was *not* the forward pass, which is what an earlier version
+        // of this comment claimed. spaCy's `Begin.is_valid` and `In.is_valid`
+        // refuse to open or extend an entity when the next token starts a
+        // sentence, and those boundaries come from the dependency parser. All
+        // three divergences spanned one. With the parser ported it is exact.
         //
-        // Ruled out on the way, each by measurement: tokenization (624/624),
-        // the lexical features (compared token by token against spaCy for the
-        // failing sentence), and accumulation order (both matrix kernels give
-        // the identical 40/42).
-        //
-        // This is the same gap as English's residual 4 of 2,592: running
-        // spaCy with `exclude=["parser"]` changes exactly 4 of those 2,000
-        // texts, and they are the same 4.
-        #expect(report.recall >= 0.95, "recall \(report.recall), was 0.952")
-        #expect(report.precision >= 0.93, "precision \(report.precision), was 0.930")
+        // Ruled out on the way, each by measurement rather than argument:
+        // tokenization (624/624), the lexical features (compared token by token
+        // against spaCy for the failing sentence), and accumulation order (both
+        // matrix kernels gave the identical 40/42).
+        #expect(report.recall == 1.0, "recall \(report.recall)\n\(report.detail)")
+        #expect(report.precision == 1.0, "precision \(report.precision)\n\(report.detail)")
     }
 
-    /// ...and with them, it is exact.
+    /// The same result with spaCy's own boundaries rather than the port's.
     ///
-    /// This is the whole diagnosis in one assertion: the divergence is not the
-    /// forward pass, the features or the arithmetic. It is that spaCy forbids
-    /// entities from spanning a sentence boundary and takes those boundaries
-    /// from the dependency parser, which this port does not implement. Hand it
-    /// the boundaries and French matches exactly.
+    /// Kept now that the parser exists, because it separates two failures that
+    /// would otherwise look identical: if this passes and the test above does
+    /// not, the parser is wrong; if both fail, NER is. It is also the assertion
+    /// that carried the original diagnosis, when supplying boundaries by hand
+    /// was the only way to get French to 42/42.
     @Test("entities match spaCy exactly when sentence boundaries are supplied")
     func exactWithSentenceBoundaries() throws {
         let report = LanguageParity.entities(
             Self.gold,
             try SpacyNER(modelDirectory: frenchModelDirectory()!,
                          tokenizer: try SpacyTokenizer.french()),
-            withSentenceBoundaries: true
+            boundaries: .fromSpacy
         )
         print("French NER parity (with boundaries): \(report.summary)")
         if !report.samples.isEmpty { print(report.detail) }
@@ -124,8 +121,8 @@ struct PortugueseNERTests {
         print("Portuguese NER parity: \(report.summary)")
         if !report.samples.isEmpty { print(report.detail) }
         #expect(report.expected >= 30, "corpus too small: \(report.expected) entities")
-        #expect(report.recall >= 0.95, "recall \(report.recall)")
-        #expect(report.precision >= 0.95, "precision \(report.precision)")
+        #expect(report.recall == 1.0, "recall \(report.recall)\n\(report.detail)")
+        #expect(report.precision == 1.0, "precision \(report.precision)\n\(report.detail)")
     }
 }
 

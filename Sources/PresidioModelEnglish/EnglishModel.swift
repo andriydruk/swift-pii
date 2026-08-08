@@ -16,20 +16,26 @@ import Foundation
 /// ```
 ///
 /// The weights are spaCy's `en_core_web_sm` 3.7.1, MIT-licensed. Only the
-/// files this package actually reads are kept — the dependency parser, the
-/// sentence recognizer, the lemmatizer lookups (extracted separately into
-/// PresidioNLP) and spaCy's `vocab/strings.json` are all dropped, which takes
-/// 15 MB down to 12. `strings.json` in particular is spaCy's string cache and
-/// is never consulted: ids are recomputed with MurmurHash64A plus the reserved
-/// symbol table.
+/// files this package actually reads are kept — the sentence recognizer, the
+/// lemmatizer lookups (extracted separately into PresidioNLP) and spaCy's
+/// `vocab/strings.json` are all dropped, which takes 15 MB down to 12.
+/// `strings.json` in particular is spaCy's string cache and is never consulted:
+/// ids are recomputed with MurmurHash64A plus the reserved symbol table.
 ///
 /// | file | what it is |
 /// |---|---|
-/// | `tok2vec/model` | shared embedding network the tagger reads |
+/// | `tok2vec/model` | shared embedding network the tagger and parser read |
 /// | `ner/model` | the entity recognizer, with its own separate tok2vec |
 /// | `tagger/model` + `cfg` | softmax over 50 Penn Treebank tags, and their names |
+/// | `parser/model` + `moves` | arc-eager dependency parser, for sentence boundaries |
 /// | `ner/moves` | the transition system's action set |
 /// | `vocab/*` | key-to-row and vectors; empty in `sm`, which ships no word vectors |
+///
+/// The parser was dropped once, as "files nothing reads". It is back because
+/// something does: spaCy forbids an entity from spanning a sentence boundary,
+/// and this is where the boundaries come from. `parser/cfg` stays dropped — the
+/// loader reads the transition table from `moves` and every dimension from the
+/// weights.
 public enum EnglishModel {
 
     /// Version of the underlying spaCy model.

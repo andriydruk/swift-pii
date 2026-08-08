@@ -58,8 +58,8 @@ struct ItalianNERTests {
         print("Italian NER parity: \(report.summary)")
         if !report.samples.isEmpty { print(report.detail) }
         #expect(report.expected >= 40, "corpus too small: \(report.expected) entities")
-        #expect(report.recall >= 0.95, "recall \(report.recall)")
-        #expect(report.precision >= 0.95, "precision \(report.precision)")
+        #expect(report.recall == 1.0, "recall \(report.recall)\n\(report.detail)")
+        #expect(report.precision == 1.0, "precision \(report.precision)\n\(report.detail)")
     }
 }
 

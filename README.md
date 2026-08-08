@@ -94,8 +94,9 @@ cards, emails, phone numbers and national IDs.
 
 It is not free in either direction. The model also labelled the card number as
 a `DATE_TIME` in the example above, a false positive the pattern-only pipeline
-does not make, and it roughly doubles processing time. Statistical recall costs
-some precision.
+does not make, and it adds a few milliseconds per document — `presidio-bench`
+prints the breakdown, and [the parser](#the-dependency-parser) is the largest
+single part of it. Statistical recall costs some precision.
 
 **Adding it.** One product:
 
@@ -119,12 +120,13 @@ trained on web text, *small*. It is **bundled in the package**: 12 MB, no
 download, no file paths, works offline. A separate product so that callers who
 never ask for names do not carry it.
 
-Two neural networks are in there, and they are the only ones in this library:
+Three neural networks are in there, and they are the only ones in this library:
 
 | | size | what it does |
 |---|---:|---|
 | `ner/model` | 5.9 MB | the entity recognizer — names, places, organisations, dates |
 | `tok2vec/model` + `tagger/model` | 6.0 MB | part-of-speech tags, which the lemmatizer needs |
+| `parser/model` | 0.3 MB | dependency parse, for the sentence boundaries NER obeys |
 
 Everything else — the tokenizer, the lemmatizer, all 88 recognizers — is rules
 and lookup tables with no weights at all, and ships in the core package.
@@ -136,6 +138,55 @@ part-of-speech tags. Without the model that step is approximated, and the
 approximation is exact for all but six of the 523 context words in the
 catalogue — see
 [Lemmas and context scoring](docs/presidio-parity.md#lemmas-and-context-scoring).
+
+### The dependency parser
+
+The third network is the smallest and the least obvious, and it is not there for
+syntax. spaCy will not let an entity span a sentence boundary — `Begin.is_valid`
+and `In.is_valid` refuse to open or extend one when the next token starts a
+sentence — and it takes those boundaries from the dependency parser. Without the
+parser an entity runs through them. This is the whole difference, and it is
+measurable:
+
+```swift
+let ner = try SpacyNER(modelDirectory: EnglishModel.directory)
+let text = "| | KR_PASSPORT| The Korean Passport Number | Pattern match, context."
+
+ner.entities(in: text)              // ORG "The Korean Passport Number"
+// with parseSentences: false       // ORG "KR_PASSPORT| The Korean Passport Number"
+```
+
+The second span swallows an identifier that belongs to the previous table cell.
+Four of the 2,000 English texts change once the boundaries are visible, three of
+the 79 French ones, and one German — exactly the set that `exclude=["parser"]`
+changes in spaCy itself. Not all of them are over-long spans: German's is an
+entity that disappears, because a boundary immediately after the first token
+leaves nothing valid to open with.
+
+Ported from `arc_eager.pyx` and `_state.pxd`: the arc-eager transition system
+(shift, reduce, left-arc, right-arc, break), 106 transition classes, eight state
+features against NER's three, the pseudo-projective label decoration undone
+afterwards, and the subtree-edge computation that turns heads into boundaries.
+It listens to the same shared `tok2vec` the tagger uses rather than carrying its
+own, which is why it is 0.3 MB rather than 6.
+
+Measured against spaCy over the same 2,000 texts: **47,511/47,511 heads,
+47,511/47,511 labels, 2,384/2,384 sentence boundaries**, and the same exactness
+in all seven other languages. The heads and labels are exposed because they came
+free:
+
+```swift
+let parse = ner.parse("She flew to Berlin. Munich was next.")
+parse?.sentenceStarts   // [0, 5]
+parse?.heads            // head index per token; a root is its own head
+parse?.deps             // "nsubj", "ROOT", "prep", ...
+```
+
+It costs a second `tok2vec` pass and roughly two scored transitions per token:
+the NLP stage goes from 1.52 to 3.72 ms/document on the benchmark corpus, so
+about 60% of the model's time. `parseSentences: false` buys that back and gives
+you spaCy-with-`exclude=["parser"]` behaviour, which is what this library did
+before.
 
 ## Removing it
 
@@ -343,8 +394,9 @@ it:
 | Tokens, offsets, NORMs | **699** | **560** | **624** | **446** | **368** | **489** | **352** |
 | Fine-grained tags | **699/699** | — | — | **446/446** | — | — | — |
 | Lemmas | **699/699** | — | — | **446/446** | **368/368** | — | — |
-| NER recall | **66/66** | **65/65** | 40/42 | **47/47** | **36/36** | **41/41** | **24/24** |
-| NER precision | 0.985 | **1.0** | 0.930 | **1.0** | **1.0** | **1.0** | **1.0** |
+| Sentence boundaries | **699/699** | **560/560** | **624/624** | **446/446** | **368/368** | **489/489** | **352/352** |
+| NER recall | **66/66** | **65/65** | **42/42** | **47/47** | **36/36** | **41/41** | **24/24** |
+| NER precision | **1.0** | **1.0** | **1.0** | **1.0** | **1.0** | **1.0** | **1.0** |
 
 Tokenization is exact in all seven. The dashes are structural, not unfinished:
 only German and Italian ship a **tagger** at all, and only German, Italian and
@@ -356,24 +408,22 @@ Heavily inflected languages are where that gap costs most.
 Portuguese is the useful proof that the edit-tree lemmatizer never needed a
 tagger — it has no tagger and lemmatizes exactly.
 
-French's NER is not exact by default, and the cause is now known exactly: **spaCy
-forbids entities from spanning a sentence boundary**, and takes those boundaries
-from the dependency parser — a component this port does not implement. All three
-French divergences span a boundary. Supply the boundaries and French is exact:
+Every NER row above used to have a gap in it — French at 40/42 and 0.930
+precision, German at 0.985, English at 2,588 of 2,592 — and all of them had the
+same cause: **spaCy forbids an entity from spanning a sentence boundary**, and
+takes those boundaries from the dependency parser. Entities ran straight through
+boundaries this port could not see.
 
-```swift
-ner.entities(in: text, tokens: tokens, sentenceStarts: [0, 2, 9])  // 42/42
-```
-
-The same gap accounts for **English's residual 4 of 2,592**: running spaCy with
-`exclude=["parser"]` changes exactly 4 of those 2,000 texts, and they are the
-same 4. So the port reproduces spaCy's NER *without* the parser exactly, and
-differs from the full pipeline only where an entity would otherwise cross a
-sentence boundary — measurably 0.2% of English texts and 4% of the French
-corpus, which is dense with sentence fragments harvested from spaCy's own tests.
+That parser is now ported, so the boundaries are derived here rather than
+supplied. The row above is the direct measurement of it — 3,338 boundaries across
+seven languages, plus 2,384 in the English corpus, with no divergence — and the
+NER rows are what it bought. There is nothing left to configure: pass raw text
+and entity spans match spaCy's full pipeline.
 
 Tokenization, the lexical features and the arithmetic were each ruled out by
-measurement before this was found.
+measurement before the boundaries were found, which is the only reason the fix
+went to the right component. See [the parser](#the-dependency-parser) for what
+it costs.
 
 None of this affects identifier detection; what degrades without lemmas is
 context scoring, which matches supporting words by lemma. Every absence is
@@ -622,6 +672,12 @@ one build does the right thing on each platform.
 | end-to-end `analyze` with the model | 11.8 ms/doc | **8.2 ms/doc** |
 | end-to-end `analyze` without it | 5.58 ms/doc | 5.63 ms/doc — unchanged, as expected |
 
+These three rows predate the dependency parser and were taken with sentence
+boundaries off; the parser adds another `tok2vec` pass, so it scales with the
+kernel the same way the rest does. `presidio-bench` prints the NLP stage in all
+three configurations — tokenizer alone, with NER, and with the parser — so the
+current split is a command rather than a claim in a table.
+
 **The gain grows with document length**, because that is what makes the matrices
 tall: on a single short sentence it is nearer 25%, and on paragraph-length
 documents like the ones above the inference stage is 2.5× faster. It does
@@ -643,8 +699,10 @@ Working in this repo directly, that is `swift build --disable-default-traits`
 
 What that buys you is *sameness*, not accuracy. Measured over the full parity
 corpora the **outcomes are already identical** — 5,513/5,513 tags, 5,513/5,513
-lemmas, 2,588/2,592 entities either way, and not one argmax flips across 5,513
-tokens — while ~93% of the intermediate floats differ in their last bits. CI
+lemmas, 2,592/2,592 entities and 47,511/47,511 dependency heads either way, and
+not one argmax flips — while ~93% of the intermediate floats differ in their last
+bits. The parser is the sharpest version of that test, because its ~2N argmaxes
+are sequential and each one changes the state the next is scored from. CI
 runs both kernels against the same gold corpora on every push, because both are
 configurations someone ships.
 
@@ -721,8 +779,10 @@ are harvested from its own test suite rather than rewritten.
 
 Fidelity is measured, not claimed. Against **16,671 recorded cases** the port
 agrees exactly on the recognizers, the engine's whole option matrix, the
-tokenizer, the regex substrate, the anonymizer and the lemmatizer; NER is
-99.85%. The evidence, the deliberate divergences and the remaining gaps are in
+tokenizer, the regex substrate, the anonymizer, the lemmatizer, NER and the
+dependency parse. One thing is still approximate — coarse POS, at 99.75%, which
+feeds nothing. The evidence, the deliberate divergences and the remaining gaps
+are in
 [docs/presidio-parity.md](docs/presidio-parity.md).
 
 You do not need to know any of that to use this library, and nothing in the API

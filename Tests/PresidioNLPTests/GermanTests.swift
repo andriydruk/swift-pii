@@ -74,10 +74,12 @@ struct GermanNERTests {
         print("German NER parity: \(report.summary)")
         if !report.samples.isEmpty { print(report.detail) }
         #expect(report.expected >= 60, "corpus too small: \(report.expected) entities")
-        // Ratchet, like the English suite. Tightened as the port improves;
-        // never loosened without a written reason.
-        #expect(report.recall >= 0.98, "recall \(report.recall), was 1.0")
-        #expect(report.precision >= 0.98, "precision \(report.precision), was 0.985")
+        // Equality now, where this was a 0.98 ratchet. German's one false
+        // positive was a sentence-boundary crossing, the same cause as
+        // English's residual 4 and French's 3 — it just cost precision rather
+        // than recall, which made it look like a different problem.
+        #expect(report.recall == 1.0, "recall \(report.recall)\n\(report.detail)")
+        #expect(report.precision == 1.0, "precision \(report.precision)\n\(report.detail)")
     }
 }
 

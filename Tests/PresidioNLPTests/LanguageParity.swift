@@ -150,6 +150,40 @@ enum LanguageParity {
         return report
     }
 
+    /// Sentence boundaries, against the `sent_start` the corpus recorded.
+    ///
+    /// Measured separately from entity spans because the two fail differently:
+    /// a boundary the parser missed only matters when an entity would have
+    /// crossed it, so entity parity can stay exact while the parser quietly
+    /// degrades. This counts every boundary, not just the load-bearing ones.
+    ///
+    /// Texts whose tokenization diverges are skipped — token indices mean
+    /// nothing across two different tokenizations, and the tokenizer suite
+    /// already owns that failure.
+    static func sentenceStarts(_ gold: LanguageGold, _ ner: SpacyNER) -> Report {
+        var report = Report()
+        for testCase in gold.cases {
+            let tokens = ner.tokenize(testCase.text)
+            guard tokens.count == testCase.tokens.count else { continue }
+            guard let parse = ner.parse(testCase.text, tokens: tokens) else { continue }
+            let want = testCase.sentenceStarts
+            // One record per token rather than per text: a text with one wrong
+            // boundary out of nine is not as broken as one with nine.
+            for index in tokens.indices {
+                report.record(
+                    parse.sentenceStarts.contains(index) == want.contains(index),
+                    """
+                    \(testCase.text.prefix(70).debugDescription) token \(index) \
+                    \(tokens[index].text.debugDescription): \
+                    spacy \(want.contains(index)) \
+                    swift \(parse.sentenceStarts.contains(index))
+                    """
+                )
+            }
+        }
+        return report
+    }
+
     /// Entity spans, compared as sets of `start,end,label`.
     struct EntityReport {
         var matched = 0
@@ -165,24 +199,41 @@ enum LanguageParity {
         var detail: String { samples.joined(separator: "\n") }
     }
 
-    /// - Parameter withSentenceBoundaries: supply spaCy's sentence starts.
+    /// Where the sentence boundaries NER obeys come from.
     ///
-    ///   spaCy forbids entities from spanning a sentence boundary and gets
-    ///   those boundaries from the parser, which this port does not implement.
-    ///   Measuring both ways separates "we cannot see boundaries" from "we get
-    ///   the wrong answer when we can".
+    /// spaCy forbids entities from spanning a boundary and gets them from the
+    /// parser. Keeping all three sources measurable is what let the divergence
+    /// be attributed in the first place: `.none` is spaCy with the parser
+    /// excluded, `.fromSpacy` is the rest of the pipeline measured against
+    /// perfect boundaries, and `.fromParser` is the shipped configuration.
+    enum SentenceBoundaries {
+        case none
+        case fromSpacy
+        case fromParser
+    }
+
     static func entities(
-        _ gold: LanguageGold, _ ner: SpacyNER, withSentenceBoundaries: Bool = false
+        _ gold: LanguageGold, _ ner: SpacyNER,
+        boundaries: SentenceBoundaries = .fromParser
     ) -> EntityReport {
         var report = EntityReport()
         for testCase in gold.cases {
             let tokens = ner.tokenize(testCase.text)
-            let starts = withSentenceBoundaries ? testCase.sentenceStarts : []
-            let got = Set(ner.entities(
-                in: testCase.text, tokens: tokens, sentenceStarts: starts
-            ).map {
-                "\($0.start),\($0.end),\($0.label)"
-            })
+            let entities: [NamedEntity]
+            switch boundaries {
+            case .none:
+                entities = ner.entities(
+                    in: testCase.text, tokens: tokens, sentenceStarts: []
+                )
+            case .fromSpacy:
+                entities = ner.entities(
+                    in: testCase.text, tokens: tokens,
+                    sentenceStarts: testCase.sentenceStarts
+                )
+            case .fromParser:
+                entities = ner.entities(in: testCase.text, tokens: tokens)
+            }
+            let got = Set(entities.map { "\($0.start),\($0.end),\($0.label)" })
             let want = Set(testCase.entities.map { "\($0.start),\($0.end),\($0.label)" })
             report.matched += got.intersection(want).count
             report.expected += want.count

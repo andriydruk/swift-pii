@@ -185,7 +185,8 @@ jobs:
         run: |
           set -o pipefail
           swift test -c release ${{ matrix.kernel.flags }} \
-            --filter "NERTests|TaggerTests|RuleLemmatizerTests|MatrixKernelTests" 2>&1 | tee ner.log
+            --filter "NERTests|ParserTests|TaggerTests|RuleLemmatizerTests|MatrixKernelTests" \
+            2>&1 | tee ner.log
 
       - name: Assert the expected kernel was compiled in
         # Without this, a typo in the trait name would leave this column running
@@ -226,7 +227,7 @@ jobs:
         run: |
           set -o pipefail
           swift test -c release ${{ matrix.kernel.flags }} \
-            --filter "German|Spanish|Italian|Cyrillic|Russian|Ukrainian|CombiningMark|French|Portuguese|Romance|InlineFlag" \
+            --filter "German|Spanish|Italian|Cyrillic|Russian|Ukrainian|CombiningMark|French|Portuguese|Romance|InlineFlag|MultilingualParser" \
             2>&1 | tee languages.log
 
       - name: Assert the per-language suites actually ran
@@ -262,7 +263,14 @@ jobs:
             "French NER parity (with boundaries): " \
             "Portuguese tokenizer: " \
             "Portuguese lemmas: " \
-            "Portuguese NER parity: "; do
+            "Portuguese NER parity: " \
+            "de sentence boundaries: " \
+            "es sentence boundaries: " \
+            "fr sentence boundaries: " \
+            "it sentence boundaries: " \
+            "pt sentence boundaries: " \
+            "ru sentence boundaries: " \
+            "uk sentence boundaries: "; do
             grep -qF "$line" languages.log \
               || { echo "::error::no measurement emitted for '$line'"; exit 1; }
           done
@@ -280,6 +288,11 @@ jobs:
             || { echo "::error::tagger parity suite was skipped"; exit 1; }
           grep -q "spaCy POS and lemma parity" ner.log \
             || { echo "::error::lemma parity suite was skipped"; exit 1; }
+          # The parser is what makes NER exact rather than nearly exact, so a
+          # skipped parser suite alongside a green NER suite would mean the NER
+          # numbers came from somewhere other than the shipped configuration.
+          grep -q "Parser parity: " ner.log \
+            || { echo "::error::parser parity suite did not measure"; exit 1; }
 
   # ThreadSanitizer cannot load on the macOS dev host (Xcode's sanitizer
   # dylib fails the platform code-signature policy), so the race check lives

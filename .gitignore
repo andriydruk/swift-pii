@@ -2,3 +2,4 @@
 .upstream-presidio/
 *.xcodeproj
 .DS_Store
+.venv/

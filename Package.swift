@@ -183,7 +183,9 @@ let package = Package(
         // determinism; this keeps a number on that trade.
         .executableTarget(
             name: "presidio-bench",
-            dependencies: ["PresidioRegex", "PresidioEngine"],
+            dependencies: [
+                "PresidioRegex", "PresidioEngine", "PresidioModelEnglish",
+            ],
             swiftSettings: [.swiftLanguageMode(.v6)]
         ),
 

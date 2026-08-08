@@ -27,6 +27,29 @@ struct BundledModelTests {
         #expect(labels.contains("ORGANIZATION"))
     }
 
+    /// Every snippet in the README's parser section, asserted.
+    ///
+    /// The bundled model carries `parser/` again after it was once dropped as
+    /// "files nothing reads", so this is also the test that would fail if the
+    /// trimming script removed it a second time — the parser going missing is
+    /// otherwise silent, since NER still works, just not the way spaCy does.
+    @Test("the bundled model parses sentences by default")
+    func parsesSentencesOutOfTheBox() throws {
+        let ner = try SpacyNER(modelDirectory: EnglishModel.directory)
+        #expect(ner.parsesSentences, "parser/ is missing from the bundled model")
+
+        let text = "| | KR_PASSPORT| The Korean Passport Number | Pattern match, context."
+        #expect(
+            ner.entities(in: text).map { "\($0.start),\($0.end),\($0.label)" }
+                == ["17,43,ORG"]
+        )
+
+        let parse = try #require(ner.parse("She flew to Berlin. Munich was next."))
+        #expect(parse.sentenceStarts == [0, 5])
+        #expect(parse.heads == [1, 1, 1, 2, 1, 6, 6, 6, 6])
+        #expect(parse.deps.prefix(3) == ["nsubj", "ROOT", "prep"])
+    }
+
     @Test("the bundled model gives exact lemmas by default")
     func lemmasAreExact() throws {
         let nlp = try SpacyNlpEngine(modelDirectory: EnglishModel.directory)

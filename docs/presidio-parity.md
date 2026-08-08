@@ -29,7 +29,8 @@ records what it did. Every corpus in the repository has a generator in
 | Phone matcher (4 leniencies) | 4,032 | 4,031 |
 | Phone parse / validity | 480 | **480 / exact** |
 | Tagger / POS / lemma | 5,513 | exact / 99.75% / **exact** |
-| NER | 2,000 | 99.85% |
+| NER | 2,000 | **exact** |
+| Dependency parse / boundaries | 2,000 | **exact** |
 | Validators (adversarial) | 2,111 | **exact** |
 | Validators (harvested) | 206 | **exact** |
 | Anonymizer + crypto | 43 | **exact** |
@@ -76,9 +77,9 @@ from collapsing the same span found by two.
 
 ## Where it still differs
 
-- **NER is 99.85%** — 4 of 2,592 entities.
-- **POS is 99.75%**, and cannot be exact: 22 attribute-ruler rules need the
-  dependency parser, which is not ported. None of them changes a lemma.
+- **POS is 99.75%** — see below. Nothing else in the NLP pipeline is
+  approximate any more: tokens, NORMs, tags, lemmas, entity spans, dependency
+  heads, dependency labels and sentence boundaries are all exact.
 - **One phone case** of 4,032: a leniency-0 timestamp where the inner-match
   fallback accepts "00" as *possible*. Presidio always uses leniency 1.
 - **44 upstream test tables** remain unharvested, recorded with reasons in the
@@ -102,11 +103,18 @@ attribute ruler -> rule-mode lemmatization.
 | coarse POS | 5,499/5,513 |
 | **lemmas** | **5,513/5,513** |
 
-POS is not exact and cannot be: 22 attribute-ruler rules need the dependency
-parser, which is not ported. They decide AUX-versus-VERB, `IN`-as-SCONJ and
-`DT`/`WDT`-as-PRON, and every POS divergence is one of them. **None changes a
-lemma** — the ruler assigns those lemmas directly (`has` -> `have` whether AUX
-or VERB), and DET and PRON have no lemma tables to differ over.
+POS is not exact: 22 attribute-ruler rules are not implemented, and every POS
+divergence is one of them. They decide AUX-versus-VERB, `IN`-as-SCONJ and
+`DT`/`WDT`-as-PRON. **None changes a lemma** — the ruler assigns those lemmas
+directly (`has` -> `have` whether AUX or VERB), and DET and PRON have no lemma
+tables to differ over.
+
+This used to be described as blocked on the dependency parser. It no longer is:
+the parser is ported and the dependency labels those rules test are available.
+What is missing is a small `Matcher` — those 22 are token patterns with
+`IN`/`NOT_IN`/`REGEX` operators and multi-token sequences, not the flat
+tag-and-lowercase rules the other 156 are. That is the remaining work, and it
+buys 14 POS tags on this corpus and nothing else.
 
 **Without the model** the default is `LookupLemmatizer`: spaCy's POS-free lookup
 table, restricted to `-ies` plurals.
@@ -325,34 +333,39 @@ unpack one, and callers who do not are not carrying weights. The parity suite is
 gated on `SPACY_MODEL_DIR` and reports when unset rather than passing vacuously,
 because it needs the untrimmed **3.7.1** the gold corpus was built from.
 
-### Parity is 99.85%, not exact
+### Parity is exact
 
 Measured end to end over 2,000 texts / 2,592 entities from `en_core_web_sm`:
 
 | | |
 |---|---:|
-| Matched | 2,588 |
-| Missed | 4 |
-| Spurious | 4 |
-| Recall, precision | 99.846% |
+| Matched | 2,592 |
+| Missed | 0 |
+| Spurious | 0 |
+| Recall, precision | 100% |
 
-The layers are cleanly separable, and the gap is isolated:
+Every layer is exact and each was measured separately: tokenization (0/2000
+divergences on this very corpus), NORMs (0/2000), the forward pass, and the
+sentence boundaries the transition system consults.
 
-- **Tokenization: exact.** 0/2000 token divergences on this very corpus.
-- **NORMs: exact.** 0/2000 divergences.
-- **Forward pass: not exact.** The residual is entirely here.
+It took two wrong explanations to get here, and both are worth recording because
+both were plausible.
 
-This used to read 98.92%, and the explanation offered for the gap was float
-accumulation order. That explanation was a guess, and it was wrong: 24 of the 28
-misses came from the reserved string-store symbols, whose table was read from a
-relative `symbols.tsv` that never existed, so every shape like `"X"` hashed
-instead of resolving to its symbol id. Bundling the table took recall from
-98.92% to 99.85% and left the 4 above.
+It first read 98.92%, blamed on float accumulation order. That was a guess: 24 of
+the 28 misses came from the reserved string-store symbols, whose table was read
+from a relative `symbols.tsv` that never existed, so every shape like `"X"`
+hashed instead of resolving to its symbol id. Bundling the table took recall to
+99.85% and left 4.
 
-Accumulation order is now unlikely to explain those 4 either — see the next
-section, where an entirely different summation order changes none of them. They
-are plausible spans with a different label or extent (`DATE` vs `CARDINAL` over
-an identical span), never corrupted offsets.
+Those 4 got the same treatment — "plausible spans, probably arithmetic" — and
+that was wrong too. Accumulation order was ruled out by the next section, where
+an entirely different summation order changes none of them. They were **sentence
+boundaries**: spaCy's `Begin.is_valid` and `In.is_valid` refuse to open or extend
+an entity when the next token starts a sentence, and it takes those boundaries
+from the dependency parser. Running spaCy with `exclude=["parser"]` over the same
+2,000 texts changed exactly those 4. With the parser ported the corpus is exact,
+and the parser itself is measured against spaCy directly: 47,511/47,511 heads,
+47,511/47,511 labels, 2,384/2,384 boundaries.
 
 ### Two matrix kernels, one set of outcomes
 
@@ -370,17 +383,22 @@ Over the full corpora, it does not matter at all:
 | Fine-grained tags | 5,513/5,513 | 5,513/5,513 |
 | Coarse POS | 5,499/5,513 | 5,499/5,513 |
 | Lemmas | 5,513/5,513 | 5,513/5,513 |
-| NER entities | 2,588/2,592 | 2,588/2,592 |
+| NER entities | 2,592/2,592 | 2,592/2,592 |
+| Dependency heads | 47,511/47,511 | 47,511/47,511 |
+| Sentence boundaries | 2,384/2,384 | 2,384/2,384 |
 
-Not one `argmax` flips across 5,513 tokens and 2,592 entities — including the 4
-divergent entities, which stay divergent in exactly the same way. Meanwhile
-~93% of the individual intermediate floats *do* differ, with a maximum absolute
-delta of 3.6e-05 at the shapes this model uses.
+Not one `argmax` flips across 5,513 tagged tokens, 2,592 entities and 47,511
+parser decisions. Meanwhile ~93% of the individual intermediate floats *do*
+differ, with a maximum absolute delta of 3.6e-05 at the shapes this model uses.
 
-Two things follow. The remaining NER gap is not a borderline-`argmax`-from-
-summation-order effect, or a different summation order would have moved it. And
-the margins in this network are wide enough that last-bit differences do not
-reach the output — which is what makes Accelerate the default on Apple platforms
+The parser is the strongest version of this test, and it was added after the
+claim rather than before it: it takes ~2N sequential argmaxes over 106 classes,
+each one changing the state that produces the next, so a single flip early in a
+sentence would cascade into different heads and a different boundary. None
+flips. This was also how accumulation order was ruled out as an explanation for
+the NER gap that turned out to be sentence boundaries — a different summation
+order would have moved it, and did not. The margins in this network are wide
+enough that last-bit differences do not reach the output — which is what makes Accelerate the default on Apple platforms
 rather than something to opt into.
 
 It is still a trait (`PresidioAccelerate`, on by default, `traits: []` to
