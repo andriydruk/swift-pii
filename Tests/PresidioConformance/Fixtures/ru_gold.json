@@ -11,7 +11,8 @@
      "norm": "д",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "д"
+     "lemma": "д",
+     "sent_start": true
     },
     {
      "text": "-",
@@ -19,7 +20,8 @@
      "norm": "-",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "р",
@@ -27,7 +29,8 @@
      "norm": "р",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "р"
+     "lemma": "р",
+     "sent_start": false
     },
     {
      "text": "Анна",
@@ -35,7 +38,8 @@
      "norm": "анна",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "анна"
+     "lemma": "анна",
+     "sent_start": false
     },
     {
      "text": "Петровна",
@@ -43,7 +47,8 @@
      "norm": "петровна",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "петрович"
+     "lemma": "петрович",
+     "sent_start": false
     },
     {
      "text": "Смирнова",
@@ -51,7 +56,8 @@
      "norm": "смирнова",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "смирнов"
+     "lemma": "смирнов",
+     "sent_start": false
     },
     {
      "text": "принимает",
@@ -59,7 +65,8 @@
      "norm": "принимает",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "принимать"
+     "lemma": "принимать",
+     "sent_start": false
     },
     {
      "text": "по",
@@ -67,7 +74,8 @@
      "norm": "по",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "по"
+     "lemma": "по",
+     "sent_start": false
     },
     {
      "text": "вторникам",
@@ -75,7 +83,8 @@
      "norm": "вторникам",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "вторник"
+     "lemma": "вторник",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -83,7 +92,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "больнице",
@@ -91,7 +101,8 @@
      "norm": "больнице",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "больница"
+     "lemma": "больница",
+     "sent_start": false
     },
     {
      "text": "№",
@@ -99,7 +110,8 @@
      "norm": "№",
      "tag": "SYM",
      "pos": "SYM",
-     "lemma": "№"
+     "lemma": "№",
+     "sent_start": false
     },
     {
      "text": "5",
@@ -107,7 +119,8 @@
      "norm": "5",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "5"
+     "lemma": "5",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -115,7 +128,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -136,7 +150,8 @@
      "norm": "иван",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "иван"
+     "lemma": "иван",
+     "sent_start": true
     },
     {
      "text": "Сергеевич",
@@ -144,7 +159,8 @@
      "norm": "сергеевич",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "сергеевич"
+     "lemma": "сергеевич",
+     "sent_start": false
     },
     {
      "text": "Кузнецов",
@@ -152,7 +168,8 @@
      "norm": "кузнецов",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "кузнецов"
+     "lemma": "кузнецов",
+     "sent_start": false
     },
     {
      "text": "подписал",
@@ -160,7 +177,8 @@
      "norm": "подписал",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "подписать"
+     "lemma": "подписать",
+     "sent_start": false
     },
     {
      "text": "договор",
@@ -168,7 +186,8 @@
      "norm": "договор",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "договор"
+     "lemma": "договор",
+     "sent_start": false
     },
     {
      "text": "3",
@@ -176,7 +195,8 @@
      "norm": "3",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "3"
+     "lemma": "3",
+     "sent_start": false
     },
     {
      "text": "марта",
@@ -184,7 +204,8 @@
      "norm": "марта",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "март"
+     "lemma": "март",
+     "sent_start": false
     },
     {
      "text": "2021",
@@ -192,7 +213,8 @@
      "norm": "2021",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "2021"
+     "lemma": "2021",
+     "sent_start": false
     },
     {
      "text": "года",
@@ -200,7 +222,8 @@
      "norm": "года",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "год"
+     "lemma": "год",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -208,7 +231,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -229,7 +253,8 @@
      "norm": "проф",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "проф"
+     "lemma": "проф",
+     "sent_start": true
     },
     {
      "text": ".",
@@ -237,7 +262,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "Владимир",
@@ -245,7 +271,8 @@
      "norm": "владимир",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "владимир"
+     "lemma": "владимир",
+     "sent_start": true
     },
     {
      "text": "Ильич",
@@ -253,7 +280,8 @@
      "norm": "ильич",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "ильич"
+     "lemma": "ильич",
+     "sent_start": false
     },
     {
      "text": "Ковалёв",
@@ -261,7 +289,8 @@
      "norm": "ковалёв",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "ковалёв"
+     "lemma": "ковалёв",
+     "sent_start": false
     },
     {
      "text": "читает",
@@ -269,7 +298,8 @@
      "norm": "читает",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "читать"
+     "lemma": "читать",
+     "sent_start": false
     },
     {
      "text": "лекции",
@@ -277,7 +307,8 @@
      "norm": "лекции",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "лекция"
+     "lemma": "лекция",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -285,7 +316,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "МГУ",
@@ -293,7 +325,8 @@
      "norm": "мгу",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "мгу"
+     "lemma": "мгу",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -301,7 +334,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -328,7 +362,8 @@
      "norm": "пациент",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "пациент"
+     "lemma": "пациент",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -336,7 +371,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "Алексей",
@@ -344,7 +380,8 @@
      "norm": "алексей",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "алексей"
+     "lemma": "алексей",
+     "sent_start": false
     },
     {
      "text": "Николаевич",
@@ -352,7 +389,8 @@
      "norm": "николаевич",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "николаевич"
+     "lemma": "николаевич",
+     "sent_start": false
     },
     {
      "text": "Морозов",
@@ -360,7 +398,8 @@
      "norm": "морозов",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "морозов"
+     "lemma": "морозов",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -368,7 +407,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "родился",
@@ -376,7 +416,8 @@
      "norm": "родился",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "родиться"
+     "lemma": "родиться",
+     "sent_start": false
     },
     {
      "text": "14.02.1978",
@@ -384,7 +425,8 @@
      "norm": "14.02.1978",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "14.02.1978"
+     "lemma": "14.02.1978",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -392,7 +434,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "Новосибирске",
@@ -400,7 +443,8 @@
      "norm": "новосибирске",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "новосибирск"
+     "lemma": "новосибирск",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -408,7 +452,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -435,7 +480,8 @@
      "norm": "уважаемая",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "уважаемая"
+     "lemma": "уважаемая",
+     "sent_start": true
     },
     {
      "text": "Мария",
@@ -443,7 +489,8 @@
      "norm": "мария",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "мария"
+     "lemma": "мария",
+     "sent_start": false
     },
     {
      "text": "Ивановна",
@@ -451,7 +498,8 @@
      "norm": "ивановна",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "иванович"
+     "lemma": "иванович",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -459,7 +507,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "благодарю",
@@ -467,7 +516,8 @@
      "norm": "благодарю",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "благодарить"
+     "lemma": "благодарить",
+     "sent_start": false
     },
     {
      "text": "Вас",
@@ -475,7 +525,8 @@
      "norm": "вас",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "вас"
+     "lemma": "вас",
+     "sent_start": false
     },
     {
      "text": "за",
@@ -483,7 +534,8 @@
      "norm": "за",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "за"
+     "lemma": "за",
+     "sent_start": false
     },
     {
      "text": "письмо",
@@ -491,7 +543,8 @@
      "norm": "письмо",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "письмо"
+     "lemma": "письмо",
+     "sent_start": false
     },
     {
      "text": "от",
@@ -499,7 +552,8 @@
      "norm": "от",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "от"
+     "lemma": "от",
+     "sent_start": false
     },
     {
      "text": "12",
@@ -507,7 +561,8 @@
      "norm": "12",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "12"
+     "lemma": "12",
+     "sent_start": false
     },
     {
      "text": "мая",
@@ -515,7 +570,8 @@
      "norm": "мая",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "май"
+     "lemma": "май",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -523,7 +579,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -544,7 +601,8 @@
      "norm": "пао",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "пао"
+     "lemma": "пао",
+     "sent_start": true
     },
     {
      "text": "«",
@@ -552,7 +610,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": false
     },
     {
      "text": "Газпром",
@@ -560,7 +619,8 @@
      "norm": "газпром",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "газпром"
+     "lemma": "газпром",
+     "sent_start": false
     },
     {
      "text": "»",
@@ -568,7 +628,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": false
     },
     {
      "text": "и",
@@ -576,7 +637,8 @@
      "norm": "и",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "и"
+     "lemma": "и",
+     "sent_start": false
     },
     {
      "text": "ОАО",
@@ -584,7 +646,8 @@
      "norm": "оао",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "оао"
+     "lemma": "оао",
+     "sent_start": false
     },
     {
      "text": "«",
@@ -592,7 +655,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": false
     },
     {
      "text": "РЖД",
@@ -600,7 +664,8 @@
      "norm": "ржд",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "ржд"
+     "lemma": "ржд",
+     "sent_start": false
     },
     {
      "text": "»",
@@ -608,7 +673,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": false
     },
     {
      "text": "подписали",
@@ -616,7 +682,8 @@
      "norm": "подписали",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "подписать"
+     "lemma": "подписать",
+     "sent_start": false
     },
     {
      "text": "соглашение",
@@ -624,7 +691,8 @@
      "norm": "соглашение",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "соглашение"
+     "lemma": "соглашение",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -632,7 +700,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "Москве",
@@ -640,7 +709,8 @@
      "norm": "москве",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "москва"
+     "lemma": "москва",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -648,7 +718,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -681,7 +752,8 @@
      "norm": "компания",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "компания"
+     "lemma": "компания",
+     "sent_start": true
     },
     {
      "text": "ООО",
@@ -689,7 +761,8 @@
      "norm": "ооо",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "ооо"
+     "lemma": "ооо",
+     "sent_start": false
     },
     {
      "text": "«",
@@ -697,7 +770,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": false
     },
     {
      "text": "Ромашка",
@@ -705,7 +779,8 @@
      "norm": "ромашка",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "ромашка"
+     "lemma": "ромашка",
+     "sent_start": false
     },
     {
      "text": "»",
@@ -713,7 +788,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": false
     },
     {
      "text": "зарегистрирована",
@@ -721,7 +797,8 @@
      "norm": "зарегистрирована",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "зарегистрировать"
+     "lemma": "зарегистрировать",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -729,7 +806,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "Санкт",
@@ -737,7 +815,8 @@
      "norm": "санкт",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "санкт"
+     "lemma": "санкт",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -745,7 +824,8 @@
      "norm": "-",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "Петербурге",
@@ -753,7 +833,8 @@
      "norm": "петербурге",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "петербург"
+     "lemma": "петербург",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -761,7 +842,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -788,7 +870,8 @@
      "norm": "яндекс",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "яндекс"
+     "lemma": "яндекс",
+     "sent_start": true
     },
     {
      "text": "и",
@@ -796,7 +879,8 @@
      "norm": "и",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "и"
+     "lemma": "и",
+     "sent_start": false
     },
     {
      "text": "Сбербанк",
@@ -804,7 +888,8 @@
      "norm": "сбербанк",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "сбербанк"
+     "lemma": "сбербанк",
+     "sent_start": false
     },
     {
      "text": "объявили",
@@ -812,7 +897,8 @@
      "norm": "объявили",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "объявить"
+     "lemma": "объявить",
+     "sent_start": false
     },
     {
      "text": "о",
@@ -820,7 +906,8 @@
      "norm": "о",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "о"
+     "lemma": "о",
+     "sent_start": false
     },
     {
      "text": "совместном",
@@ -828,7 +915,8 @@
      "norm": "совместном",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "совместный"
+     "lemma": "совместный",
+     "sent_start": false
     },
     {
      "text": "проекте",
@@ -836,7 +924,8 @@
      "norm": "проекте",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "проект"
+     "lemma": "проект",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -844,7 +933,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -871,7 +961,8 @@
      "norm": "министерство",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "министерство"
+     "lemma": "министерство",
+     "sent_start": true
     },
     {
      "text": "финансов",
@@ -879,7 +970,8 @@
      "norm": "финансов",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "финансов"
+     "lemma": "финансов",
+     "sent_start": false
     },
     {
      "text": "опубликовало",
@@ -887,7 +979,8 @@
      "norm": "опубликовало",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "опубликовать"
+     "lemma": "опубликовать",
+     "sent_start": false
     },
     {
      "text": "постановление",
@@ -895,7 +988,8 @@
      "norm": "постановление",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "постановление"
+     "lemma": "постановление",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -903,7 +997,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -924,7 +1019,8 @@
      "norm": "из",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "Из"
+     "lemma": "Из",
+     "sent_start": true
     },
     {
      "text": "Екатеринбурга",
@@ -932,7 +1028,8 @@
      "norm": "екатеринбурга",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "екатеринбург"
+     "lemma": "екатеринбург",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -940,7 +1037,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "Казань",
@@ -948,7 +1046,8 @@
      "norm": "казань",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "казань"
+     "lemma": "казань",
+     "sent_start": false
     },
     {
      "text": "поезд",
@@ -956,7 +1055,8 @@
      "norm": "поезд",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "поезд"
+     "lemma": "поезд",
+     "sent_start": false
     },
     {
      "text": "идёт",
@@ -964,7 +1064,8 @@
      "norm": "идёт",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "идти"
+     "lemma": "идти",
+     "sent_start": false
     },
     {
      "text": "примерно",
@@ -972,7 +1073,8 @@
      "norm": "примерно",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "примерно"
+     "lemma": "примерно",
+     "sent_start": false
     },
     {
      "text": "сутки",
@@ -980,7 +1082,8 @@
      "norm": "сутки",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "сутки"
+     "lemma": "сутки",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -988,7 +1091,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -1015,7 +1119,8 @@
      "norm": "он",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "он"
+     "lemma": "он",
+     "sent_start": true
     },
     {
      "text": "переехал",
@@ -1023,7 +1128,8 @@
      "norm": "переехал",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "переехать"
+     "lemma": "переехать",
+     "sent_start": false
     },
     {
      "text": "из",
@@ -1031,7 +1137,8 @@
      "norm": "из",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "из"
+     "lemma": "из",
+     "sent_start": false
     },
     {
      "text": "Владивостока",
@@ -1039,7 +1146,8 @@
      "norm": "владивостока",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "владивосток"
+     "lemma": "владивосток",
+     "sent_start": false
     },
     {
      "text": "через",
@@ -1047,7 +1155,8 @@
      "norm": "через",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "через"
+     "lemma": "через",
+     "sent_start": false
     },
     {
      "text": "Иркутск",
@@ -1055,7 +1164,8 @@
      "norm": "иркутск",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "иркутск"
+     "lemma": "иркутск",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -1063,7 +1173,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "Нижний",
@@ -1071,7 +1182,8 @@
      "norm": "нижний",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "нижний"
+     "lemma": "нижний",
+     "sent_start": false
     },
     {
      "text": "Новгород",
@@ -1079,7 +1191,8 @@
      "norm": "новгород",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "новгород"
+     "lemma": "новгород",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1087,7 +1200,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -1120,7 +1234,8 @@
      "norm": "встреча",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "встреча"
+     "lemma": "встреча",
+     "sent_start": true
     },
     {
      "text": "состоится",
@@ -1128,7 +1243,8 @@
      "norm": "состоится",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "состояться"
+     "lemma": "состояться",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -1136,7 +1252,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "Ростове",
@@ -1144,7 +1261,8 @@
      "norm": "ростове",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "ростов"
+     "lemma": "ростов",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1152,7 +1270,8 @@
      "norm": "-",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "на",
@@ -1160,7 +1279,8 @@
      "norm": "на",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "на"
+     "lemma": "на",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1168,7 +1288,8 @@
      "norm": "-",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "Дону",
@@ -1176,7 +1297,8 @@
      "norm": "дону",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "дон"
+     "lemma": "дон",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1184,7 +1306,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -1205,7 +1328,8 @@
      "norm": "напишите",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "написать"
+     "lemma": "написать",
+     "sent_start": true
     },
     {
      "text": "мне",
@@ -1213,7 +1337,8 @@
      "norm": "мне",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "мне"
+     "lemma": "мне",
+     "sent_start": false
     },
     {
      "text": "на",
@@ -1221,7 +1346,8 @@
      "norm": "на",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "на"
+     "lemma": "на",
+     "sent_start": false
     },
     {
      "text": "anna.smirnova@example.ru",
@@ -1229,7 +1355,8 @@
      "norm": "anna.smirnova@example.ru",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "anna.smirnova@example.ru"
+     "lemma": "anna.smirnova@example.ru",
+     "sent_start": false
     },
     {
      "text": "или",
@@ -1237,7 +1364,8 @@
      "norm": "или",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "или"
+     "lemma": "или",
+     "sent_start": false
     },
     {
      "text": "позвоните",
@@ -1245,7 +1373,8 @@
      "norm": "позвоните",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "позвонить"
+     "lemma": "позвонить",
+     "sent_start": false
     },
     {
      "text": "+7",
@@ -1253,7 +1382,8 @@
      "norm": "+7",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "+7"
+     "lemma": "+7",
+     "sent_start": false
     },
     {
      "text": "495",
@@ -1261,7 +1391,8 @@
      "norm": "495",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "495"
+     "lemma": "495",
+     "sent_start": false
     },
     {
      "text": "123",
@@ -1269,7 +1400,8 @@
      "norm": "123",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "123"
+     "lemma": "123",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1277,7 +1409,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "45",
@@ -1285,7 +1418,8 @@
      "norm": "45",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "45"
+     "lemma": "45",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1293,7 +1427,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "67",
@@ -1301,7 +1436,8 @@
      "norm": "67",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "67"
+     "lemma": "67",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1309,7 +1445,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1323,7 +1460,8 @@
      "norm": "мой",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "мой"
+     "lemma": "мой",
+     "sent_start": true
     },
     {
      "text": "телефон",
@@ -1331,7 +1469,8 @@
      "norm": "телефон",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "телефон"
+     "lemma": "телефон",
+     "sent_start": false
     },
     {
      "text": "8",
@@ -1339,7 +1478,8 @@
      "norm": "8",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "8"
+     "lemma": "8",
+     "sent_start": false
     },
     {
      "text": "(",
@@ -1347,7 +1487,8 @@
      "norm": "(",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "("
+     "lemma": "(",
+     "sent_start": false
     },
     {
      "text": "812",
@@ -1355,7 +1496,8 @@
      "norm": "812",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "812"
+     "lemma": "812",
+     "sent_start": false
     },
     {
      "text": ")",
@@ -1363,7 +1505,8 @@
      "norm": ")",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ")"
+     "lemma": ")",
+     "sent_start": false
     },
     {
      "text": "555",
@@ -1371,7 +1514,8 @@
      "norm": "555",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "555"
+     "lemma": "555",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1379,7 +1523,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "11",
@@ -1387,7 +1532,8 @@
      "norm": "11",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "11"
+     "lemma": "11",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1395,7 +1541,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "22",
@@ -1403,7 +1550,8 @@
      "norm": "22",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "22"
+     "lemma": "22",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -1411,7 +1559,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "мобильный",
@@ -1419,7 +1568,8 @@
      "norm": "мобильный",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "мобильный"
+     "lemma": "мобильный",
+     "sent_start": false
     },
     {
      "text": "8",
@@ -1427,7 +1577,8 @@
      "norm": "8",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "8"
+     "lemma": "8",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1435,7 +1586,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "900",
@@ -1443,7 +1595,8 @@
      "norm": "900",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "900"
+     "lemma": "900",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1451,7 +1604,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "123",
@@ -1459,7 +1613,8 @@
      "norm": "123",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "123"
+     "lemma": "123",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1467,7 +1622,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "45",
@@ -1475,7 +1631,8 @@
      "norm": "45",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "45"
+     "lemma": "45",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -1483,7 +1640,8 @@
      "norm": "-",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "67",
@@ -1491,7 +1649,8 @@
      "norm": "67",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "67"
+     "lemma": "67",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1499,7 +1658,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1513,7 +1673,8 @@
      "norm": "сервер",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "сервер"
+     "lemma": "сервер",
+     "sent_start": true
     },
     {
      "text": "доступен",
@@ -1521,7 +1682,8 @@
      "norm": "доступен",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "доступный"
+     "lemma": "доступный",
+     "sent_start": false
     },
     {
      "text": "по",
@@ -1529,7 +1691,8 @@
      "norm": "по",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "по"
+     "lemma": "по",
+     "sent_start": false
     },
     {
      "text": "адресу",
@@ -1537,7 +1700,8 @@
      "norm": "адресу",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "адрес"
+     "lemma": "адрес",
+     "sent_start": false
     },
     {
      "text": "192.168.0.14",
@@ -1545,7 +1709,8 @@
      "norm": "192.168.0.14",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "192.168.0.14"
+     "lemma": "192.168.0.14",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -1553,7 +1718,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "документация",
@@ -1561,7 +1727,8 @@
      "norm": "документация",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "документация"
+     "lemma": "документация",
+     "sent_start": false
     },
     {
      "text": "—",
@@ -1569,7 +1736,8 @@
      "norm": "-",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "—"
+     "lemma": "—",
+     "sent_start": false
     },
     {
      "text": "https://example.ru/help",
@@ -1577,7 +1745,8 @@
      "norm": "https://example.ru/help",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "https://example.ru/help"
+     "lemma": "https://example.ru/help",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1585,7 +1754,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1599,7 +1769,8 @@
      "norm": "переведите",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "перевести"
+     "lemma": "перевести",
+     "sent_start": true
     },
     {
      "text": "сумму",
@@ -1607,7 +1778,8 @@
      "norm": "сумму",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "сумма"
+     "lemma": "сумма",
+     "sent_start": false
     },
     {
      "text": "на",
@@ -1615,7 +1787,8 @@
      "norm": "на",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "на"
+     "lemma": "на",
+     "sent_start": false
     },
     {
      "text": "счёт",
@@ -1623,7 +1796,8 @@
      "norm": "счёт",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "счёт"
+     "lemma": "счёт",
+     "sent_start": false
     },
     {
      "text": "RU02",
@@ -1631,7 +1805,8 @@
      "norm": "ru02",
      "tag": "X",
      "pos": "X",
-     "lemma": "ru02"
+     "lemma": "ru02",
+     "sent_start": false
     },
     {
      "text": "0445",
@@ -1639,7 +1814,8 @@
      "norm": "0445",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "0445"
+     "lemma": "0445",
+     "sent_start": false
     },
     {
      "text": "2560",
@@ -1647,7 +1823,8 @@
      "norm": "2560",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "2560"
+     "lemma": "2560",
+     "sent_start": false
     },
     {
      "text": "0407",
@@ -1655,7 +1832,8 @@
      "norm": "0407",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "0407"
+     "lemma": "0407",
+     "sent_start": false
     },
     {
      "text": "0281",
@@ -1663,7 +1841,8 @@
      "norm": "0281",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "0281"
+     "lemma": "0281",
+     "sent_start": false
     },
     {
      "text": "0412",
@@ -1671,7 +1850,8 @@
      "norm": "0412",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "0412"
+     "lemma": "0412",
+     "sent_start": false
     },
     {
      "text": "3456",
@@ -1679,7 +1859,8 @@
      "norm": "3456",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "3456"
+     "lemma": "3456",
+     "sent_start": false
     },
     {
      "text": "7890",
@@ -1687,7 +1868,8 @@
      "norm": "7890",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "7890"
+     "lemma": "7890",
+     "sent_start": false
     },
     {
      "text": "1",
@@ -1695,7 +1877,8 @@
      "norm": "1",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "1"
+     "lemma": "1",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1703,7 +1886,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1717,7 +1901,8 @@
      "norm": "срок",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "срок"
+     "lemma": "срок",
+     "sent_start": true
     },
     {
      "text": "истёк",
@@ -1725,7 +1910,8 @@
      "norm": "истёк",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "истёк"
+     "lemma": "истёк",
+     "sent_start": false
     },
     {
      "text": "31.12.2023",
@@ -1733,7 +1919,8 @@
      "norm": "31.12.2023",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "31.12.2023"
+     "lemma": "31.12.2023",
+     "sent_start": false
     },
     {
      "text": "в",
@@ -1741,7 +1928,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": false
     },
     {
      "text": "23:59",
@@ -1749,7 +1937,8 @@
      "norm": "23:59",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "23:59"
+     "lemma": "23:59",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1757,7 +1946,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1771,7 +1961,8 @@
      "norm": "сумма",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "сумма"
+     "lemma": "сумма",
+     "sent_start": true
     },
     {
      "text": "1",
@@ -1779,7 +1970,8 @@
      "norm": "1",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "1"
+     "lemma": "1",
+     "sent_start": false
     },
     {
      "text": "234,56",
@@ -1787,7 +1979,8 @@
      "norm": "234,56",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "234,56"
+     "lemma": "234,56",
+     "sent_start": false
     },
     {
      "text": "руб.",
@@ -1795,7 +1988,8 @@
      "norm": "рубль",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "руб."
+     "lemma": "руб.",
+     "sent_start": false
     },
     {
      "text": "была",
@@ -1803,7 +1997,8 @@
      "norm": "была",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "быть"
+     "lemma": "быть",
+     "sent_start": false
     },
     {
      "text": "зачислена",
@@ -1811,7 +2006,8 @@
      "norm": "зачислена",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "зачислить"
+     "lemma": "зачислить",
+     "sent_start": false
     },
     {
      "text": "5",
@@ -1819,7 +2015,8 @@
      "norm": "5",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "5"
+     "lemma": "5",
+     "sent_start": false
     },
     {
      "text": "июня",
@@ -1827,7 +2024,8 @@
      "norm": "июня",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "июнь"
+     "lemma": "июнь",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1835,7 +2033,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1849,7 +2048,8 @@
      "norm": "в",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "в"
+     "lemma": "в",
+     "sent_start": true
     },
     {
      "text": "третьем",
@@ -1857,7 +2057,8 @@
      "norm": "третьем",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "третий"
+     "lemma": "третий",
+     "sent_start": false
     },
     {
      "text": "квартале",
@@ -1865,7 +2066,8 @@
      "norm": "квартале",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "квартал"
+     "lemma": "квартал",
+     "sent_start": false
     },
     {
      "text": "продажи",
@@ -1873,7 +2075,8 @@
      "norm": "продажи",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "продажа"
+     "lemma": "продажа",
+     "sent_start": false
     },
     {
      "text": "выросли",
@@ -1881,7 +2084,8 @@
      "norm": "выросли",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "вырасти"
+     "lemma": "вырасти",
+     "sent_start": false
     },
     {
      "text": "на",
@@ -1889,7 +2093,8 @@
      "norm": "на",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "на"
+     "lemma": "на",
+     "sent_start": false
     },
     {
      "text": "12,5",
@@ -1897,7 +2102,8 @@
      "norm": "12,5",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "12,5"
+     "lemma": "12,5",
+     "sent_start": false
     },
     {
      "text": "процента",
@@ -1905,7 +2111,8 @@
      "norm": "процента",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "процент"
+     "lemma": "процент",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1913,7 +2120,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1927,7 +2135,8 @@
      "norm": "совещание",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "совещание"
+     "lemma": "совещание",
+     "sent_start": true
     },
     {
      "text": "продлится",
@@ -1935,7 +2144,8 @@
      "norm": "продлится",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "продлиться"
+     "lemma": "продлиться",
+     "sent_start": false
     },
     {
      "text": "с",
@@ -1943,7 +2153,8 @@
      "norm": "с",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "с"
+     "lemma": "с",
+     "sent_start": false
     },
     {
      "text": "9.30",
@@ -1951,7 +2162,8 @@
      "norm": "9.30",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "9.30"
+     "lemma": "9.30",
+     "sent_start": false
     },
     {
      "text": "до",
@@ -1959,7 +2171,8 @@
      "norm": "до",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "до"
+     "lemma": "до",
+     "sent_start": false
     },
     {
      "text": "17.00",
@@ -1967,7 +2180,8 @@
      "norm": "17.00",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "17.00"
+     "lemma": "17.00",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1975,7 +2189,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1989,7 +2204,8 @@
      "norm": "это",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "это"
+     "lemma": "это",
+     "sent_start": true
     },
     {
      "text": "касается",
@@ -1997,7 +2213,8 @@
      "norm": "касается",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "касаться"
+     "lemma": "касаться",
+     "sent_start": false
     },
     {
      "text": "напр",
@@ -2005,7 +2222,8 @@
      "norm": "напр",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "напр"
+     "lemma": "напр",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2013,7 +2231,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "договоров",
@@ -2021,7 +2240,8 @@
      "norm": "договоров",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "договор"
+     "lemma": "договор",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -2029,7 +2249,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "заключённых",
@@ -2037,7 +2258,8 @@
      "norm": "заключённых",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "заключить"
+     "lemma": "заключить",
+     "sent_start": false
     },
     {
      "text": "до",
@@ -2045,7 +2267,8 @@
      "norm": "до",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "до"
+     "lemma": "до",
+     "sent_start": false
     },
     {
      "text": "2020",
@@ -2053,7 +2276,8 @@
      "norm": "2020",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "2020"
+     "lemma": "2020",
+     "sent_start": false
     },
     {
      "text": "года",
@@ -2061,7 +2285,8 @@
      "norm": "года",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "год"
+     "lemma": "год",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2069,7 +2294,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2083,7 +2309,8 @@
      "norm": "возьмите",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "взять"
+     "lemma": "взять",
+     "sent_start": true
     },
     {
      "text": "паспорт",
@@ -2091,7 +2318,8 @@
      "norm": "паспорт",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "паспорт"
+     "lemma": "паспорт",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2099,7 +2327,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "карту",
@@ -2107,7 +2336,8 @@
      "norm": "карту",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "карта"
+     "lemma": "карта",
+     "sent_start": false
     },
     {
      "text": "и",
@@ -2115,7 +2345,8 @@
      "norm": "и",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "и"
+     "lemma": "и",
+     "sent_start": false
     },
     {
      "text": "т.д.",
@@ -2123,7 +2354,8 @@
      "norm": "так далее",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "т.д."
+     "lemma": "т.д.",
+     "sent_start": false
     },
     {
      "text": "на",
@@ -2131,7 +2363,8 @@
      "norm": "на",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "на"
+     "lemma": "на",
+     "sent_start": true
     },
     {
      "text": "приём",
@@ -2139,7 +2372,8 @@
      "norm": "приём",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "приём"
+     "lemma": "приём",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2147,7 +2381,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2161,7 +2396,8 @@
      "norm": "адрес",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "адрес"
+     "lemma": "адрес",
+     "sent_start": true
     },
     {
      "text": ":",
@@ -2169,7 +2405,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "ул.",
@@ -2177,7 +2414,8 @@
      "norm": "улица",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "ул."
+     "lemma": "ул.",
+     "sent_start": false
     },
     {
      "text": "Ленина",
@@ -2185,7 +2423,8 @@
      "norm": "ленина",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "ленин"
+     "lemma": "ленин",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2193,7 +2432,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "д.",
@@ -2201,7 +2441,8 @@
      "norm": "дом",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "д."
+     "lemma": "д.",
+     "sent_start": false
     },
     {
      "text": "12",
@@ -2209,7 +2450,8 @@
      "norm": "12",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "12"
+     "lemma": "12",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2217,7 +2459,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "кв.",
@@ -2225,7 +2468,8 @@
      "norm": "квартира",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "кв."
+     "lemma": "кв.",
+     "sent_start": false
     },
     {
      "text": "3",
@@ -2233,7 +2477,8 @@
      "norm": "3",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "3"
+     "lemma": "3",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2241,7 +2486,8 @@
      "norm": ",",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "190000",
@@ -2249,7 +2495,8 @@
      "norm": "190000",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "190000"
+     "lemma": "190000",
+     "sent_start": false
     },
     {
      "text": "Санкт",
@@ -2257,7 +2504,8 @@
      "norm": "санкт",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "санкт"
+     "lemma": "санкт",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -2265,7 +2513,8 @@
      "norm": "-",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "Петербург",
@@ -2273,7 +2522,8 @@
      "norm": "петербург",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "петербург"
+     "lemma": "петербург",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2281,7 +2531,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -2308,7 +2559,8 @@
      "norm": "см",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "см"
+     "lemma": "см",
+     "sent_start": true
     },
     {
      "text": ".",
@@ -2316,7 +2568,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "ст.",
@@ -2324,7 +2577,8 @@
      "norm": "станция",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "ст."
+     "lemma": "ст.",
+     "sent_start": true
     },
     {
      "text": "12",
@@ -2332,7 +2586,8 @@
      "norm": "12",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "12"
+     "lemma": "12",
+     "sent_start": false
     },
     {
      "text": "Регламента",
@@ -2340,7 +2595,8 @@
      "norm": "регламента",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "регламент"
+     "lemma": "регламент",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2348,7 +2604,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "п.",
@@ -2356,7 +2613,8 @@
      "norm": "поселок",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "п."
+     "lemma": "п.",
+     "sent_start": false
     },
     {
      "text": "3",
@@ -2364,7 +2622,8 @@
      "norm": "3",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "3"
+     "lemma": "3",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2372,7 +2631,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2386,7 +2646,8 @@
      "norm": "примерно",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "Примерно"
+     "lemma": "Примерно",
+     "sent_start": true
     },
     {
      "text": "три",
@@ -2394,7 +2655,8 @@
      "norm": "три",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "три"
+     "lemma": "три",
+     "sent_start": false
     },
     {
      "text": "рабочих",
@@ -2402,7 +2664,8 @@
      "norm": "рабочих",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "рабочий"
+     "lemma": "рабочий",
+     "sent_start": false
     },
     {
      "text": "дня",
@@ -2410,7 +2673,8 @@
      "norm": "дня",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "день"
+     "lemma": "день",
+     "sent_start": false
     },
     {
      "text": "после",
@@ -2418,7 +2682,8 @@
      "norm": "после",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "после"
+     "lemma": "после",
+     "sent_start": false
     },
     {
      "text": "оплаты",
@@ -2426,7 +2691,8 @@
      "norm": "оплаты",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "оплата"
+     "lemma": "оплата",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2434,7 +2700,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2448,7 +2715,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": true
     },
     {
      "text": "Кто",
@@ -2456,7 +2724,8 @@
      "norm": "кто",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "кто"
+     "lemma": "кто",
+     "sent_start": false
     },
     {
      "text": "это",
@@ -2464,7 +2733,8 @@
      "norm": "это",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "это"
+     "lemma": "это",
+     "sent_start": false
     },
     {
      "text": "решил",
@@ -2472,7 +2742,8 @@
      "norm": "решил",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "решить"
+     "lemma": "решить",
+     "sent_start": false
     },
     {
      "text": "?",
@@ -2480,7 +2751,8 @@
      "norm": "?",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "?"
+     "lemma": "?",
+     "sent_start": false
     },
     {
      "text": "»",
@@ -2488,7 +2760,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "\""
+     "lemma": "\"",
+     "sent_start": false
     },
     {
      "text": "—",
@@ -2496,7 +2769,8 @@
      "norm": "-",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "—"
+     "lemma": "—",
+     "sent_start": false
     },
     {
      "text": "спросила",
@@ -2504,7 +2778,8 @@
      "norm": "спросила",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "спросить"
+     "lemma": "спросить",
+     "sent_start": false
     },
     {
      "text": "она",
@@ -2512,7 +2787,8 @@
      "norm": "она",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "она"
+     "lemma": "она",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2520,7 +2796,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2534,7 +2811,8 @@
      "norm": "-",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "—"
+     "lemma": "—",
+     "sent_start": true
     },
     {
      "text": "Это",
@@ -2542,7 +2820,8 @@
      "norm": "это",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "это"
+     "lemma": "это",
+     "sent_start": false
     },
     {
      "text": "не",
@@ -2550,7 +2829,8 @@
      "norm": "не",
      "tag": "PART",
      "pos": "PART",
-     "lemma": "не"
+     "lemma": "не",
+     "sent_start": false
     },
     {
      "text": "обсуждалось",
@@ -2558,7 +2838,8 @@
      "norm": "обсуждалось",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "обсуждаться"
+     "lemma": "обсуждаться",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2566,7 +2847,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "—",
@@ -2574,7 +2856,8 @@
      "norm": "-",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "—"
+     "lemma": "—",
+     "sent_start": false
     },
     {
      "text": "сказал",
@@ -2582,7 +2865,8 @@
      "norm": "сказал",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "сказать"
+     "lemma": "сказать",
+     "sent_start": false
     },
     {
      "text": "начальник",
@@ -2590,7 +2874,8 @@
      "norm": "начальник",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "начальник"
+     "lemma": "начальник",
+     "sent_start": false
     },
     {
      "text": "отдела",
@@ -2598,7 +2883,8 @@
      "norm": "отдела",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "отдел"
+     "lemma": "отдел",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2606,7 +2892,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2620,7 +2907,8 @@
      "norm": "что",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "что"
+     "lemma": "что",
+     "sent_start": true
     },
     {
      "text": "?",
@@ -2628,7 +2916,8 @@
      "norm": "?",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "?"
+     "lemma": "?",
+     "sent_start": false
     },
     {
      "text": "Ничего",
@@ -2636,7 +2925,8 @@
      "norm": "ничего",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "ничто"
+     "lemma": "ничто",
+     "sent_start": true
     },
     {
      "text": ".",
@@ -2644,7 +2934,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2658,7 +2949,8 @@
      "norm": "да",
      "tag": "PART",
      "pos": "PART",
-     "lemma": "да"
+     "lemma": "да",
+     "sent_start": true
     },
     {
      "text": "!",
@@ -2666,7 +2958,8 @@
      "norm": "!",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "!"
+     "lemma": "!",
+     "sent_start": false
     },
     {
      "text": "!",
@@ -2674,7 +2967,8 @@
      "norm": "!",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "!"
+     "lemma": "!",
+     "sent_start": false
     },
     {
      "text": "!",
@@ -2682,7 +2976,8 @@
      "norm": "!",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "!"
+     "lemma": "!",
+     "sent_start": false
     },
     {
      "text": "Правда",
@@ -2690,7 +2985,8 @@
      "norm": "правда",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "правда"
+     "lemma": "правда",
+     "sent_start": true
     },
     {
      "text": "?",
@@ -2698,7 +2994,8 @@
      "norm": "?",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "?"
+     "lemma": "?",
+     "sent_start": false
     },
     {
      "text": "?",
@@ -2706,7 +3003,8 @@
      "norm": "?",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "?"
+     "lemma": "?",
+     "sent_start": false
     },
     {
      "text": "?",
@@ -2714,7 +3012,8 @@
      "norm": "?",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "?"
+     "lemma": "?",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2728,7 +3027,8 @@
      "norm": "всё",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "Всё"
+     "lemma": "Всё",
+     "sent_start": true
     },
     {
      "text": "-",
@@ -2736,7 +3036,8 @@
      "norm": "-",
      "tag": "PART",
      "pos": "PART",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "таки",
@@ -2744,7 +3045,8 @@
      "norm": "таки",
      "tag": "PART",
      "pos": "PART",
-     "lemma": "таки"
+     "lemma": "таки",
+     "sent_start": false
     },
     {
      "text": "ещё",
@@ -2752,7 +3054,8 @@
      "norm": "ещё",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "ещё"
+     "lemma": "ещё",
+     "sent_start": false
     },
     {
      "text": "раз",
@@ -2760,7 +3063,8 @@
      "norm": "раз",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "раз"
+     "lemma": "раз",
+     "sent_start": false
     },
     {
      "text": "перечитайте",
@@ -2768,7 +3072,8 @@
      "norm": "перечитайте",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "перечитайте"
+     "lemma": "перечитайте",
+     "sent_start": false
     },
     {
      "text": "объём",
@@ -2776,7 +3081,8 @@
      "norm": "объём",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "объём"
+     "lemma": "объём",
+     "sent_start": false
     },
     {
      "text": "работ",
@@ -2784,7 +3090,8 @@
      "norm": "работ",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "работа"
+     "lemma": "работа",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2792,7 +3099,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2806,7 +3114,8 @@
      "norm": "кто",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "кто"
+     "lemma": "кто",
+     "sent_start": true
     },
     {
      "text": "-",
@@ -2814,7 +3123,8 @@
      "norm": "-",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "нибудь",
@@ -2822,7 +3132,8 @@
      "norm": "нибудь",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "нибудь"
+     "lemma": "нибудь",
+     "sent_start": false
     },
     {
      "text": "когда",
@@ -2830,7 +3141,8 @@
      "norm": "когда",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "когда"
+     "lemma": "когда",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -2838,7 +3150,8 @@
      "norm": "-",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "нибудь",
@@ -2846,7 +3159,8 @@
      "norm": "нибудь",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "нибудь"
+     "lemma": "нибудь",
+     "sent_start": false
     },
     {
      "text": "это",
@@ -2854,7 +3168,8 @@
      "norm": "это",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "это"
+     "lemma": "это",
+     "sent_start": false
     },
     {
      "text": "проверял",
@@ -2862,7 +3177,8 @@
      "norm": "проверял",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "проверять"
+     "lemma": "проверять",
+     "sent_start": false
     },
     {
      "text": "?",
@@ -2870,7 +3186,8 @@
      "norm": "?",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "?"
+     "lemma": "?",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2884,7 +3201,8 @@
      "norm": "северо",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "северо"
+     "lemma": "северо",
+     "sent_start": true
     },
     {
      "text": "-",
@@ -2892,7 +3210,8 @@
      "norm": "-",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "западный",
@@ -2900,7 +3219,8 @@
      "norm": "западный",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "западный"
+     "lemma": "западный",
+     "sent_start": false
     },
     {
      "text": "ветер",
@@ -2908,7 +3228,8 @@
      "norm": "ветер",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "ветер"
+     "lemma": "ветер",
+     "sent_start": false
     },
     {
      "text": "усилился",
@@ -2916,7 +3237,8 @@
      "norm": "усилился",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "усилиться"
+     "lemma": "усилиться",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2924,7 +3246,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2938,7 +3261,8 @@
      "norm": "text",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "text"
+     "lemma": "text",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -2946,7 +3270,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "norms",
@@ -2954,7 +3279,8 @@
      "norm": "norms",
      "tag": "X",
      "pos": "X",
-     "lemma": "norms"
+     "lemma": "norms",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -2981,7 +3307,8 @@
      "norm": "декабрь",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "дек."
+     "lemma": "дек.",
+     "sent_start": true
     }
    ],
    "entities": []
@@ -2995,7 +3322,8 @@
      "norm": "ignore::deprecationwarning",
      "tag": "X",
      "pos": "X",
-     "lemma": "ignore::deprecationwarning"
+     "lemma": "ignore::deprecationwarning",
+     "sent_start": true
     }
    ],
    "entities": []
@@ -3009,7 +3337,8 @@
      "norm": "text",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "text"
+     "lemma": "text",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -3017,7 +3346,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "lemmas",
@@ -3025,7 +3355,8 @@
      "norm": "lemmas",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "lemmas"
+     "lemma": "lemmas",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3052,7 +3383,8 @@
      "norm": "text",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "text"
+     "lemma": "text",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -3060,7 +3392,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "pos",
@@ -3068,7 +3401,8 @@
      "norm": "pos",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "pos"
+     "lemma": "pos",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3076,7 +3410,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "morph",
@@ -3084,7 +3419,8 @@
      "norm": "morph",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "morph"
+     "lemma": "morph",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3092,7 +3428,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "lemma",
@@ -3100,7 +3437,8 @@
      "norm": "lemma",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "lemma"
+     "lemma": "lemma",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3139,7 +3477,8 @@
      "norm": "text",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "text"
+     "lemma": "text",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -3147,7 +3486,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "morph",
@@ -3155,7 +3495,8 @@
      "norm": "morph",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "morph"
+     "lemma": "morph",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3163,7 +3504,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "lemma",
@@ -3171,7 +3513,8 @@
      "norm": "lemma",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "lemma"
+     "lemma": "lemma",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3204,7 +3547,8 @@
      "norm": "word",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "word"
+     "lemma": "word",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -3212,7 +3556,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "lemma",
@@ -3220,7 +3565,8 @@
      "norm": "lemma",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "lemma"
+     "lemma": "lemma",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3247,7 +3593,8 @@
      "norm": "animacy",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "animacy"
+     "lemma": "animacy",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3255,7 +3602,8 @@
      "norm": "=",
      "tag": "SYM",
      "pos": "SYM",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Anim|Case",
@@ -3263,7 +3611,8 @@
      "norm": "anim|case",
      "tag": "X",
      "pos": "X",
-     "lemma": "anim|case"
+     "lemma": "anim|case",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3271,7 +3620,8 @@
      "norm": "=",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Nom|Gender",
@@ -3279,7 +3629,8 @@
      "norm": "nom|gender",
      "tag": "X",
      "pos": "X",
-     "lemma": "nom|gender"
+     "lemma": "nom|gender",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3287,7 +3638,8 @@
      "norm": "=",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Fem|Number",
@@ -3295,7 +3647,8 @@
      "norm": "fem|number",
      "tag": "X",
      "pos": "X",
-     "lemma": "fem|number"
+     "lemma": "fem|number",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3303,7 +3656,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Sing",
@@ -3311,7 +3665,8 @@
      "norm": "sing",
      "tag": "X",
      "pos": "X",
-     "lemma": "sing"
+     "lemma": "sing",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3325,7 +3680,8 @@
      "norm": "aspect",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "aspect"
+     "lemma": "aspect",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3333,7 +3689,8 @@
      "norm": "=",
      "tag": "SYM",
      "pos": "SYM",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Imp|Gender",
@@ -3341,7 +3698,8 @@
      "norm": "imp|gender",
      "tag": "X",
      "pos": "X",
-     "lemma": "imp|gender"
+     "lemma": "imp|gender",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3349,7 +3707,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Fem|Mood",
@@ -3357,7 +3716,8 @@
      "norm": "fem|mood",
      "tag": "X",
      "pos": "X",
-     "lemma": "fem|mood"
+     "lemma": "fem|mood",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3365,7 +3725,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Ind|Number",
@@ -3373,7 +3734,8 @@
      "norm": "ind|number",
      "tag": "X",
      "pos": "X",
-     "lemma": "ind|number"
+     "lemma": "ind|number",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3381,7 +3743,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Sing|Tense",
@@ -3389,7 +3752,8 @@
      "norm": "sing|tense",
      "tag": "X",
      "pos": "X",
-     "lemma": "sing|tense"
+     "lemma": "sing|tense",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3397,7 +3761,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Past|VerbForm",
@@ -3405,7 +3770,8 @@
      "norm": "past|verbform",
      "tag": "X",
      "pos": "X",
-     "lemma": "past|verbform"
+     "lemma": "past|verbform",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3413,7 +3779,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Fin|Voice",
@@ -3421,7 +3788,8 @@
      "norm": "fin|voice",
      "tag": "X",
      "pos": "X",
-     "lemma": "fin|voice"
+     "lemma": "fin|voice",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3429,7 +3797,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Act",
@@ -3437,7 +3806,8 @@
      "norm": "act",
      "tag": "X",
      "pos": "X",
-     "lemma": "act"
+     "lemma": "act",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3451,7 +3821,8 @@
      "norm": "animacy",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "animacy"
+     "lemma": "animacy",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3459,7 +3830,8 @@
      "norm": "=",
      "tag": "SYM",
      "pos": "SYM",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Anim|Case",
@@ -3467,7 +3839,8 @@
      "norm": "anim|case",
      "tag": "X",
      "pos": "X",
-     "lemma": "anim|case"
+     "lemma": "anim|case",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3475,7 +3848,8 @@
      "norm": "=",
      "tag": "SYM",
      "pos": "SYM",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Acc|Gender",
@@ -3483,7 +3857,8 @@
      "norm": "acc|gender",
      "tag": "X",
      "pos": "X",
-     "lemma": "acc|gender"
+     "lemma": "acc|gender",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3491,7 +3866,8 @@
      "norm": "=",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Fem|Number",
@@ -3499,7 +3875,8 @@
      "norm": "fem|number",
      "tag": "X",
      "pos": "X",
-     "lemma": "fem|number"
+     "lemma": "fem|number",
+     "sent_start": false
     },
     {
      "text": "=",
@@ -3507,7 +3884,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Sing",
@@ -3515,7 +3893,8 @@
      "norm": "sing",
      "tag": "X",
      "pos": "X",
-     "lemma": "sing"
+     "lemma": "sing",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3529,7 +3908,8 @@
      "norm": "number",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "number"
+     "lemma": "number",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3537,7 +3917,8 @@
      "norm": "=",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Sing",
@@ -3545,7 +3926,8 @@
      "norm": "sing",
      "tag": "X",
      "pos": "X",
-     "lemma": "sing"
+     "lemma": "sing",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3566,7 +3948,8 @@
      "norm": "number",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "number"
+     "lemma": "number",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3574,7 +3957,8 @@
      "norm": "=",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Plur",
@@ -3582,7 +3966,8 @@
      "norm": "plur",
      "tag": "X",
      "pos": "X",
-     "lemma": "plur"
+     "lemma": "plur",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3603,7 +3988,8 @@
      "norm": "gender",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "gender"
+     "lemma": "gender",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3611,7 +3997,8 @@
      "norm": "=",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Fem",
@@ -3619,7 +4006,8 @@
      "norm": "fem",
      "tag": "X",
      "pos": "X",
-     "lemma": "fem"
+     "lemma": "fem",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3640,7 +4028,8 @@
      "norm": "gender",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "gender"
+     "lemma": "gender",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3648,7 +4037,8 @@
      "norm": "=",
      "tag": "X",
      "pos": "X",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Masc",
@@ -3656,7 +4046,8 @@
      "norm": "masc",
      "tag": "X",
      "pos": "X",
-     "lemma": "masc"
+     "lemma": "masc",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3670,7 +4061,8 @@
      "norm": "gender",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "gender"
+     "lemma": "gender",
+     "sent_start": true
     },
     {
      "text": "=",
@@ -3678,7 +4070,8 @@
      "norm": "=",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "="
+     "lemma": "=",
+     "sent_start": false
     },
     {
      "text": "Neut",
@@ -3686,7 +4079,8 @@
      "norm": "neut",
      "tag": "X",
      "pos": "X",
-     "lemma": "neut"
+     "lemma": "neut",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3707,7 +4101,8 @@
      "norm": "какая",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "какой"
+     "lemma": "какой",
+     "sent_start": true
     },
     {
      "text": "-",
@@ -3715,7 +4110,8 @@
      "norm": "-",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "то",
@@ -3723,7 +4119,8 @@
      "norm": "то",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "то"
+     "lemma": "то",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3737,7 +4134,8 @@
      "norm": "какой",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "какой"
+     "lemma": "какой",
+     "sent_start": true
     },
     {
      "text": "-",
@@ -3745,7 +4143,8 @@
      "norm": "-",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "то",
@@ -3753,7 +4152,8 @@
      "norm": "то",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "то"
+     "lemma": "то",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3767,7 +4167,8 @@
      "norm": "punct_open",
      "tag": "X",
      "pos": "X",
-     "lemma": "punct_open"
+     "lemma": "punct_open",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -3775,7 +4176,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "punct_close",
@@ -3783,7 +4185,8 @@
      "norm": "punct_close",
      "tag": "X",
      "pos": "X",
-     "lemma": "punct_close"
+     "lemma": "punct_close",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3797,7 +4200,8 @@
      "norm": "punct_open2,punct_close2",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "punct_open2,punct_close2"
+     "lemma": "punct_open2,punct_close2",
+     "sent_start": true
     }
    ],
    "entities": []
@@ -3811,7 +4215,8 @@
      "norm": "(",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "("
+     "lemma": "(",
+     "sent_start": true
     },
     {
      "text": "Раз",
@@ -3819,7 +4224,8 @@
      "norm": "раз",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "раз"
+     "lemma": "раз",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3827,7 +4233,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "два",
@@ -3835,7 +4242,8 @@
      "norm": "два",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "два"
+     "lemma": "два",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3843,7 +4251,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "три",
@@ -3851,7 +4260,8 @@
      "norm": "три",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "три"
+     "lemma": "три",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3859,7 +4269,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "проверка",
@@ -3867,7 +4278,8 @@
      "norm": "проверка",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "проверка"
+     "lemma": "проверка",
+     "sent_start": false
     },
     {
      "text": ")",
@@ -3875,7 +4287,8 @@
      "norm": ")",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ")"
+     "lemma": ")",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -3883,7 +4296,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3897,7 +4311,8 @@
      "norm": "'",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "'"
+     "lemma": "'",
+     "sent_start": true
     },
     {
      "text": "Тест",
@@ -3905,7 +4320,8 @@
      "norm": "тест",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "тест"
+     "lemma": "тест",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3919,7 +4335,8 @@
      "norm": "тест",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "тест"
+     "lemma": "тест",
+     "sent_start": true
     },
     {
      "text": "''",
@@ -3927,7 +4344,8 @@
      "norm": "\"",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "''"
+     "lemma": "''",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3941,7 +4359,8 @@
      "norm": "тест",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "тест"
+     "lemma": "тест",
+     "sent_start": true
     },
     {
      "text": ".",
@@ -3949,7 +4368,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -3963,7 +4383,8 @@
      "norm": "рекоменду́я",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "рекоменду́я"
+     "lemma": "рекоменду́я",
+     "sent_start": true
     },
     {
      "text": "подда́ть",
@@ -3971,7 +4392,8 @@
      "norm": "подда́ть",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "подда́ть"
+     "lemma": "подда́ть",
+     "sent_start": false
     },
     {
      "text": "жару́",
@@ -3979,7 +4401,8 @@
      "norm": "жару́",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "жару́"
+     "lemma": "жару́",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -3987,7 +4410,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "Самого́",
@@ -3995,7 +4419,8 @@
      "norm": "самого́",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "Самого́"
+     "lemma": "Самого́",
+     "sent_start": true
     },
     {
      "text": "Баргамота",
@@ -4003,7 +4428,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -4024,7 +4450,8 @@
      "norm": "рекоменду́я",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "РЕКОМЕНДУ́Я"
+     "lemma": "РЕКОМЕНДУ́Я",
+     "sent_start": true
     },
     {
      "text": "ПОДДА́ТЬ",
@@ -4032,7 +4459,8 @@
      "norm": "подда́ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда́ть"
+     "lemma": "подда́ть",
+     "sent_start": false
     },
     {
      "text": "ЖАРУ́",
@@ -4040,7 +4468,8 @@
      "norm": "жару́",
      "tag": "X",
      "pos": "X",
-     "lemma": "жару́"
+     "lemma": "жару́",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -4048,7 +4477,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "САМОГО́",
@@ -4056,7 +4486,8 @@
      "norm": "самого́",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "самого́"
+     "lemma": "самого́",
+     "sent_start": true
     },
     {
      "text": "БАРГАМОТА",
@@ -4064,7 +4495,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4078,7 +4510,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4086,7 +4519,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4094,7 +4528,8 @@
      "norm": "жару̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -4102,7 +4537,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "Самого̍",
@@ -4110,7 +4546,8 @@
      "norm": "самого̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "самого̍"
+     "lemma": "самого̍",
+     "sent_start": true
     },
     {
      "text": "Баргамота",
@@ -4118,7 +4555,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4132,7 +4570,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4140,7 +4579,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4148,7 +4588,8 @@
      "norm": "жару̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -4156,7 +4597,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "'Самого̍",
@@ -4164,7 +4606,8 @@
      "norm": "'самого̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "'самого̍"
+     "lemma": "'самого̍",
+     "sent_start": true
     },
     {
      "text": "Баргамота",
@@ -4172,7 +4615,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4186,7 +4630,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4194,7 +4639,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4202,7 +4648,8 @@
      "norm": "жару̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -4210,7 +4657,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "самого̍",
@@ -4218,7 +4666,8 @@
      "norm": "самого̍",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "самого̍"
+     "lemma": "самого̍",
+     "sent_start": false
     },
     {
      "text": "Баргамота",
@@ -4226,7 +4675,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4240,7 +4690,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4248,7 +4699,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4256,7 +4708,8 @@
      "norm": "жару̍",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": ":",
@@ -4264,7 +4717,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "самого̍",
@@ -4272,7 +4726,8 @@
      "norm": "самого̍",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "самого̍"
+     "lemma": "самого̍",
+     "sent_start": false
     },
     {
      "text": "Баргамота",
@@ -4280,7 +4735,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4294,7 +4750,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4302,7 +4759,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4310,7 +4768,8 @@
      "norm": "жару̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -4318,7 +4777,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "самого̍",
@@ -4326,7 +4786,8 @@
      "norm": "самого̍",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "самого̍"
+     "lemma": "самого̍",
+     "sent_start": true
     },
     {
      "text": "Баргамота",
@@ -4334,7 +4795,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4348,7 +4810,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4356,7 +4819,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4364,7 +4828,8 @@
      "norm": "жару̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -4372,7 +4837,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "самого̍",
@@ -4380,7 +4846,8 @@
      "norm": "самого̍",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "самого̍"
+     "lemma": "самого̍",
+     "sent_start": false
     },
     {
      "text": "Баргамота",
@@ -4388,7 +4855,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4402,7 +4870,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4410,7 +4879,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4418,7 +4888,8 @@
      "norm": "жару̍",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": ":",
@@ -4426,7 +4897,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "самого̍",
@@ -4434,7 +4906,8 @@
      "norm": "самого̍",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "самого̍"
+     "lemma": "самого̍",
+     "sent_start": false
     },
     {
      "text": "Баргамота",
@@ -4442,7 +4915,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4456,7 +4930,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4464,7 +4939,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару̍",
@@ -4472,7 +4948,8 @@
      "norm": "жару̍",
      "tag": "X",
      "pos": "X",
-     "lemma": "жару̍"
+     "lemma": "жару̍",
+     "sent_start": false
     },
     {
      "text": "-",
@@ -4480,7 +4957,8 @@
      "norm": "-",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "-"
+     "lemma": "-",
+     "sent_start": false
     },
     {
      "text": "самого̍",
@@ -4488,7 +4966,8 @@
      "norm": "самого̍",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "самого̍"
+     "lemma": "самого̍",
+     "sent_start": false
     },
     {
      "text": "Баргамота",
@@ -4496,7 +4975,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4510,7 +4990,8 @@
      "norm": "жару́.самого́",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "жару́.самого́"
+     "lemma": "жару́.самого́",
+     "sent_start": true
     }
    ],
    "entities": []
@@ -4524,7 +5005,8 @@
      "norm": "рекоменду́я",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "РЕКОМЕНДУ́Я"
+     "lemma": "РЕКОМЕНДУ́Я",
+     "sent_start": true
     },
     {
      "text": "ПОДДА́ТЬ",
@@ -4532,7 +5014,8 @@
      "norm": "подда́ть",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "подда́ть"
+     "lemma": "подда́ть",
+     "sent_start": false
     },
     {
      "text": "ЖАРУ́.САМОГО́",
@@ -4540,7 +5023,8 @@
      "norm": "жару́.самого́",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "жару́.самого́"
+     "lemma": "жару́.самого́",
+     "sent_start": false
     },
     {
      "text": "БАРГАМОТА",
@@ -4548,7 +5032,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -4562,7 +5047,8 @@
      "norm": "рекоменду̍я",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "рекоменду̍я"
+     "lemma": "рекоменду̍я",
+     "sent_start": true
     },
     {
      "text": "подда̍ть",
@@ -4570,7 +5056,8 @@
      "norm": "подда̍ть",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "подда̍ть"
+     "lemma": "подда̍ть",
+     "sent_start": false
     },
     {
      "text": "жару́.самого́",
@@ -4578,7 +5065,8 @@
      "norm": "жару́.самого́",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "жару́.самого́"
+     "lemma": "жару́.самого́",
+     "sent_start": false
     },
     {
      "text": "Баргамота",
@@ -4586,7 +5074,8 @@
      "norm": "баргамота",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "баргамота"
+     "lemma": "баргамота",
+     "sent_start": false
     }
    ],
    "entities": []

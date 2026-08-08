@@ -259,6 +259,7 @@ jobs:
             "Ukrainian NER parity: " \
             "French tokenizer: " \
             "French NER parity: " \
+            "French NER parity (with boundaries): " \
             "Portuguese tokenizer: " \
             "Portuguese lemmas: " \
             "Portuguese NER parity: "; do

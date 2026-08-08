@@ -67,25 +67,47 @@ struct FrenchNERTests {
         if !report.samples.isEmpty { print(report.detail) }
         #expect(report.expected >= 35, "corpus too small: \(report.expected) entities")
 
-        // French is the first language here that is **not** exact: 40/42
-        // recall, 0.930 precision, three divergences. What that is not:
+        // Without sentence boundaries: 40/42 recall, 0.930 precision.
         //
-        // - not tokenization — 624/624 tokens, offsets and NORMs match;
-        // - not the lexical features — NORM, prefix, suffix and shape were
-        //   compared token by token against spaCy for the failing sentence and
-        //   agree on all eleven;
-        // - not accumulation order — the Accelerate and portable kernels
-        //   produce the identical 40/42, as they do for English's residual 4.
+        // The cause is known and is *not* the forward pass, which is what an
+        // earlier version of this comment claimed. spaCy's `Begin.is_valid` and
+        // `In.is_valid` refuse to open or extend an entity when the next token
+        // starts a sentence, and it takes those boundaries from the dependency
+        // parser — which this port does not implement. All three French
+        // divergences span a boundary; supply the boundaries and it is exact,
+        // which the next test asserts.
         //
-        // So it is the forward pass, and the divergences look like it: an extra
-        // PER over "Pierre-Yves Le Gall", and two MISC spans with the right
-        // start and a longer extent. Plausible spans, wrong boundary — never
-        // corrupted offsets.
+        // Ruled out on the way, each by measurement: tokenization (624/624),
+        // the lexical features (compared token by token against spaCy for the
+        // failing sentence), and accumulation order (both matrix kernels give
+        // the identical 40/42).
         //
-        // Ratchet at the measured value. Tighten when it improves; never loosen
-        // without writing down why.
+        // This is the same gap as English's residual 4 of 2,592: running
+        // spaCy with `exclude=["parser"]` changes exactly 4 of those 2,000
+        // texts, and they are the same 4.
         #expect(report.recall >= 0.95, "recall \(report.recall), was 0.952")
         #expect(report.precision >= 0.93, "precision \(report.precision), was 0.930")
+    }
+
+    /// ...and with them, it is exact.
+    ///
+    /// This is the whole diagnosis in one assertion: the divergence is not the
+    /// forward pass, the features or the arithmetic. It is that spaCy forbids
+    /// entities from spanning a sentence boundary and takes those boundaries
+    /// from the dependency parser, which this port does not implement. Hand it
+    /// the boundaries and French matches exactly.
+    @Test("entities match spaCy exactly when sentence boundaries are supplied")
+    func exactWithSentenceBoundaries() throws {
+        let report = LanguageParity.entities(
+            Self.gold,
+            try SpacyNER(modelDirectory: frenchModelDirectory()!,
+                         tokenizer: try SpacyTokenizer.french()),
+            withSentenceBoundaries: true
+        )
+        print("French NER parity (with boundaries): \(report.summary)")
+        if !report.samples.isEmpty { print(report.detail) }
+        #expect(report.recall == 1.0, "\(report.detail)")
+        #expect(report.precision == 1.0, "\(report.detail)")
     }
 }
 

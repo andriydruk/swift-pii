@@ -518,7 +518,17 @@ final class NERModel: @unchecked Sendable {
 
 struct Ent { var start: Int; var end: Int; var label: String }
 
-func runNER(_ m: NERModel, _ tokens: [String], _ norms: [String]? = nil, dump: Bool = false) -> [Ent] {
+/// - Parameters:
+///   - sentenceStarts: token indices that begin a sentence.
+///
+///     spaCy's `Begin.is_valid` and `In.is_valid` refuse to open or extend an
+///     entity when the *next* token starts a sentence, so entities never span a
+///     sentence boundary. Those boundaries come from the dependency parser,
+///     which this port does not implement — pass them in and NER matches spaCy
+///     exactly; pass nothing and it behaves as spaCy does with the parser
+///     excluded, which is measurably 4 texts in 2,000 for English.
+func runNER(_ m: NERModel, _ tokens: [String], _ norms: [String]? = nil,
+            sentenceStarts: Set<Int> = [], dump: Bool = false) -> [Ent] {
     let T = tokens.count
     if T == 0 { return [] }
     let W = m.width
@@ -623,6 +633,11 @@ func runNER(_ m: NERModel, _ tokens: [String], _ norms: [String]? = nil, dump: B
     hs.withUnsafeBufferPointer { ap in m.paW.withUnsafeBufferPointer { wp in
         cached.withUnsafeMutableBufferPointer { cp in
             gemmT(ap.baseAddress!, wp.baseAddress!, cp.baseAddress!, T, h64, FOP) } } }
+    // spaCy asks the lexeme; a token whose text is entirely whitespace is what
+    // that amounts to for a doc built by this tokenizer.
+    let isSpaceToken = tokens.map { token in
+        !token.isEmpty && token.unicodeScalars.allSatisfy { $0.properties.isWhitespace }
+    }
     var ents: [Ent] = []
     var entStart = -1; var entLabel = ""
     var acc = [Float](repeating: 0, count: h64 * m.nP)
@@ -651,12 +666,21 @@ func runNER(_ m: NERModel, _ tokens: [String], _ norms: [String]? = nil, dump: B
         for c in 0..<m.nClasses {
             let mt = m.actMove[c], lbl = m.actLabel[c]
             let inside = entStart >= 0
+            // `B_(1).sent_start == 1` in spaCy: an entity may neither begin nor
+            // continue when the next token opens a sentence. Only BEGIN and IN
+            // carry this rule -- LAST, UNIT and OUT do not, because none of
+            // them extends an entity past the current token.
+            let nextStartsSentence = (i + 1 < T) && sentenceStarts.contains(i + 1)
+            // `IS_SPACE` on B_(0): an entity may not start on whitespace.
+            // BEGIN and UNIT only, matching ner.pyx lines 397 and 606.
+            let onSpace = isSpaceToken[i]
             var ok = false
             switch mt {
             case 1: ok = !inside && !lbl.isEmpty && (i + 1 < T)
-            case 2: ok = inside && lbl == entLabel && (i + 1 < T)
+                    && !nextStartsSentence && !onSpace
+            case 2: ok = inside && lbl == entLabel && (i + 1 < T) && !nextStartsSentence
             case 3: ok = inside && lbl == entLabel
-            case 4: ok = !inside && !lbl.isEmpty
+            case 4: ok = !inside && !lbl.isEmpty && !onSpace
             case 5: ok = !inside
             default: ok = false
             }

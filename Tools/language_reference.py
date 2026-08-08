@@ -373,7 +373,11 @@ for text in texts:
         "text": text,
         "tokens": [
             {"text": t.text, "offset": t.idx, "norm": t.norm_,
-             "tag": t.tag_, "pos": t.pos_, "lemma": t.lemma_}
+             "tag": t.tag_, "pos": t.pos_, "lemma": t.lemma_,
+             # spaCy forbids entities from spanning a sentence boundary, and
+             # takes boundaries from the parser. Recorded so the Swift side can
+             # be measured both with and without them.
+             "sent_start": bool(t.is_sent_start)}
             for t in doc
         ],
         "entities": [

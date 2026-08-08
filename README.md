@@ -356,12 +356,24 @@ Heavily inflected languages are where that gap costs most.
 Portuguese is the useful proof that the edit-tree lemmatizer never needed a
 tagger — it has no tagger and lemmatizes exactly.
 
-French is the one language whose NER is not exact, and the investigation is
-recorded rather than rounded away: tokenization matches 624/624, the lexical
-features were compared token by token against spaCy and agree, and both matrix
-kernels produce the identical 40/42 — so it is the forward pass, not
-tokenization, features, or accumulation order. The three divergences are
-plausible spans with a wrong boundary, never corrupted offsets.
+French's NER is not exact by default, and the cause is now known exactly: **spaCy
+forbids entities from spanning a sentence boundary**, and takes those boundaries
+from the dependency parser — a component this port does not implement. All three
+French divergences span a boundary. Supply the boundaries and French is exact:
+
+```swift
+ner.entities(in: text, tokens: tokens, sentenceStarts: [0, 2, 9])  // 42/42
+```
+
+The same gap accounts for **English's residual 4 of 2,592**: running spaCy with
+`exclude=["parser"]` changes exactly 4 of those 2,000 texts, and they are the
+same 4. So the port reproduces spaCy's NER *without* the parser exactly, and
+differs from the full pipeline only where an entity would otherwise cross a
+sentence boundary — measurably 0.2% of English texts and 4% of the French
+corpus, which is dense with sentence fragments harvested from spaCy's own tests.
+
+Tokenization, the lexical features and the arithmetic were each ruled out by
+measurement before this was found.
 
 None of this affects identifier detection; what degrades without lemmas is
 context scoring, which matches supporting words by lemma. Every absence is

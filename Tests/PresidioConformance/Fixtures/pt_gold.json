@@ -11,7 +11,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "Dr.",
@@ -19,7 +20,8 @@
      "norm": "dr.",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Dr."
+     "lemma": "Dr.",
+     "sent_start": false
     },
     {
      "text": "João",
@@ -27,7 +29,8 @@
      "norm": "joão",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "João"
+     "lemma": "João",
+     "sent_start": false
     },
     {
      "text": "Silva",
@@ -35,7 +38,8 @@
      "norm": "silva",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Silva"
+     "lemma": "Silva",
+     "sent_start": false
     },
     {
      "text": "atende",
@@ -43,7 +47,8 @@
      "norm": "atende",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "atender"
+     "lemma": "atender",
+     "sent_start": false
     },
     {
      "text": "às",
@@ -51,7 +56,8 @@
      "norm": "às",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a o"
+     "lemma": "a o",
+     "sent_start": false
     },
     {
      "text": "terças",
@@ -59,7 +65,8 @@
      "norm": "terças",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "terça"
+     "lemma": "terça",
+     "sent_start": false
     },
     {
      "text": "no",
@@ -67,7 +74,8 @@
      "norm": "no",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em o"
+     "lemma": "em o",
+     "sent_start": false
     },
     {
      "text": "hospital",
@@ -75,7 +83,8 @@
      "norm": "hospital",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "hospital"
+     "lemma": "hospital",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -83,7 +92,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "Lisboa",
@@ -91,7 +101,8 @@
      "norm": "lisboa",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Lisboa"
+     "lemma": "Lisboa",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -99,7 +110,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -126,7 +138,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "Sra.",
@@ -134,7 +147,8 @@
      "norm": "sra.",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Sra."
+     "lemma": "Sra.",
+     "sent_start": false
     },
     {
      "text": "Maria",
@@ -142,7 +156,8 @@
      "norm": "maria",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Maria"
+     "lemma": "Maria",
+     "sent_start": false
     },
     {
      "text": "Santos",
@@ -150,7 +165,8 @@
      "norm": "santos",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Santos"
+     "lemma": "Santos",
+     "sent_start": false
     },
     {
      "text": "assinou",
@@ -158,7 +174,8 @@
      "norm": "assinou",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "assinar"
+     "lemma": "assinar",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -166,7 +183,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "contrato",
@@ -174,7 +192,8 @@
      "norm": "contrato",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "contrato"
+     "lemma": "contrato",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -182,7 +201,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "3",
@@ -190,7 +210,8 @@
      "norm": "3",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "3"
+     "lemma": "3",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -198,7 +219,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "março",
@@ -206,7 +228,8 @@
      "norm": "março",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "março"
+     "lemma": "março",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -214,7 +237,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "2021",
@@ -222,7 +246,8 @@
      "norm": "2021",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "2021"
+     "lemma": "2021",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -230,7 +255,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -251,7 +277,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "Prof",
@@ -259,7 +286,8 @@
      "norm": "prof",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Prof"
+     "lemma": "Prof",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -267,7 +295,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "António",
@@ -275,7 +304,8 @@
      "norm": "antónio",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "António"
+     "lemma": "António",
+     "sent_start": true
     },
     {
      "text": "Ferreira",
@@ -283,7 +313,8 @@
      "norm": "ferreira",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Ferreira"
+     "lemma": "Ferreira",
+     "sent_start": false
     },
     {
      "text": "leciona",
@@ -291,7 +322,8 @@
      "norm": "leciona",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "lecionar"
+     "lemma": "lecionar",
+     "sent_start": false
     },
     {
      "text": "na",
@@ -299,7 +331,8 @@
      "norm": "na",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em o"
+     "lemma": "em o",
+     "sent_start": false
     },
     {
      "text": "Universidade",
@@ -307,7 +340,8 @@
      "norm": "universidade",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Universidade"
+     "lemma": "Universidade",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -315,7 +349,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "Coimbra",
@@ -323,7 +358,8 @@
      "norm": "coimbra",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Coimbra"
+     "lemma": "Coimbra",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -331,7 +367,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -364,7 +401,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "paciente",
@@ -372,7 +410,8 @@
      "norm": "paciente",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "paciente"
+     "lemma": "paciente",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -380,7 +419,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "Sr.",
@@ -388,7 +428,8 @@
      "norm": "sr.",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "sr."
+     "lemma": "sr.",
+     "sent_start": false
     },
     {
      "text": "Luís",
@@ -396,7 +437,8 @@
      "norm": "luís",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Luís"
+     "lemma": "Luís",
+     "sent_start": false
     },
     {
      "text": "Oliveira",
@@ -404,7 +446,8 @@
      "norm": "oliveira",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Oliveira"
+     "lemma": "Oliveira",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -412,7 +455,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "nasceu",
@@ -420,7 +464,8 @@
      "norm": "nasceu",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "nascer"
+     "lemma": "nascer",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -428,7 +473,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "14/02/1978",
@@ -436,7 +482,8 @@
      "norm": "14/02/1978",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "14/02/1978"
+     "lemma": "14/02/1978",
+     "sent_start": false
     },
     {
      "text": "no",
@@ -444,7 +491,8 @@
      "norm": "no",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em o"
+     "lemma": "em o",
+     "sent_start": false
     },
     {
      "text": "Porto",
@@ -452,7 +500,8 @@
      "norm": "porto",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Porto"
+     "lemma": "Porto",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -460,7 +509,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -487,7 +537,8 @@
      "norm": "exma",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Exma"
+     "lemma": "Exma",
+     "sent_start": true
     },
     {
      "text": ".",
@@ -495,7 +546,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "Sra.",
@@ -503,7 +555,8 @@
      "norm": "sra.",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Sra."
+     "lemma": "Sra.",
+     "sent_start": true
     },
     {
      "text": "Doutora",
@@ -511,7 +564,8 @@
      "norm": "doutora",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Doutora"
+     "lemma": "Doutora",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -519,7 +573,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "agradeço",
@@ -527,7 +582,8 @@
      "norm": "agradeço",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "agradeço"
+     "lemma": "agradeço",
+     "sent_start": false
     },
     {
      "text": "a",
@@ -535,7 +591,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "sua",
@@ -543,7 +600,8 @@
      "norm": "sua",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "seu"
+     "lemma": "seu",
+     "sent_start": false
     },
     {
      "text": "carta",
@@ -551,7 +609,8 @@
      "norm": "carta",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "carta"
+     "lemma": "carta",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -559,7 +618,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "12",
@@ -567,7 +627,8 @@
      "norm": "12",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "12"
+     "lemma": "12",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -575,7 +636,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "maio",
@@ -583,7 +645,8 @@
      "norm": "maio",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "maio"
+     "lemma": "maio",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -591,7 +654,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -612,7 +676,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "Petrobras",
@@ -620,7 +685,8 @@
      "norm": "petrobras",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Petrobras"
+     "lemma": "Petrobras",
+     "sent_start": false
     },
     {
      "text": "e",
@@ -628,7 +694,8 @@
      "norm": "e",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "e"
+     "lemma": "e",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -636,7 +703,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "Banco",
@@ -644,7 +712,8 @@
      "norm": "banco",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Banco"
+     "lemma": "Banco",
+     "sent_start": false
     },
     {
      "text": "do",
@@ -652,7 +721,8 @@
      "norm": "do",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de o"
+     "lemma": "de o",
+     "sent_start": false
     },
     {
      "text": "Brasil",
@@ -660,7 +730,8 @@
      "norm": "brasil",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Brasil"
+     "lemma": "Brasil",
+     "sent_start": false
     },
     {
      "text": "assinaram",
@@ -668,7 +739,8 @@
      "norm": "assinaram",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "assinar"
+     "lemma": "assinar",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -676,7 +748,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "acordo",
@@ -684,7 +757,8 @@
      "norm": "acordo",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "acordo"
+     "lemma": "acordo",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -692,7 +766,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "Brasília",
@@ -700,7 +775,8 @@
      "norm": "brasília",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Brasília"
+     "lemma": "Brasília",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -708,7 +784,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -741,7 +818,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "empresa",
@@ -749,7 +827,8 @@
      "norm": "empresa",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "empresa"
+     "lemma": "empresa",
+     "sent_start": false
     },
     {
      "text": "Construções",
@@ -757,7 +836,8 @@
      "norm": "construções",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Construções"
+     "lemma": "Construções",
+     "sent_start": false
     },
     {
      "text": "Almeida",
@@ -765,7 +845,8 @@
      "norm": "almeida",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Almeida"
+     "lemma": "Almeida",
+     "sent_start": false
     },
     {
      "text": "Lda",
@@ -773,7 +854,8 @@
      "norm": "lda",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Lda"
+     "lemma": "Lda",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -781,7 +863,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "tem",
@@ -789,7 +872,8 @@
      "norm": "tem",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "ter"
+     "lemma": "ter",
+     "sent_start": true
     },
     {
      "text": "sede",
@@ -797,7 +881,8 @@
      "norm": "sede",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "sede"
+     "lemma": "sede",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -805,7 +890,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "Braga",
@@ -813,7 +899,8 @@
      "norm": "braga",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Braga"
+     "lemma": "Braga",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -821,7 +908,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -848,7 +936,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "Ministério",
@@ -856,7 +945,8 @@
      "norm": "ministério",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Ministério"
+     "lemma": "Ministério",
+     "sent_start": false
     },
     {
      "text": "da",
@@ -864,7 +954,8 @@
      "norm": "da",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de o"
+     "lemma": "de o",
+     "sent_start": false
     },
     {
      "text": "Fazenda",
@@ -872,7 +963,8 @@
      "norm": "fazenda",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Fazenda"
+     "lemma": "Fazenda",
+     "sent_start": false
     },
     {
      "text": "publicou",
@@ -880,7 +972,8 @@
      "norm": "publicou",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "publicar"
+     "lemma": "publicar",
+     "sent_start": false
     },
     {
      "text": "a",
@@ -888,7 +981,8 @@
      "norm": "a",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a"
+     "lemma": "a",
+     "sent_start": false
     },
     {
      "text": "portaria",
@@ -896,7 +990,8 @@
      "norm": "portaria",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "portaria"
+     "lemma": "portaria",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -904,7 +999,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -925,7 +1021,8 @@
      "norm": "foi",
      "tag": "SCONJ",
      "pos": "SCONJ",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": true
     },
     {
      "text": "de",
@@ -933,7 +1030,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "Belo",
@@ -941,7 +1039,8 @@
      "norm": "belo",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Belo"
+     "lemma": "Belo",
+     "sent_start": false
     },
     {
      "text": "Horizonte",
@@ -949,7 +1048,8 @@
      "norm": "horizonte",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Horizonte"
+     "lemma": "Horizonte",
+     "sent_start": false
     },
     {
      "text": "a",
@@ -957,7 +1057,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "Salvador",
@@ -965,7 +1066,8 @@
      "norm": "salvador",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Salvador"
+     "lemma": "Salvador",
+     "sent_start": false
     },
     {
      "text": "passando",
@@ -973,7 +1075,8 @@
      "norm": "passando",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "passar"
+     "lemma": "passar",
+     "sent_start": false
     },
     {
      "text": "por",
@@ -981,7 +1084,8 @@
      "norm": "por",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "por"
+     "lemma": "por",
+     "sent_start": false
     },
     {
      "text": "Vitória",
@@ -989,7 +1093,8 @@
      "norm": "vitória",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "vitória"
+     "lemma": "vitória",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -997,7 +1102,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -1030,7 +1136,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "sede",
@@ -1038,7 +1145,8 @@
      "norm": "sede",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "sede"
+     "lemma": "sede",
+     "sent_start": false
     },
     {
      "text": "fica",
@@ -1046,7 +1154,8 @@
      "norm": "fica",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "ficar"
+     "lemma": "ficar",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -1054,7 +1163,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "São",
@@ -1062,7 +1172,8 @@
      "norm": "são",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "São"
+     "lemma": "São",
+     "sent_start": false
     },
     {
      "text": "Paulo",
@@ -1070,7 +1181,8 @@
      "norm": "paulo",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Paulo"
+     "lemma": "Paulo",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -1078,7 +1190,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "mas",
@@ -1086,7 +1199,8 @@
      "norm": "mas",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "mas"
+     "lemma": "mas",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -1094,7 +1208,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "registo",
@@ -1102,7 +1217,8 @@
      "norm": "registo",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "registo"
+     "lemma": "registo",
+     "sent_start": false
     },
     {
      "text": "é",
@@ -1110,7 +1226,8 @@
      "norm": "é",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "no",
@@ -1118,7 +1235,8 @@
      "norm": "no",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em o"
+     "lemma": "em o",
+     "sent_start": false
     },
     {
      "text": "Rio",
@@ -1126,7 +1244,8 @@
      "norm": "rio",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Rio"
+     "lemma": "Rio",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -1134,7 +1253,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "Janeiro",
@@ -1142,7 +1262,8 @@
      "norm": "janeiro",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Janeiro"
+     "lemma": "Janeiro",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1150,7 +1271,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -1177,7 +1299,8 @@
      "norm": "florianópolis",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Florianópolis"
+     "lemma": "Florianópolis",
+     "sent_start": true
     },
     {
      "text": "e",
@@ -1185,7 +1308,8 @@
      "norm": "e",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "e"
+     "lemma": "e",
+     "sent_start": false
     },
     {
      "text": "Curitiba",
@@ -1193,7 +1317,8 @@
      "norm": "curitiba",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Curitiba"
+     "lemma": "Curitiba",
+     "sent_start": false
     },
     {
      "text": "ficam",
@@ -1201,7 +1326,8 @@
      "norm": "ficam",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "ficar"
+     "lemma": "ficar",
+     "sent_start": false
     },
     {
      "text": "no",
@@ -1209,7 +1335,8 @@
      "norm": "no",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em o"
+     "lemma": "em o",
+     "sent_start": false
     },
     {
      "text": "Sul",
@@ -1217,7 +1344,8 @@
      "norm": "sul",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "Sul"
+     "lemma": "Sul",
+     "sent_start": false
     },
     {
      "text": "do",
@@ -1225,7 +1353,8 @@
      "norm": "do",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de o"
+     "lemma": "de o",
+     "sent_start": false
     },
     {
      "text": "país",
@@ -1233,7 +1362,8 @@
      "norm": "país",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "país"
+     "lemma": "país",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1241,7 +1371,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -1274,7 +1405,8 @@
      "norm": "escreva-me",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "Escreva-me"
+     "lemma": "Escreva-me",
+     "sent_start": true
     },
     {
      "text": "para",
@@ -1282,7 +1414,8 @@
      "norm": "para",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "para"
+     "lemma": "para",
+     "sent_start": false
     },
     {
      "text": "ana.souza@exemplo.com.br",
@@ -1290,7 +1423,8 @@
      "norm": "ana.souza@exemplo.com.br",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "ana.souza@exemplo.com.br"
+     "lemma": "ana.souza@exemplo.com.br",
+     "sent_start": false
     },
     {
      "text": "ou",
@@ -1298,7 +1432,8 @@
      "norm": "ou",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "ou"
+     "lemma": "ou",
+     "sent_start": false
     },
     {
      "text": "ligue",
@@ -1306,7 +1441,8 @@
      "norm": "ligue",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "ligar"
+     "lemma": "ligar",
+     "sent_start": false
     },
     {
      "text": "para",
@@ -1314,7 +1450,8 @@
      "norm": "para",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "para"
+     "lemma": "para",
+     "sent_start": false
     },
     {
      "text": "+55",
@@ -1322,7 +1459,8 @@
      "norm": "+55",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "+55"
+     "lemma": "+55",
+     "sent_start": false
     },
     {
      "text": "11",
@@ -1330,7 +1468,8 @@
      "norm": "11",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "11"
+     "lemma": "11",
+     "sent_start": false
     },
     {
      "text": "91234-5678",
@@ -1338,7 +1477,8 @@
      "norm": "91234-5678",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "91234-5678"
+     "lemma": "91234-5678",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1346,7 +1486,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1360,7 +1501,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "meu",
@@ -1368,7 +1510,8 @@
      "norm": "meu",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "meu"
+     "lemma": "meu",
+     "sent_start": false
     },
     {
      "text": "telefone",
@@ -1376,7 +1519,8 @@
      "norm": "telefone",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "telefone"
+     "lemma": "telefone",
+     "sent_start": false
     },
     {
      "text": "é",
@@ -1384,7 +1528,8 @@
      "norm": "é",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "(",
@@ -1392,7 +1537,8 @@
      "norm": "(",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "("
+     "lemma": "(",
+     "sent_start": false
     },
     {
      "text": "11",
@@ -1400,7 +1546,8 @@
      "norm": "11",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "11"
+     "lemma": "11",
+     "sent_start": false
     },
     {
      "text": ")",
@@ -1408,7 +1555,8 @@
      "norm": ")",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ")"
+     "lemma": ")",
+     "sent_start": false
     },
     {
      "text": "3123-4567",
@@ -1416,7 +1564,8 @@
      "norm": "3123-4567",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "3123-4567"
+     "lemma": "3123-4567",
+     "sent_start": false
     },
     {
      "text": "e",
@@ -1424,7 +1573,8 @@
      "norm": "e",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "e"
+     "lemma": "e",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -1432,7 +1582,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "telemóvel",
@@ -1440,7 +1591,8 @@
      "norm": "telemóvel",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "telemóvel"
+     "lemma": "telemóvel",
+     "sent_start": false
     },
     {
      "text": "912",
@@ -1448,7 +1600,8 @@
      "norm": "912",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "912"
+     "lemma": "912",
+     "sent_start": false
     },
     {
      "text": "345",
@@ -1456,7 +1609,8 @@
      "norm": "345",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "345"
+     "lemma": "345",
+     "sent_start": false
     },
     {
      "text": "678",
@@ -1464,7 +1618,8 @@
      "norm": "678",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "678"
+     "lemma": "678",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1472,7 +1627,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1486,7 +1642,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "servidor",
@@ -1494,7 +1651,8 @@
      "norm": "servidor",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "servidor"
+     "lemma": "servidor",
+     "sent_start": false
     },
     {
      "text": "responde",
@@ -1502,7 +1660,8 @@
      "norm": "responde",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "responder"
+     "lemma": "responder",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -1510,7 +1669,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "192.168.0.14",
@@ -1518,7 +1678,8 @@
      "norm": "192.168.0.14",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "192.168.0.14"
+     "lemma": "192.168.0.14",
+     "sent_start": false
     },
     {
      "text": "e",
@@ -1526,7 +1687,8 @@
      "norm": "e",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "e"
+     "lemma": "e",
+     "sent_start": false
     },
     {
      "text": "a",
@@ -1534,7 +1696,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "documentação",
@@ -1542,7 +1705,8 @@
      "norm": "documentação",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "documentação"
+     "lemma": "documentação",
+     "sent_start": false
     },
     {
      "text": "está",
@@ -1550,7 +1714,8 @@
      "norm": "está",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "estar"
+     "lemma": "estar",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -1558,7 +1723,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "https://exemplo.pt/ajuda",
@@ -1566,7 +1732,8 @@
      "norm": "https://exemplo.pt/ajuda",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "https://exemplo.pt/ajuda"
+     "lemma": "https://exemplo.pt/ajuda",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1574,7 +1741,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1588,7 +1756,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "CPF",
@@ -1596,7 +1765,8 @@
      "norm": "cpf",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "CPF"
+     "lemma": "CPF",
+     "sent_start": false
     },
     {
      "text": "dele",
@@ -1604,7 +1774,8 @@
      "norm": "dele",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "de ele"
+     "lemma": "de ele",
+     "sent_start": false
     },
     {
      "text": "é",
@@ -1612,7 +1783,8 @@
      "norm": "é",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "123.456.",
@@ -1620,7 +1792,8 @@
      "norm": "123.456.",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "123.456."
+     "lemma": "123.456.",
+     "sent_start": false
     },
     {
      "text": "789-09",
@@ -1628,7 +1801,8 @@
      "norm": "789-09",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "789-09"
+     "lemma": "789-09",
+     "sent_start": false
     },
     {
      "text": "e",
@@ -1636,7 +1810,8 @@
      "norm": "e",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "e"
+     "lemma": "e",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -1644,7 +1819,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "CNPJ",
@@ -1652,7 +1828,8 @@
      "norm": "cnpj",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "CNPJ"
+     "lemma": "CNPJ",
+     "sent_start": false
     },
     {
      "text": "da",
@@ -1660,7 +1837,8 @@
      "norm": "da",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de o"
+     "lemma": "de o",
+     "sent_start": false
     },
     {
      "text": "empresa",
@@ -1668,7 +1846,8 @@
      "norm": "empresa",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "empresa"
+     "lemma": "empresa",
+     "sent_start": false
     },
     {
      "text": "11.222.333/",
@@ -1676,7 +1855,8 @@
      "norm": "11.222.333/",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "11.222.333/"
+     "lemma": "11.222.333/",
+     "sent_start": false
     },
     {
      "text": "0001-81",
@@ -1684,7 +1864,8 @@
      "norm": "0001-81",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "0001-81"
+     "lemma": "0001-81",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1692,7 +1873,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -1719,7 +1901,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "prazo",
@@ -1727,7 +1910,8 @@
      "norm": "prazo",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "prazo"
+     "lemma": "prazo",
+     "sent_start": false
     },
     {
      "text": "terminou",
@@ -1735,7 +1919,8 @@
      "norm": "terminou",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "terminar"
+     "lemma": "terminar",
+     "sent_start": false
     },
     {
      "text": "em",
@@ -1743,7 +1928,8 @@
      "norm": "em",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em"
+     "lemma": "em",
+     "sent_start": false
     },
     {
      "text": "31/12/2023",
@@ -1751,7 +1937,8 @@
      "norm": "31/12/2023",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "31/12/2023"
+     "lemma": "31/12/2023",
+     "sent_start": false
     },
     {
      "text": "às",
@@ -1759,7 +1946,8 @@
      "norm": "às",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a o"
+     "lemma": "a o",
+     "sent_start": false
     },
     {
      "text": "23:59",
@@ -1767,7 +1955,8 @@
      "norm": "23:59",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "23:59"
+     "lemma": "23:59",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1775,7 +1964,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1789,7 +1979,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "valor",
@@ -1797,7 +1988,8 @@
      "norm": "valor",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "valor"
+     "lemma": "valor",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -1805,7 +1997,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "1.234,56",
@@ -1813,7 +2006,8 @@
      "norm": "1.234,56",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "1.234,56"
+     "lemma": "1.234,56",
+     "sent_start": false
     },
     {
      "text": "EUR",
@@ -1821,7 +2015,8 @@
      "norm": "eur",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "EUR"
+     "lemma": "EUR",
+     "sent_start": false
     },
     {
      "text": "foi",
@@ -1829,7 +2024,8 @@
      "norm": "foi",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "creditado",
@@ -1837,7 +2033,8 @@
      "norm": "creditado",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "creditar"
+     "lemma": "creditar",
+     "sent_start": false
     },
     {
      "text": "a",
@@ -1845,7 +2042,8 @@
      "norm": "a",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a"
+     "lemma": "a",
+     "sent_start": false
     },
     {
      "text": "5",
@@ -1853,7 +2051,8 @@
      "norm": "5",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "5"
+     "lemma": "5",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -1861,7 +2060,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "junho",
@@ -1869,7 +2069,8 @@
      "norm": "junho",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "junho"
+     "lemma": "junho",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1877,7 +2078,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1891,7 +2093,8 @@
      "norm": "no",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em o"
+     "lemma": "em o",
+     "sent_start": true
     },
     {
      "text": "terceiro",
@@ -1899,7 +2102,8 @@
      "norm": "terceiro",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "terceiro"
+     "lemma": "terceiro",
+     "sent_start": false
     },
     {
      "text": "trimestre",
@@ -1907,7 +2111,8 @@
      "norm": "trimestre",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "trimestre"
+     "lemma": "trimestre",
+     "sent_start": false
     },
     {
      "text": "as",
@@ -1915,7 +2120,8 @@
      "norm": "as",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "vendas",
@@ -1923,7 +2129,8 @@
      "norm": "vendas",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "venda"
+     "lemma": "venda",
+     "sent_start": false
     },
     {
      "text": "subiram",
@@ -1931,7 +2138,8 @@
      "norm": "subiram",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "subir"
+     "lemma": "subir",
+     "sent_start": false
     },
     {
      "text": "12,5",
@@ -1939,7 +2147,8 @@
      "norm": "12,5",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "12,5"
+     "lemma": "12,5",
+     "sent_start": false
     },
     {
      "text": "por",
@@ -1947,7 +2156,8 @@
      "norm": "por",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "por"
+     "lemma": "por",
+     "sent_start": false
     },
     {
      "text": "cento",
@@ -1955,7 +2165,8 @@
      "norm": "cento",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "cento"
+     "lemma": "cento",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -1963,7 +2174,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -1977,7 +2189,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "reunião",
@@ -1985,7 +2198,8 @@
      "norm": "reunião",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "reunião"
+     "lemma": "reunião",
+     "sent_start": false
     },
     {
      "text": "decorrerá",
@@ -1993,7 +2207,8 @@
      "norm": "decorrerá",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "decorrer"
+     "lemma": "decorrer",
+     "sent_start": false
     },
     {
      "text": "das",
@@ -2001,7 +2216,8 @@
      "norm": "das",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de o"
+     "lemma": "de o",
+     "sent_start": false
     },
     {
      "text": "9.30",
@@ -2009,7 +2225,8 @@
      "norm": "9.30",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "9.30"
+     "lemma": "9.30",
+     "sent_start": false
     },
     {
      "text": "às",
@@ -2017,7 +2234,8 @@
      "norm": "às",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a o"
+     "lemma": "a o",
+     "sent_start": false
     },
     {
      "text": "17.00",
@@ -2025,7 +2243,8 @@
      "norm": "17.00",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "17.00"
+     "lemma": "17.00",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2033,7 +2252,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2047,7 +2267,8 @@
      "norm": "isto",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "isto"
+     "lemma": "isto",
+     "sent_start": true
     },
     {
      "text": "aplica-se",
@@ -2055,7 +2276,8 @@
      "norm": "aplica-se",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "aplicar se"
+     "lemma": "aplicar se",
+     "sent_start": false
     },
     {
      "text": "p.",
@@ -2063,7 +2285,8 @@
      "norm": "p.",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "p."
+     "lemma": "p.",
+     "sent_start": false
     },
     {
      "text": "ex",
@@ -2071,7 +2294,8 @@
      "norm": "ex",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "ex"
+     "lemma": "ex",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2079,7 +2303,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "aos",
@@ -2087,7 +2312,8 @@
      "norm": "aos",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a o"
+     "lemma": "a o",
+     "sent_start": true
     },
     {
      "text": "contratos",
@@ -2095,7 +2321,8 @@
      "norm": "contratos",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "contrato"
+     "lemma": "contrato",
+     "sent_start": false
     },
     {
      "text": "anteriores",
@@ -2103,7 +2330,8 @@
      "norm": "anteriores",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "anterior"
+     "lemma": "anterior",
+     "sent_start": false
     },
     {
      "text": "a",
@@ -2111,7 +2339,8 @@
      "norm": "a",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a"
+     "lemma": "a",
+     "sent_start": false
     },
     {
      "text": "2020",
@@ -2119,7 +2348,8 @@
      "norm": "2020",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "2020"
+     "lemma": "2020",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2127,7 +2357,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2141,7 +2372,8 @@
      "norm": "traga",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "traga"
+     "lemma": "traga",
+     "sent_start": true
     },
     {
      "text": "o",
@@ -2149,7 +2381,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "bilhete",
@@ -2157,7 +2390,8 @@
      "norm": "bilhete",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "bilhete"
+     "lemma": "bilhete",
+     "sent_start": false
     },
     {
      "text": "de",
@@ -2165,7 +2399,8 @@
      "norm": "de",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de"
+     "lemma": "de",
+     "sent_start": false
     },
     {
      "text": "identidade",
@@ -2173,7 +2408,8 @@
      "norm": "identidade",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "identidade"
+     "lemma": "identidade",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2181,7 +2417,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -2189,7 +2426,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "cartão",
@@ -2197,7 +2435,8 @@
      "norm": "cartão",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "cartão"
+     "lemma": "cartão",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2205,7 +2444,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "etc.",
@@ -2213,7 +2453,8 @@
      "norm": "etc.",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "etc."
+     "lemma": "etc.",
+     "sent_start": false
     },
     {
      "text": "à",
@@ -2221,7 +2462,8 @@
      "norm": "à",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a o"
+     "lemma": "a o",
+     "sent_start": false
     },
     {
      "text": "consulta",
@@ -2229,7 +2471,8 @@
      "norm": "consulta",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "consulta"
+     "lemma": "consulta",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2237,7 +2480,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2251,7 +2495,8 @@
      "norm": "a",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "morada",
@@ -2259,7 +2504,8 @@
      "norm": "morada",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "morada"
+     "lemma": "morada",
+     "sent_start": false
     },
     {
      "text": "é",
@@ -2267,7 +2513,8 @@
      "norm": "é",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "Rua",
@@ -2275,7 +2522,8 @@
      "norm": "rua",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Rua"
+     "lemma": "Rua",
+     "sent_start": false
     },
     {
      "text": "Augusta",
@@ -2283,7 +2531,8 @@
      "norm": "augusta",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Augusta"
+     "lemma": "Augusta",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2291,7 +2540,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "n.º",
@@ -2299,7 +2549,8 @@
      "norm": "n.º",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "n.º"
+     "lemma": "n.º",
+     "sent_start": false
     },
     {
      "text": "12",
@@ -2307,7 +2558,8 @@
      "norm": "12",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "12"
+     "lemma": "12",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2315,7 +2567,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "1100-053",
@@ -2323,7 +2576,8 @@
      "norm": "1100-053",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "1100-053"
+     "lemma": "1100-053",
+     "sent_start": false
     },
     {
      "text": "Lisboa",
@@ -2331,7 +2585,8 @@
      "norm": "lisboa",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Lisboa"
+     "lemma": "Lisboa",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2339,7 +2594,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -2366,7 +2622,8 @@
      "norm": "cf",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "cf"
+     "lemma": "cf",
+     "sent_start": true
     },
     {
      "text": ".",
@@ -2374,7 +2631,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -2382,7 +2640,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "art.",
@@ -2390,7 +2649,8 @@
      "norm": "art.",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "art."
+     "lemma": "art.",
+     "sent_start": false
     },
     {
      "text": "12.º",
@@ -2398,7 +2658,8 @@
      "norm": "12.º",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "12.º"
+     "lemma": "12.º",
+     "sent_start": false
     },
     {
      "text": "do",
@@ -2406,7 +2667,8 @@
      "norm": "do",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de o"
+     "lemma": "de o",
+     "sent_start": false
     },
     {
      "text": "Regulamento",
@@ -2414,7 +2676,8 @@
      "norm": "regulamento",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "Regulamento"
+     "lemma": "Regulamento",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2422,7 +2685,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "n.º",
@@ -2430,7 +2694,8 @@
      "norm": "n.º",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "n.º"
+     "lemma": "n.º",
+     "sent_start": false
     },
     {
      "text": "3",
@@ -2438,7 +2703,8 @@
      "norm": "3",
      "tag": "NUM",
      "pos": "NUM",
-     "lemma": "3"
+     "lemma": "3",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2446,7 +2712,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -2467,7 +2734,8 @@
      "norm": "diga-me",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "Diga-me"
+     "lemma": "Diga-me",
+     "sent_start": true
     },
     {
      "text": "quando",
@@ -2475,7 +2743,8 @@
      "norm": "quando",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "quando"
+     "lemma": "quando",
+     "sent_start": false
     },
     {
      "text": "puder",
@@ -2483,7 +2752,8 @@
      "norm": "puder",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "puder"
+     "lemma": "puder",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2491,7 +2761,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "e",
@@ -2499,7 +2770,8 @@
      "norm": "e",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "e"
+     "lemma": "e",
+     "sent_start": false
     },
     {
      "text": "avise-o",
@@ -2507,7 +2779,8 @@
      "norm": "avise-o",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "avise-o"
+     "lemma": "avise-o",
+     "sent_start": false
     },
     {
      "text": "também",
@@ -2515,7 +2788,8 @@
      "norm": "também",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "também"
+     "lemma": "também",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2523,7 +2797,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -2544,7 +2819,8 @@
      "norm": "encontrámo-nos",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "encontrámo-no"
+     "lemma": "encontrámo-no",
+     "sent_start": true
     },
     {
      "text": "ontem",
@@ -2552,7 +2828,8 @@
      "norm": "ontem",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "ontem"
+     "lemma": "ontem",
+     "sent_start": false
     },
     {
      "text": "e",
@@ -2560,7 +2837,8 @@
      "norm": "e",
      "tag": "CCONJ",
      "pos": "CCONJ",
-     "lemma": "e"
+     "lemma": "e",
+     "sent_start": false
     },
     {
      "text": "falámos",
@@ -2568,7 +2846,8 @@
      "norm": "falámos",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "falár"
+     "lemma": "falár",
+     "sent_start": false
     },
     {
      "text": "disso",
@@ -2576,7 +2855,8 @@
      "norm": "disso",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "de isso"
+     "lemma": "de isso",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2584,7 +2864,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2598,7 +2879,8 @@
      "norm": "dar-lhe-ei",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "dar-lhe-ei"
+     "lemma": "dar-lhe-ei",
+     "sent_start": true
     },
     {
      "text": "uma",
@@ -2606,7 +2888,8 @@
      "norm": "uma",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "um"
+     "lemma": "um",
+     "sent_start": false
     },
     {
      "text": "resposta",
@@ -2614,7 +2897,8 @@
      "norm": "resposta",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "resposta"
+     "lemma": "resposta",
+     "sent_start": false
     },
     {
      "text": "amanhã",
@@ -2622,7 +2906,8 @@
      "norm": "amanhã",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "amanhã"
+     "lemma": "amanhã",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2630,7 +2915,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2644,7 +2930,8 @@
      "norm": "vamos",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ir"
+     "lemma": "ir",
+     "sent_start": true
     },
     {
      "text": "ao",
@@ -2652,7 +2939,8 @@
      "norm": "ao",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a o"
+     "lemma": "a o",
+     "sent_start": false
     },
     {
      "text": "cinema",
@@ -2660,7 +2948,8 @@
      "norm": "cinema",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "cinema"
+     "lemma": "cinema",
+     "sent_start": false
     },
     {
      "text": "do",
@@ -2668,7 +2957,8 @@
      "norm": "do",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "de o"
+     "lemma": "de o",
+     "sent_start": false
     },
     {
      "text": "centro",
@@ -2676,7 +2966,8 @@
      "norm": "centro",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "Centro"
+     "lemma": "Centro",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2684,7 +2975,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "à",
@@ -2692,7 +2984,8 @@
      "norm": "à",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "a o"
+     "lemma": "a o",
+     "sent_start": false
     },
     {
      "text": "noite",
@@ -2700,7 +2993,8 @@
      "norm": "noite",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "noite"
+     "lemma": "noite",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2708,7 +3002,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2722,7 +3017,8 @@
      "norm": "as",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": true
     },
     {
      "text": "informações",
@@ -2730,7 +3026,8 @@
      "norm": "informações",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "informação"
+     "lemma": "informação",
+     "sent_start": false
     },
     {
      "text": "estão",
@@ -2738,7 +3035,8 @@
      "norm": "estão",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "estar"
+     "lemma": "estar",
+     "sent_start": false
     },
     {
      "text": "na",
@@ -2746,7 +3044,8 @@
      "norm": "na",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "em o"
+     "lemma": "em o",
+     "sent_start": false
     },
     {
      "text": "secção",
@@ -2754,7 +3053,8 @@
      "norm": "secção",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "secção"
+     "lemma": "secção",
+     "sent_start": false
     },
     {
      "text": "seguinte",
@@ -2762,7 +3062,8 @@
      "norm": "seguinte",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "seguinte"
+     "lemma": "seguinte",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2770,7 +3071,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2784,7 +3086,8 @@
      "norm": "não",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "não"
+     "lemma": "não",
+     "sent_start": true
     },
     {
      "text": "é",
@@ -2792,7 +3095,8 @@
      "norm": "é",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "assim",
@@ -2800,7 +3104,8 @@
      "norm": "assim",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "assim"
+     "lemma": "assim",
+     "sent_start": false
     },
     {
      "text": "tão",
@@ -2808,7 +3113,8 @@
      "norm": "tão",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "tão"
+     "lemma": "tão",
+     "sent_start": false
     },
     {
      "text": "simples",
@@ -2816,7 +3122,8 @@
      "norm": "simples",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "simples"
+     "lemma": "simples",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2824,7 +3131,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "pois",
@@ -2832,7 +3140,8 @@
      "norm": "pois",
      "tag": "SCONJ",
      "pos": "SCONJ",
-     "lemma": "pois"
+     "lemma": "pois",
+     "sent_start": false
     },
     {
      "text": "não",
@@ -2840,7 +3149,8 @@
      "norm": "não",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "não"
+     "lemma": "não",
+     "sent_start": false
     },
     {
      "text": "?",
@@ -2848,7 +3158,8 @@
      "norm": "?",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "?"
+     "lemma": "?",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2862,7 +3173,8 @@
      "norm": "ele",
      "tag": "PRON",
      "pos": "PRON",
-     "lemma": "ele"
+     "lemma": "ele",
+     "sent_start": true
     },
     {
      "text": "é",
@@ -2870,7 +3182,8 @@
      "norm": "é",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -2878,7 +3191,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "o"
+     "lemma": "o",
+     "sent_start": false
     },
     {
      "text": "irmão",
@@ -2886,7 +3200,8 @@
      "norm": "irmão",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "irmão"
+     "lemma": "irmão",
+     "sent_start": false
     },
     {
      "text": "mais",
@@ -2894,7 +3209,8 @@
      "norm": "mais",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "mais"
+     "lemma": "mais",
+     "sent_start": false
     },
     {
      "text": "novo",
@@ -2902,7 +3218,8 @@
      "norm": "novo",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "novo"
+     "lemma": "novo",
+     "sent_start": false
     },
     {
      "text": "—",
@@ -2910,7 +3227,8 @@
      "norm": "-",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "—"
+     "lemma": "—",
+     "sent_start": false
     },
     {
      "text": "não",
@@ -2918,7 +3236,8 @@
      "norm": "não",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "não"
+     "lemma": "não",
+     "sent_start": false
     },
     {
      "text": "o",
@@ -2926,7 +3245,8 @@
      "norm": "o",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "ele"
+     "lemma": "ele",
+     "sent_start": false
     },
     {
      "text": "mais",
@@ -2934,7 +3254,8 @@
      "norm": "mais",
      "tag": "ADV",
      "pos": "ADV",
-     "lemma": "mais"
+     "lemma": "mais",
+     "sent_start": false
     },
     {
      "text": "velho",
@@ -2942,7 +3263,8 @@
      "norm": "velho",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "velho"
+     "lemma": "velho",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -2950,7 +3272,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": []
@@ -2964,7 +3287,8 @@
      "norm": "words",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "words"
+     "lemma": "words",
+     "sent_start": true
     },
     {
      "text": ",",
@@ -2972,7 +3296,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "heads",
@@ -2980,7 +3305,8 @@
      "norm": "heads",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "head"
+     "lemma": "head",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -2988,7 +3314,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "deps",
@@ -2996,7 +3323,8 @@
      "norm": "deps",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "deps"
+     "lemma": "deps",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3004,7 +3332,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "pos",
@@ -3012,7 +3341,8 @@
      "norm": "pos",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "po"
+     "lemma": "po",
+     "sent_start": false
     },
     {
      "text": ",",
@@ -3020,7 +3350,8 @@
      "norm": ",",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ","
+     "lemma": ",",
+     "sent_start": false
     },
     {
      "text": "chunk_offsets",
@@ -3028,7 +3359,8 @@
      "norm": "chunk_offsets",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "chunk_offsets"
+     "lemma": "chunk_offsets",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3049,7 +3381,8 @@
      "norm": "test",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "test"
+     "lemma": "test",
+     "sent_start": true
     },
     {
      "text": "that",
@@ -3057,7 +3390,8 @@
      "norm": "that",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "that"
+     "lemma": "that",
+     "sent_start": false
     },
     {
      "text": "noun_chunks",
@@ -3065,7 +3399,8 @@
      "norm": "noun_chunks",
      "tag": "ADP",
      "pos": "ADP",
-     "lemma": "noun_chunks"
+     "lemma": "noun_chunks",
+     "sent_start": false
     },
     {
      "text": "raises",
@@ -3073,7 +3408,8 @@
      "norm": "raises",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "raises"
+     "lemma": "raises",
+     "sent_start": false
     },
     {
      "text": "Value",
@@ -3081,7 +3417,8 @@
      "norm": "value",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Value"
+     "lemma": "Value",
+     "sent_start": false
     },
     {
      "text": "Error",
@@ -3089,7 +3426,8 @@
      "norm": "error",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Error"
+     "lemma": "Error",
+     "sent_start": false
     },
     {
      "text": "for",
@@ -3097,7 +3435,8 @@
      "norm": "for",
      "tag": "AUX",
      "pos": "AUX",
-     "lemma": "ser"
+     "lemma": "ser",
+     "sent_start": false
     },
     {
      "text": "'",
@@ -3105,7 +3444,8 @@
      "norm": "'",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "'"
+     "lemma": "'",
+     "sent_start": false
     },
     {
      "text": "pt",
@@ -3113,7 +3453,8 @@
      "norm": "pt",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "pt"
+     "lemma": "pt",
+     "sent_start": false
     },
     {
      "text": "'",
@@ -3121,7 +3462,8 @@
      "norm": "'",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "'"
+     "lemma": "'",
+     "sent_start": false
     },
     {
      "text": "language",
@@ -3129,7 +3471,8 @@
      "norm": "language",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "language"
+     "lemma": "language",
+     "sent_start": false
     },
     {
      "text": "if",
@@ -3137,7 +3480,8 @@
      "norm": "if",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "if"
+     "lemma": "if",
+     "sent_start": false
     },
     {
      "text": "Doc",
@@ -3145,7 +3489,8 @@
      "norm": "doc",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Doc"
+     "lemma": "Doc",
+     "sent_start": false
     },
     {
      "text": "is",
@@ -3153,7 +3498,8 @@
      "norm": "is",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "is"
+     "lemma": "is",
+     "sent_start": false
     },
     {
      "text": "not",
@@ -3161,7 +3507,8 @@
      "norm": "not",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Not"
+     "lemma": "Not",
+     "sent_start": false
     },
     {
      "text": "parsed",
@@ -3169,7 +3516,8 @@
      "norm": "parsed",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "parsed"
+     "lemma": "parsed",
+     "sent_start": false
     },
     {
      "text": ".",
@@ -3177,7 +3525,8 @@
      "norm": ".",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": "."
+     "lemma": ".",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3204,7 +3553,8 @@
      "norm": "en",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "en"
+     "lemma": "en",
+     "sent_start": true
     },
     {
      "text": "Oxford",
@@ -3212,7 +3562,8 @@
      "norm": "oxford",
      "tag": "PROPN",
      "pos": "PROPN",
-     "lemma": "Oxford"
+     "lemma": "Oxford",
+     "sent_start": false
     },
     {
      "text": "este",
@@ -3220,7 +3571,8 @@
      "norm": "este",
      "tag": "DET",
      "pos": "DET",
-     "lemma": "este"
+     "lemma": "este",
+     "sent_start": true
     },
     {
      "text": "verano",
@@ -3228,7 +3580,8 @@
      "norm": "verano",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "verano"
+     "lemma": "verano",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3249,7 +3602,8 @@
      "norm": "acl",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "acl"
+     "lemma": "acl",
+     "sent_start": true
     },
     {
      "text": ":",
@@ -3257,7 +3611,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "relcl",
@@ -3265,7 +3620,8 @@
      "norm": "relcl",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "relcl"
+     "lemma": "relcl",
+     "sent_start": true
     }
    ],
    "entities": [
@@ -3286,7 +3642,8 @@
      "norm": "flat",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "flat"
+     "lemma": "flat",
+     "sent_start": true
     },
     {
      "text": ":",
@@ -3294,7 +3651,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "name",
@@ -3302,7 +3660,8 @@
      "norm": "name",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "name"
+     "lemma": "name",
+     "sent_start": false
     }
    ],
    "entities": [
@@ -3323,7 +3682,8 @@
      "norm": "nsubj",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "nsubj"
+     "lemma": "nsubj",
+     "sent_start": true
     },
     {
      "text": ":",
@@ -3331,7 +3691,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "pass",
@@ -3339,7 +3700,8 @@
      "norm": "pass",
      "tag": "ADJ",
      "pos": "ADJ",
-     "lemma": "pass"
+     "lemma": "pass",
+     "sent_start": true
     }
    ],
    "entities": [
@@ -3360,7 +3722,8 @@
      "norm": "aux",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "aux"
+     "lemma": "aux",
+     "sent_start": true
     },
     {
      "text": ":",
@@ -3368,7 +3731,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "pass",
@@ -3376,7 +3740,8 @@
      "norm": "pass",
      "tag": "VERB",
      "pos": "VERB",
-     "lemma": "pass"
+     "lemma": "pass",
+     "sent_start": true
     }
    ],
    "entities": []
@@ -3390,7 +3755,8 @@
      "norm": "obl",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "obl"
+     "lemma": "obl",
+     "sent_start": true
     },
     {
      "text": ":",
@@ -3398,7 +3764,8 @@
      "norm": ":",
      "tag": "PUNCT",
      "pos": "PUNCT",
-     "lemma": ":"
+     "lemma": ":",
+     "sent_start": false
     },
     {
      "text": "agent",
@@ -3406,7 +3773,8 @@
      "norm": "agent",
      "tag": "NOUN",
      "pos": "NOUN",
-     "lemma": "agent"
+     "lemma": "agent",
+     "sent_start": false
     }
    ],
    "entities": []

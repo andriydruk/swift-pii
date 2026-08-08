@@ -30,6 +30,12 @@ struct LanguageGold: Decodable {
             let tag: String
             let pos: String
             let lemma: String
+            let sentStart: Bool
+
+            enum CodingKeys: String, CodingKey {
+                case text, offset, norm, tag, pos, lemma
+                case sentStart = "sent_start"
+            }
         }
         struct Entity: Decodable {
             let label: String
@@ -40,6 +46,11 @@ struct LanguageGold: Decodable {
         let text: String
         let tokens: [Token]
         let entities: [Entity]
+
+        /// Token indices spaCy's parser marked as sentence starts.
+        var sentenceStarts: Set<Int> {
+            Set(tokens.indices.filter { tokens[$0].sentStart })
+        }
     }
     let model: String
     let spacyVersion: String
@@ -154,10 +165,22 @@ enum LanguageParity {
         var detail: String { samples.joined(separator: "\n") }
     }
 
-    static func entities(_ gold: LanguageGold, _ ner: SpacyNER) -> EntityReport {
+    /// - Parameter withSentenceBoundaries: supply spaCy's sentence starts.
+    ///
+    ///   spaCy forbids entities from spanning a sentence boundary and gets
+    ///   those boundaries from the parser, which this port does not implement.
+    ///   Measuring both ways separates "we cannot see boundaries" from "we get
+    ///   the wrong answer when we can".
+    static func entities(
+        _ gold: LanguageGold, _ ner: SpacyNER, withSentenceBoundaries: Bool = false
+    ) -> EntityReport {
         var report = EntityReport()
         for testCase in gold.cases {
-            let got = Set(ner.entities(in: testCase.text).map {
+            let tokens = ner.tokenize(testCase.text)
+            let starts = withSentenceBoundaries ? testCase.sentenceStarts : []
+            let got = Set(ner.entities(
+                in: testCase.text, tokens: tokens, sentenceStarts: starts
+            ).map {
                 "\($0.start),\($0.end),\($0.label)"
             })
             let want = Set(testCase.entities.map { "\($0.start),\($0.end),\($0.label)" })

@@ -91,8 +91,23 @@ public final class SpacyNER: @unchecked Sendable {
 
     /// NER over pre-computed tokens, for callers that already tokenized.
     public func entities(in text: String, tokens: [Token]) -> [NamedEntity] {
+        entities(in: text, tokens: tokens, sentenceStarts: [])
+    }
+
+    /// - Parameter sentenceStarts: token indices that begin a sentence.
+    ///
+    ///   spaCy forbids an entity from spanning a sentence boundary, and takes
+    ///   those boundaries from the dependency parser — a component this port
+    ///   does not implement. Supply them and entity spans match spaCy's full
+    ///   pipeline exactly; omit them and this behaves as spaCy does with the
+    ///   parser excluded. The difference is small but real: 4 of 2,000 English
+    ///   texts, 3 of 79 French ones.
+    public func entities(
+        in text: String, tokens: [Token], sentenceStarts: Set<Int>
+    ) -> [NamedEntity] {
         guard !tokens.isEmpty else { return [] }
-        let spans = runNER(model, tokens.map(\.text), tokens.map(\.norm))
+        let spans = runNER(model, tokens.map(\.text), tokens.map(\.norm),
+                           sentenceStarts: sentenceStarts)
         let scalars = Array(text.unicodeScalars)
 
         return spans.compactMap { span in
