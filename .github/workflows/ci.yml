@@ -196,6 +196,23 @@ jobs:
           grep -qF "${{ matrix.kernel.marker }}" ner.log \
             || { echo "::error::expected '${{ matrix.kernel.marker }}'"; exit 1; }
 
+      - name: The attribute ruler regenerates identically
+        # The only bundled table derived from a spaCy *model* rather than from
+        # upstream Presidio, so the corpus job cannot check it -- that job has no
+        # model. It is also the table that makes coarse POS exact, and its schema
+        # carries `index` and rule order, both of which are easy to lose in a
+        # refactor and silent when lost.
+        run: |
+          python3 -m venv .rulervenv
+          ./.rulervenv/bin/pip install -q srsly
+          python3 Tools/extract_attribute_ruler.py \
+            --python ./.rulervenv/bin/python \
+            --model "$SPACY_MODEL_DIR" \
+            --out /tmp/attribute_ruler.json
+          diff -q /tmp/attribute_ruler.json \
+            Sources/PresidioNLP/Resources/attribute_ruler.json \
+            || { echo "::error::attribute_ruler.json is stale"; exit 1; }
+
       - name: Fetch the de, es, fr, it, pt, ru and uk models (3.7.0)
         # One step rather than three, and a loop rather than three copies: the
         # only thing that varies is the language code. Each corpus is pinned to
@@ -279,20 +296,24 @@ jobs:
         # A --filter that matches nothing exits 0. Without this, deleting the
         # suite or mistyping the filter would look like a pass -- which is
         # exactly how the gap this job closes went unnoticed.
+        #
+        # Greps for the printed *measurements*, not the suite names. A skipped
+        # suite still prints its own name ("Suite ... skipped."), so a name grep
+        # reports success for a job that measured nothing -- the same trap the
+        # per-language step below documents. Three of these used to be name
+        # greps.
         run: |
+          for line in \
+            "NER parity: matched " \
+            "Parser parity: " \
+            "Tagger parity: " \
+            "POS   parity: " \
+            "Lemma parity: "; do
+            grep -qF "$line" ner.log \
+              || { echo "::error::no measurement emitted for '$line'"; exit 1; }
+          done
           grep -qE "Test run with [1-9][0-9]* test" ner.log \
             || { echo "::error::NER suite did not run"; exit 1; }
-          grep -q "spaCy NER parity" ner.log \
-            || { echo "::error::NER parity suite was skipped"; exit 1; }
-          grep -q "spaCy tagger parity" ner.log \
-            || { echo "::error::tagger parity suite was skipped"; exit 1; }
-          grep -q "spaCy POS and lemma parity" ner.log \
-            || { echo "::error::lemma parity suite was skipped"; exit 1; }
-          # The parser is what makes NER exact rather than nearly exact, so a
-          # skipped parser suite alongside a green NER suite would mean the NER
-          # numbers came from somewhere other than the shipped configuration.
-          grep -q "Parser parity: " ner.log \
-            || { echo "::error::parser parity suite did not measure"; exit 1; }
 
   # ThreadSanitizer cannot load on the macOS dev host (Xcode's sanitizer
   # dylib fails the platform code-signature policy), so the race check lives

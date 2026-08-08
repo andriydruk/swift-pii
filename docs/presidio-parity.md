@@ -28,7 +28,7 @@ records what it did. Every corpus in the repository has a generator in
 | Regex substrate | 1,609 | **exact** |
 | Phone matcher (4 leniencies) | 4,032 | 4,031 |
 | Phone parse / validity | 480 | **480 / exact** |
-| Tagger / POS / lemma | 5,513 | exact / 99.75% / **exact** |
+| Tagger / POS / lemma | 5,513 | **exact / exact / exact** |
 | NER | 2,000 | **exact** |
 | Dependency parse / boundaries | 2,000 | **exact** |
 | Validators (adversarial) | 2,111 | **exact** |
@@ -77,9 +77,9 @@ from collapsing the same span found by two.
 
 ## Where it still differs
 
-- **POS is 99.75%** — see below. Nothing else in the NLP pipeline is
-  approximate any more: tokens, NORMs, tags, lemmas, entity spans, dependency
-  heads, dependency labels and sentence boundaries are all exact.
+- Nothing in the NLP pipeline is approximate any more. Tokens, NORMs,
+  fine-grained tags, coarse POS, lemmas, entity spans, dependency heads,
+  dependency labels and sentence boundaries are all exact.
 - **One phone case** of 4,032: a leniency-0 timestamp where the inner-match
   fallback accepts "00" as *possible*. Presidio always uses leniency 1.
 - **44 upstream test tables** remain unharvested, recorded with reasons in the
@@ -100,21 +100,44 @@ attribute ruler -> rule-mode lemmatization.
 | stage | agreement over 5,513 tokens |
 |---|---|
 | fine-grained tags | **5,513/5,513** |
-| coarse POS | 5,499/5,513 |
 | **lemmas** | **5,513/5,513** |
 
-POS is not exact: 22 attribute-ruler rules are not implemented, and every POS
-divergence is one of them. They decide AUX-versus-VERB, `IN`-as-SCONJ and
-`DT`/`WDT`-as-PRON. **None changes a lemma** — the ruler assigns those lemmas
-directly (`has` -> `have` whether AUX or VERB), and DET and PRON have no lemma
-tables to differ over.
+| stage | agreement over 5,513 tokens |
+|---|---|
+| coarse POS, with dependency labels | **5,513/5,513** |
+| coarse POS, without them | 5,499/5,513 |
 
-This used to be described as blocked on the dependency parser. It no longer is:
-the parser is ported and the dependency labels those rules test are available.
-What is missing is a small `Matcher` — those 22 are token patterns with
-`IN`/`NOT_IN`/`REGEX` operators and multi-token sequences, not the flat
-tag-and-lowercase rules the other 156 are. That is the remaining work, and it
-buys 14 POS tags on this corpus and nothing else.
+POS was 5,499/5,513 for a long time, and described as unreachable without the
+dependency parser. Both halves of that turned out to be worth revisiting.
+
+The attribute ruler is a `Matcher` over 179 token patterns. The extractor
+flattened each one to a `(tags, lowers)` pair and put the 22 that would not
+flatten — the ones testing `DEP`, matching two adjacent tokens, or using
+`NOT_IN`/`REGEX` — into a side list that nothing read. That lost more than the
+rules. It lost their **position**: spaCy sorts matches by pattern index and
+applies them in that order, so rule 173 setting `PRON` has to run after rule 47
+setting `DET`. A rule lifted out of the sequence cannot be appended back at the
+end. It also dropped alternatives, so rule 175's `[[VBZ gets], [VBD got]]` kept
+only the first and `got` -> `get` was never applied.
+
+The ruler is now a faithful ordered matcher over the full vocabulary, which is
+small and closed: keys `TAG`/`LOWER`/`DEP`/`IS_SPACE`, operators literal / `IN` /
+`NOT_IN` / `REGEX`, patterns one or two tokens long with an `index` choosing
+which token is annotated. Two properties of spaCy's version are easy to lose and
+both matter: all matching happens *before* any annotation, so a rule's `TAG` test
+never sees a tag an earlier rule assigned; and rules apply in pattern order, not
+token order.
+
+There is no separate no-parser code path. spaCy represents an unset attribute as
+the string id of `""`, so with no dependency labels every `DEP` constraint simply
+fails — which is exactly what a pipeline without a parser does, and is why the
+second row above is the old number rather than nonsense. Both rows are asserted.
+
+**No parser-dependent rule reaches a lemma.** That was previously an argument;
+it is now a measurement — the suite runs the whole chain both ways over the
+corpus and compares all 5,513 lemmas. That is what lets `SpacyRuleLemmatizer`
+default to skipping the parse: the engine wants lemmas, and a parse would buy it
+nothing.
 
 **Without the model** the default is `LookupLemmatizer`: spaCy's POS-free lookup
 table, restricted to `-ies` plurals.
@@ -381,7 +404,7 @@ Over the full corpora, it does not matter at all:
 | | portable SIMD | Accelerate |
 |---|---:|---:|
 | Fine-grained tags | 5,513/5,513 | 5,513/5,513 |
-| Coarse POS | 5,499/5,513 | 5,499/5,513 |
+| Coarse POS | 5,513/5,513 | 5,513/5,513 |
 | Lemmas | 5,513/5,513 | 5,513/5,513 |
 | NER entities | 2,592/2,592 | 2,592/2,592 |
 | Dependency heads | 47,511/47,511 | 47,511/47,511 |

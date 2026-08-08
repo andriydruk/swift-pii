@@ -779,10 +779,10 @@ are harvested from its own test suite rather than rewritten.
 
 Fidelity is measured, not claimed. Against **16,671 recorded cases** the port
 agrees exactly on the recognizers, the engine's whole option matrix, the
-tokenizer, the regex substrate, the anonymizer, the lemmatizer, NER and the
-dependency parse. One thing is still approximate — coarse POS, at 99.75%, which
-feeds nothing. The evidence, the deliberate divergences and the remaining gaps
-are in
+tokenizer, the regex substrate, the anonymizer, the tagger, the attribute ruler,
+the lemmatizer, NER and the dependency parse — every stage of the NLP pipeline,
+with one measured phone-matcher case and 44 unharvested upstream tables left. The
+evidence, the deliberate divergences and the remaining gaps are in
 [docs/presidio-parity.md](docs/presidio-parity.md).
 
 You do not need to know any of that to use this library, and nothing in the API

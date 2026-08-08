@@ -89,13 +89,28 @@ public final class TaggerModel: @unchecked Sendable {
         predictions(for: tokens, text: text).map { labels[$0] }
     }
 
+    /// Tags from token vectors somebody else already computed.
+    ///
+    /// The parser listens to the same tok2vec, so a caller that wants both tags
+    /// and dependencies should encode once and call this — see
+    /// `SpacyLemmatizer`, where it halves the model work.
+    func tags(for tokens: [Token], vectors: [Float]) -> [String] {
+        predictions(for: tokens, vectors: vectors).map { labels[$0] }
+    }
+
     /// The argmax softmax column per token, before it is named.
     ///
     /// `tags(for:text:)` turns these into tag strings; the lemmatizer turns the
     /// same numbers into edit-tree ids.
     public func predictions(for tokens: [Token], text: String) -> [Int] {
         guard !tokens.isEmpty else { return [] }
-        let hidden = tok2vec.encode(tokens: tokens, text: text)
+        return predictions(
+            for: tokens, vectors: tok2vec.encode(tokens: tokens, text: text)
+        )
+    }
+
+    func predictions(for tokens: [Token], vectors hidden: [Float]) -> [Int] {
+        guard !tokens.isEmpty else { return [] }
 
         // Only the argmax is needed, so the exponential is skipped: softmax is
         // monotonic in its input, so the largest logit is the predicted tag.

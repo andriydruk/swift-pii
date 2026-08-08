@@ -419,12 +419,25 @@ public final class DependencyParser: @unchecked Sendable {
     /// `text` is needed only for the tok2vec's `SPACY` feature — whether each
     /// token is followed by whitespace.
     public func parse(tokens: [Token], text: String) -> DependencyParse {
+        guard !tokens.isEmpty else {
+            return DependencyParse(heads: [], deps: [], sentenceStarts: [])
+        }
+        return parse(
+            tokens: tokens, vectors: tok2vec.encode(tokens: tokens, text: text)
+        )
+    }
+
+    /// Parse from token vectors somebody else already computed.
+    ///
+    /// The tagger listens to the same tok2vec, so a caller wanting both should
+    /// encode once — see `SpacyLemmatizer`.
+    func parse(tokens: [Token], vectors: [Float]) -> DependencyParse {
         let count = tokens.count
         guard count > 0 else {
             return DependencyParse(heads: [], deps: [], sentenceStarts: [])
         }
 
-        let scores = precomputeScores(tokens: tokens, text: text)
+        let scores = precomputeScores(vectors: vectors, count: count)
         var state = ArcEagerState(length: count)
 
         // spaCy has no step bound: the transition system provably terminates,
@@ -531,11 +544,8 @@ public final class DependencyParser: @unchecked Sendable {
         }
     }
 
-    private func precomputeScores(tokens: [Token], text: String) -> PrecomputedScores {
-        let count = tokens.count
+    private func precomputeScores(vectors: [Float], count: Int) -> PrecomputedScores {
         let width = tok2vec.width
-        let vectors = tok2vec.encode(tokens: tokens, text: text)
-
         var projected = [Float](repeating: 0, count: count * nO)
         for t in 0..<count {
             for o in 0..<nO { projected[t * nO + o] = linB[o] }

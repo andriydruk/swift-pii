@@ -217,12 +217,25 @@ public struct SpacyRuleLemmatizer: Lemmatizing {
 
     private let chain: SpacyLemmatizer
 
-    public init(modelDirectory: String) throws {
-        self.chain = try SpacyLemmatizer(modelDirectory: modelDirectory)
+    /// - Parameter parseDependencies: run the dependency parser so the attribute
+    ///   ruler's thirteen `DEP` rules can fire.
+    ///
+    ///   Off by default here, and that is a measured decision rather than a
+    ///   frugal guess: those rules make *coarse POS* exact, and coarse POS is
+    ///   not what this type produces. `RuleLemmatizerTests` runs the whole chain
+    ///   both ways over 5,513 tokens and every lemma is identical, so a parse
+    ///   would cost the engine a second transition sequence per document and
+    ///   change nothing it reports. Turn it on if you want `SpacyLemmatizer`'s
+    ///   POS as well.
+    public init(modelDirectory: String, parseDependencies: Bool = false) throws {
+        self.chain = try SpacyLemmatizer(
+            modelDirectory: modelDirectory, parseDependencies: parseDependencies
+        )
     }
 
-    /// Attribute-ruler rules that need the dependency parser and are therefore
-    /// not applied. None of them changes a lemma — see `SpacyLemmatizer`.
+    /// Attribute-ruler rules that test `DEP`, and so match nothing unless
+    /// `parseDependencies` was requested. None of them changes a lemma — see
+    /// `SpacyLemmatizer`.
     public var parserDependentRuleCount: Int {
         SpacyLemmatizer.parserDependentRuleCount
     }
