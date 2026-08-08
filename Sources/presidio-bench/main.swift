@@ -280,6 +280,75 @@ func benchmarkNLP() {
     time("tokenize only") { parsed.tokenize($0).count }
     time("tokenize + NER") { unparsed.entities(in: $0).count }
     time("tokenize + NER + parser") { parsed.entities(in: $0).count }
+
+    // The tagger and the parser listen to the *same* shared network, so these
+    // two rows differ only by the transitions -- `SpacyLemmatizer` encodes once
+    // and hands the vectors to both. Subtracting them from the parser row above
+    // is how the cost of a duplicated encode becomes visible.
+    guard let tags = try? SpacyLemmatizer(
+            modelDirectory: directory, parseDependencies: false
+          ),
+          let tagsAndDeps = try? SpacyLemmatizer(modelDirectory: directory)
+    else { return }
+    time("tokenize + tags + lemmas") {
+        tags.lemmas(for: parsed.tokenize($0), text: $0).count
+    }
+    time("  ...+ deps, one encode") {
+        tagsAndDeps.lemmas(for: parsed.tokenize($0), text: $0).count
+    }
 }
 
 benchmarkNLP()
+
+// --- The engine with the model ------------------------------------------
+//
+// The rows above measure components. This measures the composition, which is
+// where duplicated work hides: `SpacyNlpEngine` runs NER (with its own tok2vec),
+// the parser and the tagger, and two of those three listen to the *same* shared
+// network. Whether that network is encoded once or twice per document is not
+// visible from any single component's number.
+
+func benchmarkModelEngine() {
+    let paragraph = """
+        Dear Dr. Smith, please find the updated records for patient David \
+        Johnson (DOB 12/03/1978). His contact number is (415) 555-0132 and his \
+        e-mail is d.johnson@example.com. Payment was taken from card \
+        4095-2609-9393-4932, settled against IBAN GB82 WEST 1234 5698 7654 32. \
+        The office IP was 192.168.0.14 and the record URL is \
+        https://records.example.com/patients/8891. Please confirm by Friday.
+        """
+    let documents = (0..<200).map { "Record \($0). " + paragraph }
+
+    guard let directory = EnglishModel.directoryIfPresent,
+          let shared = try? SpacyNlpEngine(modelDirectory: directory),
+          // The same pipeline with the sharing defeated: a caller-supplied rule
+          // lemmatizer that does not parse, so NER loads a parser of its own and
+          // the shared tok2vec is encoded twice per document. A/B in one run,
+          // because the absolute numbers move more between machines than the
+          // difference being measured.
+          let unshared = try? SpacyNlpEngine(
+              modelDirectory: directory,
+              lemmatizer: try SpacyRuleLemmatizer(modelDirectory: directory)
+          )
+    else { return }
+
+    print("")
+    print("SpacyNlpEngine.process (NER + parser + tagger + lemmas)")
+    for (label, engine) in [("one tok2vec pass", shared), ("two passes", unshared)] {
+        _ = engine.process(text: documents[0], language: "en")
+        let start = now()
+        var entities = 0
+        for document in documents {
+            entities += engine.process(text: document, language: "en").entities.count
+        }
+        let elapsed = now() - start
+        print(String(format: "  %@ %6.1f ms  %5.2f ms/doc  (%d entities)",
+                     label.padding(toLength: 30, withPad: " ", startingAt: 0),
+                     elapsed * 1000, elapsed / Double(documents.count) * 1000,
+                     entities))
+    }
+    print("  shares the lemmatizer's parse: \(shared.sharesLemmatizerParse), "
+          + "\(unshared.sharesLemmatizerParse)")
+}
+
+benchmarkModelEngine()

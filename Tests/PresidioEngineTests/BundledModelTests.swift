@@ -50,6 +50,47 @@ struct BundledModelTests {
         #expect(parse.deps.prefix(3) == ["nsubj", "ROOT", "prep"])
     }
 
+    /// The engine gets its sentence boundaries from the lemmatizer's tok2vec
+    /// pass rather than from a second parser inside NER, which is worth ~14% of
+    /// `process` (5.64 vs 6.55 ms/document, A/B in one `presidio-bench` run) and
+    /// 6 MB of duplicate weights.
+    ///
+    /// That optimisation is only sound if the two paths agree, so this asserts
+    /// they do rather than reasoning that they must. They share the weights and
+    /// the tokenization, so a divergence would mean the plumbing is wrong — the
+    /// boundaries arriving empty, say, which would silently give
+    /// spaCy-without-a-parser NER while everything still looked fine.
+    @Test("sharing the lemmatizer's parse changes nothing it detects")
+    func sharedParseAgreesWithItsOwn() throws {
+        let directory = EnglishModel.directory
+        let shared = try SpacyNlpEngine(modelDirectory: directory)
+        // A caller-supplied rule lemmatizer does not parse, so NER falls back to
+        // loading a parser of its own — the other path through `process`.
+        let unshared = try SpacyNlpEngine(
+            modelDirectory: directory,
+            lemmatizer: try SpacyRuleLemmatizer(modelDirectory: directory)
+        )
+        #expect(shared.sharesLemmatizerParse)
+        #expect(!unshared.sharesLemmatizerParse)
+
+        let texts = [
+            "Dr. Sarah Chen from Northwind Health called on March 3rd. She lives in Portland.",
+            "| | KR_PASSPORT| The Korean Passport Number | Pattern match, context.",
+            "I flew to Berlin. Munich was next. Paris after that.",
+            "David Johnson works at Microsoft in Seattle and has identities to verify.",
+        ]
+        for text in texts {
+            let a = shared.process(text: text, language: "en")
+            let b = unshared.process(text: text, language: "en")
+            #expect(
+                a.entities.map { "\($0.start),\($0.end),\($0.label)" }
+                    == b.entities.map { "\($0.start),\($0.end),\($0.label)" },
+                "entities differ on \(text.debugDescription)"
+            )
+            #expect(a.lemmas == b.lemmas, "lemmas differ on \(text.debugDescription)")
+        }
+    }
+
     @Test("the bundled model gives exact lemmas by default")
     func lemmasAreExact() throws {
         let nlp = try SpacyNlpEngine(modelDirectory: EnglishModel.directory)

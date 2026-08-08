@@ -182,11 +182,18 @@ parse?.heads            // head index per token; a root is its own head
 parse?.deps             // "nsubj", "ROOT", "prep", ...
 ```
 
-It costs a second `tok2vec` pass and roughly two scored transitions per token:
-the NLP stage goes from 1.52 to 3.72 ms/document on the benchmark corpus, so
-about 60% of the model's time. `parseSentences: false` buys that back and gives
-you spaCy-with-`exclude=["parser"]` behaviour, which is what this library did
-before.
+It costs one `tok2vec` pass and roughly two scored transitions per token:
+tokenize-plus-NER goes from 1.05 to 2.79 ms/document on the benchmark corpus.
+`parseSentences: false` buys that back and gives you
+spaCy-with-`exclude=["parser"]` behaviour, which is what this library did before.
+
+Inside `SpacyNlpEngine` most of that cost is already paid: the tagger reads the
+*same* shared network, so the engine takes the boundaries from the lemmatizer's
+pass instead of running a second parser, and only the transitions are new work.
+That is worth about 14% of `process` — 5.64 against 6.55 ms/document, A/B in one
+benchmark run — and 6 MB of weights that would otherwise be loaded twice. Both
+paths are asserted to produce identical spans, because the failure mode of
+getting the plumbing wrong is empty boundaries and silently unparsed NER.
 
 ## Removing it
 
@@ -642,7 +649,9 @@ PhoneRecognizer(regions: ["US"])   // ~6.5x cheaper than the default eight
 ```
 
 Reproduce any of this with
-`swift run -c release presidio-bench Tests/PresidioConformance/Fixtures/regex_reference.json`.
+`swift run -c release presidio-bench Tests/PresidioConformance/Fixtures/regex_reference.json`,
+which also prints the NLP stage in five configurations and the engine's
+composed cost with and without a shared tok2vec pass.
 
 An earlier pass made the engine **1.8× faster** (6.1 → 3.3 ms/document) by
 fixing one thing: the phone matcher re-sliced the entire remaining text on every

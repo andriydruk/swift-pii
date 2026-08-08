@@ -157,6 +157,36 @@ public extension Lemmatizing {
     }
 }
 
+/// A lemmatizer that also knows where the sentences are.
+///
+/// Not a convenience. spaCy's tagger and its dependency parser listen to the
+/// *same* tok2vec, so a component that already ran the tagger is one cheap
+/// transition sequence away from the sentence boundaries NER needs — while a
+/// `SpacyNER` holding its own parser would encode the document a second time
+/// through the identical network. Measured, that duplicate encode is 0.68 ms per
+/// document out of 6.
+///
+/// So `SpacyNlpEngine` asks its lemmatizer for the boundaries and only falls back
+/// to NER's own parser when the lemmatizer has none — which is every non-English
+/// pipeline, since those lemmatize with edit trees and never run a tagger.
+public protocol SentenceBoundaryProviding {
+    /// Whether this instance actually has a parse to offer.
+    ///
+    /// Conformance alone is not enough to answer that: `SpacyRuleLemmatizer`
+    /// conforms either way and only runs the parser when asked to, so a caller
+    /// that assumed conformance meant availability would silently drop every
+    /// boundary and get spaCy-without-a-parser NER while believing otherwise.
+    var providesBoundaries: Bool { get }
+
+    /// Lemmas and sentence boundaries from one pass over the model.
+    ///
+    /// An empty set means "no parse available", not "one sentence" — the same
+    /// convention `SpacyNER.entities(in:tokens:sentenceStarts:)` uses.
+    func lemmasAndSentenceStarts(
+        for tokens: [Token], text: String
+    ) -> (lemmas: [String], sentenceStarts: Set<Int>)
+}
+
 /// Lowercasing only. Kept for callers who want no table at all.
 public struct LowercaseLemmatizer: Lemmatizing {
     public init() {}

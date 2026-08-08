@@ -43,11 +43,17 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
     ///     A model without a tagger falls back to `LookupLemmatizer`, and says
     ///     so through `warnings` rather than quietly producing worse lemmas.
     ///
-    ///     It costs throughput: the tagger runs a second tok2vec pass over
-    ///     every text, so NLP processing roughly doubles (1.1 -> 2.2 ms per
-    ///     text) and end-to-end `analyze` goes from 2.7 to 3.9 ms, about 45%.
+    ///     It costs throughput: the tagger runs the shared tok2vec over every
+    ///     text, and the whole NLP stage lands near 5.6 ms/document on the
+    ///     benchmark corpus against 2.8 for tokenize-plus-NER-plus-parser alone.
     ///     Construction is unaffected. Pass `LookupLemmatizer()` explicitly to
-    ///     trade the exactness back for the speed.
+    ///     trade the exactness back for the speed — `presidio-bench` prints every
+    ///     configuration so the trade is a number rather than this sentence.
+    ///
+    ///     Supplying a lemmatizer also changes where sentence boundaries come
+    ///     from. The default rule lemmatizer hands them over from its own pass;
+    ///     anything else leaves NER to parse for itself, which is correct but
+    ///     encodes the document twice. See `sharesLemmatizerParse`.
     /// - Parameter language: which language's tokenizer rules to use, and which
     ///   lemmatizer the model is expected to carry. It must be the language the
     ///   model was trained for: tokenizing German with English rules is a quiet
@@ -61,7 +67,6 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
         supportedLanguages: [String]? = nil
     ) throws {
         let tokenizer = try SpacyTokenizer.forLanguage(language)
-        self.ner = try SpacyNER(modelDirectory: modelDirectory, tokenizer: tokenizer)
         self.configuration = configuration
         self.supportedLanguages = supportedLanguages ?? [language]
 
@@ -70,7 +75,14 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
             self.lemmatizerKind = "\(type(of: lemmatizer)) (caller-supplied)"
             self.fallbackReason = nil
         } else if language == "en",
-                  let rule = try? SpacyRuleLemmatizer(modelDirectory: modelDirectory) {
+                  // `parseDependencies` here, not in `SpacyRuleLemmatizer`'s
+                  // default: the parse is for NER's sentence boundaries, and the
+                  // tagger has already encoded the document, so running it here
+                  // costs the transitions and nothing else. NER is built below
+                  // without a parser of its own because of it.
+                  let rule = try? SpacyRuleLemmatizer(
+                      modelDirectory: modelDirectory, parseDependencies: true
+                  ) {
             // Gated on the language, not merely attempted. `SpacyRuleLemmatizer`
             // combines the model's tagger with the bundled **English** rule
             // tables, and it cannot tell that it has been handed a German model
@@ -95,11 +107,54 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
                 "\(modelDirectory) carries neither a rule lemmatizer nor a "
                 + "trainable one, so lemmas are approximated from a table"
         }
+
+        // NER needs sentence boundaries either way; the only question is which
+        // component pays for the tok2vec pass that produces them. When the
+        // lemmatizer already ran the tagger over that network, NER borrows its
+        // parse; otherwise NER loads a parser of its own. Both give identical
+        // spans — the weights and the tokens are the same — so this is purely
+        // about not encoding the same document twice.
+        let sharesParse = (self.lemmatizer as? SentenceBoundaryProviding)?
+            .providesBoundaries ?? false
+        self.ner = try SpacyNER(
+            modelDirectory: modelDirectory, tokenizer: tokenizer,
+            parseSentences: !sharesParse
+        )
+        self.sharesLemmatizerParse = sharesParse
     }
+
+    /// Whether sentence boundaries come from the lemmatizer's tok2vec pass
+    /// rather than from a second parser inside NER.
+    ///
+    /// Exposed because it is not observable from the output — both paths produce
+    /// identical spans, which is the point — and a test that could not see which
+    /// one ran would be asserting nothing. Also what `presidio-bench` uses to
+    /// label its A/B.
+    public let sharesLemmatizerParse: Bool
 
     public func process(text: String, language: String) -> NlpArtifacts {
         let tokens = ner.tokenize(text)
-        let entities = ner.entities(in: text, tokens: tokens).map {
+
+        // One pass where possible: the lemmatizer's tagger and the parser read
+        // the same tok2vec, so asking for both together saves encoding the
+        // document twice. Falls back to NER's own parser for pipelines whose
+        // lemmatizer never runs a tagger.
+        let lemmas: [String]
+        let named: [NamedEntity]
+        if let sharing = lemmatizer as? SentenceBoundaryProviding,
+           sharing.providesBoundaries {
+            let annotation = sharing.lemmasAndSentenceStarts(for: tokens, text: text)
+            lemmas = annotation.lemmas
+            named = ner.entities(
+                in: text, tokens: tokens,
+                sentenceStarts: annotation.sentenceStarts
+            )
+        } else {
+            lemmas = lemmatizer.lemmas(for: tokens, text: text)
+            named = ner.entities(in: text, tokens: tokens)
+        }
+
+        let entities = named.map {
             NlpEntity(text: $0.text, label: $0.label, start: $0.start, end: $0.end)
         }
         // spaCy reports no per-entity confidence, so every span gets the
@@ -112,7 +167,7 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
         return NlpArtifacts(
             tokens: tokens.map(\.text),
             tokenIndices: tokens.map(\.offset),
-            lemmas: lemmatizer.lemmas(for: tokens, text: text),
+            lemmas: lemmas,
             entities: mapped,
             scores: scores,
             language: language,
@@ -217,21 +272,26 @@ public struct SpacyRuleLemmatizer: Lemmatizing {
 
     private let chain: SpacyLemmatizer
 
-    /// - Parameter parseDependencies: run the dependency parser so the attribute
-    ///   ruler's thirteen `DEP` rules can fire.
+    /// - Parameter parseDependencies: run the dependency parser alongside the
+    ///   tagger, over the same tok2vec pass.
     ///
-    ///   Off by default here, and that is a measured decision rather than a
-    ///   frugal guess: those rules make *coarse POS* exact, and coarse POS is
-    ///   not what this type produces. `RuleLemmatizerTests` runs the whole chain
-    ///   both ways over 5,513 tokens and every lemma is identical, so a parse
-    ///   would cost the engine a second transition sequence per document and
-    ///   change nothing it reports. Turn it on if you want `SpacyLemmatizer`'s
-    ///   POS as well.
+    ///   Off by default *for lemmas*, and that is measured rather than assumed:
+    ///   the thirteen ruler rules it enables make coarse POS exact, and
+    ///   `RuleLemmatizerTests` runs the whole chain both ways over 5,513 tokens
+    ///   with every lemma identical. So a standalone lemmatizer gains nothing
+    ///   from a parse.
+    ///
+    ///   `SpacyNlpEngine` turns it on anyway, because it needs the sentence
+    ///   boundaries for NER and this is the cheapest place in the pipeline to
+    ///   get them — see `SentenceBoundaryProviding`.
     public init(modelDirectory: String, parseDependencies: Bool = false) throws {
         self.chain = try SpacyLemmatizer(
             modelDirectory: modelDirectory, parseDependencies: parseDependencies
         )
     }
+
+    /// Whether this instance can supply sentence boundaries.
+    public var providesSentenceStarts: Bool { chain.usesDependencies }
 
     /// Attribute-ruler rules that test `DEP`, and so match nothing unless
     /// `parseDependencies` was requested. None of them changes a lemma — see
@@ -246,6 +306,17 @@ public struct SpacyRuleLemmatizer: Lemmatizing {
 
     public func lemmas(for tokens: [Token], text: String) -> [String] {
         chain.lemmas(for: tokens, text: text)
+    }
+}
+
+extension SpacyRuleLemmatizer: SentenceBoundaryProviding {
+    public var providesBoundaries: Bool { providesSentenceStarts }
+
+    public func lemmasAndSentenceStarts(
+        for tokens: [Token], text: String
+    ) -> (lemmas: [String], sentenceStarts: Set<Int>) {
+        let annotation = chain.annotate(tokens: tokens, text: text)
+        return (annotation.lemmas, annotation.sentenceStarts)
     }
 }
 

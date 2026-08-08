@@ -432,32 +432,48 @@ public final class SpacyLemmatizer: @unchecked Sendable {
 
     /// Fine-grained tags, for callers that want them.
     public func tags(for tokens: [Token], text: String) -> [String] {
-        annotate(tokens: tokens, text: text).map(\.tag)
+        annotate(tokens: tokens, text: text).tags
     }
 
     /// Coarse POS per token.
     public func partsOfSpeech(for tokens: [Token], text: String) -> [String] {
-        annotate(tokens: tokens, text: text).map(\.pos)
+        annotate(tokens: tokens, text: text).partsOfSpeech
     }
 
     public func lemmas(for tokens: [Token], text: String) -> [String] {
-        let attributes = annotate(tokens: tokens, text: text)
-        return tokens.enumerated().map { index, token in
-            attributes[index].lemma ?? rules.lemma(
-                text: token.text, pos: attributes[index].pos,
-                morph: attributes[index].morph
-            )
-        }
+        annotate(tokens: tokens, text: text).lemmas
     }
 
-    /// The whole chain up to the lemmatizer: tok2vec once, then the tagger and
-    /// the parser over the same vectors, then the ruler.
-    private func annotate(tokens: [Token], text: String) -> [AttributeRuler.Attributes] {
-        guard !tokens.isEmpty else { return [] }
+    /// Everything this chain produces, from one pass.
+    ///
+    /// `sentenceStarts` is here because of who else needs it: NER refuses to let
+    /// an entity cross a boundary, and a `SpacyNER` with its own parser would
+    /// encode the document a second time through the very same network this
+    /// already ran. Handing the boundaries over costs nothing.
+    public struct Annotation: Sendable {
+        /// Fine-grained tags *after* the ruler, which for whitespace is not what
+        /// the tagger produced.
+        public let tags: [String]
+        public let partsOfSpeech: [String]
+        public let lemmas: [String]
+        /// Dependency labels, or all empty when there is no parse.
+        public let deps: [String]
+        /// Token indices that begin a sentence; empty without a parse.
+        public let sentenceStarts: Set<Int>
+    }
+
+    /// The whole chain: tok2vec once, then the tagger and the parser over the
+    /// same vectors, then the ruler, then rule-mode lemmatization.
+    public func annotate(tokens: [Token], text: String) -> Annotation {
+        guard !tokens.isEmpty else {
+            return Annotation(
+                tags: [], partsOfSpeech: [], lemmas: [], deps: [], sentenceStarts: []
+            )
+        }
         let vectors = tagger.tok2vec.encode(tokens: tokens, text: text)
         let tags = tagger.tags(for: tokens, vectors: vectors)
-        let deps = parser?.parse(tokens: tokens, vectors: vectors).deps ?? []
-        return AttributeRuler.annotate(
+        let parse = parser?.parse(tokens: tokens, vectors: vectors)
+        let attributes = AttributeRuler.annotate(
             tags: tags,
             lowercased: tokens.map { $0.text.lowercased() },
             isSpace: tokens.map { token in
@@ -465,7 +481,19 @@ public final class SpacyLemmatizer: @unchecked Sendable {
                     $0.properties.isWhitespace
                 }
             },
-            deps: deps
+            deps: parse?.deps ?? []
+        )
+        return Annotation(
+            tags: attributes.map(\.tag),
+            partsOfSpeech: attributes.map(\.pos),
+            lemmas: tokens.enumerated().map { index, token in
+                attributes[index].lemma ?? rules.lemma(
+                    text: token.text, pos: attributes[index].pos,
+                    morph: attributes[index].morph
+                )
+            },
+            deps: attributes.map(\.dep),
+            sentenceStarts: parse?.sentenceStarts ?? []
         )
     }
 }
