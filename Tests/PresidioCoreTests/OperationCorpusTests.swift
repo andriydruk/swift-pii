@@ -101,16 +101,26 @@ struct OperationCorpusTests {
 
     /// What the harvest still cannot reach, asserted so the number cannot drift
     /// without someone noticing.
+    ///
+    /// `skipped` means not covered *anywhere*. The first version of the tool
+    /// meant "not covered by me" and listed four tables `extract_fixtures.py`
+    /// already harvests, which overstated the gap — the same kind of error as
+    /// the doc that called the remainder infrastructure, pointing the other way.
+    /// Those are in `coveredElsewhere` now, and this asserts the two stay
+    /// distinct.
     @Test("the unharvested remainder is recorded with reasons")
     func skippedIsRecorded() throws {
         let skipped = Self.corpus.skipped
         #expect(!skipped.isEmpty)
-        for entry in skipped {
+        for entry in skipped + Self.corpus.coveredElsewhere {
             #expect(!entry.reason.isEmpty, "\(entry.file) has no reason recorded")
         }
-        // Most of what is left needs a pytest fixture, which means the subject's
-        // constructor arguments live outside the file being read.
-        let fixtures = skipped.filter { $0.reason.contains("fixture") }
-        #expect(fixtures.count >= 8, "\(fixtures.count) fixture-bound tables")
+        #expect(
+            !Self.corpus.coveredElsewhere.isEmpty,
+            "the cross-reference found nothing, so it is probably not running"
+        )
+        for entry in Self.corpus.coveredElsewhere {
+            #expect(entry.reason.contains("extract_fixtures.py"))
+        }
     }
 }

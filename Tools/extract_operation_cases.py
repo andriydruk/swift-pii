@@ -29,15 +29,37 @@ against a literal or a parameter:
 
     assert EntityRecognizer.sanitize_value(input_text, params) == expected_output
 
+**Pipelines.** A list of results built from keyword arguments, passed through a
+function, with assertions about the survivors:
+
+    arr = [RecognizerResult(start=0, end=5, score=0.1, entity_type="x", ...), ...]
+    results = EntityRecognizer.remove_duplicates(arr)
+    assert len(results) == 1
+    assert results[0].score == 0.5
+
+That last shape is the point of the other two. `remove_duplicates` is what the
+span predicates *feed*, and its behaviour is not obvious from theirs: it dedupes
+on equality, sorts by a key that omits the entity type, drops zero scores, and
+then removes anything contained in a survivor of the same type. Upstream's
+`list(set(...))` also makes its tie order depend on `PYTHONHASHSEED`, so these
+tables are the part of its behaviour that *is* pinned down.
+
 Both forms carry parametrize rows, so one test yields as many cases as it has
 rows -- and, importantly, tests with *no* parametrize decorator are harvested too.
 Those were never in the skipped count because they are not tables, so this pulls
 in coverage the 44 does not even mention.
 
-What it still cannot reach, recorded in `skipped` with reasons: anything whose
+What it still cannot reach is recorded in `skipped` with reasons: anything whose
 subject is a pytest fixture (`recognizer._sanitize_value(text)` needs the
 recognizer's constructor arguments), and anything asserting on exception text or
 log output.
+
+`skipped` means **not covered anywhere**, not "not covered by this tool". The
+first version conflated the two and listed four tables that `extract_fixtures.py`
+already harvests, which made the gap look larger than it is — the same failure as
+describing the remainder as infrastructure, pointing the other way. So this reads
+the recognizer corpus and reports those separately under `covered_elsewhere`. An
+artifact that overstates a gap is no more use than one that understates it.
 
     python3 Tools/extract_operation_cases.py \\
         --presidio .upstream-presidio \\
@@ -78,6 +100,11 @@ PREDICATES = {
 }
 
 CONSTRUCTORS = {"create_recognizer_result"}
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_RECOGNIZER_CASES = os.path.join(
+    HERE, "..", "Tests", "PresidioConformance", "Fixtures", "recognizer_cases.json"
+)
 
 
 def literal(node):
@@ -248,6 +275,89 @@ def predicate_case(test, results, bindings, path, fn):
     raise KeyError("unsupported assertion")
 
 
+def keyword_result(call: ast.Call):
+    """`RecognizerResult(start=…, end=…, score=…, entity_type=…)`.
+
+    `analysis_explanation` is ignored: it is metadata, and this port excludes it
+    from equality and hashing for the same reason upstream does.
+    """
+    fields = {}
+    for keyword in call.keywords:
+        if keyword.arg in ("start", "end", "score", "entity_type"):
+            if not is_literal(keyword.value):
+                raise KeyError(f"non-literal {keyword.arg}")
+            fields[keyword.arg] = literal(keyword.value)
+    if set(fields) != {"start", "end", "score", "entity_type"}:
+        raise KeyError("incomplete RecognizerResult")
+    return fields
+
+
+def pipeline_case(fn: ast.FunctionDef):
+    """`arr = [...]` → `results = f(arr)` → assertions about `results`."""
+    inputs, produced_by, output = None, None, None
+    for node in fn.body:
+        if not isinstance(node, ast.Assign) or len(node.targets) != 1:
+            continue
+        target, value = node.targets[0], node.value
+        if not isinstance(target, ast.Name):
+            continue
+        if isinstance(value, ast.List):
+            rows = []
+            for element in value.elts:
+                if not (isinstance(element, ast.Call)
+                        and getattr(element.func, "id", None) == "RecognizerResult"):
+                    raise KeyError("list element is not a RecognizerResult")
+                rows.append(keyword_result(element))
+            inputs = (target.id, rows)
+        elif isinstance(value, ast.Call):
+            name = dotted(value.func)
+            if (
+                name and inputs and len(value.args) == 1
+                and isinstance(value.args[0], ast.Name)
+                and value.args[0].id == inputs[0]
+            ):
+                produced_by, output = name, target.id
+
+    if inputs is None or output is None:
+        raise KeyError("not a pipeline")
+
+    count, fields = None, []
+    for node in fn.body:
+        if not isinstance(node, ast.Assert):
+            continue
+        test = node.test
+        if not (isinstance(test, ast.Compare) and len(test.ops) == 1
+                and isinstance(test.ops[0], ast.Eq)):
+            raise KeyError("non-equality assertion about the output")
+        left, right = test.left, test.comparators[0]
+        if not is_literal(right):
+            raise KeyError("non-literal expectation")
+        expected = literal(right)
+
+        # `len(results) == N`
+        if (isinstance(left, ast.Call) and getattr(left.func, "id", None) == "len"
+                and len(left.args) == 1
+                and getattr(left.args[0], "id", None) == output):
+            count = expected
+            continue
+        # `results[0].score == 0.5`
+        if (isinstance(left, ast.Attribute)
+                and isinstance(left.value, ast.Subscript)
+                and getattr(left.value.value, "id", None) == output
+                and is_literal(left.value.slice)):
+            fields.append({
+                "index": literal(left.value.slice),
+                "field": left.attr,
+                "value": expected,
+            })
+            continue
+        raise KeyError("unsupported assertion about the output")
+
+    if count is None:
+        raise KeyError("no length assertion")
+    return produced_by, inputs[1], count, fields
+
+
 def function_case(test, bindings):
     """One `(function, args, expected)` from `assert f(...) == expected`."""
     if not (isinstance(test, ast.Compare) and len(test.ops) == 1
@@ -263,8 +373,20 @@ def function_case(test, bindings):
     return name, args, resolve(expected_node, bindings)
 
 
-def harvest(root: str):
-    predicates, functions, skipped = [], [], []
+def already_harvested(corpus_path: str) -> set:
+    """`(file, test)` pairs `extract_fixtures.py` already covers."""
+    if not os.path.exists(corpus_path):
+        return set()
+    with open(corpus_path, encoding="utf-8") as handle:
+        corpus = json.load(handle)
+    return {
+        (table.get("file"), table.get("test")) for table in corpus.get("tables", [])
+    }
+
+
+def harvest(root: str, covered: set):
+    predicates, functions, pipelines = [], [], []
+    skipped, elsewhere = [], []
 
     for relative in FILES:
         path = os.path.join(root, relative)
@@ -286,19 +408,38 @@ def harvest(root: str):
             ]
             table = parametrize_rows(fn, constants)
             names = table[0] if table else []
+
+            def record_gap(reason: str):
+                entry = {"file": relative, "test": fn.name, "reason": reason}
+                if (relative, fn.name) in covered:
+                    entry["reason"] = f"{reason}; harvested by extract_fixtures.py"
+                    elsewhere.append(entry)
+                else:
+                    skipped.append(entry)
+
             if fixtures:
-                skipped.append({
-                    "file": relative, "test": fn.name,
-                    "reason": f"needs the {fixtures[0]!r} fixture",
+                record_gap(f"needs the {fixtures[0]!r} fixture")
+                continue
+
+            # A pipeline is tried first: its body also contains assignments and
+            # asserts, so the predicate reader would reject it for the wrong
+            # reason and hide what it actually is.
+            try:
+                function, inputs, count, fields = pipeline_case(fn)
+            except KeyError as error:
+                pipeline_failure = str(error)
+            else:
+                pipelines.append({
+                    "file": relative, "test": fn.name, "function": function,
+                    "input": inputs, "expected_count": count,
+                    "expected_fields": fields,
                 })
                 continue
 
             rows = table[1] if table else [[]]
             test, positive = final_assert(fn)
             if test is None:
-                skipped.append({
-                    "file": relative, "test": fn.name, "reason": "no assertion",
-                })
+                record_gap("no assertion")
                 continue
 
             results = constructed_results(fn)
@@ -332,25 +473,43 @@ def harvest(root: str):
                     failure = str(error)
                     break
             if failure is not None:
-                skipped.append({
-                    "file": relative, "test": fn.name,
-                    "reason": f"unsupported shape: {failure}",
-                })
+                # `pipeline_failure` says why the richer reader declined, which
+                # is usually the more informative of the two.
+                record_gap(
+                    f"unsupported shape: {failure}"
+                    if pipeline_failure == "'not a pipeline'"
+                    else f"unsupported shape: {failure} / {pipeline_failure}"
+                )
             elif results:
                 predicates.extend(produced)
             else:
                 functions.extend(produced)
 
-    return predicates, functions, skipped
+    return predicates, functions, pipelines, skipped, elsewhere
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--presidio", required=True, help="upstream Presidio checkout")
     ap.add_argument("--out", required=True)
+    ap.add_argument(
+        "--recognizer-cases",
+        default=DEFAULT_RECOGNIZER_CASES,
+        help="the other extractor's artifact, read to tell 'not covered here' "
+             "from 'not covered anywhere'",
+    )
     args = ap.parse_args()
 
-    predicates, functions, skipped = harvest(args.presidio)
+    covered = already_harvested(args.recognizer_cases)
+    if not covered:
+        print(
+            f"warning: {args.recognizer_cases} not found or empty; every gap "
+            f"will be reported as uncovered",
+            file=sys.stderr,
+        )
+    predicates, functions, pipelines, skipped, elsewhere = harvest(
+        args.presidio, covered
+    )
 
     commit = subprocess.run(
         ["git", "-C", args.presidio, "rev-parse", "HEAD"],
@@ -363,11 +522,15 @@ def main() -> int:
         "stats": {
             "predicates": len(predicates),
             "functions": len(functions),
+            "pipelines": len(pipelines),
             "skipped": len(skipped),
+            "covered_elsewhere": len(elsewhere),
         },
         "predicates": predicates,
         "functions": functions,
+        "pipelines": pipelines,
         "skipped": skipped,
+        "covered_elsewhere": elsewhere,
     }
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as handle:
@@ -376,9 +539,12 @@ def main() -> int:
 
     print(f"wrote {args.out}")
     print(f"  {len(predicates)} predicate cases, {len(functions)} function cases, "
-          f"{len(skipped)} skipped")
+          f"{len(pipelines)} pipeline cases")
+    print(f"  {len(elsewhere)} covered by extract_fixtures.py, {len(skipped)} not "
+          f"covered anywhere:")
     for entry in skipped:
-        print(f"    - {entry['file']}::{entry.get('test', '?')}: {entry['reason']}")
+        print(f"    - {entry['file'].split('/')[-1]}::{entry.get('test', '?')}: "
+              f"{entry['reason']}")
     return 0
 
 

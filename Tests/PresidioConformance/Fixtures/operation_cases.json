@@ -13,7 +13,9 @@
  "stats": {
   "predicates": 37,
   "functions": 18,
-  "skipped": 22
+  "pipelines": 3,
+  "skipped": 15,
+  "covered_elsewhere": 4
  },
  "predicates": [
   {
@@ -871,6 +873,77 @@
    "expected": "telephone"
   }
  ],
+ "pipelines": [
+  {
+   "file": "presidio-analyzer/tests/test_entity_recognizer.py",
+   "test": "test_when_remove_duplicates_duplicates_removed",
+   "function": "EntityRecognizer.remove_duplicates",
+   "input": [
+    {
+     "start": 0,
+     "end": 5,
+     "score": 0.1,
+     "entity_type": "x"
+    },
+    {
+     "start": 0,
+     "end": 5,
+     "score": 0.5,
+     "entity_type": "x"
+    }
+   ],
+   "expected_count": 1,
+   "expected_fields": [
+    {
+     "index": 0,
+     "field": "score",
+     "value": 0.5
+    }
+   ]
+  },
+  {
+   "file": "presidio-analyzer/tests/test_entity_recognizer.py",
+   "test": "test_when_remove_duplicates_different_then_entity_not_removed",
+   "function": "EntityRecognizer.remove_duplicates",
+   "input": [
+    {
+     "start": 0,
+     "end": 5,
+     "score": 0.1,
+     "entity_type": "x"
+    },
+    {
+     "start": 0,
+     "end": 5,
+     "score": 0.5,
+     "entity_type": "y"
+    }
+   ],
+   "expected_count": 2,
+   "expected_fields": []
+  },
+  {
+   "file": "presidio-analyzer/tests/test_entity_recognizer.py",
+   "test": "test_when_remove_duplicates_contained_shorter_length_results_removed",
+   "function": "EntityRecognizer.remove_duplicates",
+   "input": [
+    {
+     "start": 0,
+     "end": 10,
+     "score": 0.5,
+     "entity_type": "x"
+    },
+    {
+     "start": 0,
+     "end": 5,
+     "score": 0.5,
+     "entity_type": "x"
+    }
+   ],
+   "expected_count": 1,
+   "expected_fields": []
+  }
+ ],
  "skipped": [
   {
    "file": "presidio-analyzer/tests/test_recognizer_result.py",
@@ -886,21 +959,6 @@
    "file": "presidio-analyzer/tests/test_entity_recognizer.py",
    "test": "test_when_from_dict_then_returns_instance",
    "reason": "unsupported shape: 'left side is not a call'"
-  },
-  {
-   "file": "presidio-analyzer/tests/test_entity_recognizer.py",
-   "test": "test_when_remove_duplicates_duplicates_removed",
-   "reason": "unsupported shape: 'left side is not a call'"
-  },
-  {
-   "file": "presidio-analyzer/tests/test_entity_recognizer.py",
-   "test": "test_when_remove_duplicates_different_then_entity_not_removed",
-   "reason": "unsupported shape: \"Name(id='results', ctx=Load())\""
-  },
-  {
-   "file": "presidio-analyzer/tests/test_entity_recognizer.py",
-   "test": "test_when_remove_duplicates_contained_shorter_length_results_removed",
-   "reason": "unsupported shape: \"Name(id='results', ctx=Load())\""
   },
   {
    "file": "presidio-analyzer/tests/test_entity_recognizer.py",
@@ -923,16 +981,6 @@
    "reason": "no assertion"
   },
   {
-   "file": "presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
-   "test": "test_when_aadhaar_in_text_then_all_aadhaars_found",
-   "reason": "needs the 'recognizer' fixture"
-  },
-  {
-   "file": "presidio-analyzer/tests/test_za_mobile_number_recognizer.py",
-   "test": "test_when_mobile_in_text_then_all_mobile_numbers_found",
-   "reason": "needs the 'recognizer' fixture"
-  },
-  {
    "file": "presidio-analyzer/tests/test_za_mobile_number_recognizer.py",
    "test": "test_supported_entity",
    "reason": "needs the 'recognizer' fixture"
@@ -940,16 +988,6 @@
   {
    "file": "presidio-analyzer/tests/test_za_mobile_number_recognizer.py",
    "test": "test_supported_language",
-   "reason": "needs the 'recognizer' fixture"
-  },
-  {
-   "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
-   "test": "test_when_gstin_in_text_then_all_gstins_found",
-   "reason": "needs the 'recognizer' fixture"
-  },
-  {
-   "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
-   "test": "test_gstin_validation",
    "reason": "needs the 'recognizer' fixture"
   },
   {
@@ -975,12 +1013,34 @@
   {
    "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
    "test": "test_gstin_recognizer_with_custom_params",
-   "reason": "unsupported shape: 'left side is not a call'"
+   "reason": "unsupported shape: 'left side is not a call' / 'list element is not a RecognizerResult'"
   },
   {
    "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
    "test": "test_gstin_recognizer_replacement_pairs",
-   "reason": "unsupported shape: 'left side is not a call'"
+   "reason": "unsupported shape: 'left side is not a call' / 'list element is not a RecognizerResult'"
+  }
+ ],
+ "covered_elsewhere": [
+  {
+   "file": "presidio-analyzer/tests/test_in_aadhaar_recognizer.py",
+   "test": "test_when_aadhaar_in_text_then_all_aadhaars_found",
+   "reason": "needs the 'recognizer' fixture; harvested by extract_fixtures.py"
+  },
+  {
+   "file": "presidio-analyzer/tests/test_za_mobile_number_recognizer.py",
+   "test": "test_when_mobile_in_text_then_all_mobile_numbers_found",
+   "reason": "needs the 'recognizer' fixture; harvested by extract_fixtures.py"
+  },
+  {
+   "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
+   "test": "test_when_gstin_in_text_then_all_gstins_found",
+   "reason": "needs the 'recognizer' fixture; harvested by extract_fixtures.py"
+  },
+  {
+   "file": "presidio-analyzer/tests/test_in_gstin_recognizer.py",
+   "test": "test_gstin_validation",
+   "reason": "needs the 'recognizer' fixture; harvested by extract_fixtures.py"
   }
  ]
 }

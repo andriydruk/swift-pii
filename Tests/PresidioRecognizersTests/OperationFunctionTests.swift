@@ -2,6 +2,8 @@ import Testing
 import Foundation
 import PresidioConformance
 @testable import PresidioRecognizers
+import PresidioAnalyzer
+import PresidioCore
 
 /// Upstream tables for the static helpers recognizers are built from.
 ///
@@ -105,6 +107,62 @@ struct OperationFunctionTests {
             """
         )
         #expect(checked == Self.corpus.functions.count)
+    }
+
+    /// `remove_duplicates`, which is what the span predicates feed.
+    ///
+    /// Worth harvesting separately from the predicates because its behaviour does
+    /// not follow from theirs: it dedupes on equality, sorts by a key that omits
+    /// the entity type, drops zero scores, and only then removes anything
+    /// contained in a survivor *of the same type*. The third table is the one
+    /// that pins that last qualifier — two identical-scoring spans where one
+    /// contains the other collapse to one, while the second table's pair with
+    /// different entity types does not.
+    @Test("remove_duplicates matches upstream")
+    func pipelinesMatch() throws {
+        #expect(!Self.corpus.pipelines.isEmpty)
+        for testCase in Self.corpus.pipelines {
+            guard testCase.function == "EntityRecognizer.remove_duplicates" else {
+                Issue.record("no Swift counterpart for \(testCase.function)")
+                continue
+            }
+            let input = testCase.input.map {
+                RecognizerResult(
+                    entityType: $0.entityType, start: $0.start,
+                    end: $0.end, score: $0.score
+                )
+            }
+            let got = PatternRecognizer.removeDuplicates(input)
+            #expect(
+                got.count == testCase.expectedCount,
+                """
+                \(testCase.test): upstream kept \(testCase.expectedCount), \
+                swift kept \(got.count) — \(got)
+                """
+            )
+            for field in testCase.expectedFields {
+                guard field.index < got.count else {
+                    Issue.record("\(testCase.test): no result at \(field.index)")
+                    continue
+                }
+                switch field.field {
+                case "score":
+                    #expect(
+                        got[field.index].score == field.value.asDouble,
+                        "\(testCase.test): score at \(field.index)"
+                    )
+                case "start":
+                    #expect(got[field.index].start == field.value.asInt)
+                case "end":
+                    #expect(got[field.index].end == field.value.asInt)
+                case "entity_type":
+                    #expect(got[field.index].entityType == field.value.asString)
+                default:
+                    Issue.record("unknown field '\(field.field)' in \(testCase.test)")
+                }
+            }
+        }
+        print("Pipeline parity: \(Self.corpus.pipelines.count) cases run")
     }
 
     /// The one row that would have passed against the old one-argument

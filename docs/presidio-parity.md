@@ -43,9 +43,10 @@ has always made: the model version is what matters, not the library's.
 | Validators (harvested) | 206 | **exact** |
 | `RecognizerResult` predicates (harvested) | 37 | **exact** |
 | Static helpers (harvested) | 18 | **exact** |
+| `remove_duplicates` (harvested) | 3 | **exact** |
 | Anonymizer + crypto | 43 | **exact** |
 | Batch analyzer | 9 | **exact** |
-| **Total** | **28,662** | |
+| **Total** | **28,665** | |
 
 ## Scope
 
@@ -297,27 +298,42 @@ column, so it fell out under "unsupported shape" and looked like configuration.
 
 [`Tools/extract_operation_cases.py`](../Tools/extract_operation_cases.py) handles
 that class — a second tool with a second contract, the same split as
-`extract_computed_fixtures.py`. It reads two shapes statically: a boolean
-assertion about two literal-constructed values, and a call whose arguments are
-literals or parameters. That covers 12 of the 44, plus four tests that were never
-counted because they carry no parametrize decorator and so were never tables:
+`extract_computed_fixtures.py`. It reads three shapes statically:
 
-| | cases |
+| shape | cases |
 |---|---:|
-| `RecognizerResult` predicates — contains, equal_indices, has_conflict, ordering, equality, hashing | 37 |
-| `sanitize_value`, Aadhaar palindrome and Verhoeff, ZA prefix classification | 18 |
+| **Predicates** — two literal-built values, one boolean assertion. `contains`, `equal_indices`, `has_conflict`, ordering, equality, hashing | 37 |
+| **Functions** — a call whose arguments are literals or parameters. `sanitize_value`, Aadhaar palindrome and Verhoeff, ZA prefix classification | 18 |
+| **Pipelines** — a list of results through a function, with assertions about the survivors. `remove_duplicates` | 3 |
 
-All 55 agree. The harvest was worth doing anyway: upstream's `_is_palindrome`
-takes an optional second argument that lowercases *and strips spaces*, and the
-port had a one-argument version — behaviourally sufficient for its only caller,
-since Aadhaar numbers are digits, and wrong as a port. Two of the five rows
-exercise the argument that did not exist.
+That covers 12 of the 44, plus **seven tests nobody was counting** — they carry
+no parametrize decorator, so they were never tables and never appeared in a
+skipped list. All 58 agree.
 
-What genuinely remains is infrastructure plus one honest gap: registry and NER
-model configuration, ONNX and device selection, recognizers this port does not
-ship, and eight tables whose subject is a pytest fixture, so the constructor
-arguments live outside the file being read. Those last are reachable — they need
-the fixture resolved, not a new idea.
+The third shape is the point of the first two. `remove_duplicates` is what the
+span predicates *feed*, and its behaviour does not follow from theirs: it dedupes
+on equality, sorts by a key that omits the entity type, drops zero scores, and
+only then removes what is contained in a survivor **of the same type**. That last
+qualifier is pinned by exactly one upstream table.
+
+The harvest also found something. Upstream's `_is_palindrome` takes an optional
+second argument that lowercases *and strips spaces*, which its name does not say.
+The port had a one-argument version — behaviourally sufficient for its only
+caller, since Aadhaar numbers are digits, and wrong as a port. Two of the five
+rows exercise the argument that did not exist.
+
+**What remains, counted honestly.** The tool's own `skipped` list means "not
+covered anywhere", not "not covered by me". Its first version conflated the two
+and reported four tables that `extract_fixtures.py` already harvests, which
+overstated the gap — the same species of error as this section's earlier
+"almost entirely infrastructure", pointing the other way. Those are now recorded
+separately as `covered_elsewhere`, and a test asserts the two stay distinct.
+
+Of the 32 left: registry and NER model configuration, ONNX and device selection,
+recognizers this port does not ship, serialization round-trips, and **five**
+tables whose subject is a pytest fixture, so the constructor arguments live
+outside the file being read. Those five are reachable — they need the fixture
+resolved, not a new idea.
 
 The extractor evaluates without executing. Beyond plain literals it folds
 module-level constants, sequence repetition (`[(0.5, 0.8)] * 2`) and

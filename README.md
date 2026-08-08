@@ -786,7 +786,7 @@ Python and depends on spaCy. The recognizer patterns, context words, score
 constants and entity names are Presidio's; so are the test expectations, which
 are harvested from its own test suite rather than rewritten.
 
-Fidelity is measured, not claimed. Against **28,662 recorded cases** the port
+Fidelity is measured, not claimed. Against **28,665 recorded cases** the port
 agrees exactly on the recognizers, the engine's whole option matrix, the
 tokenizer, the regex substrate, the anonymizer, the tagger, the attribute ruler,
 the lemmatizer, NER and the dependency parse — every stage of the NLP pipeline,

@@ -53,6 +53,35 @@ public struct OperationCorpus: Decodable, Sendable {
         public let expected: JSONValue
     }
 
+    /// A list of results through a function, with assertions about the
+    /// survivors.
+    ///
+    /// This is the shape that makes the predicates worth having:
+    /// `remove_duplicates` is what consumes them, and its behaviour does not
+    /// follow from theirs. It dedupes on equality, sorts by a key that omits the
+    /// entity type, drops zero scores, then removes anything contained in a
+    /// survivor of the same type.
+    public struct Pipeline: Decodable, Sendable {
+        public struct Field: Decodable, Sendable {
+            public let index: Int
+            public let field: String
+            public let value: JSONValue
+        }
+
+        public let file: String
+        public let test: String
+        public let function: String
+        public let input: [Predicate.Value]
+        public let expectedCount: Int
+        public let expectedFields: [Field]
+
+        enum CodingKeys: String, CodingKey {
+            case file, test, function, input
+            case expectedCount = "expected_count"
+            case expectedFields = "expected_fields"
+        }
+    }
+
     public struct Skipped: Decodable, Sendable {
         public let file: String
         public let test: String?
@@ -61,7 +90,17 @@ public struct OperationCorpus: Decodable, Sendable {
 
     public let predicates: [Predicate]
     public let functions: [Function]
+    public let pipelines: [Pipeline]
+    /// Tables no corpus covers, each with a reason.
     public let skipped: [Skipped]
+    /// Tables this tool cannot read but `extract_fixtures.py` already harvests.
+    /// Recorded separately because reporting them as gaps overstated the gap.
+    public let coveredElsewhere: [Skipped]
+
+    enum CodingKeys: String, CodingKey {
+        case predicates, functions, pipelines, skipped
+        case coveredElsewhere = "covered_elsewhere"
+    }
 }
 
 /// Just enough JSON to carry an upstream parameter through to Swift.
@@ -106,6 +145,15 @@ public enum JSONValue: Decodable, Sendable, Equatable {
     public var asInt: Int? {
         if case .int(let value) = self { return value }
         return nil
+    }
+
+    /// A score, which JSON may have delivered as either `0.5` or `0`.
+    public var asDouble: Double? {
+        switch self {
+        case .double(let value): return value
+        case .int(let value): return Double(value)
+        default: return nil
+        }
     }
 
     public var asArray: [JSONValue]? {
