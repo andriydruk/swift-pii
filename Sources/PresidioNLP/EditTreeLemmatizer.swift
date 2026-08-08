@@ -40,17 +40,10 @@ public final class EditTreeLemmatizer: @unchecked Sendable {
     /// Softmax column -> tree id.
     private let treeIDs: [UInt32]
 
-    public enum LoadError: Error, CustomStringConvertible {
-        case missing(String)
-        case malformed(String)
-
-        public var description: String {
-            switch self {
-            case .missing(let path): return "lemmatizer: \(path) not found"
-            case .malformed(let what): return "lemmatizer: \(what)"
-            }
-        }
-    }
+    /// Alias, like the tagger's and the parser's. The prefix its own enum used
+    /// to add is now written at the throw sites, where the message already says
+    /// which file it is talking about.
+    public typealias LoadError = ComponentLoadError
 
     /// - Parameter directory: an unpacked spaCy model directory whose pipeline
     ///   contains a `trainable_lemmatizer`.
@@ -62,7 +55,7 @@ public final class EditTreeLemmatizer: @unchecked Sendable {
         self.classifier = try TaggerModel(directory: directory, component: "lemmatizer")
         self.treeIDs = classifier.labels.compactMap { UInt32($0) }
         guard treeIDs.count == classifier.labels.count else {
-            throw LoadError.malformed("lemmatizer/cfg labels are not tree ids")
+            throw LoadError.malformed("lemmatizer/cfg labels are not edit-tree ids")
         }
 
         // --- trees ---------------------------------------------------------

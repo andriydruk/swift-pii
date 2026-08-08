@@ -1,21 +1,46 @@
 import Foundation
 
-/// Why a spaCy component failed to load.
+/// Why a component failed to load out of a **spaCy model directory**.
 ///
-/// Shared by every component that reads the model directory, because the two
-/// things that go wrong are always the same two: the file is not there, or it
-/// is not the network the loader expected. `TaggerModel.LoadError` is an alias
-/// for this, which is why the tagger's tests still name it that.
+/// This package fails to load two kinds of thing, and they want different
+/// errors because the reader can do something different about each:
+///
+/// | domain | error | who fixes it |
+/// |---|---|---|
+/// | a model directory the caller supplied | `ComponentLoadError` | the caller — wrong path, wrong model, wrong version |
+/// | a resource bundled in the package | `SpacyTokenizer.LoadError` | nobody at runtime; it is a broken build or an unported language |
+///
+/// Everything in the first row funnels here, because the two things that go
+/// wrong are always the same two: the file is not there, or it is there and is
+/// not what the loader expected. `NERError`, `TaggerModel.LoadError`,
+/// `DependencyParser.LoadError` and `EditTreeLemmatizer.LoadError` are all
+/// aliases of this — they were four separate enums with identical cases and
+/// four different messages for the same condition.
+///
+/// The third possible domain — a bundled *table* that fails to decode — does not
+/// throw at all. `AttributeRuler` and `RuleLemmatizer` expose `isLoaded` and
+/// degrade, which is deliberate and is why `Diagnostics.report()` exists; see
+/// the README's Diagnostics section for why a quiet degradation was judged worse
+/// than a loud one and is reported instead.
 public enum ComponentLoadError: Error, CustomStringConvertible {
     /// A file the component needs is absent.
     case missing(String)
     /// The file is present but is not the architecture this loader reads.
+    ///
+    /// Almost always a version mismatch: a model trained with a different spaCy
+    /// release serializes a different network, and the loader says which node it
+    /// could not find rather than trapping inside msgpack.
     case malformed(String)
 
     public var description: String {
         switch self {
-        case .missing(let path): return "\(path) not found"
-        case .malformed(let what): return what
+        case .missing(let path):
+            return """
+                \(path) not found. Point at an unpacked spaCy model directory, \
+                e.g. .../en_core_web_sm-3.7.1.
+                """
+        case .malformed(let what):
+            return what
         }
     }
 }

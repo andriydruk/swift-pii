@@ -61,6 +61,12 @@ public enum Catalog {
         public let commit: String
     }
 
+    /// The bundled recognizer catalogue failed to load.
+    ///
+    /// Package-resource domain, like `SpacyTokenizer.LoadError`: no runtime
+    /// input causes it, so it means a broken build rather than a bad call. See
+    /// `Diagnostics.report()`, which exists because a resource that fails to
+    /// load otherwise degrades in silence.
     public enum CatalogError: Error, CustomStringConvertible {
         case resourceMissing
 

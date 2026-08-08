@@ -20,6 +20,7 @@ public struct RecognizerRegistry: Sendable {
         self.supportedLanguages = supportedLanguages
     }
 
+    /// A registry that could not be assembled from its configuration.
     public enum RegistryError: Error, Equatable, CustomStringConvertible {
         case noLanguage
         case noEntitiesRequested

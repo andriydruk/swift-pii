@@ -21,6 +21,11 @@ import PresidioAnonymizer
 /// round-trip interoperability plus byte-identical decryption.
 public enum AESCipher {
 
+    /// A key or ciphertext the cipher will not accept.
+    ///
+    /// Distinct from `AnonymizerError` because these come from the crypto
+    /// primitive rather than from the operator spec — a wrong key length is a
+    /// different problem from a misspelled operator name.
     public enum CipherError: Error, CustomStringConvertible {
         case invalidKeySize(Int)
         case malformedCiphertext(String)

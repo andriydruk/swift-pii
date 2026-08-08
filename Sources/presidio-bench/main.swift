@@ -238,6 +238,17 @@ benchmarkRecognizerBreakdown()
 // full pipeline — entities stop at sentence boundaries — and it costs a second
 // tok2vec pass plus roughly 2N scored transitions. This is where that trade gets
 // a number instead of an adjective.
+//
+// One negative result, left here so nobody repeats it. The transition loop
+// allocates two small `[Float]` scratch arrays per step -- ~2N heap allocations
+// per document -- and hoisting them out changed nothing measurable: 0.77/0.80/
+// 0.75 ms against 0.78 before, on a machine whose run-to-run spread is wider than
+// that. The reason is arithmetic. One step is 1,024 adds for the affine, 128 for
+// the maxout, and 6,784 multiply-accumulates for the upper layer over 106
+// classes -- the upper layer is 85% of the step, and two 64-float allocations are
+// nowhere near it. If the parse is ever worth optimising, that matrix-vector
+// product is the only thing in it that matters, and it does not batch, because
+// each step's state depends on the last.
 
 import PresidioModelEnglish
 import PresidioNLP

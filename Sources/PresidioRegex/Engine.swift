@@ -144,6 +144,11 @@ public struct InlineFlags: OptionSet, Sendable {
 
 // MARK: - Parser
 
+/// A pattern that will not compile.
+///
+/// A struct rather than an enum because there is nothing to branch on: the
+/// engine reports where and why in prose, and every caller either propagates it
+/// or reports it.
 public struct ParseError: Error, CustomStringConvertible {
     public let msg: String
     public var description: String { msg }

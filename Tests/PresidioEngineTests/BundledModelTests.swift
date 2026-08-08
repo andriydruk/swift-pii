@@ -50,6 +50,44 @@ struct BundledModelTests {
         #expect(parse.deps.prefix(3) == ["nsubj", "ROOT", "prep"])
     }
 
+    /// The one way to build a correct engine that quietly does the work twice.
+    ///
+    /// `SpacyRuleLemmatizer` defaults to not parsing, which is right standing
+    /// alone — no parser-dependent ruler rule changes a lemma, measured over
+    /// 5,513 tokens. But the engine wants that parse for NER's boundaries, so
+    /// supplying what looks like the default produces an engine ~14% slower with
+    /// byte-identical output. Nothing can detect that from the results, which is
+    /// exactly why it needs to be said out loud.
+    @Test("an engine that parses twice says so")
+    func duplicateParseIsWarnedAbout() throws {
+        let directory = EnglishModel.directory
+
+        let byDefault = try SpacyNlpEngine(modelDirectory: directory)
+        #expect(byDefault.sharesLemmatizerParse)
+        #expect(byDefault.warnings.isEmpty)
+
+        let supplied = try SpacyNlpEngine(
+            modelDirectory: directory,
+            lemmatizer: try SpacyRuleLemmatizer(modelDirectory: directory)
+        )
+        #expect(!supplied.sharesLemmatizerParse)
+        #expect(
+            supplied.warnings.contains { $0.contains("second one") },
+            "no warning about the duplicate parse: \(supplied.warnings)"
+        )
+
+        // Asking for the parse explicitly is the documented fix, and it has to
+        // actually work or the warning is pointing at nothing.
+        let fixed = try SpacyNlpEngine(
+            modelDirectory: directory,
+            lemmatizer: try SpacyRuleLemmatizer(
+                modelDirectory: directory, parseDependencies: true
+            )
+        )
+        #expect(fixed.sharesLemmatizerParse)
+        #expect(fixed.warnings.isEmpty)
+    }
+
     /// The engine gets its sentence boundaries from the lemmatizer's tok2vec
     /// pass rather than from a second parser inside NER, which is worth ~14% of
     /// `process` (5.64 vs 6.55 ms/document, A/B in one `presidio-bench` run) and

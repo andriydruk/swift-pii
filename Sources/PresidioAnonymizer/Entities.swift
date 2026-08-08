@@ -127,6 +127,11 @@ public struct EngineResult: Sendable, Hashable {
     }
 }
 
+/// An operator that cannot run as configured.
+///
+/// The anonymizer's whole error surface, and deliberately small: it does no I/O
+/// and loads no resources, so the only thing that can go wrong is the operator
+/// spec a caller passed in.
 public enum AnonymizerError: Error, Equatable, CustomStringConvertible {
     case invalidParam(String)
     case unknownOperator(String)

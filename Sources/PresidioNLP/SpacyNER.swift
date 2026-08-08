@@ -20,23 +20,10 @@ public struct NamedEntity: Sendable, Hashable {
     }
 }
 
-public enum NERError: Error, CustomStringConvertible {
-    case modelNotFound(String)
-    case modelIncomplete(String)
-
-    public var description: String {
-        switch self {
-        case .modelNotFound(let path):
-            return """
-                spaCy model not found at '\(path)'. Point at an unpacked model \
-                directory, e.g. .../en_core_web_sm-3.7.1, containing ner/model \
-                and vocab/.
-                """
-        case .modelIncomplete(let detail):
-            return "spaCy model is incomplete: \(detail)"
-        }
-    }
-}
+/// What NER reports when it cannot load. An alias, not a type of its own: the
+/// two cases it had were `ComponentLoadError`'s two cases with different names
+/// and a different message for the same condition.
+public typealias NERError = ComponentLoadError
 
 /// spaCy's NER pipeline: tokenizer + statistical model, composed.
 ///
@@ -77,17 +64,17 @@ public final class SpacyNER: @unchecked Sendable {
         guard FileManager.default.fileExists(
             atPath: modelDirectory, isDirectory: &isDirectory
         ), isDirectory.boolValue else {
-            throw NERError.modelNotFound(modelDirectory)
+            throw NERError.missing(modelDirectory)
         }
         let nerModel = modelDirectory + "/ner/model"
         guard FileManager.default.fileExists(atPath: nerModel) else {
-            throw NERError.modelIncomplete("missing ner/model under \(modelDirectory)")
+            throw NERError.malformed("missing ner/model under \(modelDirectory)")
         }
 
         self.tokenizer = try tokenizer ?? SpacyTokenizer.english()
         self.model = try NERModel(dir: modelDirectory)
         guard !self.model.actMove.isEmpty else {
-            throw NERError.modelIncomplete("no transition actions loaded from ner/moves")
+            throw NERError.malformed("no transition actions loaded from ner/moves")
         }
 
         // Presence-checked rather than attempted: `try?` here would turn a

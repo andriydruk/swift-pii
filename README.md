@@ -774,6 +774,61 @@ front, which would warm every cache and leave the tasks only reading. It has not
 been re-verified by breaking something, because doing that needs a sanitizer this
 host cannot run; what it inherits is the principle, not the demonstration.
 
+## What is API, and what is machinery
+
+Ten products, and they are not all the same kind of thing. The split matters
+because half of them exist so the other half can be *checked*, not because a
+caller was meant to reach for them.
+
+| | |
+|---|---|
+| **Start here** | `PIIDetector`, `Anonymizer` — the two types the Quick start uses. Most callers need nothing else. |
+| **When you outgrow them** | `AnalyzerEngine`, `RecognizerRegistry`, `PatternRecognizer`, `RecognizerResult`, `SpacyNlpEngine` — Presidio's own vocabulary, for configuring what the first two do implicitly. |
+| **Pipeline components** | `SpacyTokenizer`, `TaggerModel`, `DependencyParser`, `SpacyLemmatizer`, `EditTreeLemmatizer`, `SpacyNER`. Public deliberately: this is a spaCy port, and being able to run one stage and compare it against spaCy is how every claim in the parity doc was established. Use them if you want a tokenizer or a dependency parse; you do not need them to find PII. |
+
+That third row is why the surface is larger than a PII library's needs to be.
+Each of those was made public to be *measurable in isolation*, and every one has
+a differential corpus behind it. They are supported, not internal — but if you
+are reading this to find a credit card number, you want the first row.
+
+Six types have "lemmatizer" in the name, which is worth one sentence of map:
+`RuleLemmatizer` is spaCy's rule *tables*; `SpacyLemmatizer` is the whole chain
+(tagger → attribute ruler → tables); `EditTreeLemmatizer` is the neural
+alternative German and Portuguese use. The three `Lemmatizing` conformances in
+`PresidioEngine` — `SpacyRuleLemmatizer`, `SpacyEditTreeLemmatizer`,
+`LookupLemmatizer` — are adapters that let the engine pick between them.
+
+## Errors
+
+Every error type in the package sits in one of three domains, and which one it is
+tells you who can do something about it.
+
+| domain | example | who fixes it |
+|---|---|---|
+| **Your call** — an argument, a path, a config file | `ComponentLoadError`, `AnalyzerEngine.EngineError`, `AnonymizerError`, `PureRegex.ParseError` | you, by passing something else |
+| **A bundled resource** — compiled into the package | `SpacyTokenizer.LoadError`, `Catalog.CatalogError`, `EnglishModel.ModelError` | nobody at runtime: a broken build, or a language not yet ported |
+| **A bundled *table*** — decodes to nothing | *no error at all* | see Diagnostics below |
+
+The third row is the interesting one, and it is a deliberate choice rather than
+an oversight: a lookup table that fails to load leaves the component answering
+"no match" for everything, which is indistinguishable from working. Those do not
+throw, they report — which is what `Diagnostics.report()` is for.
+
+Loading a spaCy component out of a model directory is all one error.
+`NERError`, `TaggerModel.LoadError`, `DependencyParser.LoadError` and
+`EditTreeLemmatizer.LoadError` are aliases of `ComponentLoadError`; they were
+four enums with identical cases and four different messages for the same two
+conditions — the file is not there, or it is there and is not what the loader
+expected.
+
+```swift
+do {
+    _ = try SpacyNER(modelDirectory: path)
+} catch let error as ComponentLoadError {
+    print(error)          // says which file, and what to point at instead
+}
+```
+
 ## Diagnostics
 
 Every bundled resource loads through `Bundle.module` into an optional, and every

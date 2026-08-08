@@ -12,6 +12,13 @@ public struct AnalyzerEngine: Sendable {
         case regex
     }
 
+    /// Configuration the engine will not run with.
+    ///
+    /// All four are caller mistakes detectable before any text is analyzed — a
+    /// language nothing supports, a registry and engine that disagree about
+    /// which, a deny/allow list that will not compile. They are thrown from
+    /// `analyze`, not from `init`, because the language is an argument to
+    /// `analyze`.
     public enum EngineError: Error, Equatable, CustomStringConvertible {
         case languageNotSupported(String)
         case registryLanguageMismatch(registry: [String], engine: [String])

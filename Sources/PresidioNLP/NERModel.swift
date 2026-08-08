@@ -277,14 +277,14 @@ final class NERModel: @unchecked Sendable {
     init(dir: String) throws {
         let bytes = readFile(dir + "/ner/model")
         guard !bytes.isEmpty else {
-            throw NERError.modelIncomplete("ner/model is empty or unreadable")
+            throw NERError.malformed("ner/model is empty or unreadable")
         }
         var r = MPReader(bytes)
         let root = r.value()
         guard let nodes = root.m("nodes")?.asArr,
               let params = root.m("params")?.asArr,
               let attrs = root.m("attrs")?.asArr
-        else { throw NERError.modelIncomplete("ner/model is not a thinc model") }
+        else { throw NERError.malformed("ner/model is not a thinc model") }
         func name(_ i: Int) -> String { nodes[i].m("name")?.asStr ?? "" }
         func p(_ i: Int, _ k: String) -> Tensor? { params[i].m(k).map(mpTensor) }
         func attrInt(_ i: Int, _ k: String) -> Int? {
@@ -300,28 +300,28 @@ final class NERModel: @unchecked Sendable {
             switch name(i) {
             case "hashembed":
                 guard let table = p(i, "E"), let seed = attrInt(i, "seed") else {
-                    throw NERError.modelIncomplete("hashembed node \(i) is incomplete")
+                    throw NERError.malformed("hashembed node \(i) is incomplete")
                 }
                 hes.append((i, table, UInt32(seed)))
             case "maxout":
                 guard let w = p(i, "W"), let b = p(i, "b") else {
-                    throw NERError.modelIncomplete("maxout node \(i) is incomplete")
+                    throw NERError.malformed("maxout node \(i) is incomplete")
                 }
                 maxouts.append((i, w, b))
             case "layernorm":
                 guard let g = p(i, "G"), let b = p(i, "b") else {
-                    throw NERError.modelIncomplete("layernorm node \(i) is incomplete")
+                    throw NERError.malformed("layernorm node \(i) is incomplete")
                 }
                 lns.append((i, g, b))
             case "linear":
                 guard let w = p(i, "W"), let b = p(i, "b") else {
-                    throw NERError.modelIncomplete("linear node \(i) is incomplete")
+                    throw NERError.malformed("linear node \(i) is incomplete")
                 }
                 linears.append((i, w, b))
             case "precomputable_affine": paIdx = i
             case "static_vectors":
                 guard let t = p(i, "W") else {
-                    throw NERError.modelIncomplete("static_vectors node \(i) is incomplete")
+                    throw NERError.malformed("static_vectors node \(i) is incomplete")
                 }
                 svW = t.data; svM = t.shape[1]
             default: break
@@ -337,11 +337,11 @@ final class NERModel: @unchecked Sendable {
         let windowInputs = 3 * width
         guard let embMo = maxouts.first(where: { $0.1.shape[2] != windowInputs }),
               let embLn = lns.min(by: { abs($0.0 - embMo.0) < abs($1.0 - embMo.0) })
-        else { throw NERError.modelIncomplete("no embedding maxout in ner/model") }
+        else { throw NERError.malformed("no embedding maxout in ner/model") }
         let encMos = maxouts.filter { $0.1.shape[2] == windowInputs }
         let encLns = lns.filter { $0.0 != embLn.0 }
         guard encMos.count == encLns.count, !encMos.isEmpty else {
-            throw NERError.modelIncomplete(
+            throw NERError.malformed(
                 "\(encMos.count) encoder blocks but \(encLns.count) layer norms"
             )
         }
@@ -356,7 +356,7 @@ final class NERModel: @unchecked Sendable {
         // `sm` models but the class count is not, and matching on `74` is what
         // made a German model trap here instead of loading.
         guard linears.count >= 2 else {
-            throw NERError.modelIncomplete(
+            throw NERError.malformed(
                 "expected 2 linear layers in the parser, found \(linears.count)"
             )
         }
@@ -367,7 +367,7 @@ final class NERModel: @unchecked Sendable {
         guard upper.1.shape.count == 2, hidden.1.shape.count == 2,
               upper.1.shape[1] == hidden.1.shape[0]
         else {
-            throw NERError.modelIncomplete(
+            throw NERError.malformed(
                 "parser linears do not compose: \(hidden.1.shape) then \(upper.1.shape)"
             )
         }
@@ -378,11 +378,11 @@ final class NERModel: @unchecked Sendable {
         guard paIdx >= 0, let paW0 = params[paIdx].m("W").map(mpTensor),
               let paB0 = params[paIdx].m("b").map(mpTensor),
               let paPad0 = params[paIdx].m("pad").map(mpTensor)
-        else { throw NERError.modelIncomplete("no precomputable_affine in ner/model") }
+        else { throw NERError.malformed("no precomputable_affine in ner/model") }
         paW = paW0.data; paB = paB0.data; paPad = paPad0.data
         nF = paW0.shape[0]; nO = paW0.shape[1]; nP = paW0.shape[2]
         guard nO == hidden.1.shape[0] else {
-            throw NERError.modelIncomplete(
+            throw NERError.malformed(
                 "hidden width \(hidden.1.shape[0]) disagrees with the affine's \(nO)"
             )
         }

@@ -41,6 +41,11 @@ public enum EnglishModel {
     /// Version of the underlying spaCy model.
     public static let version = "en_core_web_sm-3.7.1"
 
+    /// The bundled weights are not in the bundle.
+    ///
+    /// Package-resource domain: not something a caller can cause or fix at
+    /// runtime, which is why `directory` traps on it and `directoryIfPresent`
+    /// exists for anyone who wants to check.
     public enum ModelError: Error, CustomStringConvertible {
         case notBundled
 

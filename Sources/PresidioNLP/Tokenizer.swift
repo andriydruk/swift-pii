@@ -65,6 +65,18 @@ public final class SpacyTokenizer: @unchecked Sendable {
         }
     }
 
+    /// The other half of this package's error taxonomy.
+    ///
+    /// `ComponentLoadError` is for a model directory the *caller* supplied, and
+    /// the caller can fix it by pointing somewhere else. These three are about
+    /// resources compiled into the package, so no runtime input causes them and
+    /// none of them is the caller's fault: the build is broken, or the language
+    /// has not been ported. That is why they carry regeneration commands rather
+    /// than a path — the reader of this message is a contributor, not a user.
+    ///
+    /// Kept as its own type for exactly that reason. Folding it into
+    /// `ComponentLoadError` would make one type mean two unrelated things and
+    /// lose the distinction that decides who acts on it.
     public enum LoadError: Error, CustomStringConvertible {
         case resourceMissing
         case unsupportedLanguage(String)

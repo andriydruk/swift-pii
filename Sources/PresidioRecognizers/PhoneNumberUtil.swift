@@ -61,6 +61,10 @@ public enum PhoneNumberType: Int, Sendable {
     case unknown = 99
 }
 
+/// Why a string is not a parseable phone number.
+///
+/// Mirrors libphonenumber's own `NumberParseException` reasons, because the
+/// recognizers branch on them exactly as upstream does.
 public enum PhoneParseError: Error, Equatable, CustomStringConvertible {
     /// Mirrors `NumberParseException.NOT_A_NUMBER` (0), `TOO_SHORT_NSN` (2),
     /// `TOO_LONG` (3) — the codes the oracle records.

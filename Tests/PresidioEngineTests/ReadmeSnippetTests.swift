@@ -4,6 +4,7 @@ import PresidioAnalyzer
 import PresidioRecognizers
 import PresidioAnonymizer
 import PresidioModelEnglish
+import PresidioNLP
 
 @Suite("README snippets")
 struct ReadmeSnippetTests {
@@ -49,6 +50,37 @@ struct ReadmeSnippetTests {
         let finding = try #require(detector.findings(in: text).first)
         let range = try #require(finding.range(in: text))
         #expect(String(text[range]) == finding.text)
+    }
+
+    /// The README's Errors section, and the taxonomy claim behind it.
+    ///
+    /// Four component loaders used to throw four enums with identical cases.
+    /// They are aliases now, so a single `catch` covers the whole domain — which
+    /// is the claim the README makes and therefore the one worth testing.
+    @Test("errors") func errors() throws {
+        var caught: String?
+        do {
+            _ = try SpacyNER(modelDirectory: "/nonexistent/model/path")
+        } catch let error as ComponentLoadError {
+            caught = "\(error)"
+        }
+        let message = try #require(caught)
+        #expect(message.contains("/nonexistent/model/path"))
+        // The remediation NERError carried before the merge, kept rather than
+        // flattened to the shorter message the other three had.
+        #expect(message.contains("unpacked spaCy model directory"))
+
+        // The aliases really are the same type, not four that happen to agree.
+        #expect(NERError.self == ComponentLoadError.self)
+        #expect(TaggerModel.LoadError.self == ComponentLoadError.self)
+        #expect(DependencyParser.LoadError.self == ComponentLoadError.self)
+        #expect(EditTreeLemmatizer.LoadError.self == ComponentLoadError.self)
+
+        // The bundled-resource domain stays separate, which is the other half
+        // of the claim: it is a different failure with a different audience.
+        #expect(throws: SpacyTokenizer.LoadError.self) {
+            _ = try SpacyTokenizer.forLanguage("qq")
+        }
     }
 
     @Test("model product") func modelProduct() throws {

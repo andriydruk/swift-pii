@@ -25,12 +25,30 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
     private let fallbackReason: String?
 
     public var warnings: [String] {
-        guard let fallbackReason else { return [] }
-        return [
-            "Lemmas are approximate: \(fallbackReason). Context matching will "
-            + "differ from Presidio on inflected context words."
-        ]
+        var out: [String] = []
+        if let fallbackReason {
+            out.append(
+                "Lemmas are approximate: \(fallbackReason). Context matching will "
+                + "differ from Presidio on inflected context words."
+            )
+        }
+        if let reason = duplicateParseReason { out.append(reason) }
+        return out
     }
+
+    /// Set when a caller-supplied lemmatizer *could* have handed over sentence
+    /// boundaries and was not built to.
+    ///
+    /// This is the one way to end up with a correct engine that quietly does the
+    /// work twice. `SpacyRuleLemmatizer` defaults to not parsing — measured, and
+    /// right for a standalone lemmatizer, since no parser-dependent ruler rule
+    /// changes a lemma — but the engine wants that parse for NER's sentence
+    /// boundaries. So supplying what looks like the default lemmatizer produces
+    /// an engine ~14% slower than the actual default, with identical output.
+    ///
+    /// Nothing here can fix it: the instance is already built. It can say so,
+    /// which is what `warnings` is for.
+    private let duplicateParseReason: String?
 
     /// - Parameters:
     ///   - modelDirectory: an unpacked spaCy model directory, e.g.
@@ -114,13 +132,20 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
         // parse; otherwise NER loads a parser of its own. Both give identical
         // spans — the weights and the tokens are the same — so this is purely
         // about not encoding the same document twice.
-        let sharesParse = (self.lemmatizer as? SentenceBoundaryProviding)?
-            .providesBoundaries ?? false
+        let boundaryProvider = self.lemmatizer as? SentenceBoundaryProviding
+        let sharesParse = boundaryProvider?.providesSentenceStarts ?? false
         self.ner = try SpacyNER(
             modelDirectory: modelDirectory, tokenizer: tokenizer,
             parseSentences: !sharesParse
         )
         self.sharesLemmatizerParse = sharesParse
+        // Conforms but was not asked to parse — see `duplicateParseReason`.
+        self.duplicateParseReason = (boundaryProvider != nil && !sharesParse)
+            ? "\(type(of: self.lemmatizer)) can supply sentence boundaries but "
+              + "was built without a parse, so NER runs a second one over the "
+              + "same network. Build it with `parseDependencies: true`, or omit "
+              + "the `lemmatizer:` argument to get the default."
+            : nil
     }
 
     /// Whether sentence boundaries come from the lemmatizer's tok2vec pass
@@ -142,7 +167,7 @@ public final class SpacyNlpEngine: NlpEngineProviding, @unchecked Sendable {
         let lemmas: [String]
         let named: [NamedEntity]
         if let sharing = lemmatizer as? SentenceBoundaryProviding,
-           sharing.providesBoundaries {
+           sharing.providesSentenceStarts {
             let annotation = sharing.lemmasAndSentenceStarts(for: tokens, text: text)
             lemmas = annotation.lemmas
             named = ner.entities(
@@ -290,7 +315,8 @@ public struct SpacyRuleLemmatizer: Lemmatizing {
         )
     }
 
-    /// Whether this instance can supply sentence boundaries.
+    /// `SentenceBoundaryProviding`. True only when the parser was asked for:
+    /// conformance alone does not mean a parse exists.
     public var providesSentenceStarts: Bool { chain.usesDependencies }
 
     /// Attribute-ruler rules that test `DEP`, and so match nothing unless
@@ -310,8 +336,6 @@ public struct SpacyRuleLemmatizer: Lemmatizing {
 }
 
 extension SpacyRuleLemmatizer: SentenceBoundaryProviding {
-    public var providesBoundaries: Bool { providesSentenceStarts }
-
     public func lemmasAndSentenceStarts(
         for tokens: [Token], text: String
     ) -> (lemmas: [String], sentenceStarts: Set<Int>) {

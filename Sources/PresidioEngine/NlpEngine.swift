@@ -176,7 +176,7 @@ public protocol SentenceBoundaryProviding {
     /// conforms either way and only runs the parser when asked to, so a caller
     /// that assumed conformance meant availability would silently drop every
     /// boundary and get spaCy-without-a-parser NER while believing otherwise.
-    var providesBoundaries: Bool { get }
+    var providesSentenceStarts: Bool { get }
 
     /// Lemmas and sentence boundaries from one pass over the model.
     ///

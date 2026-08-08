@@ -18,6 +18,10 @@ import PresidioEngine
 /// ```
 public enum YAMLConfiguration {
 
+    /// A configuration file that will not load.
+    ///
+    /// Covers both the parse and the shape: YAML that is not YAML, and YAML that
+    /// is valid but is not a recognizer configuration.
     public enum ConfigError: Error, Equatable, CustomStringConvertible {
         case unreadable(path: String)
         case notAMapping

@@ -141,6 +141,11 @@ public struct BatchAnalyzerEngine: Sendable {
         try analyze(texts: texts.map(BatchValue.text), language: language, context: context)
     }
 
+    /// A batch call whose inputs do not line up.
+    ///
+    /// Separate from `EngineError` because the failure is about the *shape of
+    /// the batch* — mismatched key and value counts — rather than about the
+    /// analyzer's configuration, and a caller fixes them in different places.
     public enum BatchError: Error, Equatable, CustomStringConvertible {
         case unsupportedValue(String)
 
