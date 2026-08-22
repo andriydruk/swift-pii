@@ -1,0 +1,7 @@
+{
+  "_comment": "The single source of truth for which upstream Presidio this port claims parity with. Every commit-stamped artifact must carry this exact sha (Tools/check_portability.sh enforces it), CI checks upstream out at it, and .github/workflows/upstream-watch.yml opens an issue when upstream cuts a release beyond it. Bump with Tools/bump_upstream.sh <ref>.",
+  "repo": "data-privacy-stack/presidio",
+  "commit": "760d6c83ae89274a268e01aef3e6da7910664a83",
+  "nearest_release": "2.2.364",
+  "description": "2.2.364 era, exact commit of 2026-08-09"
+}

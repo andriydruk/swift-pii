@@ -239,4 +239,41 @@ else
     fi
 fi
 
+# Every artifact that records the upstream commit it was harvested from must
+# record the SAME one, and it must be the pin in Tools/upstream.json. This is
+# what makes "parity with Presidio <version>" a checked claim rather than a
+# sentence: the corpora once sat at two different upstream commits for ten days
+# and nothing said so.
+PIN=$(python3 -c "import json; print(json.load(open('Tools/upstream.json'))['commit'])" 2>/dev/null || echo MISSING)
+if [[ "$PIN" == "MISSING" ]]; then
+    fail "Tools/upstream.json is missing or unreadable"
+else
+    stale=$(python3 - "$PIN" <<'PYEOF'
+import json, sys
+pin = sys.argv[1]
+stamped = [
+    "Tests/PresidioConformance/Fixtures/recognizer_cases.json",
+    "Tests/PresidioConformance/Fixtures/operation_cases.json",
+    "Tests/PresidioConformance/Fixtures/validator_cases.json",
+    "Tests/PresidioConformance/Fixtures/computed_cases.json",
+    "Sources/PresidioRecognizers/Resources/recognizers.json",
+]
+bad = []
+for path in stamped:
+    try:
+        commit = json.load(open(path))["source"]["commit"]
+    except Exception:
+        commit = "unreadable"
+    if commit != pin:
+        bad.append(f"{path} is at {commit[:12]}")
+print("; ".join(bad))
+PYEOF
+)
+    if [[ -n "$stale" ]]; then
+        fail "artifacts disagree with the upstream pin ${PIN:0:12}: $stale (run Tools/bump_upstream.sh)"
+    else
+        pass "upstream pin ${PIN:0:12}: all 5 commit-stamped artifacts agree"
+    fi
+fi
+
 exit $status

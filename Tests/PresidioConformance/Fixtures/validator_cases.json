@@ -2,7 +2,7 @@
  "schema_version": 1,
  "source": {
   "repo": "data-privacy-stack/presidio",
-  "commit": "2bb88d2adca2346959d52a4d48540a5ad8fa481f",
+  "commit": "760d6c83ae89274a268e01aef3e6da7910664a83",
   "tests_dir": "presidio-analyzer/tests"
  },
  "stats": {

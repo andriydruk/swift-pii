@@ -57,12 +57,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check out upstream Presidio
+      # At the PIN, not at HEAD. This checkout floated to upstream's main for
+      # months, which meant any upstream push could turn this repo's CI red on
+      # an unrelated commit — and, quieter, that "parity with Presidio" never
+      # named a version. Tools/upstream.json is the single source of truth;
+      # Tools/bump_upstream.sh moves it deliberately.
+      - name: Read the upstream pin
+        run: |
+          echo "UPSTREAM_SHA=$(python3 -c "import json; print(json.load(open('Tools/upstream.json'))['commit'])")" >> "$GITHUB_ENV"
+
+      - name: Check out upstream Presidio at the pin
         uses: actions/checkout@v4
         with:
           repository: data-privacy-stack/presidio
           path: .upstream-presidio
           fetch-depth: 1
+          ref: ${{ env.UPSTREAM_SHA }}
 
       - name: Re-extract fixtures
         run: |

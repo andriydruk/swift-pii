@@ -30,7 +30,7 @@ has always made: the model version is what matters, not the library's.
 
 | Corpus | cases | agreement |
 |---|---:|---|
-| Recognizers (harvested) | 1,731 | **1,731 (exact)** |
+| Recognizers (harvested) | 1,735 | **1,735 (exact)** |
 | `AnalyzerEngine` option matrix | 6,300 | **6,300 (exact)** |
 | Tokenizer | 2,517 | **exact** |
 | Regex substrate | 1,609 | **exact** |
@@ -46,7 +46,7 @@ has always made: the model version is what matters, not the library's.
 | `remove_duplicates` (harvested) | 3 | **exact** |
 | Anonymizer + crypto | 43 | **exact** |
 | Batch analyzer | 9 | **exact** |
-| **Total** | **28,665** | |
+| **Total** | **28,669** | |
 
 ## Scope
 

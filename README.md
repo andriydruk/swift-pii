@@ -855,11 +855,20 @@ Python and depends on spaCy. The recognizer patterns, context words, score
 constants and entity names are Presidio's; so are the test expectations, which
 are harvested from its own test suite rather than rewritten.
 
-Fidelity is measured, not claimed. Against **28,665 recorded cases** the port
+**The version is pinned, not implied.** [`Tools/upstream.json`](Tools/upstream.json)
+names the exact upstream commit every harvested artifact was generated from —
+currently **Presidio 2.2.364** plus upstream fixes through 2026-08-09 — CI checks
+upstream out at that commit and refuses artifacts stamped with any other, and a
+weekly workflow opens an issue when upstream cuts a release beyond it. Bumping is
+one command (`Tools/bump_upstream.sh <tag>`) followed by the test suite telling
+you what moved. The model side is pinned separately and does not move with
+Presidio: spaCy 3.7.5 weights, en_core_web_sm 3.7.1.
+
+Fidelity is measured, not claimed. Against **28,669 recorded cases** the port
 agrees exactly on the recognizers, the engine's whole option matrix, the
 tokenizer, the regex substrate, the anonymizer, the tagger, the attribute ruler,
 the lemmatizer, NER and the dependency parse — every stage of the NLP pipeline,
-with one measured phone-matcher case and 44 unharvested upstream tables left. The
+with one measured phone-matcher case and 32 unharvested upstream tables left. The
 evidence, the deliberate divergences and the remaining gaps are in
 [docs/presidio-parity.md](docs/presidio-parity.md).
 

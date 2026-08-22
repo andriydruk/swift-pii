@@ -1,0 +1,60 @@
+# Tells us when upstream Presidio cuts a release beyond the pin, by opening an
+# issue. Detection only — the bump itself is Tools/bump_upstream.sh, run by a
+# human, because the interesting part of a bump is the test failures it causes.
+#
+# Watches RELEASES, not main. Upstream pushes to main daily; releases land
+# roughly monthly, and tracking them is the declared policy (PLAN.md §3). The
+# one exception already happened: the current pin is a main commit ahead of
+# 2.2.364, taken because the port wanted the UK NINO fix before it was released.
+name: Upstream watch
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"   # Mondays 06:17 UTC; odd minute to dodge the cron rush
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare the pin against upstream's latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          repo=$(python3 -c "import json; print(json.load(open('Tools/upstream.json'))['repo'])")
+          pin_sha=$(python3 -c "import json; print(json.load(open('Tools/upstream.json'))['commit'])")
+          pin_rel=$(python3 -c "import json; print(json.load(open('Tools/upstream.json'))['nearest_release'])")
+          latest=$(gh api "repos/$repo/releases/latest" --jq .tag_name)
+          echo "pin: $pin_sha (nearest release $pin_rel) — latest release: $latest"
+          if [ "$latest" = "$pin_rel" ]; then
+            echo "Pin is current. Nothing to do."
+            exit 0
+          fi
+
+          # A release moved past the pin. One issue per release tag; re-runs
+          # must not spam, so bail if it already exists (open or closed —
+          # closed means someone decided about it).
+          title="Upstream Presidio $latest released — pin is at $pin_rel"
+          if gh issue list --repo "$GITHUB_REPOSITORY" --state all \
+               --search "in:title \"$title\"" --json number --jq length | grep -qv '^0$'; then
+            echo "Issue already exists for $latest."
+            exit 0
+          fi
+
+          # The analyzer-scoped file list is the part a human actually reads:
+          # it says whether the release touches ported behaviour or not.
+          delta=$(gh api "repos/$repo/compare/$pin_sha...$latest" \
+            --jq '[.files[] | select(.filename | startswith("presidio-analyzer"))] | .[0:40] | .[] | "- \(.status): \(.filename)"' \
+            2>/dev/null || echo "- (compare unavailable; see link below)")
+          [ -z "$delta" ] && delta="- (no presidio-analyzer changes — likely safe to bump for the version claim alone)"
+
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "$title" \
+            --body "$(printf 'Upstream cut **%s**; this port is pinned at `%s` (%s era).\n\n**presidio-analyzer changes between pin and release:**\n%s\n\nFull diff: https://github.com/%s/compare/%s...%s\n\n**To bump:**\n```\nTools/bump_upstream.sh %s\n./Tools/check_portability.sh && swift test -c release\n```\nA red test after the bump is the point — it is the ported behaviour that moved. See PLAN.md §3.\n' "$latest" "$pin_sha" "$pin_rel" "$delta" "$repo" "$pin_sha" "$latest" "$latest")"
+          echo "Opened issue for $latest."

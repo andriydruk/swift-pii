@@ -171,6 +171,22 @@
    "supported_entities": null
   },
   {
+   "name": "AbaRoutingRecognizer",
+   "class_name": "AbaRoutingRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "us",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
    "name": "NhsRecognizer",
    "class_name": "NhsRecognizer",
    "type": "predefined",
@@ -285,6 +301,22 @@
   {
    "name": "SgFinRecognizer",
    "class_name": "SgFinRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "en",
+     "context": null
+    }
+   ],
+   "country_code": "sg",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "SgUenRecognizer",
+   "class_name": "SgUenRecognizer",
    "type": "predefined",
    "enabled": false,
    "languages": [
@@ -635,6 +667,22 @@
    "supported_entities": null
   },
   {
+   "name": "FiPersonalIdentityCodeRecognizer",
+   "class_name": "FiPersonalIdentityCodeRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "fi",
+     "context": null
+    }
+   ],
+   "country_code": "fi",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
    "name": "KrBrnRecognizer",
    "class_name": "KrBrnRecognizer",
    "type": "predefined",
@@ -697,6 +745,26 @@
   {
    "name": "KrFrnRecognizer",
    "class_name": "KrFrnRecognizer",
+   "type": "predefined",
+   "enabled": false,
+   "languages": [
+    {
+     "language": "ko",
+     "context": null
+    },
+    {
+     "language": "kr",
+     "context": null
+    }
+   ],
+   "country_code": "kr",
+   "score_thresholds": {},
+   "supported_entity": null,
+   "supported_entities": null
+  },
+  {
+   "name": "KrPassportRecognizer",
+   "class_name": "KrPassportRecognizer",
    "type": "predefined",
    "enabled": false,
    "languages": [

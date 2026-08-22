@@ -82,8 +82,39 @@ name on a *skip*. Every measurement in CI is now grepped for by its printed valu
 
 ## 3. What is left
 
-Two things, and one closed item kept for its negative result — those get
-repeated when nobody writes them down.
+Two tasks, one standing process, and one closed item kept for its negative
+result — those get repeated when nobody writes them down.
+
+### Tracking upstream (standing)
+
+The port follows upstream by **release tag**, not by main. The machinery, built
+after the corpora were caught sitting at two different upstream commits with
+nothing saying so:
+
+- **[`Tools/upstream.json`](Tools/upstream.json)** — the pin. One repo, one
+  commit, one nearest-release name. CI checks upstream out at it, and
+  `check_portability.sh` fails if any commit-stamped artifact disagrees with it.
+- **`.github/workflows/upstream-watch.yml`** — Mondays, compares the pin against
+  upstream's latest release and opens an issue when one lands, carrying the
+  analyzer-scoped file delta so the reader can see whether ported behaviour
+  moved before deciding anything.
+- **[`Tools/bump_upstream.sh`](Tools/bump_upstream.sh)** — the bump: refetch,
+  regenerate every checkout-derived artifact, refresh the verbatim conf
+  fixtures, rewrite the pin. Then `swift test`, and a red test is the point —
+  it is the ported behaviour that moved.
+
+The procedure was validated by running it, not by writing it: the first bump
+(2bb88d2 → 760d6c8) absorbed upstream's UK NINO leading-space fix, a KrPassport
+language-code correction and four new registry entries, and it caught two
+things the dry description would have missed — the conf fixtures are verbatim
+upstream copies that also go stale, and the PSL is a live download that must
+NOT ride along on a Presidio bump because it has its own upstream.
+
+What deliberately does not move with Presidio: everything spaCy-derived (the
+NER/parser/tagger/language golds are pinned to model versions, not to
+Presidio), and the recorded-behaviour references (`analyzer_reference` and
+friends), which are re-recorded only when a bump's diff touches engine
+behaviour.
 
 ### M5 — closed
 

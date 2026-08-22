@@ -2,17 +2,17 @@
  "schema_version": 1,
  "source": {
   "repo": "data-privacy-stack/presidio",
-  "commit": "2bb88d2adca2346959d52a4d48540a5ad8fa481f",
+  "commit": "760d6c83ae89274a268e01aef3e6da7910664a83",
   "tests_dir": "presidio-analyzer/tests"
  },
  "stats": {
   "tables": 106,
-  "cases": 1722,
-  "positive": 1034,
-  "negative": 688,
+  "cases": 1726,
+  "positive": 1036,
+  "negative": 690,
   "recognizers": 86,
   "entity_types": 87,
-  "skipped": 44
+  "skipped": 50
  },
  "recognizers": [
   "AbaRoutingRecognizer",
@@ -16846,8 +16846,36 @@
      "expected_count": 1,
      "expected": [
       {
-       "start": 36,
+       "start": 37,
        "end": 50,
+       "entity": "UK_NINO",
+       "score_min": 0.5,
+       "score_max": 0.5
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "my AB123456C",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 3,
+       "end": 12,
+       "entity": "UK_NINO",
+       "score_min": 0.5,
+       "score_max": 0.5
+      }
+     ],
+     "spans_enumerated": true
+    },
+    {
+     "text": "contact AB 12 34 56 C now",
+     "expected_count": 1,
+     "expected": [
+      {
+       "start": 8,
+       "end": 21,
        "entity": "UK_NINO",
        "score_min": 0.5,
        "score_max": 0.5
@@ -16881,6 +16909,18 @@
     },
     {
      "text": "BG123612A",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "my BG123612A",
+     "expected_count": 0,
+     "expected": [],
+     "spans_enumerated": true
+    },
+    {
+     "text": "nino BG 12 36 12 A",
      "expected_count": 0,
      "expected": [],
      "spans_enumerated": true
@@ -20475,6 +20515,15 @@
    "rows": 5
   },
   {
+   "file": "presidio-analyzer/tests/test_kr_passport_recognizer.py",
+   "test": "test_loads_from_default_recognizers_yaml",
+   "reason": "unsupported shape: no length or position column in ['language']",
+   "argnames": [
+    "language"
+   ],
+   "rows": 2
+  },
+  {
    "file": "presidio-analyzer/tests/test_ner_model_configuration.py",
    "test": "test_from_dict_happy_path",
    "reason": "unsupported shape: no length or position column in ['key', 'original_value', 'expected_value']",
@@ -20643,6 +20692,31 @@
     "score_thresholds"
    ],
    "rows": 4
+  },
+  {
+   "file": "presidio-analyzer/tests/test_recognizers_loader_utils.py",
+   "test": "test_exclusion_names_a_real_entry",
+   "reason": "non-literal argvalues: non-literal Call"
+  },
+  {
+   "file": "presidio-analyzer/tests/test_recognizers_loader_utils.py",
+   "test": "test_yaml_entry_config_path_points_at_a_shipped_file",
+   "reason": "non-literal argvalues: unknown name 'CONFIG_PATH_ENTRIES'"
+  },
+  {
+   "file": "presidio-analyzer/tests/test_recognizers_loader_utils.py",
+   "test": "test_recognizer_accepts_loader_kwargs",
+   "reason": "non-literal argvalues: non-literal Call"
+  },
+  {
+   "file": "presidio-analyzer/tests/test_recognizers_loader_utils.py",
+   "test": "test_yaml_entry_class_resolves",
+   "reason": "non-literal argvalues: unknown name 'YAML_ENTRIES'"
+  },
+  {
+   "file": "presidio-analyzer/tests/test_recognizers_loader_utils.py",
+   "test": "test_yaml_entry_loads_when_enabled",
+   "reason": "non-literal argvalues: unknown name 'LOADABLE_YAML_ENTRIES'"
   },
   {
    "file": "presidio-analyzer/tests/test_spacy_nlp_engine.py",
